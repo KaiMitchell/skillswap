@@ -1,4 +1,3 @@
-import SearchInputButton from '.././Components/SearchInputButton';
 import Card from '.././Components/Card';
 
 function Main() {
@@ -26,9 +25,6 @@ function Main() {
     ]
     return(
         <main className='px-5'>
-            <h1 className='text-4xl my-10 font-bold underline'>Skill Swap</h1>
-            <SearchInputButton type="text" />
-
             {/* The data for these cards will be collected from a database */}
             <section id='profile-cards' className='h-full w-full sm:grid sm:grid-cols-2 md:grid-cols-3 gap-5'>
                 {profilePlaceholder.map((item, index) => {
