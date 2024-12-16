@@ -1,15 +1,12 @@
 
 
-// function Input({ isSignIn, onHandleChange, value }) {
-//     return(
-//         <div>
-//             <div>
+function Input({ label, type }) {
+    return(
+        <div className="my-5">
+            <label className='text-xl'>{label}</label><br />
+            <input type={type} className='border p-2.5 text-xl'/>
+        </div>
+    )
+}
 
-//             </div>
-//             <label>
-//                 {isSignIn ? "Enter your username / email" : "Enter you email"}
-//             </label>
-//             <input type="text" value={value.username} onChange={(e) => onHandleChange(e)} />
-//         </div>
-//     )
-// }
+export default Input;

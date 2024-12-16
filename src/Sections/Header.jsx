@@ -1,4 +1,5 @@
 import react, { useState } from 'react';
+import { Outlet, Link } from 'react-router-dom';
 import HeaderButton from '.././Components/HeaderButton';
 import BurgerIcon from '.././Components/BurgerIcon';
 import SearchInputButton from '../Components/SearchInputButton';
@@ -21,7 +22,7 @@ function Header() {
                     <HeaderButton text="Online" />
                     <HeaderButton text="In person" />
                     <HeaderButton text="Sign in" />
-                    <HeaderButton text="Register" />
+                    <Link to="/sign-up"><HeaderButton text="Register" /></Link>
                 </div>
             </nav>
             <div className='h-full flex flex-col justify-center bg-red-500'>

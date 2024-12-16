@@ -1,5 +1,5 @@
-import Header from "../src/Sections/Header";
-import Main from "../src/Sections/Main";
+import Header from "../Sections/Header";
+import Main from "../Sections/Main";
 
 function Home() {
     return(
