@@ -10,4 +10,5 @@
     - ✅ Features 2 seearch bars. one for "to teach" and "to learn".
     - ✅ Display profiles with profile picture (anything), The main skill they will teach, meeting preference(online, face 2 face), and their city.
     - ✅ Features a drop down containing all possible skills. (Render all main skills only and reveal all sub-skills in that category once clicked)
-    - ✅ Features filter options that may filter by most popular skills, meeting arrangements (in person or online).
+    - ✅ Features filter options that may filter by most popular skills, meeting arrangements (in person or online).s
+## This is an idea of what I will build
