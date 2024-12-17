@@ -2,7 +2,6 @@ import react, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import HeaderButton from '.././Components/HeaderButton';
 import BurgerIcon from '.././Components/BurgerIcon';
-import SearchInputButton from '../Components/SearchInputButton';
 
 function Header() {
     const [isNavDropDown, setIsNavDropDown] = useState(false);
@@ -23,7 +22,7 @@ function Header() {
                         <HeaderButton text="Online" isLink={false} />
                         <HeaderButton text="In person" isLink={false} />
                         <HeaderButton text="Sign in" path="/sign-in" isLink={true} />
-                        <HeaderButton text="Register" path="/sign-up" isLink={true} />
+                        <HeaderButton text="Register" path="/register" isLink={true} />
                     </div>
                 </nav>
             </div>

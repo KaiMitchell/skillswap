@@ -50,9 +50,15 @@ app.get('/', (req, res) => {
     res.status(200).send({ data: 'Hello, world!!!' });
 });
 
-// app.get('/sign-in', (req, res) => {
-//     res.status(200).send({ title: 'Hello, world!!!' });
-// });
+app.post('/register', async (req, res) => {
+    try {   
+        const data = req.body;
+        console.log(req.body);
+        res.status(201).json(data);
+    } catch(err) {
+        console.error('error: ', err.stack);
+    }
+});
 
 app.listen(PORT, () => {
     console.log(`Listening on localhost:${PORT}`);

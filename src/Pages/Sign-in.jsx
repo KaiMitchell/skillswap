@@ -21,7 +21,7 @@ function SignIn() {
                 <h1 className='text-xl font-bold'>Sign in</h1>
                 <Input label="Enter your username" type="text" newUserDetails={newUserDetails.username} parameterType="username" onHandleInputChange={handleChangeInput} />
                 <Input label="Enter your password" type="password" newUserDetails={newUserDetails.password} parameterType="password" onHandleInputChange={handleChangeInput} />
-                <p>Don't have an account? <Link to="/sign-up" className='text-blue-400'>click here</Link></p>
+                <p>Don't have an account? <Link to="/register" className='text-blue-400'>click here</Link></p>
                 <Link>Forgot password?</Link>
                 {/* Why do I need to neg the mt? */}
                 <Link to="/" className="self-end"><button className='px-5 py-2.5 border border-black'>Create</button></Link>
