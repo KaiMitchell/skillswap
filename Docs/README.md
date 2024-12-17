@@ -12,3 +12,4 @@
     - ✅ Features a drop down containing all possible skills. (Render all main skills only and reveal all sub-skills in that category once clicked)
     - ✅ Features filter options that may filter by most popular skills, meeting arrangements (in person or online).s
 ## This is an idea of what I will build
+![screenshot](image-folder/skillswap.png)
