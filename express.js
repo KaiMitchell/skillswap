@@ -50,9 +50,9 @@ app.get('/', (req, res) => {
     res.status(200).send({ data: 'Hello, world!!!' });
 });
 
-app.get('/sign-in', (req, res) => {
-    res.status(200).send({ title: 'Hello, world!!!' });
-});
+// app.get('/sign-in', (req, res) => {
+//     res.status(200).send({ title: 'Hello, world!!!' });
+// });
 
 app.listen(PORT, () => {
     console.log(`Listening on localhost:${PORT}`);
