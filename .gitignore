@@ -26,3 +26,10 @@ dist-ssr
 # dotenv environment variables file
 .env
 .env.test
+
+#Environment variables
+STATUS =production
+#Development port
+DEV_PORT =3000
+#.env
+PROD_PORT =8080

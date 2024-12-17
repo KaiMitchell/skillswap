@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import Card from '.././Components/Card';
 import SearchInputButton from '../Components/SearchInputButton';
 
@@ -23,7 +24,8 @@ function Main() {
                 img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQdyHMyq1ljpM_TwUa3oSH1Nyo-FEAtl9M5qg&s",
                 skill: "Cooking"
             }
-    ]
+    ];
+
     return(
         <main className='px-5'>
             <div className='h-full -mx-5 flex flex-col justify-center bg-red-500'>
@@ -35,7 +37,6 @@ function Main() {
             {/* The data for these cards will be collected from a database */}
             <section id='profile-cards' className='h-full w-full sm:grid sm:grid-cols-2 md:grid-cols-3 gap-5'>
                 {profilePlaceholder.map((item, index) => {
-                    console.log(item.img)
                     return(
                         <div key={index}>
                             <Card img={item.img} skill={item.skill} />
