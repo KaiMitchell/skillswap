@@ -1,12 +1,17 @@
+import { Link } from 'react-router-dom';
 
-
-function HeaderButton({ text }) {
-
-
+function HeaderButton({ text, path, isLink }) {
     return(
-        <button className={`mb-5 sm:mb-0 text-white`}>
-            {text}
-        </button>
+    isLink ?
+                <Link className='sm:mb-0 text-white flex items-center' to={path}>
+                    <button className={``}>
+                        {text}
+                    </button>
+                </Link>
+            :
+                <button className='sm:mb-0 text-white flex items-center'>
+                    {text}
+                </button>
     )
 };
 
