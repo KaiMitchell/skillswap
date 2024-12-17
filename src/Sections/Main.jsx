@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import Card from '.././Components/Card';
 import SearchInputButton from '../Components/SearchInputButton';
 
-function Main() {
+function Main() {   
     const profilePlaceholder = [
             {
                 img: "https://i0.wp.com/www.thewrap.com/wp-content/uploads/2020/12/GettyImages-812168728-1.jpg?fit=618%2C412&ssl=1",

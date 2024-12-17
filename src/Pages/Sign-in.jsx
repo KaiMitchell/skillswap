@@ -2,28 +2,6 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Input from '.././Components/Input';
 function SignIn() {
-    const [newUserDetails, setNewUserDetails] = useState({
-        username: '',
-        email: '',
-        password: '',
-        confirmPassword: ''
-    });
-
-    useEffect(() => {
-        console.log(newUserDetails)
-    }, [newUserDetails]);
-    function handleInput(e, type) {
-        if(type === 'email') {
-            setNewUserDetails(prev => ({
-                username: prev.username,
-                email: e.target.value,
-                password: prev.password,
-                confirmPassword: prev.confirmPassword
-            }));
-        }
-    }
-
-    handleInput();
 
     return(
         <div className='h-screen flex items-center'>
