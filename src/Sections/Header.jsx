@@ -10,7 +10,7 @@ function Header() {
     const isShown = isNavDropDown ? 'block' : 'hidden';
 
     return(
-        <header className='h-full border-b shadow-xl'>
+        <header className='h-full pt-10 md:pt-5 border-b shadow-xl'>
             <div className='fixed top-0 z-20 w-full bg-stone-900 '>
                 <nav className='relative flex justify-between p-2.5 text-white'>
                     <Link to='/' className='sm:full'>
@@ -26,12 +26,6 @@ function Header() {
                         <HeaderButton text="Register" path="/sign-up" isLink={true} />
                     </div>
                 </nav>
-            </div>
-            <div className='h-full flex flex-col justify-center bg-red-500'>
-                <div className='p-5 md:p-10'>
-                    <h1 className='text-4xl pb-2.5 font-bold underline'>Skill Swap</h1>
-                    <SearchInputButton type="text" />
-                </div>
             </div>
         </header>
     );

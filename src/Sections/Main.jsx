@@ -1,4 +1,5 @@
 import Card from '.././Components/Card';
+import SearchInputButton from '../Components/SearchInputButton';
 
 function Main() {
     const profilePlaceholder = [
@@ -25,6 +26,12 @@ function Main() {
     ]
     return(
         <main className='px-5'>
+            <div className='h-full -mx-5 flex flex-col justify-center bg-red-500'>
+                <div className='p-5 md:p-10'>
+                    <h1 className='text-4xl pb-2.5 font-bold underline'>Skill Swap</h1>
+                    <SearchInputButton type="text" />
+                </div>
+            </div>
             {/* The data for these cards will be collected from a database */}
             <section id='profile-cards' className='h-full w-full sm:grid sm:grid-cols-2 md:grid-cols-3 gap-5'>
                 {profilePlaceholder.map((item, index) => {
