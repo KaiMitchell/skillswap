@@ -8,6 +8,7 @@ import SignIn from './Pages/Sign-in';
 function App() {
     return(
       <BrowserRouter>
+          <Header />
         <Routes>
           <Route path='/' element={<Header />} />
           <Route index element={<Home />} />
