@@ -50,8 +50,6 @@ app.post('/register', async (req, res) => {
         //Updated values. PostgreSQL will not create the user if a value is null
         const { username, email, password, confirmPassword} = data;
 
-        const hashedPassword = await bcrypt.hash(password, 12);
-
         const existingUser_Email = await client.query(`
             SELECT * FROM users
             WHERE username = $1
@@ -65,7 +63,12 @@ app.post('/register', async (req, res) => {
         } else if(existingUser_Email.rows.length > 0) {
             res.status(409).json({ message: 'User name or email already exists' });
             return;
-        }
+        } else if(password === null) { // prevent bcrypt from trying to hash a null value
+            res.status(401).json({ message: 'password is required' });
+            return;
+        };
+        
+        const hashedPassword = await bcrypt.hash(password, 12);
     
         await client.query(`
             INSERT INTO users(username, email, password)

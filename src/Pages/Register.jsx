@@ -5,8 +5,6 @@ import { Outlet, Link } from 'react-router-dom';
 const PORT = 3000;
 
 function SignUp() {
-    const [isRegistrationComplete, setIsRegistrationComplete] = useState();
-
     const [newUserData, setnewUserData] = useState({
         username: '',
         email: '',
@@ -48,7 +46,7 @@ function SignUp() {
                 <Input label="Create a password" type="password" newUserData={newUserData.password} handleInput={handleInput} parameterType='password' />
                 <Input label="Confirm your password" type="password" newUserData={newUserData.confirmPassword} handleInput={handleInput} parameterType='confirmPassword' />
                 <p>Already have an account? <Link to="/sign-in" className="text-blue-400">click here</Link></p>
-                <Link to="/" className='self-end'><button onClick={handleRegister} className='px-5 py-2.5 border border-black'>Create</button></Link>
+                <Link to="/pick-skills" className='self-end'><button onClick={handleRegister} className='px-5 py-2.5 border border-black'>Create</button></Link>
             </form>
         </div>
     );

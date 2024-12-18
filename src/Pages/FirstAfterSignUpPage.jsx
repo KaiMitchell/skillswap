@@ -1,4 +1,4 @@
-
+import { Link } from 'react-router-dom';
 import PickSkillsContainer from "../Components/PickSkillsContainer";
 
 function FirstAfterSignUp() {
@@ -10,7 +10,7 @@ function FirstAfterSignUp() {
                 <input type='text' className='w-full p-2.5 border border-r-0' placeholder='under development' />
                 <button className='px-2.5 border'>submit</button>
             </form>
-            <div>
+            <div className='h-1/2'>
                 <h2 className='text-2xl'>Pick the skills you'd like to learn</h2>
                 <PickSkillsContainer />
             </div>
@@ -20,7 +20,7 @@ function FirstAfterSignUp() {
             </div>
             <div className='self-end flex w-1/4'>
                 <button className='w-1/2 mr-5 p-2.5 border'>Skip</button>
-                <button className='w-1/2 p-2.5 border'>Submit</button>
+                <Link to='/pick-matches'><button className='w-1/2 p-2.5 border'>Submit</button></Link>
             </div>
         </main>
     </div>
