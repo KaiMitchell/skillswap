@@ -5,6 +5,7 @@ import Header from './Sections/Header';
 import FirstAfterSignUp from './Pages/FirstAfterSignUpPage';
 import Register from './Pages/Register';
 import SignIn from './Pages/Sign-in';
+import SecondPageAfterSignUpPage from './Pages/SecondPageAfterSignUpPage';
 
 function App() {
     return(
@@ -12,7 +13,7 @@ function App() {
           {/* <Header /> */}
         <Routes>  
           <Route path='/' element={<Header />} />
-          <Route index element={<FirstAfterSignUp />} />
+          <Route index element={<SecondPageAfterSignUpPage />} />
           <Route path="register" element={<Register />} />
           <Route path="sign-in" element={<SignIn />} />
         </Routes>
