@@ -21,19 +21,15 @@ function SignUp() {
 
     async function handleRegister() {
         const response = await fetch(`http://localhost:${PORT}/register`, {
-            method : "POST"  ,
+            method : "POST",
             headers: {
                 "Content-Type" : "application/json",
             },
-            body: newUserData
+            body: JSON.stringify(newUserData)
         });
 
-        console.log(newUserData);
         const data = await response.json();
         console.log(data);
-        // const data = await response.json();
-
-        // console.log('data: ', data); 
     }
 
 
