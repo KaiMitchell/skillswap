@@ -5,6 +5,8 @@ import { Outlet, Link } from 'react-router-dom';
 const PORT = 3000;
 
 function SignUp() {
+    const [isRegistrationComplete, setIsRegistrationComplete] = useState();
+
     const [newUserData, setnewUserData] = useState({
         username: '',
         email: '',
@@ -29,6 +31,10 @@ function SignUp() {
         });
 
         const data = await response.json();
+        //set error state if not succesfully signed up to stop next page rendering.
+        if(data.message.includes('Welcome')) {
+            setIsRegistrationComplete(true);
+        };
         console.log(data);
     }
 
