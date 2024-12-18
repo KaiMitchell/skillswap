@@ -10,10 +10,10 @@ import SecondAfterSignUpPage from './Pages/SecondPageAfterSignUpPage';
 function App() {
     return(
       <BrowserRouter>
-          <Header />
+          {/* <Header /> */}
         <Routes>  
           <Route path='/' element={<Header />} />
-          <Route index element={<Home />} />
+          <Route index element={<FirstAfterSignUpPage />} />
           <Route path='pick-skills' element={<FirstAfterSignUpPage />} />
           <Route path='pick-matches' element={<SecondAfterSignUpPage />} />
           <Route path="register" element={<Register />} />

@@ -2,6 +2,16 @@ import { useState, useEffect } from 'react';
 
 function PickSkillsContainer() {
 
+    const cardBgColors = {
+        red: 'bg-red-700',
+        stone: 'bg-stone-800'
+    };
+
+    const cardUlBgColors = {
+        red: 'bg-red-600',
+        stone: 'bg-stone-700'
+    };
+
     //Temporary skill placeholder generation
     const [skills, setSkills] = useState([]);
     const arr = [];
@@ -14,16 +24,16 @@ function PickSkillsContainer() {
 
     const categories = ['Communication', 'Knowledges', 'Customer service', 'Marketing', 'Project Management', 'Teamwork'];
     return(
-        <div className='flex h-96 p-5 bg-stone-900 rounded-md'>
+        <div className='flex h-96 p-5 bg-black rounded-md'>
             {
                 categories.map((item, index) => {
-                    const bg = index % 2 === 0 ? 'stone' : 'red';                
+                    
                     return(
                         // If I use transition I can't open the accordion the the end... find out why. I need transitioning.    
-                        <article key={index} className={`group rounded-md relative flex justify-center hover:justify-between w-10 hover:w-full items-center p-5 bg-${bg}-700 text-slate-100`}>
+                        <article key={index} className={`group rounded-md relative flex justify-center hover:justify-between w-10 hover:w-full items-center p-5 ${index % 2 === 0 ? cardBgColors['red'] : cardBgColors['stone']} text-slate-100`}>
                             <div className='hidden group-hover:block w-fit text-center'>
                                 <h2 className='hidden group-hover:block mb-2.5'>Select a skill</h2>
-                                <ul className={`hidden w-full rounded-md group-hover:block h-64 px-10 group-hover:flex flex-col self-center justify-center items-center gap-5 bg-${bg}-600 shadow-inner overflow-y-scroll no-scrollbar`}>
+                                <ul className={`hidden w-full rounded-md group-hover:block h-64 px-10 group-hover:flex flex-col self-center justify-center items-center gap-5 ${index % 2 === 0 ? cardUlBgColors['red'] : cardUlBgColors['stone']} shadow-inner overflow-y-scroll no-scrollbar`}>
                                     {skills.map(item => {
                                         return(
                                             <li key={item} className={`hover:text-slate-500 cursor-pointer w-full`}>{item}</li>

@@ -3,7 +3,7 @@ import PickSkillsContainer from "../Components/PickSkillsContainer";
 
 function FirstAfterSignUp() {
  return(
-    <div className='p-5'>
+    <div className='p-5 bg-slate-100'>
         <main className='flex flex-col gap-5'>
             <h1 className='text-3xl font-bold'>Let's get you started</h1>
             <form className='flex'>
