@@ -42,8 +42,9 @@ app.get('/', async(req, res) => {
 });
 
 app.post('/pick-skills', async(req, res) => {
-    const {username, skillName} = req.body;
+    const {username, skillNames} = req.body;
 
+    
     const user = await client.query(`SELECT * FROM users WHERE username = $1`, [username]);
     const userId = user.rows[0].id;
     const existingSkill = await client.query(`SELECT * FROM skills WHERE user_id = $1 AND skill_name = $2`, [userId, skillName]);
@@ -55,7 +56,7 @@ app.post('/pick-skills', async(req, res) => {
     }
     await client.query(`INSERT INTO skills(skill_name, user_id) VALUES($1, $2)`, [skillName, userId]);
 
-    res.status(201).json({ message: `${skillName} has been saved.` });
+    res.status(201).json({ message: `Skills updated.`, data: skillNames });
 });
 
 app.post('/register', async(req, res) => {

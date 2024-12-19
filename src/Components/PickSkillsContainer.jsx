@@ -1,6 +1,11 @@
 import { useState, useEffect } from 'react';
 
 function PickSkillsContainer() {
+    const [selectedSkills, setSelectedSkills] = useState([]);
+
+    useEffect(() => {
+        console.log(selectedSkills);
+    }, [selectedSkills]);
 
     const cardBgColors = {
         red: 'bg-red-700',
@@ -10,6 +15,22 @@ function PickSkillsContainer() {
     const cardUlBgColors = {
         red: 'bg-red-600',
         stone: 'bg-stone-700'
+    };
+
+    function handleSkillAdd(skillName) {
+        if(selectedSkills.includes(skillName) || selectedSkills == []) {
+            setSelectedSkills(prev => {
+                const newArray = [...prev];
+                const indexOfSkillName = selectedSkills.indexOf(skillName);
+                console.log(selectedSkills[indexOfSkillName]);
+                newArray.splice(indexOfSkillName, 1);
+
+                return newArray;
+            });
+        } else {
+            setSelectedSkills(prev => [...prev, skillName]);
+        };
+        console.log(selectedSkills);
     };
 
     //Temporary skill placeholder generation
@@ -36,7 +57,7 @@ function PickSkillsContainer() {
                                 <ul className={`hidden w-full rounded-md group-hover:block h-64 px-10 group-hover:flex flex-col self-center justify-center items-center gap-5 ${index % 2 === 0 ? cardUlBgColors['red'] : cardUlBgColors['stone']} shadow-inner overflow-y-scroll no-scrollbar`}>
                                     {skills.map(item => {
                                         return(
-                                            <li key={item} className={`hover:text-slate-500 cursor-pointer w-full`}>{item}</li>
+                                            <li key={item} onClick={() => handleSkillAdd(item)} className={`hover:text-slate-500 cursor-pointer w-full`}>{item}</li>
                                         )
                                     })}
                                 </ul>
