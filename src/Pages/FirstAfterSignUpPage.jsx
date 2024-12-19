@@ -8,9 +8,9 @@ function FirstAfterSignUp() {
         toLearn: []
     });
 
-    useEffect(() => {
-        console.log(selectedSkills);
-    }, [selectedSkills]);
+    // useEffect(() => {
+    //     console.log(selectedSkills);
+    // }, [selectedSkills]);
 
     function handleLearnSkillAdd(skillName) {
         if(selectedSkills.toLearn.includes(skillName) || selectedSkills.toLearn == []) {
@@ -23,7 +23,7 @@ function FirstAfterSignUp() {
                     toTeach: prev.toTeach,
                     toLearn: newArray
                 };
-
+                console.log('removed: ', skillName);
                 return newObj;
             });
         } else {
@@ -51,7 +51,7 @@ function FirstAfterSignUp() {
         } else {
             setSelectedSkills(prev => ({
                 toLearn: prev.toLearn,
-                toTeach: [...prev.toLearn, skillName]
+                toTeach: [...prev.toTeach, skillName]
             }));
         };
     };
@@ -65,11 +65,11 @@ function FirstAfterSignUp() {
                 </form>
                 <div className='h-1/2'>
                     <h2 className='text-2xl'>Pick the skills you'd like to learn</h2>
-                    <PickSkillsContainer handleSkillAdd={handleLearnSkillAdd} />
+                    <PickSkillsContainer handleSkillAdd={handleLearnSkillAdd} selectedSkills={selectedSkills.toLearn} />
                 </div>
-                <div>
+                <div>       
                     <h2 className='text-2xl'>Pick the skills you'd like to teach</h2>
-                    <PickSkillsContainer handleSkillAdd={handleTeachSkillAdd} />
+                    <PickSkillsContainer handleSkillAdd={handleTeachSkillAdd} selectedSkills={selectedSkills.toTeach} />
                 </div>
                 <div className='self-end flex w-1/4'>
                     <button className='w-1/2 mr-5 p-2.5 border'>Skip</button>

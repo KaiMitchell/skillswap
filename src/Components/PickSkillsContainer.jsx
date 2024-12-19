@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
+import PickSkillList from './pickSkillList';
 
-function PickSkillsContainer({ handleSkillAdd }) {
+function PickSkillsContainer({ handleSkillAdd, selectedSkills }) {  
     const skillCategories = {
         Communication: [
           "Active Listening",
@@ -186,23 +187,24 @@ function PickSkillsContainer({ handleSkillAdd }) {
         stone: 'bg-stone-700'
     };
 
-    const listHoverColors = {
-        redBg: 'hover:bg-red-500',
-        stoneBg: 'hover:bg-stone-600' 
-    }
+    const selectedSkillStyles = {
+        selectedBg: 'bg-green-400',
+        selectedColor: 'text-green-700'
+    };
           return(
         <div className='flex h-96 p-5 bg-black rounded-md'>
             {Object.keys(skillCategories).map((category, index) => {   
-                console.log(category);          
                 return(
                     // If I use transition I can't open the accordion the the end... find out why. I need transitioning.    
                     <article key={index} className={`group rounded-md relative flex justify-center hover:justify-between w-10 hover:w-full items-center p-5 ${index % 2 === 0 ? cardBgColors['red'] : cardBgColors['stone']} text-slate-100`}>
                         <div className='hidden group-hover:block w-1/2 text-center'>
                             <h2 className='hidden group-hover:block mb-2.5'>Select a skill</h2>
                             <ul className={`hidden rounded-md group-hover:block h-64 pt-1 group-hover:flex flex-col self-center items-center gap-2.5 ${index % 2 === 0 ? cardUlBgColors['red'] : cardUlBgColors['stone']} shadow-inner overflow-y-auto no-scrollbar`}>
-                                {skillCategories[category].map(skill => {                  
+                                {skillCategories[category].map(skill => {  
                                     return(
-                                        <li key={skill} onClick={() => handleSkillAdd(skill)} className={`py-2.5 ${index % 2 === 0 ? listHoverColors['redBg'] : listHoverColors['stoneBg']} w-full cursor-pointer`}>{skill}</li>
+                                      <div key={skill}>
+                                        <PickSkillList skill={skill} index={index} handleSkillAdd={handleSkillAdd} selectedSkills={selectedSkills} />
+                                      </div>
                                     )
                                 })}
                             </ul>
