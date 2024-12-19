@@ -17,7 +17,7 @@ let PORT = 3000;
 
 //config PostgreSQL database
 const clientConfig = {
-    user: 'postgres',
+    user: 'myuser',
     password: 'Password123!',
     host: 'localhost',
     port: 5432,

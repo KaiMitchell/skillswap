@@ -8,10 +8,14 @@ function FirstAfterSignUp() {
         toLearn: []
     });
 
+    useEffect(() => {
+        console.log(selectedSkills);
+    }, [selectedSkills]);
+
     function handleLearnSkillAdd(skillName) {
         if(selectedSkills.toLearn.includes(skillName) || selectedSkills.toLearn == []) {
             setSelectedSkills(prev => {
-                const newObj = {};
+                let newObj = {};
                 const newArray = [...prev.toLearn];
                 const indexOfSkillName = selectedSkills.toLearn.indexOf(skillName);
                 newArray.splice(indexOfSkillName, 1);
@@ -28,28 +32,28 @@ function FirstAfterSignUp() {
                 toLearn: [...prev.toLearn, skillName]
             }));
         };
-        console.log(selectedSkills);
     };
 
     function handleTeachSkillAdd(skillName) {
         if(selectedSkills.toTeach.includes(skillName) || selectedSkills.toTeach == []) {
             setSelectedSkills(prev => {
-                const newObj = {};
+                let newObj = {};
+                const newArray = [...prev.toTeach];
                 const indexOfSkillName = selectedSkills.toTeach.indexOf(skillName);
-                console.log(selectedSkills.toTeach[indexOfSkillName]);
                 newArray.splice(indexOfSkillName, 1);
-
                 newObj = {
                     toLearn: prev.toLearn,
-                    toTeach: [...prev.toTeach, skillName]
+                    toTeach: newArray
                 };
 
                 return newObj;
             });
         } else {
-            setSelectedSkills(prev => [...prev, skillName]);
+            setSelectedSkills(prev => ({
+                toLearn: prev.toLearn,
+                toTeach: [...prev.toLearn, skillName]
+            }));
         };
-        console.log(selectedSkills);
     };
     return(
         <div className='p-5 bg-slate-100'>
