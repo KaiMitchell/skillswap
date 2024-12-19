@@ -1,11 +1,7 @@
 import { useState, useEffect } from 'react';
 
-function PickSkillsContainer() {
-    const [selectedSkills, setSelectedSkills] = useState([]);
-
-    useEffect(() => {
-        console.log(selectedSkills);
-    }, [selectedSkills]);
+function PickSkillsContainer({ handleSkillAdd }) {
+    const [skills, setSkills] = useState([]);
 
     const cardBgColors = {
         red: 'bg-red-700',
@@ -17,24 +13,7 @@ function PickSkillsContainer() {
         stone: 'bg-stone-700'
     };
 
-    function handleSkillAdd(skillName) {
-        if(selectedSkills.includes(skillName) || selectedSkills == []) {
-            setSelectedSkills(prev => {
-                const newArray = [...prev];
-                const indexOfSkillName = selectedSkills.indexOf(skillName);
-                console.log(selectedSkills[indexOfSkillName]);
-                newArray.splice(indexOfSkillName, 1);
-
-                return newArray;
-            });
-        } else {
-            setSelectedSkills(prev => [...prev, skillName]);
-        };
-        console.log(selectedSkills);
-    };
-
     //Temporary skill placeholder generation
-    const [skills, setSkills] = useState([]);
     const arr = [];
     useEffect(() => {
         for(let i = 0; i < 10; i++) {
