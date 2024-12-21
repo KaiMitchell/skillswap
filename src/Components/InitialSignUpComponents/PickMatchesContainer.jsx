@@ -1,6 +1,5 @@
 import InitialMatchCard from "./InitialMatchCard";
 
-
 function PickMatchesContainer() {
     const placeholder = [];
 
@@ -12,9 +11,7 @@ function PickMatchesContainer() {
       <div className='flex h-96 p-5 bg-black rounded-md'>
         {placeholder.map((item, index) => {   
             return(
-                <div key={index} className='h-full hover:w-full'>
-                    <InitialMatchCard item={item} index={index} placeholder={placeholder} />
-                </div>
+              <InitialMatchCard key={index} item={item} index={index} array={placeholder} />
             );
         })};
       </div>

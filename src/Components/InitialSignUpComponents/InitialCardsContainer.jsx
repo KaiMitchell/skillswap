@@ -5,7 +5,7 @@ function InitialCardsContainer({ isPickMatches, handleSkillAdd, selectedSkills, 
     return(
         <div className='h-1/2'>
         <h2 className='text-2xl'>{contentHeader}</h2>
-            {isPickMatches ? <PickMatchesContainer /> : <PickSkillsContainer handleSkillAdd={handleSkillAdd} selectedSkills={selectedSkills} />} 
+            {isPickMatches ? <PickMatchesContainer /> : <PickSkillsContainer isPickMatches={isPickMatches} handleSkillAdd={handleSkillAdd} selectedSkills={selectedSkills} />} 
         </div>
     );
 };

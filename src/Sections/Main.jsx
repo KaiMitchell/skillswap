@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import Card from '.././Components/Card';
+import ProfileCard from '.././Components/ProfileCard';
 import SearchInputButton from '../Components/SearchInputButton';
 
 function Main() {   
@@ -39,7 +39,7 @@ function Main() {
                 {profilePlaceholder.map((item, index) => {
                     return(
                         <div key={index}>
-                            <Card img={item.img} skill={item.skill} />
+                            <ProfileCard img={item.img} skill={item.skill} />
                         </div>
                     );
                 })}

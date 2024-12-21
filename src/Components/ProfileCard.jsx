@@ -1,6 +1,6 @@
 
 
-function Card({ img, skill, name }) {
+function ProfileCard({ img, skill, name }) {
     return(
         <article className='flex flex-col items-center my-10 shadow-xl bg-white'>
             <div className='relative bg-contain h-64 w-full bg-center' style={{backgroundImage: `url(${img})`}}>
@@ -15,4 +15,4 @@ function Card({ img, skill, name }) {
     );
 };
 
-export default Card;
+export default ProfileCard;

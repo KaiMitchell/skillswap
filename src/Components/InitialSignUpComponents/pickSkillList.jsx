@@ -12,12 +12,8 @@ function PickSkillList({ index, handleSkillAdd, skill, selectedSkills }) {
         backgroundHover = 'hover:bg-green-600';
     };
 
-    function handleClick() {
-        handleSkillAdd(skill);
-    };
-
     return(
-        <li onClick={() => handleClick()} className={`py-2.5 ${isSelected || selectedSkills.includes(skill) ? 'bg-green-500' : ''} ${backgroundHover} w-full cursor-pointer`}>
+        <li onClick={() => handleSkillAdd(skill)} className={`py-2.5 ${isSelected || selectedSkills.includes(skill) ? 'bg-green-500' : ''} ${backgroundHover} w-full cursor-pointer`}>
             {skill}
         </li>
     );

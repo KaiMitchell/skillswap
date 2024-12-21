@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import InitialCardsContainer from '../Components/InitialCardsContainer';
+import InitialCardsContainer from '../Components/InitialSignUpComponents/InitialCardsContainer';
 const PORT = 3000;
-const USERNAME = 'example';
+const USERNAME = 'newuser';
 function FirstAfterSignUp() {
     const [selectedSkills, setSelectedSkills] = useState({
         toTeach: [],

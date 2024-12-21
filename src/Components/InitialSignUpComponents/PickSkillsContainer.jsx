@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
-import PickSkillList from './pickSkillList';
+import PickSkillsCard from './PickSkillsCard';
 
-function PickSkillsContainer({ handleSkillAdd, selectedSkills }) {  
+function PickSkillsContainer({ handleSkillAdd, selectedSkills, isPickMatches }) {  
     const skillCategories = { 
         Communication: [
           'Active Listening',
@@ -182,21 +182,7 @@ function PickSkillsContainer({ handleSkillAdd, selectedSkills }) {
         {Object.keys(skillCategories).map((category, index) => {   
             return(
                 // If I use transition I can't open the accordion the the end... find out why. I need transitioning.    
-                <article key={index} className={`group rounded-md relative flex justify-center hover:justify-between w-10 hover:w-full items-center p-5 ${index % 2 === 0 ? 'bg-red-700' : 'bg-stone-800'} text-slate-100`}>
-                    <div className='hidden group-hover:block w-1/2 text-center'>
-                        <h2 className='hidden group-hover:block mb-2.5'>Select a skill</h2>
-                        <ul className={`hidden rounded-md group-hover:block h-64 pt-1 group-hover:flex flex-col self-center items-center gap-2.5 ${index % 2 === 0 ? 'bg-red-600' : 'bg-stone-700'} shadow-inner overflow-y-auto no-scrollbar`}>
-                            {skillCategories[category].map(skill => {  
-                                return(
-                                  <div key={skill}>
-                                    <PickSkillList skill={skill} index={index} handleSkillAdd={handleSkillAdd} selectedSkills={selectedSkills} />
-                                  </div>
-                                )
-                            })}
-                        </ul>
-                    </div>
-                    <h3 className='text-xl w-fit group-hover:w-1/2 group-hover:text-3xl group-hover:font-bold rotate-90 group-hover:rotate-0 self-center text-center text-nowrap'>{category}</h3>
-                </article>
+                <PickSkillsCard  key={category}  index={index} isPickMatches={isPickMatches} array={skillCategories[category]} selectedSkills={selectedSkills} handleSkillAdd={handleSkillAdd} category={category} />
             );
         })}
       </div>
