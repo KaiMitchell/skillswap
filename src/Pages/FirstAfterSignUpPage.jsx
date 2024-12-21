@@ -3,18 +3,18 @@ import { Link } from 'react-router-dom';
 import PickSkillsContainer from "../Components/PickSkillsContainer";
 
 const PORT = 3000;
-
+const USERNAME = 'example';
 function FirstAfterSignUp() {
     const [selectedSkills, setSelectedSkills] = useState({
         toTeach: [],
         toLearn: []
     });
 
-    async function pickSkill() {
+    async function submitSkills() {
         const response = await fetch(`http://localhost:${PORT}/pick-skills`, {
             method: 'POST',
-            "Content-Type": "application/json",
-            body: JSON.stringify(selectedSkills)
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ ...selectedSkills, username: USERNAME })
         });
         const data = await response.json();
         console.log(data);
@@ -81,7 +81,8 @@ function FirstAfterSignUp() {
                 </div>
                 <div className='self-end flex w-1/4'>
                     <button className='w-1/2 mr-5 p-2.5 border'>Skip</button>
-                    <Link to='/pick-matches'><button className='w-1/2 p-2.5 border'>Submit</button></Link>
+                    {/* <Link to='/pick-matches'></Link> */}
+                        <button onClick={() => submitSkills()} className='w-1/2 p-2.5 border'>Submit</button>
                 </div>
             </main>
         </div>

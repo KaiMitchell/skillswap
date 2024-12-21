@@ -6,15 +6,11 @@ function PickSkillList({ index, handleSkillAdd, skill, selectedSkills }) {
     let backgroundHover;
     if(index % 2 === 0 && !isSelected && !selectedSkills.includes(skill)) {
         backgroundHover = 'hover:bg-red-500';
-    } else if(index % 2 !== 0) {
+    } else if(index % 2 !== 0 && !isSelected && !selectedSkills.includes(skill)) {
         backgroundHover = 'hover:bg-stone-600';
     } else if(isSelected || selectedSkills.includes(skill)) {
         backgroundHover = 'hover:bg-green-600';
     };
-
-    useEffect(() => {
-        selectedSkills.includes(skill) && setIsSelected(true);
-    }, [isSelected]);
 
     function handleClick() {
         handleSkillAdd(skill);

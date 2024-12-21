@@ -177,10 +177,6 @@ function PickSkillsContainer({ handleSkillAdd, selectedSkills }) {
         ]
     };
 
-    function getSkills() {
-      
-    }
-
     return(
       <div className='flex h-96 p-5 bg-black rounded-md'>
         {Object.keys(skillCategories).map((category, index) => {   

@@ -42,20 +42,46 @@ app.get('/', async(req, res) => {
 });
 
 app.post('/pick-skills', async(req, res) => {
-    const {username, skills} = req.body;
+    const data = req.body;
+    let toTeachString = data['toTeach'].join("', '");
+    let toLearnString = data['toLearn'].join("', '");
 
-    const user = await client.query(`SELECT * FROM users WHERE username = $1`, [username]);
-    const userId = user.rows[0].id;
-    const existingSkill = await client.query(`SELECT * FROM skills WHERE user_id = $1 AND skill_name = $2`, [userId, skillName]);
+    //Clean the table for production purposes
+    await client.query(`TRUNCATE TABLE users_skills CASCADE`);
+    //Reset serial id count
+    await client.query(`SELECT setval('users_skills_id_seq', 1, false)`);
 
-    //Guard clause
-    if(existingSkill.rows.length > 0) {
-        res.status(409).json({ message: 'Skill is already selected' });//409 conflict status code
+    if(data['toTeach'] == [] && data['toLearn'] == []) {
+        res.status(404).send({ message: 'No data please select your skills' });
         return;
-    }
-    await client.query(`INSERT INTO skills(skill_name, user_id) VALUES($1, $2)`, [skillName, userId]);
+    };
 
-    res.status(201).json({ message: `Skills updated.`, data: skillNames });
+    if(data['toTeach'].length > 0) {
+        await client.query(
+            `INSERT INTO users_skills (user_id, skill_to_teach_id)
+             SELECT users.id, skills.id
+             FROM users, skills WHERE users.username = '${data.username}'
+             AND skills.name IN ('${toTeachString}')`
+        );
+    };
+
+    if(data['toLearn'].length > 0) {
+        await client.query(
+            `INSERT INTO users_skills (user_id, skill_to_learn_id)
+             SELECT users.id, skills.id
+             FROM users, skills WHERE users.username = '${data.username}'
+             AND skills.name IN ('${toLearnString}')`
+        );
+    };
+
+    const newSkills = await client.query(
+        `SELECT name FROM skills
+         WHERE name IN ('${toLearnString}', '${toTeachString}')`
+    );
+
+    console.log(newSkills);
+
+    res.status(201).json({ message: `Skills updated.` });
 });
 
 app.post('/register', async(req, res) => {
