@@ -46,12 +46,16 @@ app.post('/pick-skills', async(req, res) => {
     let toTeachString = data['toTeach'].join("', '");
     let toLearnString = data['toLearn'].join("', '");
 
+    console.log('to teach: ', data['toTeach']);
+    console.log('to learn: ', data['toLearn'].length);
+
     //Clean the table for production purposes
     await client.query(`TRUNCATE TABLE users_skills CASCADE`);
     //Reset serial id count
     await client.query(`SELECT setval('users_skills_id_seq', 1, false)`);
 
-    if(data['toTeach'] == [] && data['toLearn'] == []) {
+    //Guard clause
+    if(data['toTeach'].length == 0 && data['toLearn'] == 0) {
         res.status(404).send({ message: 'No data please select your skills' });
         return;
     };

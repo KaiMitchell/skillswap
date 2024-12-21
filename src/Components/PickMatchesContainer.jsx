@@ -1,20 +1,23 @@
+import InitialMatchCard from "./InitialMatchCard";
 
 
 function PickMatchesContainer() {
-    return(
-        <div className='p-5 bg-black'>
-            <article className='flex justify-between items-center p-5 bg-red-500 text-white'>
-                    <ul className=''>
-                        <li>sub skill</li>
-                        <li>sub skill</li>
-                        <li>sub skill</li>
-                        <li>sub skill</li>
-                        <li>sub skill</li>
-                    </ul>
+    const placeholder = [];
 
-                    <h3 className='text-xl'>Skill Category</h3>
-            </article>
-        </div>
+    for(let i = 0; i < 10; i++) {
+        placeholder.push(i);
+    };
+
+    return(
+      <div className='flex h-96 p-5 bg-black rounded-md'>
+        {placeholder.map((item, index) => {   
+            return(
+                <div key={index} className='h-full hover:w-full'>
+                    <InitialMatchCard item={item} index={index} placeholder={placeholder} />
+                </div>
+            );
+        })};
+      </div>
     );
 };
 

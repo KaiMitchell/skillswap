@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import PickSkillsContainer from "../Components/PickSkillsContainer";
-
+import InitialCardsContainer from '../Components/InitialCardsContainer';
 const PORT = 3000;
 const USERNAME = 'example';
 function FirstAfterSignUp() {
@@ -67,18 +66,8 @@ function FirstAfterSignUp() {
         <div className='p-5 bg-slate-100'>
             <main className='flex flex-col gap-5'>
                 <h1 className='text-3xl font-bold'>Let's get you started</h1>
-                <form className='flex'>
-                    <input type='text' className='w-full p-2.5 border border-r-0' placeholder='under development' />
-                    <button className='px-2.5 border'>submit</button>
-                </form>
-                <div className='h-1/2'>
-                    <h2 className='text-2xl'>Pick the skills you'd like to learn</h2>
-                    <PickSkillsContainer handleSkillAdd={handleLearnSkillAdd} selectedSkills={selectedSkills.toLearn} />
-                </div>
-                <div>       
-                    <h2 className='text-2xl'>Pick the skills you'd like to teach</h2>
-                    <PickSkillsContainer handleSkillAdd={handleTeachSkillAdd} selectedSkills={selectedSkills.toTeach} />
-                </div>
+                    <InitialCardsContainer isPickMatches={false} handleSkillAdd={handleLearnSkillAdd} selectedSkills={selectedSkills.toLearn} contentHeader='Pick the skills you would like to learn' />     
+                    <InitialCardsContainer isPickMatches={false} handleSkillAdd={handleTeachSkillAdd} selectedSkills={selectedSkills.toTeach} contentHeader='Pick the skills you would like to teach' />
                 <div className='self-end flex w-1/4'>
                     <button className='w-1/2 mr-5 p-2.5 border'>Skip</button>
                     {/* <Link to='/pick-matches'></Link> */}

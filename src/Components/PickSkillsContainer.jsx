@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import PickSkillList from './pickSkillList';
 
 function PickSkillsContainer({ handleSkillAdd, selectedSkills }) {  
-    const skillCategories = {
+    const skillCategories = { 
         Communication: [
           'Active Listening',
           'Verbal Communication',
@@ -185,7 +185,7 @@ function PickSkillsContainer({ handleSkillAdd, selectedSkills }) {
                 <article key={index} className={`group rounded-md relative flex justify-center hover:justify-between w-10 hover:w-full items-center p-5 ${index % 2 === 0 ? 'bg-red-700' : 'bg-stone-800'} text-slate-100`}>
                     <div className='hidden group-hover:block w-1/2 text-center'>
                         <h2 className='hidden group-hover:block mb-2.5'>Select a skill</h2>
-                        <ul className={`hidden rounded-md group-hover:block h-64 pt-1 group-hover:flex flex-col self-center items-center gap-2.5 ${index % 2 === 0 ? 'bg-red-600' : 'bg-stone-800'} shadow-inner overflow-y-auto no-scrollbar`}>
+                        <ul className={`hidden rounded-md group-hover:block h-64 pt-1 group-hover:flex flex-col self-center items-center gap-2.5 ${index % 2 === 0 ? 'bg-red-600' : 'bg-stone-700'} shadow-inner overflow-y-auto no-scrollbar`}>
                             {skillCategories[category].map(skill => {  
                                 return(
                                   <div key={skill}>

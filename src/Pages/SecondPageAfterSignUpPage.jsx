@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import PickSkillsContainer from "../Components/PickSkillsContainer";
+import PickMatchesContainer from '../Components/PickMatchesContainer';
 
 function SecondAfterSignUpPage() {
  return(
@@ -8,11 +8,11 @@ function SecondAfterSignUpPage() {
             <h1 className='text-3xl font-bold'>Recommended matches</h1>
             <div>
                 <h2 className='text-2xl'>Complimentary skill matches</h2>
-                <PickSkillsContainer />
+                <PickMatchesContainer />
             </div>
             <div>
                 <h2 className='text-2xl'>Your interested skill matches</h2>
-                <PickSkillsContainer />
+                <PickMatchesContainer />
             </div>
             <div className='self-end flex w-1/4'>
                 <button className='w-1/2 mr-5 p-2.5 border'>Skip</button>
