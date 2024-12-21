@@ -42,9 +42,8 @@ app.get('/', async(req, res) => {
 });
 
 app.post('/pick-skills', async(req, res) => {
-    const {username, skillNames} = req.body;
+    const {username, skills} = req.body;
 
-    
     const user = await client.query(`SELECT * FROM users WHERE username = $1`, [username]);
     const userId = user.rows[0].id;
     const existingSkill = await client.query(`SELECT * FROM skills WHERE user_id = $1 AND skill_name = $2`, [userId, skillName]);

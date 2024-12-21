@@ -2,15 +2,23 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import PickSkillsContainer from "../Components/PickSkillsContainer";
 
+const PORT = 3000;
+
 function FirstAfterSignUp() {
     const [selectedSkills, setSelectedSkills] = useState({
         toTeach: [],
         toLearn: []
     });
 
-    // useEffect(() => {
-    //     console.log(selectedSkills);
-    // }, [selectedSkills]);
+    async function pickSkill() {
+        const response = await fetch(`http://localhost:${PORT}/pick-skills`, {
+            method: 'POST',
+            "Content-Type": "application/json",
+            body: JSON.stringify(selectedSkills)
+        });
+        const data = await response.json();
+        console.log(data);
+    }
 
     function handleLearnSkillAdd(skillName) {
         if(selectedSkills.toLearn.includes(skillName) || selectedSkills.toLearn == []) {
@@ -45,7 +53,7 @@ function FirstAfterSignUp() {
                     toLearn: prev.toLearn,
                     toTeach: newArray
                 };
-
+                console.log('removed: ', skillName);
                 return newObj;
             });
         } else {
