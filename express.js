@@ -65,6 +65,7 @@ app.get('/fetch-matches', async(req, res) => {
         `
     );
 
+    //Guard clause
     if(toLearnSkills.rows.length == 0 && toTeachSkills.rows.length == 0) {
         res.status(404).json({ message: 'no data' });
         return;
@@ -81,9 +82,7 @@ app.get('/fetch-matches', async(req, res) => {
             };
         };
     });
-
-    console.log(data);
-
+    
     res.status(201).json({ data: data })
 });
 
