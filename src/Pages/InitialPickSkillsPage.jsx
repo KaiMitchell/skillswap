@@ -3,20 +3,20 @@ import { Link } from 'react-router-dom';
 import InitialCardsContainer from '../Components/InitialSignUpComponents/InitialCardsContainer';
 
 const PORT = 3000;
-const USERNAME = 'example';
 
-function InitialPickSkillsPage() {
+function InitialPickSkillsPage({ username }) {
     const [selectedSkills, setSelectedSkills] = useState({
         toTeach: [],
         toLearn: []
     });
-
+    
     async function submitSkills() {
         const response = await fetch(`http://localhost:${PORT}/pick-skills`, {
             method: 'POST',
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ ...selectedSkills, username: USERNAME })
+            body: JSON.stringify({ ...selectedSkills, username: username })
         });
+        console.log('username! :', username);
         const data = await response.json();
         console.log(data);
     }
@@ -40,7 +40,7 @@ function InitialPickSkillsPage() {
                 toTeach: prev.toTeach,
                 toLearn: [...prev.toLearn, skillName]
             }));
-            console.log('to learn');
+            console.log('to learn: ', selectedSkills.toLearn);
         };
     };
 
@@ -63,7 +63,7 @@ function InitialPickSkillsPage() {
                 toLearn: prev.toLearn,
                 toTeach: [...prev.toTeach, skillName]
             }));
-            console.log('to teach');
+            console.log('to teach: ', selectedSkills.toTeach);
         };
     };
     return(
@@ -74,8 +74,9 @@ function InitialPickSkillsPage() {
                     <InitialCardsContainer isPickMatches={false} handleSkillAdd={handleTeachSkillAdd} selectedSkills={selectedSkills.toTeach} contentHeader='Pick the skills you would like to teach' />
                 <div className='self-end flex w-1/4'>
                     <button className='w-1/2 mr-5 p-2.5 border'>Skip</button>
-                    {/* <Link to='/pick-matches'></Link> */}
+                    <Link to='/pick-matches'>
                         <button onClick={() => submitSkills()} className='w-1/2 p-2.5 border'>Submit</button>
+                    </Link>
                 </div>
             </main>
         </div>

@@ -8,15 +8,22 @@ import SignIn from './Pages/Sign-in';
 import InitialPickMatchesPage from './Pages/InitialPickMatchesPage';
 
 function App() {
+  const [newUserData, setNewUserData] = useState({
+    username: '',
+    email: '',
+    password: '',
+    confirmPassword: ''
+  });
+
     return(
       <BrowserRouter>
-          {/* <Header /> */}
+          <Header />
         <Routes>  
-          <Route path='/' element={<Header />} />
-          <Route index element={<InitialPickMatchesPage />} />
-          <Route path='pick-skills' element={<InitialPickSkillsPage />} />
-          <Route path='pick-matches' element={<InitialPickMatchesPage />} />
-          <Route path="register" element={<Register />} />
+          <Route path='/' element={<Home />} />
+          <Route index element={<Home />} />
+          <Route path='pick-skills' element={<InitialPickSkillsPage username={newUserData.username} />} />
+          <Route path='pick-matches' element={<InitialPickMatchesPage setNewUserData={setNewUserData} newUserData={newUserData} />} />
+          <Route path="register" element={<Register setNewUserData={setNewUserData} newUserData={newUserData} />} />
           <Route path="sign-in" element={<SignIn />} />
         </Routes>
       </BrowserRouter>

@@ -42,7 +42,9 @@ app.get('/', async(req, res) => {
 });
 
 //fetch potential matches for a new user
-app.get('/fetch-matches', async(req, res) => {
+app.post('/fetch-matches', async(req, res) => {
+    const { username } = req.body;
+    console.log(username);
     const data = [];
 
     const toLearnSkills = await client.query(
@@ -51,8 +53,9 @@ app.get('/fetch-matches', async(req, res) => {
          FROM users u
          JOIN users_skills us ON u.id = us.user_id
          JOIN skills s ON s.id = us.skill_to_learn_id
+         WHERE u.username != $1
          GROUP BY u.username
-        `
+        `, [username]
     );
 
     const toTeachSkills = await client.query(
@@ -61,8 +64,9 @@ app.get('/fetch-matches', async(req, res) => {
          FROM users u
          JOIN users_skills us ON u.id = us.user_id
          JOIN skills s ON s.id = us.skill_to_teach_id
+         WHERE u.username != $1
          GROUP BY u.username
-        `
+        `, [username]
     );
 
     //Guard clause
@@ -90,9 +94,6 @@ app.post('/pick-skills', async(req, res) => {
     const data = req.body;
     let toTeachString = data['toTeach'].join("', '");
     let toLearnString = data['toLearn'].join("', '");
-
-    console.log('to teach: ', data['toTeach']);
-    console.log('to learn: ', data['toLearn'].length);
 
     // //Clean the table for production purposes
     // await client.query(`TRUNCATE TABLE users_skills CASCADE`);

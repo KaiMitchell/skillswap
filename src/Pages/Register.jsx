@@ -4,16 +4,9 @@ import { Outlet, Link } from 'react-router-dom';
 
 const PORT = 3000;
 
-function SignUp() {
-    const [newUserData, setnewUserData] = useState({
-        username: '',
-        email: '',
-        password: '',
-        confirmPassword: ''
-    });
-
+function SignUp({ setNewUserData, newUserData }) {
     function handleInput(e, type) {
-            setnewUserData(prev => ({
+            setNewUserData(prev => ({
                 ...prev,
                 [type]: e.target.value
         }));
@@ -30,12 +23,11 @@ function SignUp() {
 
         const data = await response.json();
         //set error state if not succesfully signed up to stop next page rendering.
-        if(data.message.includes('Welcome')) {
-            setIsRegistrationComplete(true);
-        };
-        console.log(data);
-    }
-
+        // if(data.message.includes('Welcome')) {
+        //     setIsRegistrationComplete(true)
+        // };
+        console.log('registered data: ', data);
+    };
 
     return(
         <div className='h-screen flex items-center'>
@@ -46,7 +38,9 @@ function SignUp() {
                 <Input label="Create a password" type="password" newUserData={newUserData.password} handleInput={handleInput} parameterType='password' />
                 <Input label="Confirm your password" type="password" newUserData={newUserData.confirmPassword} handleInput={handleInput} parameterType='confirmPassword' />
                 <p>Already have an account? <Link to="/sign-in" className="text-blue-400">click here</Link></p>
-                <Link to="/pick-skills" className='self-end'><button onClick={handleRegister} className='px-5 py-2.5 border border-black'>Create</button></Link>
+                <Link to="/pick-skills" className='self-end'>
+                    <button onClick={handleRegister} className='px-5 py-2.5 border border-black'>Create</button>
+                </Link>
             </form>
         </div>
     );
