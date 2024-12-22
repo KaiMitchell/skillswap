@@ -1,5 +1,3 @@
-
-
 function ProfileCard({ img, skill, name }) {
     return(
         <article className='flex flex-col items-center my-10 shadow-xl bg-white'>

@@ -1,9 +1,11 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import InitialCardsContainer from '../Components/InitialSignUpComponents/InitialCardsContainer';
+
 const PORT = 3000;
-const USERNAME = 'newuser';
-function FirstAfterSignUp() {
+const USERNAME = 'example';
+
+function InitialPickSkillsPage() {
     const [selectedSkills, setSelectedSkills] = useState({
         toTeach: [],
         toLearn: []
@@ -38,6 +40,7 @@ function FirstAfterSignUp() {
                 toTeach: prev.toTeach,
                 toLearn: [...prev.toLearn, skillName]
             }));
+            console.log('to learn');
         };
     };
 
@@ -60,6 +63,7 @@ function FirstAfterSignUp() {
                 toLearn: prev.toLearn,
                 toTeach: [...prev.toTeach, skillName]
             }));
+            console.log('to teach');
         };
     };
     return(
@@ -78,4 +82,4 @@ function FirstAfterSignUp() {
     );
 }
 
-export default FirstAfterSignUp;
+export default InitialPickSkillsPage;

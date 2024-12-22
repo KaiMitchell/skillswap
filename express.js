@@ -41,6 +41,52 @@ app.get('/', async(req, res) => {
     res.status(200).send({ data: 'Hello, world!!!' });
 });
 
+//fetch potential matches for a new user
+app.get('/fetch-matches', async(req, res) => {
+    const data = [];
+
+    const toLearnSkills = await client.query(
+        `
+         SELECT u.username, ARRAY_AGG(s.name) skills_to_learn
+         FROM users u
+         JOIN users_skills us ON u.id = us.user_id
+         JOIN skills s ON s.id = us.skill_to_learn_id
+         GROUP BY u.username
+        `
+    );
+
+    const toTeachSkills = await client.query(
+        `
+         SELECT u.username, ARRAY_AGG(s.name) skills_to_teach
+         FROM users u
+         JOIN users_skills us ON u.id = us.user_id
+         JOIN skills s ON s.id = us.skill_to_teach_id
+         GROUP BY u.username
+        `
+    );
+
+    if(toLearnSkills.rows.length == 0 && toTeachSkills.rows.length == 0) {
+        res.status(404).json({ message: 'no data' });
+        return;
+    };
+
+    toLearnSkills.rows.forEach(element => {
+        data.push(element);
+    });
+
+    toTeachSkills.rows.forEach(element => {
+        for(const item of data) {
+            if(item.username === element.username) {
+                item.skills_to_teach = element.skills_to_teach;
+            };
+        };
+    });
+
+    console.log(data);
+
+    res.status(201).json({ data: data })
+});
+
 app.post('/pick-skills', async(req, res) => {
     const data = req.body;
     let toTeachString = data['toTeach'].join("', '");
@@ -49,10 +95,10 @@ app.post('/pick-skills', async(req, res) => {
     console.log('to teach: ', data['toTeach']);
     console.log('to learn: ', data['toLearn'].length);
 
-    //Clean the table for production purposes
-    await client.query(`TRUNCATE TABLE users_skills CASCADE`);
-    //Reset serial id count
-    await client.query(`SELECT setval('users_skills_id_seq', 1, false)`);
+    // //Clean the table for production purposes
+    // await client.query(`TRUNCATE TABLE users_skills CASCADE`);
+    // //Reset serial id count
+    // await client.query(`SELECT setval('users_skills_id_seq', 1, false)`);
 
     //Guard clause
     if(data['toTeach'].length == 0 && data['toLearn'] == 0) {
@@ -82,8 +128,6 @@ app.post('/pick-skills', async(req, res) => {
         `SELECT name FROM skills
          WHERE name IN ('${toLearnString}', '${toTeachString}')`
     );
-
-    console.log(newSkills);
 
     res.status(201).json({ message: `Skills updated.` });
 });
