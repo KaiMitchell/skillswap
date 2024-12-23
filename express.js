@@ -18,12 +18,12 @@ let PORT = 3000;
 
 //config PostgreSQL database
 const clientConfig = {
-    user: 'myuser',
+    user: 'postgres',
     password: 'Password123!',
     host: 'localhost',
     port: 5432,
     database:'skillswap_db'
-}
+};
 const client = new Client(clientConfig);
 
 client
