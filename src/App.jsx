@@ -14,20 +14,22 @@ function App() {
     password: '',
     confirmPassword: ''
   });
+  //TODO: add token.
+  const [user, setUser] = useState(false);
 
-    return(
-      <BrowserRouter>
-          <Header />
-        <Routes>  
-          <Route path='/' element={<Home />} />
-          <Route index element={<Home />} />
-          <Route path='pick-skills' element={<InitialPickSkillsPage username={newUserData.username} />} />
-          <Route path='pick-matches' element={<InitialPickMatchesPage setNewUserData={setNewUserData} newUserData={newUserData} />} />
-          <Route path="register" element={<Register setNewUserData={setNewUserData} newUserData={newUserData} />} />
-          <Route path="sign-in" element={<SignIn />} />
-        </Routes>
-      </BrowserRouter>
-    );
+  return(
+    <BrowserRouter>
+        <Header user={user} setUser={setUser} />
+      <Routes>  
+        <Route path='/' element={<Home />} />
+        <Route index element={<Home />} />
+        <Route path='pick-skills' element={<InitialPickSkillsPage username={newUserData.username} />} />
+        <Route path='pick-matches' element={<InitialPickMatchesPage setNewUserData={setNewUserData} newUserData={newUserData} />} />
+        <Route path="register" element={<Register setNewUserData={setNewUserData} newUserData={newUserData} setUser={setUser} />} />
+        <Route path="sign-in" element={<SignIn setUser={setUser} user={user} />} />
+      </Routes>
+    </BrowserRouter>
+  );
 };
 
 export default App;

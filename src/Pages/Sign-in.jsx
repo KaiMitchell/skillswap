@@ -1,7 +1,10 @@
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 import Input from '.././Components/Input';
-function SignIn() {
+
+const backendURL = 'localhost:3000';
+
+function SignIn({ setUser, user }) {
     const [newUserDetails, setNewUserDetails] = useState({
         username: '',
         password: '',
@@ -13,7 +16,16 @@ function SignIn() {
             ...prev,
             [type]: e.target.value
         }));
-    }
+    };
+
+    function authorize(e) {
+        e.preventDefault();
+        // if(user) {
+        //     <Redirect to='/' />;
+        // };
+        setUser(true);
+        console.log(user);
+    };
 
     return(
         <div className='h-screen flex items-center'>
@@ -24,7 +36,8 @@ function SignIn() {
                 <p>Don't have an account? <Link to="/register" className='text-blue-400'>click here</Link></p>
                 <Link>Forgot password?</Link>
                 {/* Why do I need to neg the mt? */}
-                <Link to="/" className="self-end"><button className='px-5 py-2.5 border border-black'>Create</button></Link>
+                <button onClick={(e) => authorize(e)} className='px-5 py-2.5 border border-black'>Sign in</button>
+                {user && <Navigate to='/' />}
             </form>
         </div>
     );

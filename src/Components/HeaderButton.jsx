@@ -1,6 +1,12 @@
 import { Link } from 'react-router-dom';
 
-function HeaderButton({ text, path, isLink }) {
+function HeaderButton({ text, path, setUser, user, isLink }) {
+    function handleClick() {
+        if(user) {
+            setUser(false);
+        };
+    };
+
     return(
     isLink ?
                 <Link className='sm:mb-0 text-white flex items-center' to={path}>
@@ -9,7 +15,7 @@ function HeaderButton({ text, path, isLink }) {
                     </button>
                 </Link>
             :
-                <button className='sm:mb-0 text-white flex items-center'>
+                <button onClick={() => handleClick()} className='sm:mb-0 text-white flex items-center'>
                     {text}
                 </button>
     )

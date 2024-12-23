@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import HeaderButton from '.././Components/HeaderButton';
 import BurgerIcon from '.././Components/BurgerIcon';
 
-function Header() {
+function Header({ user, setUser }) {
     const [isNavDropDown, setIsNavDropDown] = useState(false);
 
     const isShown = isNavDropDown ? 'block' : 'hidden';
@@ -19,10 +19,11 @@ function Header() {
                     </Link>
                     <BurgerIcon isNavDropDown={isNavDropDown} setIsNavDropDown={setIsNavDropDown} />
                     <div id="nav-dropdown-container" className={`${isShown} absolute sm:contents sm:w-full right-2.5 top-full flex flex-col sm:flex-row sm:justify-between items-center bg-black sm:bg-transparent text-white sm:text-black p-5 sm:p-0`}>
-                        <HeaderButton text="Online" isLink={false} />
-                        <HeaderButton text="In person" isLink={false} />
-                        <HeaderButton text="Sign in" path="/sign-in" isLink={true} />
-                        <HeaderButton text="Register" path="/register" isLink={true} />
+                        <HeaderButton text="tips" isLink={false} />
+                        {user && <HeaderButton text="Settings" isLink={false} />}
+                        {user && <HeaderButton text="Sign out" user={user} setUser={setUser} isLink={false} />}
+                        {!user && <HeaderButton text="Register" path="/register" isLink={true} />}
+                        {!user && <HeaderButton text="Sign in" path="/sign-in" isLink={true} />}
                     </div>
                 </nav>
             </div>
