@@ -33,13 +33,13 @@ function HeaderButton({ text, path, setUser, clickAction, isLink, canHover, cate
 
     return(
     isLink ?
-                <Link className='sm:mb-0 text-white flex items-center' to={path}>
-                    <button className={``}>
+                <Link className='sm:mb-0 px-2.5 text-white flex justify-between items-center hover:bg-stone-700' to={path}>
+                    <button className={`text-nowrap text-xs`}>
                         {text}
                     </button>
                 </Link>
             :
-                <div className='relative w-full flex items-center justify-center my-0' {...(canHover && { onMouseOver: () => handleHover('in'), onMouseLeave: () => handleHover('out') })}>
+                <div className='relative w-full flex items-center justify-center my-0 hover:bg-stone-700' {...(canHover && { onMouseOver: () => handleHover('in'), onMouseLeave: () => handleHover('out') })}>
                     <button onClick={() => handleClick()} className='sm:mb-0 w-full px-10 text-xs text-white'>
                         {text}
                     </button>

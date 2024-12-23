@@ -139,7 +139,7 @@ function HeaderDropDown({ isShown, category, showRight }) {
     };
     
     return(
-        <div id='dropDown' className={`${isShown ? 'block' : 'hidden'} absolute top-full ${showRight ? 'right-0' : 'left-0'} w-max h-fit py-5 grid grid-cols-2 gap-x-5 bg-stone-950 px-50`}>
+        <div id='dropDown' className={`${isShown ? 'block' : 'hidden'} absolute top-full ${showRight ? 'right-0' : 'left-0'} w-max h-fit py-5 grid grid-cols-2 gap-x-5 bg-stone-950 px-50 shadow-xl`}>
             {headerCategories[category].map((skill, index) => {
                 return(
                     <p key={index} className='p-5 text-stone-500 hover:text-stone-400 hover:bg-stone-700 text-xs text-nowrap hover:cursor-pointer'>{skill}</p>
