@@ -5,6 +5,7 @@ import pkg from 'pg';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
 
 dotenv.config();
 
@@ -34,37 +35,88 @@ app.use(express.static(path.join(__dirname + './src')));
 app.use(cors());
 app.use(express.json());
 
-app.get('/', async(req, res) => {
-    const data = [];
+app.post('/', async(req, res) => {
+    try {
+        const { username } = req.body;
+        const data = [];
 
-    const toLearn = await client.query(
-        `
-         SELECT u.username, ARRAY_AGG(s.name) to_learn FROM users u
-         JOIN users_skills us ON u.id = us.user_id
-         JOIN skills s ON s.id = us.skill_to_learn_id
-         GROUP BY u.username
-        `
-    );
-    const toTeach = await client.query(
-        `
-         SELECT u.username, ARRAY_AGG(s.name) to_teach FROM users u
-         JOIN users_skills us ON u.id = us.user_id
-         JOIN skills s ON s.id = us.skill_to_teach_id
-         GROUP BY u.username
-        `
-    );
+        const toLearn = await client.query(
+            `
+             SELECT u.username, ARRAY_AGG(s.name) to_learn FROM users u
+             JOIN users_skills us ON u.id = us.user_id
+             JOIN skills s ON s.id = us.skill_to_learn_id
+             WHERE u.username != $1
+             GROUP BY u.username
+            `, [username]
+        );
 
-    toTeach.rows.forEach((item) => {data.push(item)});
-    toLearn.rows.forEach((element) => {
-        for(const item of data) {
-            if(item.username === element.username) {
-                item.to_learn = element.to_learn;
+        const toTeach = await client.query(
+            `
+             SELECT u.username, ARRAY_AGG(s.name) to_teach FROM users u
+             JOIN users_skills us ON u.id = us.user_id
+             JOIN skills s ON s.id = us.skill_to_teach_id
+             WHERE u.username != $1
+             GROUP BY u.username
+            `, [username]
+        );
+    
+        toTeach.rows.forEach((item) => {data.push(item)});
+        toLearn.rows.forEach((element) => {
+            for(const item of data) {
+                if(item.username === element.username) {
+                    item.to_learn = element.to_learn;
+                };
             };
-        };
-    });
+        });
+    
+        console.log(data);
+        res.status(200).send({ data: data });
+    } catch(err) {
+        console.error(err);
+    };
+});
 
-    console.log(data);
-    res.status(200).send({ data: data });
+app.post('/sign-in', async(req, res) => {
+    try {
+        const {username, password} = req.body;
+
+        //Guard clause - The catch block is lava :)
+        if(!password && !username) {
+            res.status(401).json({ message: 'No data' });
+            return;
+        } else if(!password) {
+            res.status(401).json({ message: 'Please enter your password' });
+            return;
+        } else if(!username) {
+            res.status(401).json({ message: 'Please enter your username' });
+            return;
+        };
+
+        const results = await client.query(
+            `
+             SELECT * FROM users u WHERE u.username = $1
+            `, [username]
+        );
+        const user = results.rows[0];
+        const match = await bcrypt.compare(password, user.password);
+
+        if(!user) { 
+            res.status(401).json({ message: 'User name does not exist', authorized: false });
+            return;
+        } else if(!match) {
+            res.status(401).json({ message: 'Incorrect password', authorized: false });
+            return;
+        };
+
+        console.log(user);
+
+        const token = jwt.sign({ userId: user.id }, 'SECRET', { expiresIn: '1h' });
+        console.log(token);
+    
+        res.status(200).json({ message: `Hi ${username}`, authorized: true, token: token });
+    } catch(err) {
+        console.error('error!: ', err);
+    };
 });
 
 //fetch potential matches for a new user

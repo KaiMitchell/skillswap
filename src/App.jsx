@@ -15,18 +15,18 @@ function App() {
     confirmPassword: ''
   });
   //TODO: add token.
-  const [user, setUser] = useState(false);
+  const [user, setUser] = useState({ username: localStorage.getItem("user") || '' });
 
   return(
     <BrowserRouter>
-        <Header user={user} setUser={setUser} />
+        <Header username={user.username} setUser={setUser} />
       <Routes>  
         <Route path='/' element={<Home />} />
-        <Route index element={<Home />} />
+        <Route index element={<Home user={user} />} />
         <Route path='pick-skills' element={<InitialPickSkillsPage username={newUserData.username} />} />
         <Route path='pick-matches' element={<InitialPickMatchesPage setNewUserData={setNewUserData} newUserData={newUserData} />} />
-        <Route path="register" element={<Register setNewUserData={setNewUserData} newUserData={newUserData} setUser={setUser} />} />
-        <Route path="sign-in" element={<SignIn setUser={setUser} user={user} />} />
+        <Route path="register" element={<Register setNewUserData={setNewUserData} newUserData={newUserData} />} />
+        <Route path="sign-in" element={<SignIn setUser={setUser} username={user.username} />} />
       </Routes>
     </BrowserRouter>
   );

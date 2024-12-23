@@ -1,9 +1,11 @@
 import { Link } from 'react-router-dom';
 
-function HeaderButton({ text, path, setUser, user, isLink }) {
+function HeaderButton({ text, path, setUser, username, isLink }) {
     function handleClick() {
-        if(user) {
-            setUser(false);
+        if(username !== '') {
+            setUser({ username: '' });
+            localStorage.removeItem("user");
+            console.log(username);
         };
     };
 

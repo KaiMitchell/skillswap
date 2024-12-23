@@ -3,10 +3,10 @@ import Header from "../Sections/Header";
 import Main from "../Sections/Main";
 
 
-function Home() {
+function Home({ user }) {
     return(
         <div className='bg-slate-100'>
-            <Main />
+            <Main user={user} />
         </div>
     );
 }
