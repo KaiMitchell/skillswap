@@ -11,15 +11,16 @@ function InitialPickSkillsPage({ username }) {
     });
     
     async function submitSkills() {
-        const response = await fetch(`http://localhost:${PORT}/pick-skills`, {
-            method: 'POST',
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ ...selectedSkills, username: username })
-        });
-        console.log('username! :', username);
-        const data = await response.json();
-        console.log(data);
-    }
+        try {
+            await fetch(`http://localhost:${PORT}/pick-skills`, {
+                method: 'POST',
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ ...selectedSkills, username: username })
+            });
+        } catch(err) {
+            console.error(err);
+        }
+    };
 
     function handleLearnSkillAdd(skillName) {
         if(selectedSkills.toLearn.includes(skillName) || selectedSkills.toLearn == []) {
@@ -32,7 +33,6 @@ function InitialPickSkillsPage({ username }) {
                     toTeach: prev.toTeach,
                     toLearn: newArray
                 };
-                console.log('removed: ', skillName);
                 return newObj;
             });
         } else {
@@ -40,7 +40,6 @@ function InitialPickSkillsPage({ username }) {
                 toTeach: prev.toTeach,
                 toLearn: [...prev.toLearn, skillName]
             }));
-            console.log('to learn: ', selectedSkills.toLearn);
         };
     };
 
@@ -55,7 +54,6 @@ function InitialPickSkillsPage({ username }) {
                     toLearn: prev.toLearn,
                     toTeach: newArray
                 };
-                console.log('removed: ', skillName);
                 return newObj;
             });
         } else {
@@ -63,7 +61,6 @@ function InitialPickSkillsPage({ username }) {
                 toLearn: prev.toLearn,
                 toTeach: [...prev.toTeach, skillName]
             }));
-            console.log('to teach: ', selectedSkills.toTeach);
         };
     };
     return(

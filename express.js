@@ -35,16 +35,41 @@ app.use(cors());
 app.use(express.json());
 
 app.get('/', async(req, res) => {
-    const test = await client.query(`SELECT * FROM users`);
-    console.log(test);
+    const data = [];
 
-    res.status(200).send({ data: 'Hello, world!!!' });
+    const toLearn = await client.query(
+        `
+         SELECT u.username, ARRAY_AGG(s.name) to_learn FROM users u
+         JOIN users_skills us ON u.id = us.user_id
+         JOIN skills s ON s.id = us.skill_to_learn_id
+         GROUP BY u.username
+        `
+    );
+    const toTeach = await client.query(
+        `
+         SELECT u.username, ARRAY_AGG(s.name) to_teach FROM users u
+         JOIN users_skills us ON u.id = us.user_id
+         JOIN skills s ON s.id = us.skill_to_teach_id
+         GROUP BY u.username
+        `
+    );
+
+    toTeach.rows.forEach((item) => {data.push(item)});
+    toLearn.rows.forEach((element) => {
+        for(const item of data) {
+            if(item.username === element.username) {
+                item.to_learn = element.to_learn;
+            };
+        };
+    });
+
+    console.log(data);
+    res.status(200).send({ data: data });
 });
 
 //fetch potential matches for a new user
 app.post('/fetch-matches', async(req, res) => {
     const { username } = req.body;
-    console.log(username);
     const data = [];
 
     const toLearnSkills = await client.query(

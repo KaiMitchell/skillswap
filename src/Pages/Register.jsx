@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import Input from '../Components/Input';
-import { Outlet, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 const PORT = 3000;
 
@@ -26,7 +26,7 @@ function SignUp({ setNewUserData, newUserData }) {
         // if(data.message.includes('Welcome')) {
         //     setIsRegistrationComplete(true)
         // };
-        console.log('registered data: ', data);
+        console.log('Registered user: ', data);
     };
 
     return(

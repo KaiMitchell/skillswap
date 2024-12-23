@@ -9,7 +9,6 @@ function InitialPickMatchesPage({ newUserData, setNewUserData }) {
 
     useEffect(() => {
         fetchUsers();
-        console.log(matches);
     }, []);
 
     async function fetchUsers() {
@@ -21,7 +20,6 @@ function InitialPickMatchesPage({ newUserData, setNewUserData }) {
             body: JSON.stringify({ username: newUserData.username })
         });
         const data = await response.json();
-        console.log(data);
 
         setMatches(data);
     };
