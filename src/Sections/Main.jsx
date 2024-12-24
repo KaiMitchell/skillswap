@@ -4,23 +4,7 @@ import SearchInputButton from '../Components/SearchInputButton';
 
 const backendURL = 'localhost:3000';
 
-function Main({ user }) {   
-    const [profiles, setProfiles] = useState();
-
-    useEffect(() => {
-        fetchProfiles();
-    }, [user]);
-
-    async function fetchProfiles() {
-        console.log(user);
-        const response = await fetch(`http://${backendURL}`, {
-            method: 'POST',
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ username: user.username })
-        });
-        const data = await response.json();
-        setProfiles(data.data);
-    };
+function Main({ profiles }) {   
 
     return(
         <main className='px-5'>

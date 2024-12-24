@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import HeaderDropDown from './HeaderDropDown';
 
-function HeaderButton({ text, path, setUser, clickAction, isLink, canHover, category, showRight }) {
+function HeaderButton({ text, path, setUser, clickAction, isLink, canHover, category, showRight, setFilter }) {
     const [isShown, setIsShown] = useState(false);
 
     function handleClick() {
@@ -43,7 +43,7 @@ function HeaderButton({ text, path, setUser, clickAction, isLink, canHover, cate
                     <button onClick={() => handleClick()} className='sm:mb-0 w-full px-10 text-xs text-white'>
                         {text}
                     </button>
-                    {canHover && <HeaderDropDown isShown={isShown} setIsShown={setIsShown} category={category} showRight={showRight} />}
+                    {canHover && <HeaderDropDown isShown={isShown} setIsShown={setIsShown} category={category} showRight={showRight} setFilter={setFilter} />}
                 </div>
     )
 };

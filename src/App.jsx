@@ -7,6 +7,8 @@ import Register from './Pages/Register';
 import SignIn from './Pages/Sign-in';
 import InitialPickMatchesPage from './Pages/InitialPickMatchesPage';
 
+const backendURL = 'localhost:3000';
+
 function App() {
   const [newUserData, setNewUserData] = useState({
     username: '',
@@ -16,13 +18,64 @@ function App() {
   });
   //TODO: add token.
   const [user, setUser] = useState({ username: localStorage.getItem("user") || '' });
+  const [filter, setFilter] = useState();
+  const [profiles, setProfiles] = useState([]);
+
+  useEffect(() => {
+    if(filter) {
+      console.log(profiles);
+      filterProfiles(filter);
+    } else {
+      fetchProfiles();
+    }
+  }, [user, filter]);
+
+  async function fetchProfiles() {
+      console.log(user);
+      const response = await fetch(`http://${backendURL}`, {
+          method: 'POST',
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ username: user.username })
+      });
+      const data = await response.json();
+      setProfiles(data.data);
+  };
+
+  async function filterProfiles(filter) {
+    try {
+      const response = await fetch(`http://${backendURL}/fetch-filtered-profiles?skill=${filter.selectedFilter}`);
+      const data = await response.json();
+      const results = data.data;
+      if(results.length === 0) {
+        console.log('No Data');
+      } else {
+        setProfiles(prev => {
+          for(const el of prev) {
+            for(const user of results) {
+              if(el.username === user.username) {
+                const index = prev.indexOf(el);
+                if(index > -1) {
+                  prev.splice(index, 1);
+                };
+                console.log(index);
+              };
+            };
+          };
+
+          return [...results];
+        });
+      };
+    } catch(err) {
+      console.error(err);
+    };
+  };
 
   return(
     <BrowserRouter>
-        <Header username={user.username} setUser={setUser} />
+        <Header username={user.username} setUser={setUser} setFilter={setFilter} />
       <Routes>  
         <Route path='/' element={<Home />} />
-        <Route index element={<Home user={user} />} />
+        <Route index element={<Home profiles={profiles} />} />
         <Route path='pick-skills' element={<InitialPickSkillsPage username={newUserData.username} />} />
         <Route path='pick-matches' element={<InitialPickMatchesPage setNewUserData={setNewUserData} newUserData={newUserData} />} />
         <Route path="register" element={<Register setNewUserData={setNewUserData} newUserData={newUserData} />} />

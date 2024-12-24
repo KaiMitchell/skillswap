@@ -4,7 +4,7 @@ import HeaderButton from '.././Components/HeaderButton';
 import BurgerIcon from '.././Components/BurgerIcon';
 import ProfileDropDown from '../Components/ProfileDropDown';
 
-function Header({ username, setUser }) {
+function Header({ username, setUser, setFilter }) {
     const [isNavDropDown, setIsNavDropDown] = useState(false);
     const [isShown, setIsShown] = useState(false);
 
@@ -19,14 +19,14 @@ function Header({ username, setUser }) {
                     </Link>
                     <BurgerIcon isNavDropDown={isNavDropDown} setIsNavDropDown={setIsNavDropDown} />
                     <div id="nav-dropdown-container" className={`${isNavDropDown ? 'block' : 'hidden'} absolute sm:contents sm:w-full right-2.5 top-full flex flex-col sm:flex-row sm:justify-between items-center bg-black sm:bg-transparent text-white sm:text-black p-5 sm:p-0`}>
-                        <HeaderButton category={"CreativeArts"} text="Creative Arts" canHover={true} isLink={false} />
-                        <HeaderButton category={"Music"} text="Music" canHover={true} isLink={false} />
-                        <HeaderButton category={"LanguageLearning"} text="Language Learning" canHover={true} isLink={false} />
-                        <HeaderButton category={"FitnessAndWellness"} text="Fitness and Wellness" canHover={true} isLink={false} />
-                        <HeaderButton category={"TechnologyAndCoding"} text="Technology and Coding" showRight={true} canHover={true} isLink={false} />
-                        <HeaderButton category={"ProfessionalDevelopment"} text="Professional Development" showRight={true} canHover={true} isLink={false} />
-                        {username === '' && <HeaderButton text="Register" path="/register" isLink={true} />}
-                        {username === '' && <HeaderButton text="Sign in" path="/sign-in" isLink={true} />}
+                        <HeaderButton category={"CreativeArts"} text="Creative Arts" canHover={true} isLink={false} setFilter={setFilter} />
+                        <HeaderButton category={"Music"} text="Music" canHover={true} isLink={false} setFilter={setFilter} />
+                        <HeaderButton category={"LanguageLearning"} text="Language Learning" canHover={true} isLink={false} setFilter={setFilter} />
+                        <HeaderButton category={"FitnessAndWellness"} text="Fitness and Wellness" canHover={true} isLink={false} setFilter={setFilter} />
+                        <HeaderButton category={"TechnologyAndCoding"} text="Technology and Coding" showRight={true} canHover={true} setFilter={setFilter} isLink={false} />
+                        <HeaderButton category={"ProfessionalDevelopment"} text="Professional Development" showRight={true} canHover={true} isLink={false} setFilter={setFilter} />
+                        {username === '' && <HeaderButton text="Register" path="/register" isLink={true}  />}
+                        {username === '' && <HeaderButton text="Sign in" path="/sign-in" isLink={true}  />}
                         <div className={`${username !== '' ? 'block' : 'hidden'} flex flex-col items-center justify-center p-5 hover:bg-stone-700`} onMouseEnter={() => setIsShown(true)} onMouseLeave={() => setIsShown(false)}>
                             <p className='text-white m-1 self-center hover:bg-stone-700'>{username?.slice(0, 1).toUpperCase()}</p>
                             <ProfileDropDown setUser={setUser} username={username} isShown={isShown} />

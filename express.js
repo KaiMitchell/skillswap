@@ -68,8 +68,7 @@ app.post('/', async(req, res) => {
                 };
             };
         });
-    
-        console.log(data);
+
         res.status(200).send({ data: data });
     } catch(err) {
         console.error(err);
@@ -148,7 +147,7 @@ app.post('/fetch-matches', async(req, res) => {
 
     //Guard clause
     if(toLearnSkills.rows.length == 0 && toTeachSkills.rows.length == 0) {
-        res.status(404).json({ message: 'no data' });
+        res.status(404).json({ error: 'no data' });
         return;
     };
 
@@ -248,18 +247,46 @@ app.post('/register', async(req, res) => {
     }
 });
 
-app.get('/fetch-profiles', async(req, res) => {
+app.get('/fetch-filtered-profiles', async(req, res) => {
     const skill = req.query.skill;
     if(skill === undefined) {
         res.status(501).json({ error: 'Cannot process at this time' });
     };
     try {
-        // const result = await client.query(
-        //     `
-        //      SELECT name FROM skills
-        //      WHERE name = 
-        //     `
-        // )
+        const data = [];
+
+        const toLearnMatches = await client.query(
+            `
+             SELECT u.username, ARRAY_AGG(s.name) to_learn FROM users u
+             JOIN users_skills us ON us.user_id = u.id
+             JOIN skills s ON us.skill_to_learn_id = s.id
+             WHERE s.name = $1
+             GROUP BY u.username;
+            `, [skill]
+        );
+
+        const toTeachMatches = await client.query(
+            `
+             SELECT u.username, ARRAY_AGG(s.name) to_teach FROM users u
+             JOIN users_skills us ON us.user_id = u.id
+             JOIN skills s ON us.skill_to_teach_id = s.id
+             WHERE s.name = $1
+             GROUP BY u.username;
+            `, [skill]
+        );
+
+        if(toLearnMatches.rows.length === 0 && toTeachMatches.rows.length === 0) {
+            res.status(404).json({ error: 'No data' });
+        };
+
+        toTeachMatches.rows.forEach(result => data.push(result));
+        toLearnMatches.rows.forEach(result => {
+            for(const item of data) {
+                item.to_learn = result.to_learn;
+            };
+        });
+        console.log(data);
+        res.status(200).json({ data: data });
     } catch(err) {
         console.error(err.stack);
     };

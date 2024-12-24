@@ -1,6 +1,6 @@
 const backendURL = 'localhost:3000';
 
-function HeaderDropDown({ isShown, setIsShown, category, showRight }) {
+function HeaderDropDown({ isShown, setIsShown, category, showRight, setFilter }) {
     const headerCategories = {
         CreativeArts: [
             'Painting',
@@ -140,10 +140,11 @@ function HeaderDropDown({ isShown, setIsShown, category, showRight }) {
         ]
     };
     //fetch all users associated with the selected skill.
-    async function fetchSkill(skill) {
-        const response = await fetch(`http://${backendURL}/fetch-profiles?skill=${skill}`);
-        const data = await response.json();
-        console.log(data);
+    async function handleClick(skill) {
+        setFilter(prev => ({
+            ...prev,
+            selectedFilter: skill
+        }));
         setIsShown(false);
     };
     
@@ -151,7 +152,7 @@ function HeaderDropDown({ isShown, setIsShown, category, showRight }) {
         <div id='dropDown' className={`${isShown ? 'block' : 'hidden'} absolute top-full ${showRight ? 'right-0' : 'left-0'} w-max h-fit py-5 grid grid-cols-2 gap-x-5 bg-stone-950 px-50 shadow-xl`}>
             {headerCategories[category].map((skill, index) => {
                 return(
-                    <p key={index} onClick={() => fetchSkill(skill)} className='p-5 text-stone-500 hover:text-stone-400 hover:bg-stone-700 text-xs text-nowrap hover:cursor-pointer'>{skill}</p>
+                    <p key={index} onClick={() => handleClick(skill)} className='p-5 text-stone-500 hover:text-stone-400 hover:bg-stone-700 text-xs text-nowrap hover:cursor-pointer'>{skill}</p>
                 );
             })}
         </div>
