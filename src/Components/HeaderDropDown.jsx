@@ -143,7 +143,8 @@ function HeaderDropDown({ isShown, setIsShown, category, showRight, setFilter })
     async function handleClick(skill) {
         setFilter(prev => ({
             ...prev,
-            selectedFilter: skill
+            category: category,
+            skill: skill
         }));
         setIsShown(false);
     };

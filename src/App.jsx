@@ -6,6 +6,7 @@ import InitialPickSkillsPage from './Pages/InitialPickSkillsPage';
 import Register from './Pages/Register';
 import SignIn from './Pages/Sign-in';
 import InitialPickMatchesPage from './Pages/InitialPickMatchesPage';
+import SettingsModal from './Components/SettingsModal';
 
 const backendURL = 'localhost:3000';
 
@@ -23,7 +24,6 @@ function App() {
 
   useEffect(() => {
     if(filter) {
-      console.log(profiles);
       filterProfiles(filter);
     } else {
       fetchProfiles();
@@ -43,27 +43,14 @@ function App() {
 
   async function filterProfiles(filter) {
     try {
-      const response = await fetch(`http://${backendURL}/fetch-filtered-profiles?skill=${filter.selectedFilter}`);
+      const response = await fetch(`http://${backendURL}/fetch-filtered-profiles?skill=${filter.skill}&category=${filter.category}`);
       const data = await response.json();
       const results = data.data;
-      if(results.length === 0) {
+      if(Array.isArray(results) && results.length === 0) {
         console.log('No Data');
+        fetchProfiles();
       } else {
-        setProfiles(prev => {
-          for(const el of prev) {
-            for(const user of results) {
-              if(el.username === user.username) {
-                const index = prev.indexOf(el);
-                if(index > -1) {
-                  prev.splice(index, 1);
-                };
-                console.log(index);
-              };
-            };
-          };
-
-          return [...results];
-        });
+        setProfiles(results);
       };
     } catch(err) {
       console.error(err);
@@ -73,6 +60,7 @@ function App() {
   return(
     <BrowserRouter>
         <Header username={user.username} setUser={setUser} setFilter={setFilter} />
+        <SettingsModal />
       <Routes>  
         <Route path='/' element={<Home />} />
         <Route index element={<Home profiles={profiles} />} />

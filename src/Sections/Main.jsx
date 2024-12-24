@@ -15,11 +15,11 @@ function Main({ profiles }) {
                 </div>
             </div>
             {/* The data for these cards will be collected from a database */}
-            <section id='profile-cards' className='h-full w-full sm:grid sm:grid-cols-2 md:grid-cols-3 gap-5'>
+            <section id='profile-cards' className='h-full w-full sm:grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5'>
                 {profiles?.map((item) => {
-                    return(
+                        return(
                         <div key={item.username}>
-                            <ProfileCard skill={item.to_learn[0]} name={item.username} />
+                            <ProfileCard skill={item.to_learn ? item.to_learn[0] : item.to_teach[0]} name={item.username} />
                         </div>
                     );
                 })}

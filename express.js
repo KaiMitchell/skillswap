@@ -248,10 +248,12 @@ app.post('/register', async(req, res) => {
 });
 
 app.get('/fetch-filtered-profiles', async(req, res) => {
-    const skill = req.query.skill;
-    if(skill === undefined) {
-        res.status(501).json({ error: 'Cannot process at this time' });
+    const { skill, category } = req.query;
+    if(skill === undefined && category === undefined) {
+        res.status(501).json({ error: 'No matches' });
+        return;
     };
+
     try {
         const data = [];
 
@@ -275,8 +277,12 @@ app.get('/fetch-filtered-profiles', async(req, res) => {
             `, [skill]
         );
 
+        console.log(toTeachMatches);
+        console.log(toLearnMatches);
+
         if(toLearnMatches.rows.length === 0 && toTeachMatches.rows.length === 0) {
             res.status(404).json({ error: 'No data' });
+            return;
         };
 
         toTeachMatches.rows.forEach(result => data.push(result));
