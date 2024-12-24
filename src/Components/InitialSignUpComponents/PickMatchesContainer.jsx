@@ -175,6 +175,19 @@ function PickMatchesContainer({ matches }) {
       'Conflict Resolution'
     ]
   };
+  const communicationArray = [];
+  Object.keys(skillCategories).forEach((category, index) => {
+    Object.keys(skillCategories)['Communication'].forEach(skill => {
+      Object.keys(skillCategories)[category].forEach(item => {
+        if(skill === item) {
+          communicationArray.push(skill);
+        };
+      });
+    });
+  });
+
+  console.log(communicationArray);
+
     return(
       <div className='flex h-96 p-5 bg-black rounded-md'>
         {matches?.data?.map((item, index) => {   

@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import PickSkillsCard from './PickSkillsCard';
 
+const backendURL = 'localhost:3000';
+
 function PickSkillsContainer({ handleSkillAdd, selectedSkills, isPickMatches }) {  
     const skillCategories = { 
         Communication: [

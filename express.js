@@ -171,12 +171,7 @@ app.post('/pick-skills', async(req, res) => {
     const data = req.body;
     let toTeachString = data['toTeach'].join("', '");
     let toLearnString = data['toLearn'].join("', '");
-
-    // //Clean the table for production purposes
-    // await client.query(`TRUNCATE TABLE users_skills CASCADE`);
-    // //Reset serial id count
-    // await client.query(`SELECT setval('users_skills_id_seq', 1, false)`);
-
+    
     //Guard clause
     if(data['toTeach'].length == 0 && data['toLearn'] == 0) {
         res.status(404).send({ message: 'No data please select your skills' });
@@ -251,6 +246,23 @@ app.post('/register', async(req, res) => {
     } catch(err) {
         console.error('error: ', err.stack);
     }
+});
+
+app.get('/fetch-profiles', async(req, res) => {
+    const skill = req.query.skill;
+    if(skill === undefined) {
+        res.status(501).json({ error: 'Cannot process at this time' });
+    };
+    try {
+        // const result = await client.query(
+        //     `
+        //      SELECT name FROM skills
+        //      WHERE name = 
+        //     `
+        // )
+    } catch(err) {
+        console.error(err.stack);
+    };
 });
 
 app.listen(PORT, () => {

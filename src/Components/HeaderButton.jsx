@@ -43,7 +43,7 @@ function HeaderButton({ text, path, setUser, clickAction, isLink, canHover, cate
                     <button onClick={() => handleClick()} className='sm:mb-0 w-full px-10 text-xs text-white'>
                         {text}
                     </button>
-                    {canHover && <HeaderDropDown isShown={isShown} category={category} showRight={showRight} />}
+                    {canHover && <HeaderDropDown isShown={isShown} setIsShown={setIsShown} category={category} showRight={showRight} />}
                 </div>
     )
 };
