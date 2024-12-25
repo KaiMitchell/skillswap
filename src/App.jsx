@@ -6,7 +6,7 @@ import InitialPickSkillsPage from './Pages/InitialPickSkillsPage';
 import Register from './Pages/Register';
 import SignIn from './Pages/Sign-in';
 import InitialPickMatchesPage from './Pages/InitialPickMatchesPage';
-import SettingsModal from './Components/SettingsModal';
+import SettingsModal from './Components/SettingsModal/SettingsModal.jsx';
 
 const backendURL = 'localhost:3000';
 
