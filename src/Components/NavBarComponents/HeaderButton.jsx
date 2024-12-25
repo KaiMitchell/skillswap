@@ -37,7 +37,7 @@ function HeaderButton({ text, path, setUser, clickAction, isLink, canHover, cate
                 </Link>
             :
                 <div className='relative w-full flex items-center justify-center my-0 hover:bg-stone-700' {...(canHover && { onMouseOver: () => handleHover('in'), onMouseLeave: () => handleHover('out') })}>
-                    <button onClick={() => handleClick()} className='sm:mb-0 w-full px-10 text-xs text-white'>
+                    <button onClick={() => handleClick()} className='sm:mb-0 w-full sm:px-10 text-xl sm:text-xs text-white'>
                         {text}
                     </button>
                     {canHover && <HeaderDropDown isShown={isShown} setIsShown={setIsShown} category={category} showRight={showRight} setFilter={setFilter} />}
