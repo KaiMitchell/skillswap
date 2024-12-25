@@ -1,16 +1,35 @@
 import { useState } from 'react';
 import FilterDropDown from './FilterDropDown.jsx';
+import skills from '../../skillData/skills.js';
 
-function MainFilterDropDownComponent({ filterTitle, setFilterValues, filterValueKey }) {
+function MainFilterDropDownComponent({ filterTitle, filterValues, setFilterValues, filterValueKey }) {
     const [isShown, setIsShown] = useState(false);
 
+    let options = [];
+
+    switch(filterTitle) {
+        case 'You want to learn':
+            options = skills;
+            break;
+        case 'You can teach':
+            options = skills;
+            break;
+        case 'Your gender':
+            options = ['Female', 'Male', 'Other'];
+            break;
+        case 'Gender preference':
+            options = ['Femal', 'Male', 'Other'];
+            break;
+        case 'Online / In Person':
+            options = ['Online', 'In Person'];
+            break;
+    };
+    
     return(
-        <div onClick={() => setIsShown(true)} className='relative px-5 py-2.5 w-1/5 rounded-lg bg-stone-900 text-stone-200'>
-            {/* you would like to learn: will display all profiles teaching skills under that category */}
-            {/* renders a drop down with options for category or specific skill */}
+        <div onClick={() => setIsShown(true)} className='relative h-16 w-1/5 px-5 py-2.5 rounded-lg bg-stone-900 text-stone-200'>
             <h3 className='text-xs mb-2.5'>{filterTitle}</h3>
-            <p className='text-sm'></p>
-            <FilterDropDown filterValueKey={filterValueKey} isShown={isShown} setIsShown={setIsShown} setFilterValues={setFilterValues} />
+            <p className='text-sm'>{filterValues[filterValueKey]}</p>
+            <FilterDropDown filterValueKey={filterValueKey} isShown={isShown} setIsShown={setIsShown} setFilterValues={setFilterValues} options={options} />
         </div>
     );
 };
