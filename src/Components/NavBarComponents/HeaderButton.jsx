@@ -7,9 +7,6 @@ function HeaderButton({ text, path, setUser, clickAction, isLink, canHover, cate
 
     function handleClick() {
         switch(clickAction) {
-            case 'log settings':
-                console.log('settings button clicked');
-                break;
             case 'sign out':
                 setUser({ username: '' });
                 localStorage.removeItem("user");
@@ -32,7 +29,7 @@ function HeaderButton({ text, path, setUser, clickAction, isLink, canHover, cate
     };
 
     return(
-    isLink ?
+        isLink ?
                 <Link className='sm:mb-0 px-2.5 text-white flex justify-between items-center hover:bg-stone-700' to={path}>
                     <button className={`text-nowrap text-xs`}>
                         {text}

@@ -1,6 +1,6 @@
 
 
-function ProfileDropDownOption({ setUser, text, setIsSettings }) {
+function ProfileDropDownOption({ setUser, text, setIsSettings, setIsShown }) {
 
     function handleClick() {
         localStorage.removeItem('user');
@@ -13,7 +13,10 @@ function ProfileDropDownOption({ setUser, text, setIsSettings }) {
             clickHandler.onClick = () => handleClick();
             break;
         case 'Settings':
-            clickHandler.onClick = () => setIsSettings(true);
+            clickHandler.onClick = () => {
+                setIsSettings(true);
+                setIsShown(false);
+            };
     }
 
     return(
