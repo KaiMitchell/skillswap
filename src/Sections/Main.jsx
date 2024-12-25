@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import ProfileCard from '.././Components/ProfileCard';
+import ProfileCard from '../Components/ProfileCardComponents/ProfileCard';
 import SearchInputButton from '../Components/SearchInputButton';
 
 const backendURL = 'localhost:3000';
