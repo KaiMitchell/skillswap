@@ -21,6 +21,7 @@ function App() {
   const [user, setUser] = useState({ username: localStorage.getItem("user") || '' });
   const [filter, setFilter] = useState();
   const [profiles, setProfiles] = useState([]);
+  const [isSettings, setIsSettings] = useState(false);
 
   useEffect(() => {
     if(filter) {
@@ -59,8 +60,8 @@ function App() {
 
   return(
     <BrowserRouter>
-        <Header username={user.username} setUser={setUser} setFilter={setFilter} />
-        <SettingsModal />
+        <Header username={user.username} setUser={setUser} setFilter={setFilter} setIsSettings={setIsSettings} />
+        <SettingsModal isSettings={isSettings} setIsSettings={setIsSettings} />
       <Routes>  
         <Route path='/' element={<Home />} />
         <Route index element={<Home profiles={profiles} />} />

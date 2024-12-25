@@ -4,7 +4,7 @@ import HeaderButton from '.././Components/HeaderButton';
 import BurgerIcon from '.././Components/BurgerIcon';
 import ProfileDropDown from '../Components/ProfileDropDown';
 
-function Header({ username, setUser, setFilter }) {
+function Header({ username, setUser, setFilter, setIsSettings }) {
     const [isNavDropDown, setIsNavDropDown] = useState(false);
     const [isShown, setIsShown] = useState(false);
 
@@ -29,7 +29,7 @@ function Header({ username, setUser, setFilter }) {
                         {username === '' && <HeaderButton text="Sign in" path="/sign-in" isLink={true}  />}
                         <div className={`${username !== '' ? 'block' : 'hidden'} flex flex-col items-center justify-center p-5 hover:bg-stone-700`} onMouseEnter={() => setIsShown(true)} onMouseLeave={() => setIsShown(false)}>
                             <p className='text-white m-1 self-center hover:bg-stone-700'>{username?.slice(0, 1).toUpperCase()}</p>
-                            <ProfileDropDown setUser={setUser} username={username} isShown={isShown} />
+                            <ProfileDropDown setUser={setUser} username={username} isShown={isShown} setIsSettings={setIsSettings} />
                         </div>
                     </div>
                 </nav>

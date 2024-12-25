@@ -1,9 +1,23 @@
-import skillCategories from '../../skillData/skills.js';
+import { useEffect, useRef } from 'react';
 import SkillsManagementComponent from './SkillsManagementComponent.jsx';
 
-function SettingsModal() {    
+function SettingsModal({ isSettings, setIsSettings }) {    
+    const node = useRef();
+
+    function closeModal(e) {
+        if(node.current && !node.current.contains(e.target)) {
+            console.log('Clicked outside!');
+            setIsSettings(false);
+        };
+    };
+
+    useEffect(() => {
+        document.addEventListener('mousedown', closeModal);
+        return () => document.removeEventListener('mousedown', closeModal);
+    }, []);
+
     return(
-        <div className='fixed size-10/12 m-auto z-20 top-0 bottom-0 left-0 right-0 px-10 py-5 rounded bg-stone-100 shadow-xl shadow-black overflow-y-scroll no-scrollbar'>
+        <div ref={node} className={`${isSettings ? 'block' : 'hidden'} fixed size-10/12 m-auto z-20 top-0 bottom-0 left-0 right-0 px-10 py-5 rounded bg-stone-100 shadow-xl shadow-black overflow-y-scroll no-scrollbar`}>
             <div className='w-full min-h-1/4 flex flex-col lg:flex-row gap-5 justify-between mb-5 text-center lg:text-left'>   
                 <form className='w-full lg:w-1/2'>
                     <label className='font-bold'>Update profile picture</label><br />
