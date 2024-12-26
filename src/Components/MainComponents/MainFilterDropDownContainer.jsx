@@ -10,8 +10,6 @@ function MainFilterDropDownContainer() {
         meetUp: ''
     });
 
-    useEffect(() => {console.log(filterValues)}, [filterValues]);
-
     return(
         <div className='flex gap-2.5'>
             <MainFilterDropDownComponent filterValues={filterValues} setFilterValues={setFilterValues} filterValueKey='toLearn' filterTitle='You want to learn' />

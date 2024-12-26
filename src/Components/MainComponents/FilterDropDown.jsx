@@ -1,31 +1,19 @@
 import { useEffect, useRef } from 'react';
 
-function FilterDropDown({ isShown, setIsShown, setFilterValues, filterValueKey, options }) {
-    const node = useRef();
+function FilterDropDown({ isShown, setIsShown, setFilterValues, filterValueKey, options }) {    
 
     let mappedOptions;
 
     if(filterValueKey === 'toLearn' || filterValueKey === 'toTeach') {
         mappedOptions = Object.keys(options).map(category => {
             return(
-                <h3 className='text-sm' key={category} onClick={() => handleFilterValueClick(category)}>{category}</h3>
+                <h3 className='p-5 text-sm hover:bg-stone-700 hover:cursor-pointer' key={category} onClick={() => handleFilterValueClick(category)}>{category}</h3>
             )
         });
     } else {
         mappedOptions = options.map(option => {
-            return <p key={option} onClick={() => handleFilterValueClick(option)}>{option}</p>
+            return <p key={option} onClick={() => handleFilterValueClick(option)} className='p-5 hover:bg-stone-700 hover:cursor-pointer'>{option}</p>
         });
-    };
-
-    useEffect(() => {
-        document.addEventListener('mousedown', handleOutSideClick);
-        return () => document.removeEventListener('mousedown', handleOutSideClick);
-    }, []);
-
-    function handleOutSideClick(e) {
-        if(node.current && !node.current.contains(e.target)) {
-            setIsShown(false);
-        };
     };
 
     function handleFilterValueClick(value) {
@@ -36,10 +24,11 @@ function FilterDropDown({ isShown, setIsShown, setFilterValues, filterValueKey, 
             };
             return newObj;
         });
+        setIsShown(false);
     };
 
     return(
-        <div ref={node} className={`${isShown ? 'block' : 'hidden'} absolute w-full left-0 z-10 top-full h-fit bg-stone-900 rounded-lg`}>
+        <div className={`${isShown ? 'block' : 'hidden'} absolute w-full left-0 z-10 top-full h-72 bg-stone-900 rounded-lg hover:border shadow-xl shadow-black hover:border-white overflow-y-auto no-scrollbar`}>
             {mappedOptions}
         </div>
     );

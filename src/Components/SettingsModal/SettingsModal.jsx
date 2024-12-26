@@ -6,7 +6,6 @@ function SettingsModal({ isSettings, setIsSettings }) {
 
     function closeModal(e) {
         if(node.current && !node.current.contains(e.target)) {
-            console.log('Clicked outside!');
             setIsSettings(false);
         };
     };
