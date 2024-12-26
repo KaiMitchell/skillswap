@@ -60,7 +60,7 @@ function App() {
 
   return(
     <BrowserRouter>
-        <Header username={user.username} setUser={setUser} setFilter={setFilter} setIsSettings={setIsSettings} />
+        <Header username={user.username} fetchProfiles={fetchProfiles} setUser={setUser} setFilter={setFilter} setIsSettings={setIsSettings} />
         <SettingsModal isSettings={isSettings} setIsSettings={setIsSettings} />
       <Routes>  
         <Route path='/' element={<Home />} />

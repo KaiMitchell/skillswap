@@ -3,7 +3,7 @@ import HeaderButton from './HeaderButton';
 import ProfileDropDownContainer from "./ProfileDropDownContainer";
 import MobileOptions from "./MobileOptions";
 
-function NavOptions({ username, setUser, setFilter, setIsSettings }) {
+function NavOptions({ username, setUser, setFilter, setIsSettings, fetchProfiles }) {
     const [isNavDropDown, setIsNavDropDown] = useState(false);
 
     const categories = [
@@ -17,7 +17,7 @@ function NavOptions({ username, setUser, setFilter, setIsSettings }) {
 
     return(
         <nav className='relative w-full flex justify-between shadow-xl'>
-            <MobileOptions isNavDropDown={isNavDropDown} setIsNavDropDown={setIsNavDropDown} />
+            <MobileOptions username={username} fetchProfiles={fetchProfiles} isNavDropDown={isNavDropDown} setIsNavDropDown={setIsNavDropDown} />
             <div className={`${isNavDropDown ? 'block' : 'hidden'} absolute sm:contents w-full sm:right-2.5 top-full flex flex-col gap-5 sm:flex-row sm:justify-between items-center bg-black sm:bg-transparent text-white sm:text-black p-0`}>
                 {categories.map((category, index) => <HeaderButton key={category} category={category} text={category} canHover={true} isLink={false} setFilter={setFilter} showRight={index > 1 ? true : false} />)}
                 {username === '' && <HeaderButton text="Register" path="/register" isLink={true}  />}

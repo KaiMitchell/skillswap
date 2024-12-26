@@ -1,9 +1,9 @@
 import NavOptions from './NavOptions';
 
-function NavBar({ username, setUser, setFilter, setIsSettings }) {
+function NavBar({ username, setUser, setFilter, setIsSettings, fetchProfiles }) {
 
     return(
-        <NavOptions username={username} setUser={setUser} setFilter={setFilter} setIsSettings={setIsSettings} />
+        <NavOptions username={username} fetchProfiles={fetchProfiles} setUser={setUser} setFilter={setFilter} setIsSettings={setIsSettings} />
     );
 };
 

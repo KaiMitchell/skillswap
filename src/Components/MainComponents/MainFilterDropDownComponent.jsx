@@ -13,7 +13,7 @@ function MainFilterDropDownComponent({ filterTitle, filterValues, setFilterValue
     }, []);
 
     function handleOutSideClick(e) {
-        if(node.current && !node.current.contains(e.target)) {
+        if(node.current && !node.current.contains(e.target) ) {
             setIsShown(false);
         };
     };
