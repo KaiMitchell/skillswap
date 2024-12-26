@@ -27,7 +27,7 @@ function App() {
     if(filter) {
       filterProfiles(filter);
     } else {
-      fetchProfiles();
+      // fetchProfiles();
     }
   }, [user, filter]);
 

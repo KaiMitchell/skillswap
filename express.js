@@ -35,45 +35,68 @@ app.use(express.static(path.join(__dirname + './src')));
 app.use(cors());
 app.use(express.json());
 
-app.post('/', async(req, res) => {
+app.get('/fetch-skills', async(req, res) => {
     try {
-        const { username } = req.body;
-        const data = [];
-
-        const toLearn = await client.query(
+        const result = await client.query(
             `
-             SELECT u.username, ARRAY_AGG(s.name) to_learn FROM users u
-             JOIN users_skills us ON u.id = us.user_id
-             JOIN skills s ON s.id = us.skill_to_learn_id
-             WHERE u.username != $1
-             GROUP BY u.username
-            `, [username]
-        );
+            SELECT c.category, ARRAY_AGG(s.name ORDER BY s.name ASC) skills FROM skills s
+            JOIN categories_skills cs ON cs.skill_id = s.id
+            JOIN categories c ON cs.category_id = c.id
+            WHERE cs.category_id = c.id
+            AND cs.skill_id = s.id
+            GROUP BY c.category ORDER BY c.category     
+            `);
+            
+        if(result.rows.length === 0) {
+            res.status(404).json({ error: 'No data' });
+            return;
+        };
 
-        const toTeach = await client.query(
-            `
-             SELECT u.username, ARRAY_AGG(s.name) to_teach FROM users u
-             JOIN users_skills us ON u.id = us.user_id
-             JOIN skills s ON s.id = us.skill_to_teach_id
-             WHERE u.username != $1
-             GROUP BY u.username
-            `, [username]
-        );
-    
-        toTeach.rows.forEach((item) => {data.push(item)});
-        toLearn.rows.forEach((element) => {
-            for(const item of data) {
-                if(item.username === element.username) {
-                    item.to_learn = element.to_learn;
-                };
-            };
-        });
-
-        res.status(200).send({ data: data });
-    } catch(err) {
-        console.error(err);
-    };
+        res.status(200).json({ data: result.rows });
+        } catch(err) {
+            console.error(err);
+        };
 });
+
+// app.post('/', async(req, res) => {
+//     try {
+//         const { username } = req.body;
+//         const data = [];
+
+//         const toLearn = await client.query(
+//             `
+//              SELECT u.username, ARRAY_AGG(s.name) to_learn FROM users u
+//              JOIN users_skills us ON u.id = us.user_id
+//              JOIN skills s ON s.id = us.skill_to_learn_id
+//              WHERE u.username != $1
+//              GROUP BY u.username
+//             `, [username]
+//         );
+
+//         const toTeach = await client.query(
+//             `
+//              SELECT u.username, ARRAY_AGG(s.name) to_teach FROM users u
+//              JOIN users_skills us ON u.id = us.user_id
+//              JOIN skills s ON s.id = us.skill_to_teach_id
+//              WHERE u.username != $1
+//              GROUP BY u.username
+//             `, [username]
+//         );
+    
+//         toTeach.rows.forEach((item) => {data.push(item)});
+//         toLearn.rows.forEach((element) => {
+//             for(const item of data) {
+//                 if(item.username === element.username) {
+//                     item.to_learn = element.to_learn;
+//                 };
+//             };
+//         });
+
+//         res.status(200).send({ data: data });
+//     } catch(err) {
+//         console.error(err);
+//     };
+// });
 
 app.post('/sign-in', async(req, res) => {
     try {
@@ -166,42 +189,42 @@ app.post('/fetch-matches', async(req, res) => {
     res.status(201).json({ data: data })
 });
 
-app.post('/pick-skills', async(req, res) => {
-    const data = req.body;
-    let toTeachString = data['toTeach'].join("', '");
-    let toLearnString = data['toLearn'].join("', '");
+// app.post('/pick-skills', async(req, res) => {
+//     const data = req.body;
+//     let toTeachString = data['toTeach'].join("', '");
+//     let toLearnString = data['toLearn'].join("', '");
     
-    //Guard clause
-    if(data['toTeach'].length == 0 && data['toLearn'] == 0) {
-        res.status(404).send({ message: 'No data please select your skills' });
-        return;
-    };
+//     //Guard clause
+//     if(data['toTeach'].length == 0 && data['toLearn'] == 0) {
+//         res.status(404).send({ message: 'No data please select your skills' });
+//         return;
+//     };
 
-    if(data['toTeach'].length > 0) {
-        await client.query(
-            `INSERT INTO users_skills (user_id, skill_to_teach_id)
-             SELECT users.id, skills.id
-             FROM users, skills WHERE users.username = '${data.username}'
-             AND skills.name IN ('${toTeachString}')`
-        );
-    };
+//     if(data['toTeach'].length > 0) {
+//         await client.query(
+//             `INSERT INTO users_skills (user_id, skill_to_teach_id)
+//              SELECT users.id, skills.id
+//              FROM users, skills WHERE users.username = '${data.username}'
+//              AND skills.name IN ('${toTeachString}')`
+//         );
+//     };
 
-    if(data['toLearn'].length > 0) {
-        await client.query(
-            `INSERT INTO users_skills (user_id, skill_to_learn_id)
-             SELECT users.id, skills.id
-             FROM users, skills WHERE users.username = '${data.username}'
-             AND skills.name IN ('${toLearnString}')`
-        );
-    };
+//     if(data['toLearn'].length > 0) {
+//         await client.query(
+//             `INSERT INTO users_skills (user_id, skill_to_learn_id)
+//              SELECT users.id, skills.id
+//              FROM users, skills WHERE users.username = '${data.username}'
+//              AND skills.name IN ('${toLearnString}')`
+//         );
+//     };
 
-    const newSkills = await client.query(
-        `SELECT name FROM skills
-         WHERE name IN ('${toLearnString}', '${toTeachString}')`
-    );
+//     const newSkills = await client.query(
+//         `SELECT name FROM skills
+//          WHERE name IN ('${toLearnString}', '${toTeachString}')`
+//     );
 
-    res.status(201).json({ message: `Skills updated.` });
-});
+//     res.status(201).json({ message: `Skills updated.` });
+// });
 
 app.post('/register', async(req, res) => {
     try {   

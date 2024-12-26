@@ -3,11 +3,14 @@ import FilterDropDown from './FilterDropDown.jsx';
 import skills from '../../skillData/skills.js';
 
 function MainFilterDropDownComponent({ filterTitle, filterValues, setFilterValues, filterValueKey }) {
+    const [skills, setSkills] = useState();
     const [isShown, setIsShown] = useState(false);
 
     const node = useRef();
 
     useEffect(() => {
+        fetchSkills();
+
         document.addEventListener('mousedown', handleOutSideClick);
         return () => document.removeEventListener('mousedown', handleOutSideClick);
     }, []);
@@ -37,12 +40,19 @@ function MainFilterDropDownComponent({ filterTitle, filterValues, setFilterValue
             options = ['Online', 'In Person'];
             break;
     };
+
+    async function fetchSkills() {
+        const response = await fetch('http://localhost:3000/fetch-skills');
+        const data = await response.json();
+        console.log(data);
+        setSkills(data);
+    };
     
     return(
         <div ref={node} onClick={() => {setIsShown(!isShown)}} className='relative h-16 w-1/5 px-5 py-2.5 rounded-lg bg-stone-900 hover:bg-stone-800 text-stone-200 cursor-pointer'>
             <h3 className='text-xs mb-2.5'>{filterTitle}</h3>
             <p className='text-sm'>{filterValues[filterValueKey]}</p>
-            <FilterDropDown filterValueKey={filterValueKey} isShown={isShown} setIsShown={setIsShown} setFilterValues={setFilterValues} options={options} />
+            {/* <FilterDropDown filterValueKey={filterValueKey} isShown={isShown} setIsShown={setIsShown} setFilterValues={setFilterValues} options={options} /> */}
         </div>
     );
 };
