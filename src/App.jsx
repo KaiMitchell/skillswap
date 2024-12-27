@@ -27,7 +27,7 @@ function App() {
     if(filter) {
       filterProfiles(filter);
     } else {
-      // fetchProfiles();
+      fetchProfiles();
     }
   }, [user, filter]);
 
@@ -39,6 +39,7 @@ function App() {
           body: JSON.stringify({ username: user.username })
       });
       const data = await response.json();
+      console.log(data);
       setProfiles(data.data);
   };
 
@@ -65,7 +66,7 @@ function App() {
       <Routes>  
         <Route path='/' element={<Home />} />
         <Route index element={<Home profiles={profiles} />} />
-        <Route path='pick-skills' element={<InitialPickSkillsPage username={newUserData.username} />} />
+        <Route path='pick-skills' element={<InitialPickSkillsPage username={newUserData.username} setUser={setUser} />} />
         <Route path='pick-matches' element={<InitialPickMatchesPage setNewUserData={setNewUserData} newUserData={newUserData} />} />
         <Route path="register" element={<Register setNewUserData={setNewUserData} newUserData={newUserData} />} />
         <Route path="sign-in" element={<SignIn setUser={setUser} username={user.username} />} />

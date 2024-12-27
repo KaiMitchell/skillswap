@@ -58,45 +58,47 @@ app.get('/fetch-skills', async(req, res) => {
         };
 });
 
-// app.post('/', async(req, res) => {
-//     try {
-//         const { username } = req.body;
-//         const data = [];
+app.post('/', async(req, res) => {
+    try {
+        const { username } = req.body;
+        const data = [];
 
-//         const toLearn = await client.query(
-//             `
-//              SELECT u.username, ARRAY_AGG(s.name) to_learn FROM users u
-//              JOIN users_skills us ON u.id = us.user_id
-//              JOIN skills s ON s.id = us.skill_to_learn_id
-//              WHERE u.username != $1
-//              GROUP BY u.username
-//             `, [username]
-//         );
+        const toLearn = await client.query(
+            `
+             SELECT u.username, ARRAY_AGG(s.name) to_learn FROM users u
+             JOIN users_skills us ON u.id = us.user_id
+             JOIN skills s ON s.id = us.skill_id
+             WHERE u.username != $1
+             GROUP BY u.username
+             ORDER BY u.username
+            `, [username]
+        );
 
-//         const toTeach = await client.query(
-//             `
-//              SELECT u.username, ARRAY_AGG(s.name) to_teach FROM users u
-//              JOIN users_skills us ON u.id = us.user_id
-//              JOIN skills s ON s.id = us.skill_to_teach_id
-//              WHERE u.username != $1
-//              GROUP BY u.username
-//             `, [username]
-//         );
+        const toTeach = await client.query(
+            `
+             SELECT u.username, ARRAY_AGG(s.name) to_teach FROM users u
+             JOIN users_skills us ON u.id = us.user_id
+             JOIN skills s ON s.id = us.skill_id
+             WHERE u.username != $1
+             GROUP BY u.username
+             ORDER BY u.username
+            `, [username]
+        );
     
-//         toTeach.rows.forEach((item) => {data.push(item)});
-//         toLearn.rows.forEach((element) => {
-//             for(const item of data) {
-//                 if(item.username === element.username) {
-//                     item.to_learn = element.to_learn;
-//                 };
-//             };
-//         });
+        toTeach.rows.forEach((item) => {data.push(item)});
+        toLearn.rows.forEach((element) => {
+            for(const item of data) {
+                if(item.username === element.username) {
+                    item.to_learn = element.to_learn;
+                };
+            };
+        });
 
-//         res.status(200).send({ data: data });
-//     } catch(err) {
-//         console.error(err);
-//     };
-// });
+        res.status(200).send({ data: data });
+    } catch(err) {
+        console.error(err);
+    };
+});
 
 app.post('/sign-in', async(req, res) => {
     try {
@@ -189,42 +191,54 @@ app.post('/fetch-matches', async(req, res) => {
     res.status(201).json({ data: data })
 });
 
-// app.post('/pick-skills', async(req, res) => {
-//     const data = req.body;
-//     let toTeachString = data['toTeach'].join("', '");
-//     let toLearnString = data['toLearn'].join("', '");
+app.post('/pick-skills', async(req, res) => {
+    console.log(req.body);
+    const data = req.body;
+    const toTeach = data['toTeach'] ? data['toTeach'] : [];
+    const toLearn = data['toLearn'] ? data['toLearn'] : [];
+
+    console.log(data.username);
+    const addedSkills = {
+        toLearn: data['toLearn'],
+        toTeach: data['toTeach']
+    };
     
 //     //Guard clause
-//     if(data['toTeach'].length == 0 && data['toLearn'] == 0) {
-//         res.status(404).send({ message: 'No data please select your skills' });
-//         return;
-//     };
+    if(data['toTeach'].length == 0 && data['toLearn'] == 0) {
+        res.status(404).send({ message: 'No data please select your skills' });
+        return;
+    };
+    let toTeachQueryString = '';
+    let toLearnQueryString = '';
 
-//     if(data['toTeach'].length > 0) {
-//         await client.query(
-//             `INSERT INTO users_skills (user_id, skill_to_teach_id)
-//              SELECT users.id, skills.id
-//              FROM users, skills WHERE users.username = '${data.username}'
-//              AND skills.name IN ('${toTeachString}')`
-//         );
-//     };
+    if(toTeach.length > 0) {
+        for(const item of data['toTeach']) {
+            toTeachQueryString += `INSERT INTO users_skills (user_id, skill_id, is_learning, is_teaching)
+                                VALUES (
+                                (SELECT users.id FROM users WHERE users.username = '${data.username}'),
+                                (SELECT skills.id FROM skills WHERE skills.name = '${item}'),
+                                true,
+                                false
+                                );`
+        };
+        await client.query(toTeachQueryString);
+    };
 
-//     if(data['toLearn'].length > 0) {
-//         await client.query(
-//             `INSERT INTO users_skills (user_id, skill_to_learn_id)
-//              SELECT users.id, skills.id
-//              FROM users, skills WHERE users.username = '${data.username}'
-//              AND skills.name IN ('${toLearnString}')`
-//         );
-//     };
+    if(toLearn.length > 0) {
+        for(const item of data['toLearn']) {
+            toLearnQueryString += `INSERT INTO users_skills (user_id, skill_id, is_learning, is_teaching)
+                                    VALUES (
+                                    (SELECT users.id FROM users WHERE users.username = '${data.username}'),
+                                    (SELECT skills.id FROM skills WHERE skills.name = '${item}'),
+                                    true,
+                                    false
+                                    );`
+        };
+        await client.query(toLearnQueryString);
+    };
 
-//     const newSkills = await client.query(
-//         `SELECT name FROM skills
-//          WHERE name IN ('${toLearnString}', '${toTeachString}')`
-//     );
-
-//     res.status(201).json({ message: `Skills updated.` });
-// });
+    res.status(201).json({ message: `Skills updated.`, newSkills: addedSkills });
+});
 
 app.post('/register', async(req, res) => {
     try {   

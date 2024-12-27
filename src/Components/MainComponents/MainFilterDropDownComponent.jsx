@@ -6,8 +6,6 @@ function MainFilterDropDownComponent({ filterTitle, filterValues, setFilterValue
     const [skills, setSkills] = useState();
     const [isShown, setIsShown] = useState(false);
 
-    useEffect(() => {console.log('filterValues: ', filterValueKey)}, [filterValueKey])
-
     const node = useRef();
 
     useEffect(() => {fetchSkills()}, []);

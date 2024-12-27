@@ -3,9 +3,6 @@ import InitialUl from "./InitialUl";
 
 function PickSkillsCard({ index, obj, isPickMatches, selectedSkills, handleSkillAdd }) {
     const isCategorySelected = obj.skills.some((skill) => selectedSkills.includes(skill));    
-    useEffect(() => {
-        console.log('Is categorySelected:', isCategorySelected)
-    }, [isCategorySelected]);
 
     return(
         <button className={`relative flex group justify-center items-center p-2.5 text-xs ${isCategorySelected ? 'bg-stone-900' : 'bg-stone-950'} hover:bg-stone-900 text-stone-300 hover:text-stone-400`}>

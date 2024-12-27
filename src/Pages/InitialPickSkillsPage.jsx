@@ -4,7 +4,7 @@ import InitialCardsContainer from '../Components/InitialSignUpComponents/Initial
 
 const PORT = 3000;
 
-function InitialPickSkillsPage({ username }) {
+function InitialPickSkillsPage({ username, setUser }) {
     const [selectedSkills, setSelectedSkills] = useState({
         toTeach: [],
         toLearn: []
@@ -12,47 +12,41 @@ function InitialPickSkillsPage({ username }) {
     
     async function submitSkills() {
         try {
-            await fetch(`http://localhost:${PORT}/pick-skills`, {
+            const response = await fetch(`http://localhost:${PORT}/pick-skills`, {
                 method: 'POST',
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ ...selectedSkills, username: username })
             });
+            console.log(await response.json());
+            setUser({ username: username });
+            localStorage.setItem('user', username);
         } catch(err) {
             console.error(err);
-        }
+        };
     };
 
     function handleLearnSkillAdd(skillName) {
-            setSelectedSkills(prev => {
-                const isSelected = prev.toLearn.includes(skillName);
-                const updatedToLearn = isSelected ? prev.toLearn.filter((skill) => skill !== skillName)
-                                                  : [...prev.toLearn, skillName];
-                return {
-                    ...prev,
-                    toLearn: updatedToLearn
-                };
-            });
+        setSelectedSkills(prev => {
+            const isSelected = prev.toLearn.includes(skillName);
+            const updatedToLearn = isSelected ? prev.toLearn.filter((skill) => skill !== skillName)
+                                                : [...prev.toLearn, skillName];
+            return {
+                ...prev,
+                toLearn: updatedToLearn
+            };
+        });
     };
 
     function handleTeachSkillAdd(skillName) {
-        if(selectedSkills.toTeach.includes(skillName) || selectedSkills.toTeach == []) {
-            setSelectedSkills(prev => {
-                let newObj = {};
-                const newArray = [...prev.toTeach];
-                const indexOfSkillName = selectedSkills.toTeach.indexOf(skillName);
-                newArray.splice(indexOfSkillName, 1);
-                newObj = {
-                    toLearn: prev.toLearn,
-                    toTeach: newArray
-                };
-                return newObj;
-            });
-        } else {
-            setSelectedSkills(prev => ({
-                toLearn: prev.toLearn,
-                toTeach: [...prev.toTeach, skillName]
-            }));
-        };
+        setSelectedSkills(prev => {
+            const isSelected = prev.toTeach.includes(skillName);
+            const updatedToTeach = isSelected ? prev.toTeach.filter((skill) => skill !== skillName)
+                                              : [...prev.toTeach, skillName];
+            return {
+                ...prev,
+                toTeach: updatedToTeach
+            };
+        });
     };
     return(
         <div className='p-5 bg-slate-100'>
@@ -62,8 +56,8 @@ function InitialPickSkillsPage({ username }) {
                     <InitialCardsContainer isPickMatches={false} handleSkillAdd={handleTeachSkillAdd} selectedSkills={selectedSkills.toTeach} contentHeader='Pick the skills you would like to teach' />
                 <div className='self-end flex w-1/4'>
                     <button className='w-1/2 mr-5 p-2.5 border'>Skip</button>
-                    <Link to='/pick-matches'>
-                        <button onClick={() => submitSkills()} className='w-1/2 p-2.5 border'>Submit</button>
+                    <Link to='/' onClick={() => submitSkills()}>
+                        <button className='w-1/2 p-2.5 border'>Submit</button>
                     </Link>
                 </div>
             </main>

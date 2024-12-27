@@ -13,9 +13,11 @@ function PickSkillsContainer({ handleSkillAdd, selectedSkills, isPickMatches }) 
   async function fetchSkills() {
     const response = await fetch(`http://localhost:3000/fetch-skills`);
     const data = await response.json();
-    if(Array.isArray(data.data) && data.data.length > 0) {
-      setSkills(data.data);
+    if(data.data.length === 0) {
+      console.error(data)
+      return;
     };
+    setSkills(data.data);
   };
 
   return(

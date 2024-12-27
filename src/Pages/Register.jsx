@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react';
 import Input from '../Components/Input';
 import { Link } from 'react-router-dom';
 
@@ -26,7 +25,7 @@ function SignUp({ setNewUserData, newUserData }) {
         // if(data.message.includes('Welcome')) {
         //     setIsRegistrationComplete(true)
         // };
-        console.log('Registered user: ', data);
+        console.log(data);
     };
 
     return(
