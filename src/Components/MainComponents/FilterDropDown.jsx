@@ -1,13 +1,13 @@
 import { useEffect, useRef } from 'react';
+import FilterCategories from './FilterCategories';
 
 function FilterDropDown({ isShown, setIsShown, setFilterValues, filterValueKey, options }) {    
 
     let mappedOptions;
-
-    if(filterValueKey === 'toLearn' || filterValueKey === 'toTeach') {
+    if(filterValueKey === 'toLearnCategory' || filterValueKey === 'toTeachCategory') {
         mappedOptions = options.map(el => {
             return(
-                <h3 className='p-5 text-sm hover:bg-stone-700 hover:cursor-pointer' key={el.category} onClick={() => handleFilterValueClick(el.category)}>{el.category}</h3>
+                <FilterCategories key={el.category} category={el.category} handleFilterValueClick={handleFilterValueClick} />
             )
         });
     } else {

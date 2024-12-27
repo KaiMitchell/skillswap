@@ -23,6 +23,18 @@ function MainFilterDropDownComponent({ filterTitle, filterValues, setFilterValue
     let options = [];
 
     switch(filterTitle) {
+        case `Pick from ${filterValues.toLearnCategory}`:
+        case `Pick from ${filterValues.toTeachCategory}`:
+            if(Array.isArray(skills) && skills.length > 0) {
+                options = skills.skills;
+            };
+            break;
+        case 'Learning category':
+        case 'Teaching category':
+            if(Array.isArray(skills) && skills.length > 0) {
+                options = skills;
+            };
+            break;
         case 'Your gender':
             options = ['Female', 'Male', 'Other'];
             break;  
@@ -31,16 +43,6 @@ function MainFilterDropDownComponent({ filterTitle, filterValues, setFilterValue
             break;
         case 'Online / In Person':
             options = ['Online', 'In Person'];
-            break;
-        case 'You want to learn':
-            if(Array.isArray(skills) && skills.length > 0) {
-                options = skills;
-            };
-            break;
-        case 'You can teach':
-            if(Array.isArray(skills) && skills.length > 0) {
-                options = skills;
-            };
             break;
     };
 

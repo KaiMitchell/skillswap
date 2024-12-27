@@ -4,7 +4,7 @@ import MainProfileCardsSection from '../Components/MainComponents/MainProfileCar
 function Main({ profiles }) {   
 
     return(
-        <main className='px-5'>
+        <main className='px-5 h-64'>
             <MainSearchSection />
             <MainProfileCardsSection profiles={profiles} />
         </main>
