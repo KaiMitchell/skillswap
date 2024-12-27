@@ -5,9 +5,9 @@ function FilterDropDown({ isShown, setIsShown, setFilterValues, filterValueKey, 
     let mappedOptions;
 
     if(filterValueKey === 'toLearn' || filterValueKey === 'toTeach') {
-        mappedOptions = Object.keys(options).map(category => {
+        mappedOptions = options.map(el => {
             return(
-                <h3 className='p-5 text-sm hover:bg-stone-700 hover:cursor-pointer' key={category} onClick={() => handleFilterValueClick(category)}>{category}</h3>
+                <h3 className='p-5 text-sm hover:bg-stone-700 hover:cursor-pointer' key={el.category} onClick={() => handleFilterValueClick(el.category)}>{el.category}</h3>
             )
         });
     } else {
