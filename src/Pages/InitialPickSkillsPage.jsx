@@ -23,24 +23,15 @@ function InitialPickSkillsPage({ username }) {
     };
 
     function handleLearnSkillAdd(skillName) {
-        if(selectedSkills.toLearn.includes(skillName) || selectedSkills.toLearn == []) {
             setSelectedSkills(prev => {
-                let newObj = {};
-                const newArray = [...prev.toLearn];
-                const indexOfSkillName = selectedSkills.toLearn.indexOf(skillName);
-                newArray.splice(indexOfSkillName, 1);
-                newObj = {
-                    toTeach: prev.toTeach,
-                    toLearn: newArray
+                const isSelected = prev.toLearn.includes(skillName);
+                const updatedToLearn = isSelected ? prev.toLearn.filter((skill) => skill !== skillName)
+                                                  : [...prev.toLearn, skillName];
+                return {
+                    ...prev,
+                    toLearn: updatedToLearn
                 };
-                return newObj;
             });
-        } else {
-            setSelectedSkills(prev => ({
-                toTeach: prev.toTeach,
-                toLearn: [...prev.toLearn, skillName]
-            }));
-        };
     };
 
     function handleTeachSkillAdd(skillName) {
