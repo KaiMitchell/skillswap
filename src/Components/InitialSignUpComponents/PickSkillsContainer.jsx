@@ -19,7 +19,7 @@ function PickSkillsContainer({ handleSkillAdd, selectedSkills, isPickMatches }) 
   };
 
   return(
-    <div className='flex h-96 p-5 bg-black rounded-md'>
+    <div className='relative flex h-96 p-5 bg-black max-w-full rounded-md overflow-x-auto'>
       {skills?.map((obj, index) => {   
           return(
               <PickSkillsCard  key={index}  index={index} isPickMatches={isPickMatches} obj={obj} selectedSkills={selectedSkills} handleSkillAdd={handleSkillAdd} />
