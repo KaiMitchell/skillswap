@@ -1,19 +1,9 @@
 import { useState, useEffect } from 'react';
 
-function PickSkillList({ index, handleSkillAdd, skill, selectedSkills }) {
-    const [isSelected, setIsSelected] = useState(false);
-
-    let backgroundHover;
-    if(index % 2 === 0 && !isSelected && !selectedSkills.includes(skill)) {
-        backgroundHover = 'hover:bg-red-500';
-    } else if(index % 2 !== 0 && !isSelected && !selectedSkills.includes(skill)) {
-        backgroundHover = 'hover:bg-stone-600';
-    } else if(isSelected || selectedSkills.includes(skill)) {
-        backgroundHover = 'hover:bg-green-600';
-    };
+function PickSkillList({ handleSkillAdd, skill, selectedSkills }) {
 
     return(
-        <li onClick={() => handleSkillAdd(skill)} className={`py-2.5 ${isSelected || selectedSkills.includes(skill) ? 'bg-green-500' : ''} ${backgroundHover} w-full cursor-pointer`}>
+        <li onClick={() => handleSkillAdd(skill)} className={`py-2.5 ${selectedSkills.includes(skill) ? 'bg-green-500' : ''} ${selectedSkills.includes(skill) ? 'hover:bg-green-500' : 'hover:bg-stone-950'} ${selectedSkills.includes(skill) ? 'bg-green-600' : ''} ${selectedSkills.includes(skill) ? 'text-stone-900' : 'stone-300'} cursor-pointer`}>
             {skill}
         </li>
     );
