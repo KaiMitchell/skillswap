@@ -7,6 +7,8 @@ function MainFilterDropDownContainer() {
     const [filterValues, setFilterValues] = useState({
         toLearnCategory: '',
         toTeachCategory: '',
+        toLearn: '',
+        toTeach: '',
         yourGender: '',
         preferredGender: '',
         meetUp: ''
@@ -23,7 +25,7 @@ function MainFilterDropDownContainer() {
     }, [filterValues]);
 
     return(
-        <div className=''>
+        <div className='w-full flex flex-col '>
             <div className='flex gap-2.5'>
                 <MainFilterDropDownComponent filterValues={filterValues} setFilterValues={setFilterValues} filterValueKey='toLearnCategory' filterTitle='Learning category' />
                 <MainFilterDropDownComponent filterValues={filterValues} setFilterValues={setFilterValues} filterValueKey='toTeachCategory' filterTitle='Teaching category' />
@@ -31,9 +33,9 @@ function MainFilterDropDownContainer() {
                 <MainFilterDropDownComponent filterValues={filterValues} setFilterValues={setFilterValues} filterValueKey='PreferredGender' filterTitle='Gender preference' />
                 <MainFilterDropDownComponent filterValues={filterValues} setFilterValues={setFilterValues} filterValueKey='meetUp' filterTitle='Online / In Person' />
             </div>
-            <div className='flex gap-2.5'>
-            {isToLearnSkillsDropDown && <MainFilterDropDownComponent filterValues={filterValues} setFilterValues={setFilterValues} filterValueKey='toLearn' filterTitle={`Pick from ${filterValues.toLearnCategory}`} />}
-            {isToTeachSkillsDropDown && <MainFilterDropDownComponent filterValues={filterValues} setFilterValues={setFilterValues} filterValueKey='toTeach' filterTitle={`Pick from ${filterValues.toTeachCategory}`} />}
+            <div className='flex gap-2.5 w-full'>
+                {isToLearnSkillsDropDown && <MainFilterDropDownComponent filterValues={filterValues} setFilterValues={setFilterValues} filterValueKey='toLearn' filterTitle={`${filterValues.toLearnCategory}`} isSkillsDropDown={true} />}
+                {isToTeachSkillsDropDown && <MainFilterDropDownComponent filterValues={filterValues} setFilterValues={setFilterValues} filterValueKey='toTeach' filterTitle={`${filterValues.toTeachCategory}`} isSkillsDropDown={true} />}
             </div>
         </div>
     );

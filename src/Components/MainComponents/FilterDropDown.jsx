@@ -1,14 +1,23 @@
 import { useEffect, useRef } from 'react';
-import FilterCategories from './FilterCategories';
+import FilterSkill from './filterOption';
 
-function FilterDropDown({ isShown, setIsShown, setFilterValues, filterValueKey, options }) {    
+function FilterDropDown({ isShown, setIsShown, setFilterValues, filterValueKey, options, isSkillsDropDown, filterTitle }) {    
 
     let mappedOptions;
     if(filterValueKey === 'toLearnCategory' || filterValueKey === 'toTeachCategory') {
         mappedOptions = options.map(el => {
             return(
-                <FilterCategories key={el.category} category={el.category} handleFilterValueClick={handleFilterValueClick} />
+                <FilterSkill key={el.category} option={el.category} handleFilterValueClick={handleFilterValueClick} />
             )
+        });
+    } else if(isSkillsDropDown) {
+        mappedOptions = options?.map(obj => {
+            if(obj.category === filterTitle) {
+                console.log(obj);
+                return(
+                    obj.skills.map(skill => <FilterSkill key={skill} option={skill} handleFilterValueClick={handleFilterValueClick} />)
+                )
+            };
         });
     } else {
         mappedOptions = options.map(option => {

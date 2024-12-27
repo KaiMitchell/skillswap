@@ -2,9 +2,11 @@ import { useState, useEffect, useRef } from 'react';
 import FilterDropDown from './FilterDropDown.jsx';
 import skills from '../../skillData/skills.js';
 
-function MainFilterDropDownComponent({ filterTitle, filterValues, setFilterValues, filterValueKey }) {
+function MainFilterDropDownComponent({ filterTitle, filterValues, setFilterValues, filterValueKey, isSkillsDropDown }) {
     const [skills, setSkills] = useState();
     const [isShown, setIsShown] = useState(false);
+
+    useEffect(() => {console.log('filterValues: ', filterValueKey)}, [filterValueKey])
 
     const node = useRef();
 
@@ -22,28 +24,24 @@ function MainFilterDropDownComponent({ filterTitle, filterValues, setFilterValue
 
     let options = [];
 
-    switch(filterTitle) {
-        case `Pick from ${filterValues.toLearnCategory}`:
-        case `Pick from ${filterValues.toTeachCategory}`:
-            if(Array.isArray(skills) && skills.length > 0) {
-                options = skills.skills;
-            };
-            break;
-        case 'Learning category':
-        case 'Teaching category':
+    switch(filterValueKey) {
+        case 'toLearnCategory':
+        case 'toTeachCategory':
             if(Array.isArray(skills) && skills.length > 0) {
                 options = skills;
             };
             break;
-        case 'Your gender':
+        case 'yourGender':
             options = ['Female', 'Male', 'Other'];
             break;  
-        case 'Gender preference':
+        case 'PreferredGender':
             options = ['Femal', 'Male', 'Other'];
             break;
-        case 'Online / In Person':
+        case 'meetUp':
             options = ['Online', 'In Person'];
             break;
+        default:
+            options = skills;
     };
 
     async function fetchSkills() {
@@ -60,7 +58,7 @@ function MainFilterDropDownComponent({ filterTitle, filterValues, setFilterValue
         <div ref={node} onClick={() => {setIsShown(!isShown)}} className='relative h-16 w-1/5 px-5 py-2.5 rounded-lg bg-stone-900 hover:bg-stone-800 text-stone-200 cursor-pointer'>
             <h3 className='text-xs mb-2.5'>{filterTitle}</h3>
             <p className='text-sm'>{filterValues[filterValueKey]}</p>
-            <FilterDropDown filterValueKey={filterValueKey} isShown={isShown} setIsShown={setIsShown} setFilterValues={setFilterValues} options={options} />
+            <FilterDropDown filterValueKey={filterValueKey} isShown={isShown} setIsShown={setIsShown} setFilterValues={setFilterValues} options={options} isSkillsDropDown={isSkillsDropDown} filterTitle={filterTitle} />
         </div>
     );
 };
