@@ -55,7 +55,7 @@ function MainFilterDropDownComponent({ filterTitle, filterValues, setFilterValue
     };
     
     return(
-        <div ref={node} onClick={() => {setIsShown(!isShown)}} className='relative h-16 w-1/5 px-5 py-2.5 rounded-lg bg-stone-900 hover:bg-stone-800 text-stone-200 cursor-pointer'>
+        <div ref={node} onClick={() => {setIsShown(!isShown)}} className='relative min-h-20 h-fit w-44 px-5 py-2.5 rounded-lg bg-stone-900 hover:bg-stone-800 text-stone-200 cursor-pointer'>
             <h3 className='text-xs mb-2.5'>{filterTitle}</h3>
             <p className='text-sm'>{filterValues[filterValueKey]}</p>
             <FilterDropDown filterValueKey={filterValueKey} isShown={isShown} setIsShown={setIsShown} setFilterValues={setFilterValues} options={options} isSkillsDropDown={isSkillsDropDown} filterTitle={filterTitle} />
