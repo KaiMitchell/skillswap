@@ -1,7 +1,12 @@
 import ProfileCardMobileComponents from "./ProfileCardMobileComponents";
 
 function ProfileCardMain({ name, skills }) {
-    const skill = skills[0];
+    let skill;
+    if(Array.isArray(skills) && skills.length > 0) {
+        skill = skills[0];
+    } else {
+        skill = 'null';
+    };
     return(
         <div className='relative bg-stone-700 bg-contain h-64 w-full bg-center'>
             <div className='w-1/2 sm:w-full h-full absolute right-0'>

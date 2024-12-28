@@ -94,8 +94,6 @@ app.post('/', async(req, res) => {
             };
         });
 
-        console.log('data: ', data);
-
         res.status(200).send({ data: data });
     } catch(err) {
         console.error(err);
@@ -323,7 +321,7 @@ app.get('/fetch-filtered-profiles', async(req, res) => {
         toLearnMatches.rows.forEach(result => {
             data.push(result);
         });
-
+        console.log(data);
         res.status(200).json({ data: data });
     } catch(err) {
         console.error(err.stack);
