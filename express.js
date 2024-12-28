@@ -298,7 +298,7 @@ app.get('/fetch-filtered-profiles', async(req, res) => {
             `
              SELECT u.username, ARRAY_AGG(s.name) to_learn FROM users u
              JOIN users_skills us ON us.user_id = u.id
-             JOIN skills s ON us.skill_to_learn_id = s.id
+             JOIN skills s ON us.is_learning = true
              WHERE s.name = $1
              GROUP BY u.username;
             `, [skill]
@@ -308,7 +308,7 @@ app.get('/fetch-filtered-profiles', async(req, res) => {
             `
              SELECT u.username, ARRAY_AGG(s.name) to_teach FROM users u
              JOIN users_skills us ON us.user_id = u.id
-             JOIN skills s ON us.skill_to_teach_id = s.id
+             JOIN skills s ON us.is_teaching = true
              WHERE s.name = $1
              GROUP BY u.username;
             `, [skill]

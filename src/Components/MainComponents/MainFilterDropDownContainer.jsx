@@ -36,19 +36,14 @@ function MainFilterDropDownContainer({ skills }) {
                         <MainFilterDropDownComponent key={key} skills={skills} filterValues={filterValues} setFilterValues={setFilterValues} filterValueKey={key} filterTitle={filterTitles[index]} />
                     );
                 })}
-                {/* <MainFilterDropDownComponent filterValues={filterValues} setFilterValues={setFilterValues} filterValueKey='toLearnCategory' filterTitle='Learning category' />
-                <MainFilterDropDownComponent filterValues={filterValues} setFilterValues={setFilterValues} filterValueKey='toTeachCategory' filterTitle='Teaching category' />
-                <MainFilterDropDownComponent filterValues={filterValues} setFilterValues={setFilterValues} filterValueKey='yourGender' filterTitle='Your gender' />
-                <MainFilterDropDownComponent filterValues={filterValues} setFilterValues={setFilterValues} filterValueKey='PreferredGender' filterTitle='Gender preference' />
-                <MainFilterDropDownComponent filterValues={filterValues} setFilterValues={setFilterValues} filterValueKey='meetUp' filterTitle='Online / In Person' /> */}
             </div>
             <div className='flex gap-2.5'>
                 <div className={`${isToLearnSkillsDropDown ? 'opacity-100' : 'opacity-0'}`}>
-                    <MainFilterDropDownComponent filterValues={filterValues} setFilterValues={setFilterValues} filterValueKey='toLearn' filterTitle={`${filterValues.toLearnCategory}`} isSkillsDropDown={true} />
+                    <MainFilterDropDownComponent filterValues={filterValues} skills={skills} setFilterValues={setFilterValues} filterValueKey='toLearn' filterTitle={`${filterValues.toLearnCategory}`} isSkillsDropDown={true} />
                     <h2>To learn</h2>
                 </div>
                 <div className={`${isToTeachSkillsDropDown ? 'opacity-100' : 'opacity-0'}`}>
-                    <MainFilterDropDownComponent filterValues={filterValues} setFilterValues={setFilterValues} filterValueKey='toTeach' filterTitle={`${filterValues.toTeachCategory}`} isSkillsDropDown={true} />
+                    <MainFilterDropDownComponent filterValues={filterValues} skills={skills} setFilterValues={setFilterValues} filterValueKey='toTeach' filterTitle={`${filterValues.toTeachCategory}`} isSkillsDropDown={true} />
                     <h2>To teach</h2>
                 </div>
             </div>

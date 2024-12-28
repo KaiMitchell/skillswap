@@ -28,7 +28,7 @@ function MainFilterDropDownComponent({ skills, filterTitle, filterValues, setFil
         case 'yourGender':
             options = ['Female', 'Male', 'Other'];
             break;  
-        case 'PreferredGender':
+        case 'preferredGender':
             options = ['Femal', 'Male', 'Other'];
             break;
         case 'meetUp':
@@ -36,16 +36,10 @@ function MainFilterDropDownComponent({ skills, filterTitle, filterValues, setFil
             break;
     };
 
-    // async function fetchSkills() {
-    //     const response = await fetch('http://localhost:3000/fetch-skills');
-    //     const data = await response.json();
-    //     if(Array.isArray(data.data) && data.data.length > 0) {
-    //         setSkills(data.data);
-    //     } else {
-    //         console.error('No data');
-    //     };
-    // };
-    
+    if(isSkillsDropDown) {
+        options = skills;
+    }
+
     return(
         <div ref={node} onClick={() => {setIsShown(!isShown)}} className='relative min-h-20 h-fit w-44 px-5 py-2.5 rounded-lg bg-stone-900 hover:bg-stone-800 text-stone-200 cursor-pointer'>
             <h3 className='text-xs mb-2.5'>{filterTitle}</h3>

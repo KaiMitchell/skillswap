@@ -2,9 +2,8 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import HeaderDropDown from './HeaderDropDown';
 
-function HeaderButton({ skills, text, path, setUser, clickAction, isLink, canHover, category, showRight, setFilter }) {
+function HeaderButton({ obj, text, path, setUser, clickAction, isLink, canHover, category, showRight, setFilter }) {
     const [isShown, setIsShown] = useState(false);
-
     function handleClick() {
         switch(clickAction) {
             case 'sign out':
@@ -40,7 +39,7 @@ function HeaderButton({ skills, text, path, setUser, clickAction, isLink, canHov
                     <button onClick={() => handleClick()} className='sm:mb-0 w-full sm:px-10 text-xl sm:text-xs text-white'>
                         {text}
                     </button>
-                    {canHover && <HeaderDropDown skills={skills} isShown={isShown} setIsShown={setIsShown} category={category} showRight={showRight} setFilter={setFilter} />}
+                    {canHover && <HeaderDropDown obj={obj} isShown={isShown} setIsShown={setIsShown} category={category} showRight={showRight} setFilter={setFilter} />}
                 </div>
     )
 };

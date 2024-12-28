@@ -24,8 +24,9 @@ function App() {
   const [profiles, setProfiles] = useState([]);
   const [isSettings, setIsSettings] = useState(false);
 
+  useEffect(() => {fetchSkills()}, []);
+
   useEffect(() => {
-    fetchSkills();
     if(filter) {
       filterProfiles(filter);
     } else {
@@ -41,17 +42,13 @@ function App() {
           body: JSON.stringify({ username: user.username })
       });
       const data = await response.json();
-      console.log(data);
+      // console.log(data);
       setProfiles(data.data);
   };
 
   async function fetchSkills() {
     const response = await fetch(`http://localhost:3000/fetch-skills`);
     const data = await response.json();
-    if(data.data.length === 0) {
-      console.error(data)
-      return;
-    };
     setSkills(data.data);
   };
 
@@ -60,6 +57,7 @@ function App() {
       const response = await fetch(`http://${backendURL}/fetch-filtered-profiles?skill=${filter.skill}&category=${filter.category}`);
       const data = await response.json();
       const results = data.data;
+      console.log(results);   
       if(Array.isArray(results) && results.length === 0) {
         console.log('No Data');
         fetchProfiles();
