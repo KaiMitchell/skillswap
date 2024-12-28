@@ -11,6 +11,7 @@ import SettingsModal from './Components/SettingsModal/SettingsModal.jsx';
 const backendURL = 'localhost:3000';
 
 function App() {
+  const [skills, setSkills] = useState();
   const [newUserData, setNewUserData] = useState({
     username: '',
     email: '',
@@ -24,6 +25,7 @@ function App() {
   const [isSettings, setIsSettings] = useState(false);
 
   useEffect(() => {
+    fetchSkills();
     if(filter) {
       filterProfiles(filter);
     } else {
@@ -41,6 +43,16 @@ function App() {
       const data = await response.json();
       console.log(data);
       setProfiles(data.data);
+  };
+
+  async function fetchSkills() {
+    const response = await fetch(`http://localhost:3000/fetch-skills`);
+    const data = await response.json();
+    if(data.data.length === 0) {
+      console.error(data)
+      return;
+    };
+    setSkills(data.data);
   };
 
   async function filterProfiles(filter) {
@@ -61,12 +73,12 @@ function App() {
 
   return(
     <BrowserRouter>
-        <Header username={user.username} fetchProfiles={fetchProfiles} setUser={setUser} setFilter={setFilter} setIsSettings={setIsSettings} />
+        <Header skills={skills} username={user.username} fetchProfiles={fetchProfiles} setUser={setUser} setFilter={setFilter} setIsSettings={setIsSettings} />
         <SettingsModal isSettings={isSettings} setIsSettings={setIsSettings} />
       <Routes>  
         <Route path='/' element={<Home />} />
-        <Route index element={<Home profiles={profiles} />} />
-        <Route path='pick-skills' element={<InitialPickSkillsPage username={newUserData.username} setUser={setUser} />} />
+        <Route index element={<Home profiles={profiles} skills={skills} />} />
+        <Route path='pick-skills' element={<InitialPickSkillsPage skills={skills} username={newUserData.username} setUser={setUser} />} />
         <Route path='pick-matches' element={<InitialPickMatchesPage setNewUserData={setNewUserData} newUserData={newUserData} />} />
         <Route path="register" element={<Register setNewUserData={setNewUserData} newUserData={newUserData} />} />
         <Route path="sign-in" element={<SignIn setUser={setUser} username={user.username} />} />

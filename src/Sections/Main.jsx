@@ -1,11 +1,10 @@
 import MainSearchSection from '../Components/MainComponents/MainSearchComponent';
 import MainProfileCardsSection from '../Components/MainComponents/MainProfileCardsSection';
 
-function Main({ profiles }) {   
-    console.log(profiles);
+function Main({ profiles, skills }) {   
     return(
-        <main className='px-5 h-64'>
-            <MainSearchSection />
+        <main className='px-5 h-72'>
+            <MainSearchSection  skills={skills} />
             <MainProfileCardsSection profiles={profiles} />
         </main>
     );

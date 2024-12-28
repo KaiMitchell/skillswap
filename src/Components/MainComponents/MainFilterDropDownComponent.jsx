@@ -1,14 +1,10 @@
 import { useState, useEffect, useRef } from 'react';
 import FilterDropDown from './FilterDropDown.jsx';
-import skills from '../../skillData/skills.js';
 
-function MainFilterDropDownComponent({ filterTitle, filterValues, setFilterValues, filterValueKey, isSkillsDropDown }) {
-    const [skills, setSkills] = useState();
+function MainFilterDropDownComponent({ skills, filterTitle, filterValues, setFilterValues, filterValueKey, isSkillsDropDown }) {
     const [isShown, setIsShown] = useState(false);
 
     const node = useRef();
-
-    useEffect(() => {fetchSkills()}, []);
     useEffect(() => {
         document.addEventListener('mousedown', handleOutSideClick);
         return () => document.removeEventListener('mousedown', handleOutSideClick);
@@ -38,19 +34,17 @@ function MainFilterDropDownComponent({ filterTitle, filterValues, setFilterValue
         case 'meetUp':
             options = ['Online', 'In Person'];
             break;
-        default:
-            options = skills;
     };
 
-    async function fetchSkills() {
-        const response = await fetch('http://localhost:3000/fetch-skills');
-        const data = await response.json();
-        if(Array.isArray(data.data) && data.data.length > 0) {
-            setSkills(data.data);
-        } else {
-            console.error('No data');
-        };
-    };
+    // async function fetchSkills() {
+    //     const response = await fetch('http://localhost:3000/fetch-skills');
+    //     const data = await response.json();
+    //     if(Array.isArray(data.data) && data.data.length > 0) {
+    //         setSkills(data.data);
+    //     } else {
+    //         console.error('No data');
+    //     };
+    // };
     
     return(
         <div ref={node} onClick={() => {setIsShown(!isShown)}} className='relative min-h-20 h-fit w-44 px-5 py-2.5 rounded-lg bg-stone-900 hover:bg-stone-800 text-stone-200 cursor-pointer'>

@@ -1,9 +1,9 @@
 import Main from "../Sections/Main";
 
-function Home({ profiles }) {
+function Home({ profiles, skills }) {
     return(
         <div className='bg-slate-100'>
-            <Main profiles={profiles} />
+            <Main profiles={profiles} skills={skills} />
         </div>
     );
 }

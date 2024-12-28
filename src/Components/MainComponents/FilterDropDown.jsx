@@ -5,22 +5,24 @@ function FilterDropDown({ isShown, setIsShown, setFilterValues, filterValueKey, 
 
     let mappedOptions;
     if(filterValueKey === 'toLearnCategory' || filterValueKey === 'toTeachCategory') {
-        mappedOptions = options.map(el => {
+        mappedOptions = options?.map((obj, index) => {
             return(
-                <FilterSkill key={el.category} option={el.category} handleFilterValueClick={handleFilterValueClick} />
+                <FilterSkill key={index} option={obj.category} handleFilterValueClick={handleFilterValueClick} />
             )
         });
     } else if(isSkillsDropDown) {
-        mappedOptions = options?.map(obj => {
+        mappedOptions = options?.map((obj) => {
             if(obj.category === filterTitle) {
-                console.log(obj);
-                return(
-                    obj.skills.map(skill => <FilterSkill key={skill} option={skill} handleFilterValueClick={handleFilterValueClick} />)
-                )
+                    obj.skills?.map((skill, index) => {
+                        console.log(skill);
+                        return(
+                            <FilterSkill key={index} option={skill} handleFilterValueClick={handleFilterValueClick} />
+                        );
+                    });
             };
         });
     } else {
-        mappedOptions = options.map(option => {
+        mappedOptions = options?.map((option) => {
             return <p key={option} onClick={() => handleFilterValueClick(option)} className='p-5 hover:bg-stone-700 hover:cursor-pointer'>{option}</p>
         });
     };
