@@ -5,7 +5,7 @@ function ProfileCardMain({ name, skills }) {
     if(Array.isArray(skills) && skills.length > 0) {
         skill = skills[0];
     } else {
-        skill = 'null';
+        skill = skills;
     };
     return(
         <div className='relative bg-stone-700 bg-contain h-64 w-full bg-center'>

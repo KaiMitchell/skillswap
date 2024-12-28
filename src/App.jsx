@@ -23,26 +23,30 @@ function App() {
   const [filter, setFilter] = useState();
   const [profiles, setProfiles] = useState([]);
   const [isSettings, setIsSettings] = useState(false);
+  const [isFiltered, setIsFiltered] = useState(false);
 
   useEffect(() => {fetchSkills()}, []);
+  useEffect(() => {console.log(`isFiltered state changed on render: ${isFiltered}`)}, [isFiltered]);
 
   useEffect(() => {
     if(filter) {
       filterProfiles(filter);
     } else {
+      setIsFiltered(false);
       fetchProfiles();
     }
   }, [user, filter]);
 
   async function fetchProfiles() {
-      const response = await fetch(`http://${backendURL}`, {
-          method: 'POST',
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ username: user.username })
-      });
-      const data = await response.json();
-      // console.log(data);
-      setProfiles(data.data);
+    setFilter();
+    const response = await fetch(`http://${backendURL}`, {
+        method: 'POST',
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username: user.username })
+    });
+    const data = await response.json();
+    // console.log(data);
+    setProfiles(data.data);
   };
 
   async function fetchSkills() {
@@ -56,10 +60,11 @@ function App() {
       const response = await fetch(`http://${backendURL}/fetch-filtered-profiles?skill=${filter.skill}&category=${filter.category}`);
       const data = await response.json();
       const results = data.data;
-      if(Array.isArray(results) && results.length === 0) {
-        console.log('No Data');
-        fetchProfiles();
+      if(data.noData) {
+        console.log(data.noData);
+        return;
       } else {
+        setIsFiltered(true);
         setProfiles(results);
       };
     } catch(err) {
@@ -73,7 +78,7 @@ function App() {
         <SettingsModal isSettings={isSettings} setIsSettings={setIsSettings} />
       <Routes>  
         <Route path='/' element={<Home />} />
-        <Route index element={<Home profiles={profiles} skills={skills} />} />
+        <Route index element={<Home profiles={profiles} skills={skills} isFiltered={isFiltered} />} />
         <Route path='pick-skills' element={<InitialPickSkillsPage skills={skills} username={newUserData.username} setUser={setUser} />} />
         <Route path='pick-matches' element={<InitialPickMatchesPage setNewUserData={setNewUserData} newUserData={newUserData} />} />
         <Route path="register" element={<Register setNewUserData={setNewUserData} newUserData={newUserData} />} />

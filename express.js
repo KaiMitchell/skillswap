@@ -287,7 +287,7 @@ app.post('/register', async(req, res) => {
 app.get('/fetch-filtered-profiles', async(req, res) => {
     const { skill, category } = req.query;
     if(skill === undefined && category === undefined) {
-        res.status(501).json({ error: 'No matches' });
+        res.status(501).json({ error: 'No skill or category found' });
         return;
     };
 
@@ -313,7 +313,7 @@ app.get('/fetch-filtered-profiles', async(req, res) => {
         );
 
         if(toLearnMatches.rows.length === 0 && toTeachMatches.rows.length === 0) {
-            res.status(404).json({ error: 'No data' });
+            res.status(404).json({ noData: 'No data' });
             return;
         };
 
@@ -321,7 +321,6 @@ app.get('/fetch-filtered-profiles', async(req, res) => {
         toLearnMatches.rows.forEach(result => {
             data.push(result);
         });
-        console.log(data);
         res.status(200).json({ data: data });
     } catch(err) {
         console.error(err.stack);
