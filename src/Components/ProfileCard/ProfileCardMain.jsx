@@ -1,6 +1,7 @@
 import ProfileCardMobileComponents from "./ProfileCardMobileComponents";
 
-function ProfileCardMain({ name, skill }) {
+function ProfileCardMain({ name, skills }) {
+    const skill = skills[0];
     return(
         <div className='relative bg-stone-700 bg-contain h-64 w-full bg-center'>
             <div className='w-1/2 sm:w-full h-full absolute right-0'>

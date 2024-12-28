@@ -68,9 +68,9 @@ app.post('/', async(req, res) => {
              SELECT u.username, ARRAY_AGG(s.name) to_learn FROM users u
              JOIN users_skills us ON u.id = us.user_id
              JOIN skills s ON s.id = us.skill_id
-             WHERE u.username != $1
-             GROUP BY u.username
-             ORDER BY u.username
+             WHERE us.is_learning = true AND u.username != $1
+             GROUP BY u.id
+             ORDER BY u.id
             `, [username]
         );
 
@@ -79,9 +79,9 @@ app.post('/', async(req, res) => {
              SELECT u.username, ARRAY_AGG(s.name) to_teach FROM users u
              JOIN users_skills us ON u.id = us.user_id
              JOIN skills s ON s.id = us.skill_id
-             WHERE u.username != $1
-             GROUP BY u.username
-             ORDER BY u.username
+             WHERE us.is_teaching = true AND u.username != $1
+             GROUP BY u.id
+             ORDER BY u.id
             `, [username]
         );
     
@@ -93,6 +93,8 @@ app.post('/', async(req, res) => {
                 };
             };
         });
+
+        console.log('data: ', data);
 
         res.status(200).send({ data: data });
     } catch(err) {
@@ -296,26 +298,21 @@ app.get('/fetch-filtered-profiles', async(req, res) => {
 
         const toLearnMatches = await client.query(
             `
-             SELECT u.username, ARRAY_AGG(s.name) to_learn FROM users u
+             SELECT u.username, s.name, us.is_learning, us.is_teaching FROM users u
              JOIN users_skills us ON us.user_id = u.id
-             JOIN skills s ON us.is_learning = true
-             WHERE s.name = $1
-             GROUP BY u.username;
+             JOIN skills s ON us.skill_id = s.id
+             WHERE us.is_learning = true AND s.name = $1
             `, [skill]
         );
 
         const toTeachMatches = await client.query(
             `
-             SELECT u.username, ARRAY_AGG(s.name) to_teach FROM users u
+             SELECT u.username, s.name, us.is_teaching, us.is_learning FROM users u
              JOIN users_skills us ON us.user_id = u.id
-             JOIN skills s ON us.is_teaching = true
-             WHERE s.name = $1
-             GROUP BY u.username;
+             JOIN skills s ON us.skill_id = s.id
+             WHERE us.is_teaching = true AND s.name = $1
             `, [skill]
         );
-
-        console.log(toTeachMatches);
-        console.log(toLearnMatches);
 
         if(toLearnMatches.rows.length === 0 && toTeachMatches.rows.length === 0) {
             res.status(404).json({ error: 'No data' });
@@ -324,11 +321,9 @@ app.get('/fetch-filtered-profiles', async(req, res) => {
 
         toTeachMatches.rows.forEach(result => data.push(result));
         toLearnMatches.rows.forEach(result => {
-            for(const item of data) {
-                item.to_learn = result.to_learn;
-            };
+            data.push(result);
         });
-        console.log(data);
+
         res.status(200).json({ data: data });
     } catch(err) {
         console.error(err.stack);

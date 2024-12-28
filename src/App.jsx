@@ -35,7 +35,6 @@ function App() {
   }, [user, filter]);
 
   async function fetchProfiles() {
-      console.log(user);
       const response = await fetch(`http://${backendURL}`, {
           method: 'POST',
           headers: { "Content-Type": "application/json" },
@@ -57,7 +56,6 @@ function App() {
       const response = await fetch(`http://${backendURL}/fetch-filtered-profiles?skill=${filter.skill}&category=${filter.category}`);
       const data = await response.json();
       const results = data.data;
-      console.log(results);   
       if(Array.isArray(results) && results.length === 0) {
         console.log('No Data');
         fetchProfiles();
