@@ -35,7 +35,8 @@ function App() {
       meetUp: '',
     }
   );
-  const [profiles, setProfiles] = useState([]);
+  const [learnProfiles, setLearnProfiles] = useState([]);
+  const [teachProfiles, setTeachProfiles] = useState([]);
   const [isSettings, setIsSettings] = useState(false);
 
   useEffect(() => {fetchSkills()}, []);
@@ -55,7 +56,9 @@ function App() {
         body: JSON.stringify({ username: user.username })
     });
     const data = await response.json();
-    setProfiles(data.data);
+    console.log(data);
+    setLearnProfiles(data.data.learnProfiles);
+    setTeachProfiles(data.data.teachProfiles);
   };
 
   async function fetchSkills() {
@@ -73,16 +76,16 @@ function App() {
         body: JSON.stringify(reqBody)
       });
       const data = await response.json();
-      const results = data.data;
 
       if(data.noData) {
         console.log(data.noData);
         return;
-      } else if(data.filter === 'main') {
-        console.log(results);
-        setProfiles(results);
-      } else if(data.filter === 'header') {
-        setProfiles(results);
+      } else if(data.filterType === 'main') {
+        setLearnProfiles(data.learnProfiles);
+        setTeachProfiles(data.teachProfiles);
+      } else if(data.filterType === 'header') {
+        setLearnProfiles(data.learnProfiles);
+        setTeachProfiles(data.teachProfiles);
       };
     } catch(err) {
       console.error(err.stack);
@@ -95,7 +98,7 @@ function App() {
         <SettingsModal isSettings={isSettings} setIsSettings={setIsSettings} />
       <Routes>  
         <Route path='/' element={<Home />} />
-        <Route index element={<Home profiles={profiles} filter={mainFilter} skills={skills} setFilter={setMainFilter} whichFilter={whichFilter} setWhichFilter={setWhichFilter} />} />
+        <Route index element={<Home learnProfiles={learnProfiles} teachProfiles={teachProfiles} filter={mainFilter} skills={skills} setFilter={setMainFilter} whichFilter={whichFilter} setWhichFilter={setWhichFilter} />} />
         <Route path='pick-skills' element={<InitialPickSkillsPage skills={skills} username={newUserData.username} setUser={setUser} />} />
         <Route path='pick-matches' element={<InitialPickMatchesPage setNewUserData={setNewUserData} newUserData={newUserData} />} />
         <Route path="register" element={<Register setNewUserData={setNewUserData} newUserData={newUserData} />} />

@@ -61,7 +61,8 @@ app.get('/fetch-skills', async(req, res) => {
 app.post('/', async(req, res) => {
     try {
         const { username } = req.body;
-        const data = [];
+        const learnProfiles = [];
+        const teachProfiles = [];
 
         const toLearn = await client.query(
             `
@@ -85,16 +86,10 @@ app.post('/', async(req, res) => {
             `, [username]
         );
     
-        toTeach.rows.forEach((item) => {data.push(item)});
-        toLearn.rows.forEach((element) => {
-            for(const item of data) {
-                if(item.username === element.username) {
-                    item.to_learn = element.to_learn;
-                };
-            };
-        });
+        toTeach.rows.forEach((row) => teachProfiles.push(row));
+        toLearn.rows.forEach((row) => learnProfiles.push(row));
 
-        res.status(200).send({ data: data });
+        res.status(200).send({ data: {learnProfiles: learnProfiles, teachProfiles: teachProfiles} });
     } catch(err) {
         console.error(err);
     };
@@ -288,19 +283,30 @@ app.post('/fetch-filtered-profiles', async(req, res) => {
     const body = req.body;
     try {
         const { toLearnCategory, toTeachCategory, toLearn, toTeach } = body;
-        const data = [];
+        const learnProfiles = [];
+        const teachProfiles = [];
+
         if(body.mainFilter) {
             const filters = [];
             const groupBy = [];
+
             if(toLearnCategory) {
                 filters.push(`AND c.category = '${toLearnCategory}'`);
                 groupBy.push(`, c.category`);
+            };
+            if(toTeachCategory) {
+                filters.push(`AND c.category = '${toTeachCategory}'`);
+                groupBy.push(', c.category');
+            };
+            if(toTeach) {
+                filters.push(`AND s.name = '${toTeach}'`);
+                groupBy.push(', s.name');
             };
             if(toLearn) {
                 filters.push(`AND s.name = '${toLearn}'`);
                 groupBy.push(`, s.name`);
             };
-            console.log(filters.join(' '));
+
             const toLearnMatches = await client.query(
                 `
                  SELECT u.username, c.category, ARRAY_AGG(s.name) skills, us.is_learning, us.is_teaching FROM users u
@@ -309,48 +315,40 @@ app.post('/fetch-filtered-profiles', async(req, res) => {
                  JOIN categories_skills cs ON cs.skill_id = s.id
                  JOIN categories c ON cs.category_id = c.id
                  WHERE us.is_learning = true ${filters.join(' ')}
-                 GROUP BY u.username, u.id, us.is_learning, us.is_teaching${groupBy.join(' ')}
-                 ORDER BY u.id
+                 GROUP BY u.username, us.is_learning, us.is_teaching${groupBy.join(' ')}
+                 ORDER BY u.username
                 `
             );
 
-            console.log(toLearnCategory);
-    
             const toTeachMatches = await client.query(
                 `
-                 SELECT u.username, s.name, us.is_teaching, us.is_learning FROM users u
+                 SELECT u.username, c.category, ARRAY_AGG(s.name) skills, us.is_teaching, us.is_teaching FROM users u
                  JOIN users_skills us ON us.user_id = u.id
                  JOIN skills s ON us.skill_id = s.id
-                 WHERE us.is_teaching = true AND s.name = $1
-                `, [toTeach]
+                 JOIN categories_skills cs ON cs.skill_id = s.id
+                 JOIN categories c ON cs.category_id = c.id
+                 WHERE us.is_teaching = true ${filters.join(' ')}
+                 GROUP BY u.username, us.is_teaching, us.is_teaching${groupBy.join(' ')}
+                 ORDER BY u.username
+                `
             );
     
-            if(toLearnMatches.rows.length === 0 && toTeachMatches.rows.length === 0) {
+            if(toTeachMatches.rows.length === 0) {
                 res.status(404).json({ noData: 'No data' });
                 return;
             };
     
-            toTeachMatches.rows.forEach(result => data.push(result));
-            toLearnMatches.rows.forEach(result => {
-                data.push(result);
-            });
-        } else if(body.headerFilter) {
+            toLearnMatches.rows.forEach(result => learnProfiles.push(result));
+            toTeachMatches.rows.forEach(result => teachProfiles.push(result));
 
+        } else if(body.headerFilter) {
+            
             const { skill, category } = req.body;
 
             if(skill === undefined && category === undefined) {
                 res.status(501).json({ error: 'No skill or category found' });
                 return;
             };
-
-            const toLearnMatches = await client.query(
-                `
-                 SELECT u.username, s.name, us.is_learning, us.is_teaching FROM users u
-                 JOIN users_skills us ON us.user_id = u.id
-                 JOIN skills s ON us.skill_id = s.id
-                 WHERE us.is_learning = true AND s.name = $1
-                `, [skill]
-            );
     
             const toTeachMatches = await client.query(
                 `
@@ -361,19 +359,22 @@ app.post('/fetch-filtered-profiles', async(req, res) => {
                 `, [skill]
             );
     
-            if(toLearnMatches.rows.length === 0 && toTeachMatches.rows.length === 0) {
+            if(toTeachMatches.rows.length === 0) {
                 res.status(404).json({ noData: 'No data' });
                 return;
             };
     
-            toTeachMatches.rows.forEach(result => data.push(result));
-            toLearnMatches.rows.forEach(result => {
-                data.push(result);
-            });
+            toTeachMatches.rows.forEach(result => teachProfiles.push(result));
         };
-        console.log(data);
+
         const filterType = body.headerFilter ? 'header' : 'main';
-        res.status(200).json({ data: data, filter: filterType });
+        res.status(200).json(
+            { 
+                data: {...teachProfiles, ...learnProfiles}, 
+                learnProfiles: learnProfiles, 
+                teachProfiles: teachProfiles, 
+                filterType: filterType 
+            });
     } catch(err) {
         console.error(err.stack);
     };
