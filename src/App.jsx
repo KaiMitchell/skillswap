@@ -20,32 +20,41 @@ function App() {
   });
   //TODO: add token.
   const [user, setUser] = useState({ username: localStorage.getItem("user") || '' });
-  const [filter, setFilter] = useState();
+  const [whichFilter, setWhichFilter] = useState({
+    headerFilter: false,
+    mainFilter: false
+  });
+  const [headerFilter, setHeaderFilter] = useState();
+  const [mainFilter, setMainFilter] = useState({
+      toLearnCategory: '',
+      toTeachCategory: '',
+      toLearn: '',
+      toTeach: '',
+      yourGender: '',
+      preferredGender: '',
+      meetUp: '',
+    }
+  );
   const [profiles, setProfiles] = useState([]);
   const [isSettings, setIsSettings] = useState(false);
-  const [isFiltered, setIsFiltered] = useState(false);
 
   useEffect(() => {fetchSkills()}, []);
-  useEffect(() => {console.log(`isFiltered state changed on render: ${isFiltered}`)}, [isFiltered]);
-
   useEffect(() => {
-    if(filter) {
-      filterProfiles(filter);
+    if(whichFilter.headerFilter || whichFilter.mainFilter) {
+      filterProfiles();
     } else {
-      setIsFiltered(false);
       fetchProfiles();
     }
-  }, [user, filter]);
+  }, [user, whichFilter]);
 
   async function fetchProfiles() {
-    setFilter();
+    // setFilter(prev => ({...prev, isFilter: false}));
     const response = await fetch(`http://${backendURL}`, {
         method: 'POST',
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ username: user.username })
     });
     const data = await response.json();
-    // console.log(data);
     setProfiles(data.data);
   };
 
@@ -55,30 +64,39 @@ function App() {
     setSkills(data.data);
   };
 
-  async function filterProfiles(filter) {
+  async function filterProfiles() {
+    const reqBody = whichFilter.headerFilter ? { ...headerFilter, headerFilter: true } : { ...mainFilter, mainFilter: true };
     try {
-      const response = await fetch(`http://${backendURL}/fetch-filtered-profiles?skill=${filter.skill}&category=${filter.category}`);
+      const response = await fetch(`http://${backendURL}/fetch-filtered-profiles`, {
+        method: 'POST',
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(reqBody)
+      });
       const data = await response.json();
       const results = data.data;
+
       if(data.noData) {
         console.log(data.noData);
         return;
-      } else {
-        setIsFiltered(true);
+      } else if(data.filter === 'main') {
+        setWhichFilter({ headerFilter: false, mainFilter: true});
+        setProfiles(results);
+      } else if(data.filter === 'header') {
+        setWhichFilter({ headerFilter: true, mainFilter: false});
         setProfiles(results);
       };
     } catch(err) {
-      console.error(err);
+      console.error(err.stack);
     };
   };
 
   return(
     <BrowserRouter>
-        <Header skills={skills} username={user.username} fetchProfiles={fetchProfiles} setUser={setUser} setFilter={setFilter} setIsSettings={setIsSettings} />
+        <Header setWhichFilter={setWhichFilter} skills={skills} username={user.username} fetchProfiles={fetchProfiles} setUser={setUser} setFilter={setHeaderFilter} setIsSettings={setIsSettings} />
         <SettingsModal isSettings={isSettings} setIsSettings={setIsSettings} />
       <Routes>  
         <Route path='/' element={<Home />} />
-        <Route index element={<Home profiles={profiles} skills={skills} isFiltered={isFiltered} />} />
+        <Route index element={<Home profiles={profiles} filter={mainFilter} skills={skills} setFilter={setMainFilter} whichFilter={whichFilter} setWhichFilter={setWhichFilter} />} />
         <Route path='pick-skills' element={<InitialPickSkillsPage skills={skills} username={newUserData.username} setUser={setUser} />} />
         <Route path='pick-matches' element={<InitialPickMatchesPage setNewUserData={setNewUserData} newUserData={newUserData} />} />
         <Route path="register" element={<Register setNewUserData={setNewUserData} newUserData={newUserData} />} />

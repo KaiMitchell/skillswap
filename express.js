@@ -284,44 +284,78 @@ app.post('/register', async(req, res) => {
     }
 });
 
-app.get('/fetch-filtered-profiles', async(req, res) => {
-    const { skill, category } = req.query;
-    if(skill === undefined && category === undefined) {
-        res.status(501).json({ error: 'No skill or category found' });
-        return;
-    };
-
+app.post('/fetch-filtered-profiles', async(req, res) => {
+    const body = req.body;
     try {
         const data = [];
+        if(body.mainFilter) {
+            const toLearnMatches = await client.query(
+                `
+                 SELECT u.username, s.name, us.is_learning, us.is_teaching FROM users u
+                 JOIN users_skills us ON us.user_id = u.id
+                 JOIN skills s ON us.skill_id = s.id
+                 WHERE us.is_learning = true AND s.name = $1
+                `, [skill]
+            );
+    
+            const toTeachMatches = await client.query(
+                `
+                 SELECT u.username, s.name, us.is_teaching, us.is_learning FROM users u
+                 JOIN users_skills us ON us.user_id = u.id
+                 JOIN skills s ON us.skill_id = s.id
+                 WHERE us.is_teaching = true AND s.name = $1
+                `, [skill]
+            );
+    
+            if(toLearnMatches.rows.length === 0 && toTeachMatches.rows.length === 0) {
+                res.status(404).json({ noData: 'No data' });
+                return;
+            };
+    
+            toTeachMatches.rows.forEach(result => data.push(result));
+            toLearnMatches.rows.forEach(result => {
+                data.push(result);
+            });
+        } else if(body.headerFilter) {
 
-        const toLearnMatches = await client.query(
-            `
-             SELECT u.username, s.name, us.is_learning, us.is_teaching FROM users u
-             JOIN users_skills us ON us.user_id = u.id
-             JOIN skills s ON us.skill_id = s.id
-             WHERE us.is_learning = true AND s.name = $1
-            `, [skill]
-        );
+            const { skill, category } = req.body;
 
-        const toTeachMatches = await client.query(
-            `
-             SELECT u.username, s.name, us.is_teaching, us.is_learning FROM users u
-             JOIN users_skills us ON us.user_id = u.id
-             JOIN skills s ON us.skill_id = s.id
-             WHERE us.is_teaching = true AND s.name = $1
-            `, [skill]
-        );
+            if(skill === undefined && category === undefined) {
+                res.status(501).json({ error: 'No skill or category found' });
+                return;
+            };
 
-        if(toLearnMatches.rows.length === 0 && toTeachMatches.rows.length === 0) {
-            res.status(404).json({ noData: 'No data' });
-            return;
+            const toLearnMatches = await client.query(
+                `
+                 SELECT u.username, s.name, us.is_learning, us.is_teaching FROM users u
+                 JOIN users_skills us ON us.user_id = u.id
+                 JOIN skills s ON us.skill_id = s.id
+                 WHERE us.is_learning = true AND s.name = $1
+                `, [skill]
+            );
+    
+            const toTeachMatches = await client.query(
+                `
+                 SELECT u.username, s.name, us.is_teaching, us.is_learning FROM users u
+                 JOIN users_skills us ON us.user_id = u.id
+                 JOIN skills s ON us.skill_id = s.id
+                 WHERE us.is_teaching = true AND s.name = $1
+                `, [skill]
+            );
+    
+            if(toLearnMatches.rows.length === 0 && toTeachMatches.rows.length === 0) {
+                res.status(404).json({ noData: 'No data' });
+                return;
+            };
+    
+            toTeachMatches.rows.forEach(result => data.push(result));
+            toLearnMatches.rows.forEach(result => {
+                data.push(result);
+            });
         };
-
-        toTeachMatches.rows.forEach(result => data.push(result));
-        toLearnMatches.rows.forEach(result => {
-            data.push(result);
-        });
-        res.status(200).json({ data: data });
+        console.log(data);
+        const filterType = body.headerFilter ? 'header' : 'main';
+        res.status(200).json({ data: data, filter: filterType });
     } catch(err) {
         console.error(err.stack);
     };

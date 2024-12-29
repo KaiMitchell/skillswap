@@ -1,11 +1,11 @@
 import MainSearchSection from '../Components/MainComponents/MainSearchComponent';
 import MainProfileCardsSection from '../Components/MainComponents/MainProfileCardsSection';
 
-function Main({ profiles, skills, isFiltered }) {   
+function Main({ profiles, skills, setFilter, filter, whichFilter, setWhichFilter }) {   
     return(
         <main className='px-5 h-72'>
-            <MainSearchSection  skills={skills} />
-            <MainProfileCardsSection profiles={profiles} isFiltered={isFiltered} />
+            <MainSearchSection setWhichFilter={setWhichFilter} setFilter={setFilter} filter={filter} skills={skills} />
+            <MainProfileCardsSection profiles={profiles} whichFilter={whichFilter} />
         </main>
     );
 };

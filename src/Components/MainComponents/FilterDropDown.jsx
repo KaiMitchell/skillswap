@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 import FilterSkill from './filterOption';
 
-function FilterDropDown({ isShown, setIsShown, setFilterValues, filterValueKey, options, isSkillsDropDown, filterTitle }) {    
+function FilterDropDown({ setWhichFilter, isShown, setIsShown, setFilter, filterValueKey, options, isSkillsDropDown, filterTitle }) {    
     let mappedOptions;
     if(filterValueKey === 'toLearnCategory' || filterValueKey === 'toTeachCategory') {
         mappedOptions = options?.map((obj, index) => {
@@ -26,13 +26,15 @@ function FilterDropDown({ isShown, setIsShown, setFilterValues, filterValueKey, 
     };
 
     function handleFilterValueClick(value) {
-        setFilterValues(prev => {
+        setFilter(prev => {
             const newObj = {...prev};
             for(const key in newObj) {
                 newObj[filterValueKey] = value;
             };
+            newObj.isFilter = true;
             return newObj;
         });
+        setWhichFilter({ mainFilter: true, headerFilter: false });
         setIsShown(false);
     };
 

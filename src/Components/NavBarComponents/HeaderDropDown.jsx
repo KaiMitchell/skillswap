@@ -1,11 +1,11 @@
-function HeaderDropDown({ obj, isShown, setIsShown, category, showRight, setFilter }) {
+function HeaderDropDown({ setWhichFilter, obj, isShown, setIsShown, category, showRight, setFilter }) {
     //fetch all users associated with the selected skill.
     async function handleClick(skill) {
-        setFilter(prev => ({
-            ...prev,
+        setFilter({
             category: category,
             skill: skill
-        }));
+        });
+        setWhichFilter({ mainFilter: false, headerFilter: true });
         setIsShown(false);
     };
     

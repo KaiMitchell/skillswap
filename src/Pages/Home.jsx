@@ -1,9 +1,9 @@
 import Main from "../Sections/Main";
 
-function Home({ profiles, skills, isFiltered }) {
+function Home({ profiles, skills, isFiltered, filter, setFilter, whichFilter, setWhichFilter }) {
     return(
         <div className='bg-slate-100'>
-            <Main profiles={profiles} skills={skills} isFiltered={isFiltered} />
+            <Main setWhichFilter={setWhichFilter} profiles={profiles} skills={skills} filter={filter} whichFilter={whichFilter} setFilter={setFilter} isFiltered={isFiltered} />
         </div>
     );
 }
