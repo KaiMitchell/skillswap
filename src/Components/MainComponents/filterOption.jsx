@@ -1,4 +1,4 @@
-function FilterOption({ option, handleFilterValueClick, filterValueKey, isSelectCategory }) {
+function FilterOption({ option, handleFilterValueClick, isSelectCategory }) {
     return(
         <div>
                 <h3 className='p- text-white text-sm hover:bg-stone-700 hover:cursor-pointer' onClick={() => handleFilterValueClick(option, isSelectCategory)}>

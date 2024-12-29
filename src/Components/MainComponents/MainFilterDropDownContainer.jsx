@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import MainFilterDropDownComponent from "./MainFilterDropDownComponent";
+import MainSkillsDropDownContainer from './MainSkillsDropDownContainer';
 
 function MainFilterDropDownContainer({ setWhichFilter, skills, filter, setFilter }) {
     const [isToLearnSkillsDropDown, setIsToLearnSkillsDropDown] = useState(false);
@@ -32,16 +33,13 @@ function MainFilterDropDownContainer({ setWhichFilter, skills, filter, setFilter
                     );
                 })}
             </div>
-            <div className='flex gap-2.5'>
-                <div className={`${isToLearnSkillsDropDown ? 'opacity-100' : 'opacity-0'}`}>
-                    <MainFilterDropDownComponent setWhichFilter={setWhichFilter} filter={filter} skills={skills} setFilter={setFilter} filterValueKey='toLearn' filterTitle={`${filter?.toLearnCategory}`} isSkillsDropDown={true} />
-                    <h2>To learn</h2>
-                </div>
-                <div className={`${isToTeachSkillsDropDown ? 'opacity-100' : 'opacity-0'}`}>
-                    <MainFilterDropDownComponent setWhichFilter={setWhichFilter} filter={filter} skills={skills} setFilter={setFilter} filterValueKey='toTeach' filterTitle={`${filter?.toTeachCategory}`} isSkillsDropDown={true} />
-                    <h2>To teach</h2>
-                </div>
-            </div>
+            <MainSkillsDropDownContainer 
+                filter={filter} 
+                setWhichFilter={setWhichFilter}
+                skills={skills}
+                isToLearnSkillsDropDown={isToLearnSkillsDropDown}
+                isToTeachSkillsDropDown={isToTeachSkillsDropDown}
+            />
         </div>
     );
 };
