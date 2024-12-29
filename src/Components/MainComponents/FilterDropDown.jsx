@@ -1,34 +1,42 @@
 import { useEffect, useRef } from 'react';
 import FilterSkill from './filterOption';
+import { CategoryFilterDropDown, ExtraFilterDropDowns, SkillFilterDropDown } from './SkillFilterDropDown';
 
 function FilterDropDown({ setWhichFilter, isShown, setIsShown, setFilter, filterValueKey, options, isSkillsDropDown, filterTitle }) {    
     let mappedOptions;
+
     if(filterValueKey === 'toLearnCategory' || filterValueKey === 'toTeachCategory') {
-        mappedOptions = options?.map((obj, index) => {
-            return(
-                <FilterSkill key={index} option={obj.category} handleFilterValueClick={handleFilterValueClick} isSelectCategory={true} filterValueKey={filterValueKey} />
-            );
-        });
-    } else if(isSkillsDropDown) {
-        options?.map((obj) => {
-            if(obj.category === filterTitle) {
-                mappedOptions = obj.skills?.map((skill, index) => {
-                    return(
-                        <FilterSkill key={index} option={skill} handleFilterValueClick={handleFilterValueClick} />
-                    );
-                });
-            };
-        });
+        console.log(filterValueKey);
+        //Drop down for the category options
+        mappedOptions = <CategoryFilterDropDown
+                            options={options} 
+                            mappedOptions={mappedOptions} 
+                            handleFilterValueClick={handleFilterValueClick} 
+                            filterValueKey={filterValueKey}
+                        />
+    } else if(isSkillsDropDown) { 
+        // Drop down for the skills options
+        mappedOptions = <SkillFilterDropDown 
+                            options={options} 
+                            mappedOptions={mappedOptions} 
+                            handleFilterValueClick={handleFilterValueClick} 
+                            filterTitle={filterTitle} 
+                        />
     } else {
-        mappedOptions = options?.map((option) => {
-            return <p key={option} onClick={() => handleFilterValueClick(option)} className='p-5 hover:bg-stone-700 hover:cursor-pointer'>{option}</p>
-        });
+        // Drop downs for extra options like 'gender, etc'
+        mappedOptions = <ExtraFilterDropDowns 
+                            options={options} 
+                            mappedOptions={mappedOptions} 
+                            handleFilterValueClick={handleFilterValueClick} 
+                            filterValueKey={filterValueKey}
+                        />
     };
 
     function handleFilterValueClick(value, isSelectCategory) {
         setFilter(prev => {
             const newObj = {...prev};
             for(const key in newObj) {
+                //Clear the skills drop down value if new category is selected
                 if(isSelectCategory) {
                     if(key === 'toLearn' && filterValueKey === 'toLearnCategory') {
                         newObj[key] = '';

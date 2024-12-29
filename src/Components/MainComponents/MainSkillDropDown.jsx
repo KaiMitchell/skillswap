@@ -2,7 +2,9 @@ import MainFilterDropDownComponent from "./MainFilterDropDownComponent";
 
 function MainSkillDropDown({ 
     type, 
+    filterTitle,
     filter, 
+    setFilter,
     setWhichFilter,
     skills,
     filterValueKey,
@@ -15,7 +17,8 @@ function MainSkillDropDown({
                 setWhichFilter={setWhichFilter} 
                 filter={filter} skills={skills} 
                 filterValueKey={filterValueKey} 
-                filterTitle={`${filter?.toTeachCategory}`} 
+                setFilter={setFilter}
+                filterTitle={filterTitle} 
                 isSkillsDropDown={isSkillsDropDown} 
             />
         </div>

@@ -23,7 +23,6 @@ function MainFilterDropDownContainer({ setWhichFilter, skills, filter, setFilter
         };
     }, [filter]);
 
-
     return(
         <div className='w-full flex flex-col gap-2.5'>
             <div className='flex gap-2.5'>
@@ -37,8 +36,10 @@ function MainFilterDropDownContainer({ setWhichFilter, skills, filter, setFilter
                 filter={filter} 
                 setWhichFilter={setWhichFilter}
                 skills={skills}
+                setFilter={setFilter}
                 isToLearnSkillsDropDown={isToLearnSkillsDropDown}
                 isToTeachSkillsDropDown={isToTeachSkillsDropDown}
+                filterTitle={filterTitles}
             />
         </div>
     );
