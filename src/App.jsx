@@ -79,10 +79,9 @@ function App() {
         console.log(data.noData);
         return;
       } else if(data.filter === 'main') {
-        setWhichFilter({ headerFilter: false, mainFilter: true});
+        console.log(results);
         setProfiles(results);
       } else if(data.filter === 'header') {
-        setWhichFilter({ headerFilter: true, mainFilter: false});
         setProfiles(results);
       };
     } catch(err) {

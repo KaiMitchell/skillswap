@@ -7,6 +7,8 @@ function MainProfileCardsSection({ profiles, filter, whichFilter }) {
                 let skills;
                 if(whichFilter.headerFilter) {
                     skills = obj.name; //skill name
+                } else if(whichFilter.mainFilter) {
+                    skills = obj.skills;
                 } else {
                     skills = obj.to_learn || obj.to_teach;
                 };

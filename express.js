@@ -287,16 +287,34 @@ app.post('/register', async(req, res) => {
 app.post('/fetch-filtered-profiles', async(req, res) => {
     const body = req.body;
     try {
+        const { toLearnCategory, toTeachCategory, toLearn, toTeach } = body;
         const data = [];
         if(body.mainFilter) {
+            const filters = [];
+            const groupBy = [];
+            if(toLearnCategory) {
+                filters.push(`AND c.category = '${toLearnCategory}'`);
+                groupBy.push(`, c.category`);
+            };
+            if(toLearn) {
+                filters.push(`AND s.name = '${toLearn}'`);
+                groupBy.push(`, s.name`);
+            };
+            console.log(filters.join(' '));
             const toLearnMatches = await client.query(
                 `
-                 SELECT u.username, s.name, us.is_learning, us.is_teaching FROM users u
+                 SELECT u.username, c.category, ARRAY_AGG(s.name) skills, us.is_learning, us.is_teaching FROM users u
                  JOIN users_skills us ON us.user_id = u.id
                  JOIN skills s ON us.skill_id = s.id
-                 WHERE us.is_learning = true AND s.name = $1
-                `, [skill]
+                 JOIN categories_skills cs ON cs.skill_id = s.id
+                 JOIN categories c ON cs.category_id = c.id
+                 WHERE us.is_learning = true ${filters.join(' ')}
+                 GROUP BY u.username, u.id, us.is_learning, us.is_teaching${groupBy.join(' ')}
+                 ORDER BY u.id
+                `
             );
+
+            console.log(toLearnCategory);
     
             const toTeachMatches = await client.query(
                 `
@@ -304,7 +322,7 @@ app.post('/fetch-filtered-profiles', async(req, res) => {
                  JOIN users_skills us ON us.user_id = u.id
                  JOIN skills s ON us.skill_id = s.id
                  WHERE us.is_teaching = true AND s.name = $1
-                `, [skill]
+                `, [toTeach]
             );
     
             if(toLearnMatches.rows.length === 0 && toTeachMatches.rows.length === 0) {

@@ -6,7 +6,7 @@ function FilterDropDown({ setWhichFilter, isShown, setIsShown, setFilter, filter
     if(filterValueKey === 'toLearnCategory' || filterValueKey === 'toTeachCategory') {
         mappedOptions = options?.map((obj, index) => {
             return(
-                <FilterSkill key={index} option={obj.category} handleFilterValueClick={handleFilterValueClick} />
+                <FilterSkill key={index} option={obj.category} handleFilterValueClick={handleFilterValueClick} isSelectCategory={true} />
             );
         });
     } else if(isSkillsDropDown) {
@@ -25,10 +25,15 @@ function FilterDropDown({ setWhichFilter, isShown, setIsShown, setFilter, filter
         });
     };
 
-    function handleFilterValueClick(value) {
+    function handleFilterValueClick(value, isSelectCategory) {
         setFilter(prev => {
             const newObj = {...prev};
             for(const key in newObj) {
+                if(isSelectCategory) {
+                    if(key === 'toLearn') {
+                        newObj[key] = '';
+                    };
+                };
                 newObj[filterValueKey] = value;
             };
             newObj.isFilter = true;
