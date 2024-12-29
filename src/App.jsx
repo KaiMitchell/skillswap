@@ -41,7 +41,13 @@ function App() {
 
   useEffect(() => {fetchSkills()}, []);
   useEffect(() => {
-    console.log(whichFilter);
+    whichFilter.headerFilter && setMainFilter(prev => {
+      const newValue = {...prev};
+      for(const key in newValue) {
+        newValue[key] = ''
+      };
+      return newValue;
+    });
     if(whichFilter.headerFilter || whichFilter.mainFilter) {
       filterProfiles();
     } else {

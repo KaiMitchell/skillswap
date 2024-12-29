@@ -5,7 +5,7 @@ function Main({ learnProfiles, teachProfiles, skills, setFilter, filter, whichFi
     return(
         <main className='px-5 h-72'>
             <MainSearchSection setWhichFilter={setWhichFilter} setFilter={setFilter} filter={filter} skills={skills} />
-            <MainProfileCardsSection learnProfiles={learnProfiles} teachProfiles={teachProfiles} whichFilter={whichFilter} />
+            <MainProfileCardsSection filter={filter} learnProfiles={learnProfiles} teachProfiles={teachProfiles} whichFilter={whichFilter} />
         </main>
     );
 };
