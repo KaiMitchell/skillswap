@@ -358,13 +358,24 @@ app.post('/fetch-filtered-profiles', async(req, res) => {
                  WHERE us.is_teaching = true AND s.name = $1
                 `, [skill]
             );
+
+            const toLearnMatches = await client.query(
+                `
+                 SELECT u.username, s.name, us.is_teaching, us.is_learning FROM users u
+                 JOIN users_skills us ON us.user_id = u.id
+                 JOIN skills s ON us.skill_id = s.id
+                 WHERE us.is_learning = true AND s.name = $1
+                `, [skill]
+            );
     
-            if(toTeachMatches.rows.length === 0) {
+            if(toTeachMatches.rows.length === 0 && toLearnMatches.rows.length === 0) {
                 res.status(404).json({ noData: 'No data' });
                 return;
             };
     
             toTeachMatches.rows.forEach(result => teachProfiles.push(result));
+            toLearnMatches.rows.forEach(result => learnProfiles.push(result));
+            console.log(learnProfiles, teachProfiles);
         };
 
         const filterType = body.headerFilter ? 'header' : 'main';

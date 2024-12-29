@@ -41,11 +41,12 @@ function App() {
 
   useEffect(() => {fetchSkills()}, []);
   useEffect(() => {
+    console.log(whichFilter);
     if(whichFilter.headerFilter || whichFilter.mainFilter) {
       filterProfiles();
     } else {
       fetchProfiles();
-    }
+    };
   }, [user, whichFilter]);
 
   async function fetchProfiles() {
@@ -56,7 +57,6 @@ function App() {
         body: JSON.stringify({ username: user.username })
     });
     const data = await response.json();
-    console.log(data);
     setLearnProfiles(data.data.learnProfiles);
     setTeachProfiles(data.data.teachProfiles);
   };
@@ -78,12 +78,14 @@ function App() {
       const data = await response.json();
 
       if(data.noData) {
+        setWhichFilter({ headerFilter: false, mainFilter: false });
         console.log(data.noData);
         return;
       } else if(data.filterType === 'main') {
         setLearnProfiles(data.learnProfiles);
         setTeachProfiles(data.teachProfiles);
       } else if(data.filterType === 'header') {
+        console.log(data);
         setLearnProfiles(data.learnProfiles);
         setTeachProfiles(data.teachProfiles);
       };
