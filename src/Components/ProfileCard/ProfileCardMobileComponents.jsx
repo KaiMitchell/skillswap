@@ -5,15 +5,22 @@ for(let i = 0; i < 3; i++) {
 
 function ProfileCardMobileComponents({ username, skills }) {
     return(
-        <div className='block h-full min-w-1/2 flex flex-col justify-between ml-2.5'>
-            <ul>
-                <p className='text-xl font-bold'>To learn:</p>
-                {skills.map(skill => <li className='ml-2.5' key={skill}>{skill}</li>)}
-            </ul>
-            <ul>
-                <p className='text-xl font-bold'>To Teach:</p>
-                {placeholder.map(el => <li className='ml-2.5' key={el}>{el}</li>)}
-            </ul>
+        <div className='relative h-full w-full flex flex-col justify-between'>
+            <div className="h-1/3">
+                <p className='ml-2.5 text-xl font-bold'>To learn:</p>
+                <ul className='h-full pl-5 bg-stone-600 overflow-y-auto no-scrollbar'>
+                    {skills.map(skill => <li className='text-xs' key={skill}>{skill}</li>)}
+                </ul>
+            </div>
+            <div className="h-1/3">
+                <p className='ml-2.5 pb-0 text-large font-bold'>To teach:</p>
+                <ul className='h-full pl-5 bg-stone-600 overflow-y-auto no-scrollbar'>
+                    {skills.map(skill => <li className='text-xs' key={skill}>{skill}</li>)}
+                </ul>
+            </div>
+            <button className='w-1/2 self-center text-sm bg-stone-950 text-stone-300 cursor-pointer'>
+                    show all skills
+            </button>
         </div>
     );
 };

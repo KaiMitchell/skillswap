@@ -10,17 +10,17 @@ function ProfileCardMain({ name, skills }) {
     return(
         <div className='relative bg-stone-700 bg-contain w-full bg-center'>
             <div className='flex h-64'>
-                <div className='w-1/2 h-full'>
+                <div className='w-full h-full'>
                     {/* Just a placeholder image for development purposes */}
                     <img className='object-cover h-full' src='https://static.vecteezy.com/system/resources/previews/035/187/362/non_2x/ai-generated-man-guy-model-look-white-smile-face-portrait-confidence-african-isolated-handsome-photo.jpg' />
                 </div>
                 <ProfileCardMobileComponents username={name} skills={skills} />
             </div>
             <>  
-                <h3 className="hidden sm:block absolute top-0 sm:right-0 font-bold text-3xl p-2.5 bg-black bg-opacity-50">
+                <h3 className="hidden sm:block absolute top-0 sm:left-0 font-bold text-xl px-2.5 bg-black bg-opacity-30">
                     {name}
                 </h3>
-                <h3 className="hidden sm:block absolute bottom-14 left-0 font-bold text-3xl p-2.5 bg-black bg-opacity-50">
+                <h3 className="hidden sm:block absolute bottom-0 left-0 font-bold text-xl px-2.5 bg-black bg-opacity-30">
                     {skill}
                 </h3>
             </>
