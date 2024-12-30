@@ -30,7 +30,6 @@ function MainProfileCardsSection({ learnProfiles, teachProfiles, filter, whichFi
         setFilterType({ learn: toLearnFilterHeader, teach: toTeachFilterHeader });
     }, [filter]);
 
-    //filtered profile count
     const learnCount = learnProfiles?.length;
     const teachCount = teachProfiles?.length;
     const learnFilterInfo = `${learnCount === 0 ? 'No' : learnCount} profile${learnCount === 1 ? ' wants' : "'s want"} to learn...`;
