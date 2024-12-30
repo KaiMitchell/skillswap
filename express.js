@@ -356,104 +356,44 @@ app.post('/fetch-filtered-learn-profiles', async(req, res) => {
     };
 });
 
-app.post('/fetch-filtered-profiles', async(req, res) => {
+app.post('/fetch-quick-filtered-profiles', async(req, res) => {
     const body = req.body;
     try {
-        const { toLearnCategory, toTeachCategory, toLearn, toTeach } = body;
+        const { category, skill } = body;
         const learnProfiles = [];
         const teachProfiles = [];
-
-        if(body.mainFilter) {
-            const filters = [];
-            const groupBy = [];
-
-            if(toLearnCategory) {
-                filters.push(`AND c.category = '${toLearnCategory}'`);
-                groupBy.push(`, c.category`);
-            };
-            if(toTeachCategory) {
-                filters.push(`AND c.category = '${toTeachCategory}'`);
-                groupBy.push(', c.category');
-            };
-            if(toTeach) {
-                filters.push(`AND s.name = '${toTeach}'`);
-                groupBy.push(', s.name');
-            };
-            if(toLearn) {
-                filters.push(`AND s.name = '${toLearn}'`);
-                groupBy.push(`, s.name`);
-            };
-
-            const toLearnMatches = await client.query(
-                `
-                 SELECT u.username, c.category, ARRAY_AGG(s.name) skills, us.is_learning, us.is_teaching FROM users u
-                 JOIN users_skills us ON us.user_id = u.id
-                 JOIN skills s ON us.skill_id = s.id
-                 JOIN categories_skills cs ON cs.skill_id = s.id
-                 JOIN categories c ON cs.category_id = c.id
-                 WHERE us.is_learning = true ${filters.join(' ')}
-                 GROUP BY u.username, us.is_learning, us.is_teaching${groupBy.join(' ')}
-                 ORDER BY u.username
-                `
-            );
-
-            const toTeachMatches = await client.query(
-                `
-                 SELECT u.username, c.category, ARRAY_AGG(s.name) skills, us.is_teaching, us.is_teaching FROM users u
-                 JOIN users_skills us ON us.user_id = u.id
-                 JOIN skills s ON us.skill_id = s.id
-                 JOIN categories_skills cs ON cs.skill_id = s.id
-                 JOIN categories c ON cs.category_id = c.id
-                 WHERE us.is_teaching = true ${filters.join(' ')}
-                 GROUP BY u.username, us.is_teaching, us.is_teaching${groupBy.join(' ')}
-                 ORDER BY u.username
-                `
-            );
-    
-            if(toTeachMatches.rows.length === 0) {
-                res.status(404).json({ noData: 'No data' });
-                return;
-            };
-    
-            toLearnMatches.rows.forEach(result => learnProfiles.push(result));
-            toTeachMatches.rows.forEach(result => teachProfiles.push(result));
-
-        } else if(body.headerFilter) {
             
-            const { skill, category } = req.body;
-
-            if(skill === undefined && category === undefined) {
-                res.status(501).json({ error: 'No skill or category found' });
-                return;
-            };
-    
-            const toTeachMatches = await client.query(
-                `
-                 SELECT u.username, s.name, us.is_teaching, us.is_learning FROM users u
-                 JOIN users_skills us ON us.user_id = u.id
-                 JOIN skills s ON us.skill_id = s.id
-                 WHERE us.is_teaching = true AND s.name = $1
-                `, [skill]
-            );
-
-            const toLearnMatches = await client.query(
-                `
-                 SELECT u.username, s.name, us.is_teaching, us.is_learning FROM users u
-                 JOIN users_skills us ON us.user_id = u.id
-                 JOIN skills s ON us.skill_id = s.id
-                 WHERE us.is_learning = true AND s.name = $1
-                `, [skill]
-            );
-    
-            if(toTeachMatches.rows.length === 0 && toLearnMatches.rows.length === 0) {
-                res.status(404).json({ noData: 'No data' });
-                return;
-            };
-    
-            toTeachMatches.rows.forEach(result => teachProfiles.push(result));
-            toLearnMatches.rows.forEach(result => learnProfiles.push(result));
-            console.log(learnProfiles, teachProfiles);
+        if(skill === undefined && category === undefined) {
+            res.status(501).json({ error: 'No skill or category found' });
+            return;
         };
+
+        const toTeachMatches = await client.query(
+            `
+                SELECT u.username, s.name, us.is_teaching, us.is_learning FROM users u
+                JOIN users_skills us ON us.user_id = u.id
+                JOIN skills s ON us.skill_id = s.id
+                WHERE us.is_teaching = true AND s.name = $1
+            `, [skill]
+        );
+
+        const toLearnMatches = await client.query(
+            `
+                SELECT u.username, s.name, us.is_teaching, us.is_learning FROM users u
+                JOIN users_skills us ON us.user_id = u.id
+                JOIN skills s ON us.skill_id = s.id
+                WHERE us.is_learning = true AND s.name = $1
+            `, [skill]
+        );
+
+        if(toTeachMatches.rows.length === 0 && toLearnMatches.rows.length === 0) {
+            res.status(404).json({ noData: 'No data' });
+            return;
+        };
+
+        toTeachMatches.rows.forEach(result => teachProfiles.push(result));
+        toLearnMatches.rows.forEach(result => learnProfiles.push(result));
+        console.log(learnProfiles, teachProfiles);
 
         const filterType = body.headerFilter ? 'header' : 'main';
         res.status(200).json(

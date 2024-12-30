@@ -186,8 +186,6 @@ function PickMatchesContainer({ matches }) {
     });
   });
 
-  console.log(communicationArray);
-
     return(
       <div className='flex h-96 p-5 bg-black rounded-md'>
         {matches?.data?.map((item, index) => {   

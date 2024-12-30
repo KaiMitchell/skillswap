@@ -61,18 +61,17 @@ function App() {
 
     useEffect(() => {
     if(mainFilter.toTeachCategory || mainFilter.toTeach) {
-      console.log('teaching!');
       filterTeachProfiles();
     };
   }, [mainFilter.toTeachCategory, mainFilter.toTeach]);
 
   useEffect(() => {
     if(mainFilter.toLearnCategory || mainFilter.toLearn) {
-      console.log('learning');
       filterLearnProfiles();
     };
   }, [mainFilter.toLearnCategory, mainFilter.toLearn]);
 
+  //fetch all unfilterred profiles
   async function fetchProfiles() {
     const response = await fetch(`http://${backendURL}`, {
         method: 'POST',
@@ -84,12 +83,14 @@ function App() {
     setTeachProfiles(data.data.teachProfiles);
   };
 
+  //fetch skills for skill/category selections
   async function fetchSkills() {
     const response = await fetch(`http://localhost:3000/fetch-skills`);
     const data = await response.json();
     setSkills(data.data);
   };
 
+  //fetch profiles that want to learn the skills filtered by the main drop down options
   async function filterLearnProfiles() {
     const body = { ...mainFilter };
     try{
@@ -108,7 +109,7 @@ function App() {
       console.error(err);
     };
   };
-
+ //fetch profiles that want to teach the skills filtered by the main drop down options
   async function filterTeachProfiles() {
     setTeachProfiles();
     const body = { ...mainFilter, mainFilter: true };
@@ -129,16 +130,20 @@ function App() {
     };
   };
 
+  //fetch profiles that want to learn and teach the skills selected from the nav bar options
   async function headerFilterProfiles() {
-    const body = { ...mainFilter, mainFilter: true };
+    console.log(headerFilter);
     try {
-      const response = await fetch(`http://${backendURL}/fetch-filtered-profiles`, {
+      const response = await fetch(`http://${backendURL}/fetch-quick-filtered-profiles`, {
         method: 'POST',
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(body)
+        body: JSON.stringify(headerFilter)
       });
       const data = await response.json();
+      console.log(data);
       setTeachProfiles(data.teachProfiles);
+      setLearnProfiles(data.learnProfiles);
+      setHeaderFilter();
     } catch(err) {
       console.error(err.stack);
     };
