@@ -24,7 +24,7 @@ function App() {
     headerFilter: false,
     mainFilter: false
   });
-  const [headerFilter, setHeaderFilter] = useState();
+  const [headerFilter, setHeaderFilter] = useState({category: '', skill: ''});
   const [mainFilter, setMainFilter] = useState({
       toLearnCategory: '',
       toTeachCategory: '',
@@ -45,6 +45,7 @@ function App() {
 
   useEffect(() => {
     if(whichFilter.headerFilter) {
+      console.log('heeeeeeeeeeeeeeeeeeeeeeader: ', headerFilter);
       setMainFilter(prev => {
         const newValue = {...prev};
         for(const key in newValue) {
@@ -58,6 +59,8 @@ function App() {
       fetchProfiles();
     };
   }, [user, whichFilter]);
+
+  useEffect(() => {console.log('value change for headerFilter: ', headerFilter)}, [headerFilter]);
 
     useEffect(() => {
     if(mainFilter.toTeachCategory || mainFilter.toTeach) {
@@ -143,7 +146,6 @@ function App() {
       console.log(data);
       setTeachProfiles(data.teachProfiles);
       setLearnProfiles(data.learnProfiles);
-      setHeaderFilter();
     } catch(err) {
       console.error(err.stack);
     };
@@ -155,7 +157,7 @@ function App() {
         <SettingsModal isSettings={isSettings} setIsSettings={setIsSettings} />
       <Routes>  
         <Route path='/' element={<Home />} />
-        <Route index element={<Home learnProfiles={learnProfiles} teachProfiles={teachProfiles} filter={mainFilter} skills={skills} setFilter={setMainFilter} whichFilter={whichFilter} setWhichFilter={setWhichFilter} />} />
+        <Route index element={<Home learnProfiles={learnProfiles} teachProfiles={teachProfiles} filter={mainFilter} skills={skills} setFilter={setMainFilter} headerFilter={headerFilter} whichFilter={whichFilter} setWhichFilter={setWhichFilter} />} />
         <Route path='pick-skills' element={<InitialPickSkillsPage skills={skills} username={newUserData.username} setUser={setUser} />} />
         <Route path='pick-matches' element={<InitialPickMatchesPage setNewUserData={setNewUserData} newUserData={newUserData} />} />
         <Route path="register" element={<Register setNewUserData={setNewUserData} newUserData={newUserData} />} />

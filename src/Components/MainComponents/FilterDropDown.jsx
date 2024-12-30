@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react';
 import FilterSkill from './filterOption';
 import { CategoryFilterDropDown, ExtraFilterDropDowns, SkillFilterDropDown } from './SkillFilterDropDown';
 
-function FilterDropDown({ setWhichFilter, isShown, setIsShown, setFilter, filterValueKey, options, isSkillsDropDown, filterTitle }) {    
+function FilterDropDown({ headerFilter, whichFilter, setWhichFilter, isShown, setIsShown, setFilter, filterValueKey, options, isSkillsDropDown, filterTitle }) {    
     let mappedOptions;
 
     if(filterValueKey === 'toLearnCategory' || filterValueKey === 'toTeachCategory') {
@@ -44,11 +44,20 @@ function FilterDropDown({ setWhichFilter, isShown, setIsShown, setFilter, filter
                     if(key === 'toTeach' && filterValueKey === 'toTeachCategory') {
                         newObj[key] = '';
                     };
+                    if(filterValueKey === 'toTeachCategory' && whichFilter.headerFilter) {
+                        console.log(headerFilter?.category);
+                        newObj['toLearnCategory'] = headerFilter?.category;
+                        newObj['toLearn'] = [headerFilter?.skill];
+                    } else if(filterValueKey === 'toLearnCategory' && whichFilter.headerfilter) {
+                        newObj['toTeachCategory'] = headerFilter?.category;
+                        newObj['toTeach'] = [headerFilter?.skill];
+                    };
                 };
                 newObj[filterValueKey] = value;
             };
             return newObj;
         });
+
         setWhichFilter({ mainFilter: true, headerFilter: false });
         setIsShown(false);
     };

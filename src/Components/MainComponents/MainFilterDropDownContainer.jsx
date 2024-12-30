@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import MainFilterDropDownComponent from "./MainFilterDropDownComponent";
 import MainSkillsDropDownContainer from './MainSkillsDropDownContainer';
 
-function MainFilterDropDownContainer({ setWhichFilter, skills, filter, setFilter }) {
+function MainFilterDropDownContainer({ headerFilter, whichFilter, setWhichFilter, skills, filter, setFilter }) {
     const [isToLearnSkillsDropDown, setIsToLearnSkillsDropDown] = useState(false);
     const [isToTeachSkillsDropDown, setIsToTeachSkillsDropDown] = useState(false);
 
@@ -26,7 +26,7 @@ function MainFilterDropDownContainer({ setWhichFilter, skills, filter, setFilter
             <div className='flex gap-2.5'>
                 {filterValueKeys?.map((key, index) => {
                     return(
-                        <MainFilterDropDownComponent setWhichFilter={setWhichFilter} key={key} skills={skills} filter={filter} setFilter={setFilter} filterValueKey={key} filterTitle={filterTitles[index]} />
+                        <MainFilterDropDownComponent whichFilter={whichFilter} headerFilter={headerFilter} setWhichFilter={setWhichFilter} key={key} skills={skills} filter={filter} setFilter={setFilter} filterValueKey={key} filterTitle={filterTitles[index]} />
                     );
                 })}
             </div>

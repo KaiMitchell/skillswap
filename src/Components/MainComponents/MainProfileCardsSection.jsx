@@ -30,7 +30,7 @@ function MainProfileCardsSection({ learnProfiles, teachProfiles, filter, whichFi
     return(
         <section id='profile-cards' className='relative h-full w-full flex gap-5'>
             <div className='w-1/2 flex flex-col gap-5 pt-5'>
-                <h2 className='text-center text-2xl font-bold'>{whichFilter.headerFilter ? 'SKILL' : filterType.learn}</h2>
+                <h2 className='text-center text-2xl font-bold'>{`Searching by ${whichFilter.headerFilter ? 'SKILL' : filterType.learn}`}</h2>
                 <h3 className='text-center'>These profiles want to learn...</h3>
                 {learnProfiles?.map((obj) => {
                     let skills;
@@ -51,7 +51,7 @@ function MainProfileCardsSection({ learnProfiles, teachProfiles, filter, whichFi
                 })};
             </div>
             <div className='w-1/2 flex flex-col gap-5 pt-5'>
-                <h2 className='text-center text-2xl font-bold'>{whichFilter.headerFilter ? 'SKILL' : filterType.teach}</h2>
+                <h2 className='text-center text-2xl font-bold'>{`Searching by ${whichFilter.headerFilter ? 'SKILL' : filterType.teach}`}</h2>
                 <h3 className='text-center'>These profiles want to teach...</h3>
                 {teachProfiles?.map((obj) => {
                     let skills;
