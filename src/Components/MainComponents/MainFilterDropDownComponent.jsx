@@ -1,10 +1,23 @@
 import { useState, useEffect, useRef } from 'react';
-import FilterDropDown from './FilterDropDown.jsx';
+import MainFilterDropDown from './MainFilterDropDown.jsx';
 
-function MainFilterDropDownComponent({ headerFilter, whichFilter, setWhichFilter, skills, filterTitle, filter, setFilter, filterValueKey, isSkillsDropDown }) {
+function MainFilterDropDownComponent({ 
+    headerFilter, 
+    whichFilter, 
+    setWhichFilter, 
+    skills, 
+    dropDownTitle, 
+    filter, 
+    setFilter, 
+    filterValueKey, 
+    isSkillsDropDown 
+}) {
     const [isShown, setIsShown] = useState(false);
 
     const node = useRef();
+    let options = [];
+
+    //remove drop down for main filters
     useEffect(() => {
         document.addEventListener('mousedown', handleOutSideClick);
         return () => document.removeEventListener('mousedown', handleOutSideClick);
@@ -12,15 +25,16 @@ function MainFilterDropDownComponent({ headerFilter, whichFilter, setWhichFilter
 
     function handleOutSideClick(e) {
         if(node.current && !node.current.contains(e.target) ) {
+            console.log('clicked outside');
             setIsShown(false);
         };
     };
 
-    let options = [];
-
+    //assign appropriate options to each filter
     switch(filterValueKey) {
         case 'toLearnCategory':
         case 'toTeachCategory':
+            //assign skills from profiles fetched from database
             if(Array.isArray(skills) && skills.length > 0) {
                 options = skills;
             };
@@ -36,15 +50,25 @@ function MainFilterDropDownComponent({ headerFilter, whichFilter, setWhichFilter
             break;
     };
 
+    //assign skills fetched from database
     if(isSkillsDropDown) {
         options = skills;
     };
 
     return(
         <div ref={node} onClick={() => {setIsShown(!isShown)}} className='relative min-h-20 h-fit w-44 px-5 py-2.5 rounded-lg bg-stone-900 hover:bg-stone-800 text-stone-200 cursor-pointer'>
-            <h3 className='text-xs mb-2.5'>{filterTitle}</h3>
+            <h3 className='text-xs mb-2.5'>{dropDownTitle}</h3>
             <p className='text-sm'>{filter[filterValueKey]}</p>
-            <FilterDropDown whichFilter={whichFilter} headerFilter={headerFilter} setWhichFilter={setWhichFilter} filterValueKey={filterValueKey} isShown={isShown} setIsShown={setIsShown} setFilter={setFilter} options={options} isSkillsDropDown={isSkillsDropDown} filterTitle={filterTitle} />
+            <MainFilterDropDown 
+                whichFilter={whichFilter} 
+                headerFilter={headerFilter} 
+                setWhichFilter={setWhichFilter} 
+                filterValueKey={filterValueKey} 
+                isShown={isShown} setIsShown={setIsShown} 
+                setFilter={setFilter} options={options} 
+                isSkillsDropDown={isSkillsDropDown} 
+                dropDownTitle={dropDownTitle} 
+            />
         </div>
     );
 };

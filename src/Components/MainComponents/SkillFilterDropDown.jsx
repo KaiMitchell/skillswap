@@ -1,8 +1,8 @@
 import FilterOption from "./filterOption";
 
-function SkillFilterDropDown({ options, handleFilterValueClick, mappedOptions, filterTitle }) {
+function SkillFilterDropDown({ options, handleFilterValueClick, mappedOptions, dropDownTitle }) {
     options?.map((obj) => {
-        if(obj.category === filterTitle) {
+        if(obj.category === dropDownTitle) {
             mappedOptions = obj.skills?.map((skill, index) => {
                 return(
                     <FilterOption key={index} option={skill} handleFilterValueClick={handleFilterValueClick} />

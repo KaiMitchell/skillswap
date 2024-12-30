@@ -1,12 +1,12 @@
 import { useState, useEffect } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Header from './Sections/Header';
-import Home from './Pages/Home';
 import InitialPickSkillsPage from './Pages/InitialPickSkillsPage';
 import Register from './Pages/Register';
 import SignIn from './Pages/Sign-in';
 import InitialPickMatchesPage from './Pages/InitialPickMatchesPage';
 import SettingsModal from './Components/SettingsModal/SettingsModal.jsx';
+import Main from './Sections/Main.jsx';
 
 const backendURL = 'localhost:3000';
 
@@ -156,8 +156,8 @@ function App() {
         <Header setWhichFilter={setWhichFilter} skills={skills} username={user.username} fetchProfiles={fetchProfiles} setUser={setUser} setFilter={setHeaderFilter} setIsSettings={setIsSettings} />
         <SettingsModal isSettings={isSettings} setIsSettings={setIsSettings} />
       <Routes>  
-        <Route path='/' element={<Home />} />
-        <Route index element={<Home learnProfiles={learnProfiles} teachProfiles={teachProfiles} filter={mainFilter} skills={skills} setFilter={setMainFilter} headerFilter={headerFilter} whichFilter={whichFilter} setWhichFilter={setWhichFilter} />} />
+        <Route path='/' element={<Main />} />
+        <Route index element={<Main learnProfiles={learnProfiles} teachProfiles={teachProfiles} filter={mainFilter} skills={skills} setFilter={setMainFilter} headerFilter={headerFilter} whichFilter={whichFilter} setWhichFilter={setWhichFilter} />} />
         <Route path='pick-skills' element={<InitialPickSkillsPage skills={skills} username={newUserData.username} setUser={setUser} />} />
         <Route path='pick-matches' element={<InitialPickMatchesPage setNewUserData={setNewUserData} newUserData={newUserData} />} />
         <Route path="register" element={<Register setNewUserData={setNewUserData} newUserData={newUserData} />} />

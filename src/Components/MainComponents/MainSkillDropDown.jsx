@@ -2,7 +2,7 @@ import MainFilterDropDownComponent from "./MainFilterDropDownComponent";
 
 function MainSkillDropDown({ 
     type, 
-    filterTitle,
+    dropDownTitle,
     filter, 
     setFilter,
     setWhichFilter,
@@ -18,7 +18,7 @@ function MainSkillDropDown({
                 filter={filter} skills={skills} 
                 filterValueKey={filterValueKey} 
                 setFilter={setFilter}
-                filterTitle={filterTitle} 
+                dropDownTitle={dropDownTitle} 
                 isSkillsDropDown={isSkillsDropDown} 
             />
         </div>

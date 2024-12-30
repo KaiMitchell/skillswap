@@ -6,18 +6,32 @@ function MainFilterDropDownContainer({ headerFilter, whichFilter, setWhichFilter
     const [isToLearnSkillsDropDown, setIsToLearnSkillsDropDown] = useState(false);
     const [isToTeachSkillsDropDown, setIsToTeachSkillsDropDown] = useState(false);
 
-    const filterTitles = ['Learning category', 'Teaching category', 'Your gender', 'Gender preference', 'Online / In Person'];
     let filterValueKeys; 
+
+    const dropDownTitles = [
+        'Learning category', 
+        'Teaching category', 
+        'Your gender', 
+        'Gender preference', 
+        'Online / In Person'
+    ];
+
+    //return the keys of toTeach and toLearn from the mainFilter state to use for mapping.
     if(typeof filter === 'object' && filter !== null) {
         filterValueKeys = Object.keys(filter).filter(key => key !== 'toTeach' && key !== 'toLearn' && key !== 'isFilter' && key !== 'skill');
     };
     
+    //only display the skill drop downs for learn and teach only if there category has been selected
     useEffect(() => {
         if(filter.toLearnCategory) {
             setIsToLearnSkillsDropDown(true);
+        } else {
+            setIsToLearnSkillsDropDown(false);
         };
         if(filter.toTeachCategory) {
             setIsToTeachSkillsDropDown(true);
+        } else {
+            setIsToTeachSkillsDropDown(false);
         };
     }, [filter]);
 
@@ -26,10 +40,20 @@ function MainFilterDropDownContainer({ headerFilter, whichFilter, setWhichFilter
             <div className='flex gap-2.5'>
                 {filterValueKeys?.map((key, index) => {
                     return(
-                        <MainFilterDropDownComponent whichFilter={whichFilter} headerFilter={headerFilter} setWhichFilter={setWhichFilter} key={key} skills={skills} filter={filter} setFilter={setFilter} filterValueKey={key} filterTitle={filterTitles[index]} />
+                        <MainFilterDropDownComponent 
+                            key={key} 
+                            skills={skills} 
+                            whichFilter={whichFilter} 
+                            headerFilter={headerFilter} 
+                            setWhichFilter={setWhichFilter} 
+                            filter={filter} setFilter={setFilter} 
+                            filterValueKey={key} 
+                            dropDownTitle={dropDownTitles[index]} 
+                        />
                     );
                 })}
             </div>
+
             <MainSkillsDropDownContainer 
                 filter={filter} 
                 setWhichFilter={setWhichFilter}
@@ -37,7 +61,6 @@ function MainFilterDropDownContainer({ headerFilter, whichFilter, setWhichFilter
                 setFilter={setFilter}
                 isToLearnSkillsDropDown={isToLearnSkillsDropDown}
                 isToTeachSkillsDropDown={isToTeachSkillsDropDown}
-                filterTitle={filterTitles}
             />
         </div>
     );

@@ -7,13 +7,13 @@ function MainSkillsDropDownContainer({
     skills,
     isToTeachSkillsDropDown,
     isToLearnSkillsDropDown,
-    setFilter
+    setFilter,
 }) {
     return(
         <div className='flex gap-2.5'>
             <MainSkillDropDown 
                 type={'to Learn'} 
-                filterTitle={`${filter?.toLearnCategory}`}
+                dropDownTitle={`${filter?.toLearnCategory}`}
                 isSkillsDropDown={isToLearnSkillsDropDown}
                 filter={filter}
                 setWhichFilter={setWhichFilter}
@@ -23,7 +23,7 @@ function MainSkillsDropDownContainer({
             />
             <MainSkillDropDown 
                 type={'to Teach'} 
-                filterTitle={`${filter?.toTeachCategory}`}
+                dropDownTitle={`${filter?.toTeachCategory}`}
                 isSkillsDropDown={isToTeachSkillsDropDown}
                 filter={filter}
                 setFilter={setFilter}
