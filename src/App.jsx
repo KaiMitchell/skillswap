@@ -35,28 +35,45 @@ function App() {
       meetUp: '',
     }
   );
-  const [learnProfiles, setLearnProfiles] = useState([]);
-  const [teachProfiles, setTeachProfiles] = useState([]);
+  const [learnProfiles, setLearnProfiles] = useState();
+  const [teachProfiles, setTeachProfiles] = useState();
   const [isSettings, setIsSettings] = useState(false);
 
+  useEffect(() => {console.log(mainFilter)}, [mainFilter]);
+
   useEffect(() => {fetchSkills()}, []);
+
   useEffect(() => {
-    whichFilter.headerFilter && setMainFilter(prev => {
-      const newValue = {...prev};
-      for(const key in newValue) {
-        newValue[key] = ''
-      };
-      return newValue;
-    });
-    if(whichFilter.headerFilter || whichFilter.mainFilter) {
-      filterProfiles();
-    } else {
+    if(whichFilter.headerFilter) {
+      setMainFilter(prev => {
+        const newValue = {...prev};
+        for(const key in newValue) {
+          newValue[key] = ''
+        };
+        return newValue; 
+      });
+      headerFilterProfiles();
+    } else if(!whichFilter.mainFilter) {
+      console.log('re-render');
       fetchProfiles();
     };
   }, [user, whichFilter]);
 
+    useEffect(() => {
+    if(mainFilter.toTeachCategory || mainFilter.toTeach) {
+      console.log('teaching!');
+      filterTeachProfiles();
+    };
+  }, [mainFilter.toTeachCategory, mainFilter.toTeach]);
+
+  useEffect(() => {
+    if(mainFilter.toLearnCategory || mainFilter.toLearn) {
+      console.log('learning');
+      filterLearnProfiles();
+    };
+  }, [mainFilter.toLearnCategory, mainFilter.toLearn]);
+
   async function fetchProfiles() {
-    // setFilter(prev => ({...prev, isFilter: false}));
     const response = await fetch(`http://${backendURL}`, {
         method: 'POST',
         headers: { "Content-Type": "application/json" },
@@ -73,28 +90,55 @@ function App() {
     setSkills(data.data);
   };
 
-  async function filterProfiles() {
-    const reqBody = whichFilter.headerFilter ? { ...headerFilter, headerFilter: true } : { ...mainFilter, mainFilter: true };
+  async function filterLearnProfiles() {
+    const body = { ...mainFilter };
+    try{
+      const response = await fetch(`http://${backendURL}/fetch-filtered-learn-profiles`, {
+        method: 'POST',
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body)
+      });
+      const data = await response.json();
+      if(data.noData) {
+        console.log('no data');
+        return;
+      };
+      setLearnProfiles(data.profiles);
+    }catch(err) {
+      console.error(err);
+    };
+  };
+
+  async function filterTeachProfiles() {
+    setTeachProfiles();
+    const body = { ...mainFilter, mainFilter: true };
+    try{
+      const response = await fetch(`http://${backendURL}/fetch-filtered-teach-profiles`, {
+        method: 'POST',
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body)
+      });
+      const data = await response.json();
+      if(data.noData) {
+        console.log('no data');
+        return;
+      };
+      setTeachProfiles(data.profiles);
+    }catch(err) {
+      console.error(err);
+    };
+  };
+
+  async function headerFilterProfiles() {
+    const body = { ...mainFilter, mainFilter: true };
     try {
       const response = await fetch(`http://${backendURL}/fetch-filtered-profiles`, {
         method: 'POST',
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(reqBody)
+        body: JSON.stringify(body)
       });
       const data = await response.json();
-
-      if(data.noData) {
-        setWhichFilter({ headerFilter: false, mainFilter: false });
-        console.log(data.noData);
-        return;
-      } else if(data.filterType === 'main') {
-        setLearnProfiles(data.learnProfiles);
-        setTeachProfiles(data.teachProfiles);
-      } else if(data.filterType === 'header') {
-        console.log(data);
-        setLearnProfiles(data.learnProfiles);
-        setTeachProfiles(data.teachProfiles);
-      };
+      setTeachProfiles(data.teachProfiles);
     } catch(err) {
       console.error(err.stack);
     };

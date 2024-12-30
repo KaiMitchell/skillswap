@@ -6,7 +6,6 @@ function FilterDropDown({ setWhichFilter, isShown, setIsShown, setFilter, filter
     let mappedOptions;
 
     if(filterValueKey === 'toLearnCategory' || filterValueKey === 'toTeachCategory') {
-        console.log(filterValueKey);
         //Drop down for the category options
         mappedOptions = <CategoryFilterDropDown
                             options={options} 
@@ -38,6 +37,7 @@ function FilterDropDown({ setWhichFilter, isShown, setIsShown, setFilter, filter
             for(const key in newObj) {
                 //Clear the skills drop down value if new category is selected
                 if(isSelectCategory) {
+                    console.log(filterValueKey);
                     if(key === 'toLearn' && filterValueKey === 'toLearnCategory') {
                         newObj[key] = '';
                     };
@@ -47,7 +47,6 @@ function FilterDropDown({ setWhichFilter, isShown, setIsShown, setFilter, filter
                 };
                 newObj[filterValueKey] = value;
             };
-            newObj.isFilter = true;
             return newObj;
         });
         setWhichFilter({ mainFilter: true, headerFilter: false });

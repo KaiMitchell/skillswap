@@ -279,6 +279,83 @@ app.post('/register', async(req, res) => {
     }
 });
 
+app.post('/fetch-filtered-teach-profiles', async(req, res) => {
+    const body = req.body;
+    try {
+        const { toTeachCategory, toTeach} = body;
+        const filters = [];
+        const groupBy = [];
+        if(toTeachCategory) {
+            filters.push(`AND c.category = '${toTeachCategory}'`);
+            groupBy.push(`, c.category`);
+        };
+        if(toTeach) {
+            filters.push(`AND s.name = '${toTeach}'`);
+            groupBy.push(`, s.name`);
+        };
+        const results = await client.query(
+            `
+            SELECT u.username, c.category, ARRAY_AGG(s.name) skills, us.is_teaching FROM users u
+            JOIN users_skills us ON us.user_id = u.id
+            JOIN skills s ON us.skill_id = s.id
+            JOIN categories_skills cs ON cs.skill_id = s.id
+            JOIN categories c ON cs.category_id = c.id
+            WHERE us.is_teaching = true ${filters.join(' ')}
+            GROUP BY u.username, us.is_teaching, us.is_teaching${groupBy.join(' ')}
+            ORDER BY u.username
+            `
+        );
+        console.log(results.rows);
+        if(results.rows.length === 0) {
+            res.status(404).json({ noData: 'No data' });
+            return;
+        };
+        res.status(200).json({
+            profiles: results.rows
+        });
+    } catch(err) {
+        console.error(err);
+    };
+});
+
+app.post('/fetch-filtered-learn-profiles', async(req, res) => {
+    const body = req.body;
+    try {
+        const { toLearnCategory, toLearn} = body;
+        const filters = [];
+        const groupBy = [];
+        if(toLearnCategory) {
+            filters.push(`AND c.category = '${toLearnCategory}'`);
+            groupBy.push(`, c.category`);
+        };
+        if(toLearn) {
+            filters.push(`AND s.name = '${toLearn}'`);
+            groupBy.push(`, s.name`);
+        };
+        const results = await client.query(
+            `
+            SELECT u.username, c.category, ARRAY_AGG(s.name) skills, us.is_learning, us.is_teaching FROM users u
+            JOIN users_skills us ON us.user_id = u.id
+            JOIN skills s ON us.skill_id = s.id
+            JOIN categories_skills cs ON cs.skill_id = s.id
+            JOIN categories c ON cs.category_id = c.id
+            WHERE us.is_learning = true ${filters.join(' ')}
+            GROUP BY u.username, us.is_learning, us.is_teaching${groupBy.join(' ')}
+            ORDER BY u.username
+            `
+        );
+        if(results.rows.length === 0) {
+            res.status(404).json({ noData: 'No data' });
+            return;
+        };
+        res.status(200).json({
+            profiles: results.rows
+        });
+    } catch(err) {
+        console.error(err);
+    };
+});
+
 app.post('/fetch-filtered-profiles', async(req, res) => {
     const body = req.body;
     try {

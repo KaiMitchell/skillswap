@@ -6,8 +6,6 @@ function MainFilterDropDownContainer({ setWhichFilter, skills, filter, setFilter
     const [isToLearnSkillsDropDown, setIsToLearnSkillsDropDown] = useState(false);
     const [isToTeachSkillsDropDown, setIsToTeachSkillsDropDown] = useState(false);
 
-    useEffect(() => {console.log('new filter: ', filter)}, [filter]);
-
     const filterTitles = ['Learning category', 'Teaching category', 'Your gender', 'Gender preference', 'Online / In Person'];
     let filterValueKeys; 
     if(typeof filter === 'object' && filter !== null) {

@@ -27,9 +27,6 @@ function MainProfileCardsSection({ learnProfiles, teachProfiles, filter, whichFi
         setFilterType({ learn: toLearnFilterHeader, teach: toTeachFilterHeader });
     }, [filter]);
 
-    console.log(filter);
-
-
     return(
         <section id='profile-cards' className='relative h-full w-full flex gap-5'>
             <div className='w-1/2 flex flex-col gap-5 pt-5'>
@@ -40,7 +37,11 @@ function MainProfileCardsSection({ learnProfiles, teachProfiles, filter, whichFi
                     if(whichFilter.headerFilter) {
                         skills = obj.name; //skill name
                     } else if(whichFilter.mainFilter) {
-                        skills = obj.skills;
+                        if(obj.skills){
+                            skills = obj.skills;
+                        } else {
+                            skills = obj.to_learn;
+                        };
                     } else {
                         skills = obj.to_learn;
                     };
@@ -57,7 +58,11 @@ function MainProfileCardsSection({ learnProfiles, teachProfiles, filter, whichFi
                     if(whichFilter.headerFilter) {
                         skills = obj.name; //skill name
                     } else if(whichFilter.mainFilter) {
-                        skills = obj.skills;
+                        if(obj.skills){
+                            skills = obj.skills;
+                        } else {
+                            skills = obj.to_teach;
+                        };
                     } else {
                         skills = obj.to_teach;
                     };
