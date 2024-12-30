@@ -27,11 +27,16 @@ function MainProfileCardsSection({ learnProfiles, teachProfiles, filter, whichFi
         setFilterType({ learn: toLearnFilterHeader, teach: toTeachFilterHeader });
     }, [filter]);
 
+    const learnCount = learnProfiles?.length;
+    const teachCount = teachProfiles?.length;
+    const learnFilterInfo = `${learnCount === 0 ? 'No' : learnCount} profile${learnCount === 1 ? ' wants' : "'s want"} to learn...`;
+    const teachFilterInfo = `${teachCount === 0 ? 'No' : teachCount} profile${teachCount === 1 ? ' wants' : "'s want"} to teach...`;
+
     return(
         <section id='profile-cards' className='relative h-full w-full flex gap-5'>
             <div className='w-1/2 flex flex-col gap-5 pt-5'>
                 <h2 className='text-center text-2xl font-bold'>{`Searching by ${whichFilter.headerFilter ? 'SKILL' : filterType.learn}`}</h2>
-                <h3 className='text-center'>These profiles want to learn...</h3>
+                <h3 className='text-center'>{`${learnFilterInfo}`}</h3>
                 {learnProfiles?.map((obj) => {
                     let skills;
                     if(whichFilter.headerFilter) {
@@ -52,7 +57,7 @@ function MainProfileCardsSection({ learnProfiles, teachProfiles, filter, whichFi
             </div>
             <div className='w-1/2 flex flex-col gap-5 pt-5'>
                 <h2 className='text-center text-2xl font-bold'>{`Searching by ${whichFilter.headerFilter ? 'SKILL' : filterType.teach}`}</h2>
-                <h3 className='text-center'>These profiles want to teach...</h3>
+                <h3 className='text-center'>{`${teachFilterInfo}`}</h3>
                 {teachProfiles?.map((obj) => {
                     let skills;
                     if(whichFilter.headerFilter) {
