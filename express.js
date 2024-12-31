@@ -410,6 +410,8 @@ app.post('/fetch-quick-filtered-profiles', async(req, res) => {
 
 app.post('/fetch-profile-skills', async(req, res) => {
     const { username } = req.body;
+    const toLearnData = {};
+    const toTeachData = {};
     try{
         const skillsToLearn = await client.query(
             `
@@ -429,10 +431,13 @@ app.post('/fetch-profile-skills', async(req, res) => {
             GROUP BY us.is_teaching, u.username
             `, [username]
         );
-        console.log(skillsToLearn?.rows, skillsToTeach?.rows);
+        toLearnData.skills = skillsToLearn.rows[0]?.skills || ['No skills to display'];
+        toLearnData.isSkills = skillsToLearn.rows[0]?.skills ? true : false;
+        toTeachData.skills = skillsToTeach.rows[0]?.skills || ['No skills to display'];
+        toTeachData.isSkills = skillsToTeach.rows[0]?.skills ? true : false;
         res.status(200).json({ 
-            toLearn: skillsToLearn.rows[0]?.skills || ['No skills to display'], 
-            toTeach: skillsToTeach.rows[0]?.skills || ['No skills to display'] 
+            toLearn: toLearnData, 
+            toTeach: toTeachData
         });
     } catch(err) {
         console.error(err);
