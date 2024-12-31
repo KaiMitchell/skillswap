@@ -408,6 +408,37 @@ app.post('/fetch-quick-filtered-profiles', async(req, res) => {
     };
 });
 
+app.post('/fetch-profile-skills', async(req, res) => {
+    const { username } = req.body;
+    try{
+        const skillsToLearn = await client.query(
+            `
+            SELECT ARRAY_AGG(s.name) skills, u.username, us.is_learning FROM skills s
+            JOIN users_skills us ON us.user_id = (SELECT u.id FROM users u WHERE username = $1)
+            JOIN users u ON u.username = $1
+            WHERE us.skill_id = s.id AND us.is_learning
+            GROUP BY us.is_learning, u.username
+            `, [username]
+        );
+        const skillsToTeach = await client.query(
+            `
+            SELECT ARRAY_AGG(s.name) skills, u.username, us.is_teaching FROM skills s
+            JOIN users_skills us ON us.user_id = (SELECT u.id FROM users u WHERE username = $1)
+            JOIN users u ON u.username = $1
+            WHERE us.skill_id = s.id AND us.is_teaching
+            GROUP BY us.is_teaching, u.username
+            `, [username]
+        );
+        console.log(skillsToLearn?.rows, skillsToTeach?.rows);
+        res.status(200).json({ 
+            toLearn: skillsToLearn.rows[0]?.skills || ['No skills to display'], 
+            toTeach: skillsToTeach.rows[0]?.skills || ['No skills to display'] 
+        });
+    } catch(err) {
+        console.error(err);
+    }
+});
+
 app.listen(PORT, () => {
     console.log(`Listening on localhost:${PORT}`);
 });
