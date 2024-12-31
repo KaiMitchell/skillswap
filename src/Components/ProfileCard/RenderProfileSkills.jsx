@@ -1,22 +1,15 @@
-import { useState } from 'react';
+import { RenderProfileSkills } from "./RenderProfileData";
 
-function RenderProfileSkills({ profileData }) {
-    const isSkills = profileData?.isSkills;
-
-    if(profileData?.isSkills) {
-        console.log('isSkills: ', profileData.isSkills);
-    }
+function ProfileSkills({ profileData, isRenderAllSkills, type }) {
+    console.log(isRenderAllSkills);
     return(
-        <>
-            {profileData?.skills.map(skill => 
-            <li 
-                className={`${!profileData.isSkills ? 'absolute transform -translate-x-1/2 -translate-y-1/2 ' : 'block'} top-1/2 left-1/2 text-white text-xs`} 
-                key={skill}
-            >
-                {skill}
-            </li>)}
-        </>
+        <div className={`${isRenderAllSkills ? 'block': 'hidden'} h-1/3`}>
+            <p className='ml-2.5 pb-0 text-large font-bold'>{type}</p>
+            <ul className={`h-full pl-5 bg-stone-600 overflow-y-auto no-scrollbar`}>
+                <RenderProfileSkills profileData={profileData} />
+            </ul>
+        </div>
     );
 };
 
-export default RenderProfileSkills;
+export default ProfileSkills;
