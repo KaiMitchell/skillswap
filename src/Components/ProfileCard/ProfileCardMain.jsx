@@ -1,4 +1,4 @@
-import ProfileCardMobileComponents from "./ProfileCardMobileComponents";
+import ProfileCardDetailComponents from "./ProfileCardDetailComponents";
 
 function ProfileCardMain({ name, skills }) {
     let skill;
@@ -9,13 +9,6 @@ function ProfileCardMain({ name, skills }) {
     };
     return(
         <div className='relative bg-stone-700 bg-contain w-full bg-center'>
-            <div className='flex h-64'>
-                <div className='w-full h-full'>
-                    {/* Just a placeholder image for development purposes */}
-                    <img className='object-cover h-full' src='https://static.vecteezy.com/system/resources/previews/035/187/362/non_2x/ai-generated-man-guy-model-look-white-smile-face-portrait-confidence-african-isolated-handsome-photo.jpg' />
-                </div>
-                <ProfileCardMobileComponents username={name} skills={skills} />
-            </div>
             <>  
                 <h3 className="hidden sm:block absolute top-0 sm:left-0 font-bold text-xl px-2.5 bg-black bg-opacity-30">
                     {name}
@@ -24,6 +17,13 @@ function ProfileCardMain({ name, skills }) {
                     {skill}
                 </h3>
             </>
+            <div className='flex h-64'>
+                <div className='w-full h-full'>
+                    {/* Just a placeholder image for development purposes */}
+                    <img className='object-cover h-full' src='https://static.vecteezy.com/system/resources/previews/035/187/362/non_2x/ai-generated-man-guy-model-look-white-smile-face-portrait-confidence-african-isolated-handsome-photo.jpg' />
+                </div>
+                <ProfileCardDetailComponents username={name} skills={skills} />
+            </div>
         </div>
     );
 };

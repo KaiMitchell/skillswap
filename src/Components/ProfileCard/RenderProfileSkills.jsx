@@ -1,7 +1,6 @@
 import { RenderProfileSkills } from "./RenderProfileData";
 
 function ProfileSkills({ profileData, isRenderAllSkills, type }) {
-    console.log(isRenderAllSkills);
     return(
         <div className={`${isRenderAllSkills ? 'block': 'hidden'} h-1/3`}>
             <p className='ml-2.5 pb-0 text-large font-bold'>{type}</p>

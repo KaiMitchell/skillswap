@@ -444,6 +444,39 @@ app.post('/fetch-profile-skills', async(req, res) => {
     }
 });
 
+app.post('/handle-match-request', async(req, res) => {
+    const { currentUser, selectedUser, isRequested } = req.body;
+    console.log(currentUser, selectedUser);
+    try{
+        let query;
+        if(!isRequested) {
+            query =         
+            `
+            DELETE FROM match_requests
+            WHERE u_id1 = (SELECT id FROM users WHERE username = $1)
+            AND u_id2 = (SELECT id FROM users WHERE username = $2)
+            `
+        } else {
+            query =             
+            `
+            INSERT INTO match_requests(u_id1, u_id2, requestor)
+            SELECT
+                (SELECT id FROM users WHERE username = $1),
+                (SELECT id FROM users WHERE username = $2), 
+                'UID1'
+            `
+        }
+        const sendRequest = await client.query(query, [currentUser, selectedUser]);
+        console.log(sendRequest);
+        res.status(200).json({ 
+            isRequested: isRequested, 
+            message: sendRequest
+        });
+    } catch(err) {
+        console.error(err);
+    };
+});
+
 app.listen(PORT, () => {
     console.log(`Listening on localhost:${PORT}`);
 });
