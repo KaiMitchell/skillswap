@@ -58,6 +58,19 @@ app.get('/fetch-skills', async(req, res) => {
         };
 });
 
+app.get('/fetch-requests', async(req, res) => {
+    const username = req.query.user;
+    console.log(username);
+    const sentRequests = await client.query(
+        `
+        SELECT ARRAY_AGG(DISTINCT username) FROM users u
+        JOIN match_requests mr ON mr.u_id1 = (SELECT id FROM users WHERE username = $1)
+        WHERE mr.u_id2 = u.id
+        `, [username]
+    );
+    console.log(sentRequests.rows);
+});
+
 app.post('/', async(req, res) => {
     try {
         const { username } = req.body;
@@ -125,7 +138,7 @@ app.post('/sign-in', async(req, res) => {
         } else if(!match) {
             res.status(401).json({ message: 'Incorrect password', authorized: false });
             return;
-        };
+        };  
 
         console.log(user);
 

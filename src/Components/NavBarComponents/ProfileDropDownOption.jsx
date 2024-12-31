@@ -24,9 +24,21 @@ function ProfileDropDownOption({ setUser, text, setIsSettings, setIsShown }) {
     let hoverHandler = {};
     switch(true) {
         case text !== 'Sign out' && text !== 'Settings':
-            hoverHandler.onMouseOver = () => setIsPopOut(true);
+            hoverHandler.onMouseOver = () => {
+                setIsPopOut(true);
+                text === 'Requests' && fetchMatchRequests();
+            };
             hoverHandler.onMouseLeave = () => setIsPopOut(false);
             break;
+        case text === 'Requests':
+            hoverHandler.onMouseOver = () => console.log('requests');
+            break;
+    };
+
+    async function fetchMatchRequests() {
+        const response = await fetch(`http://localhost:3000/fetch-requests?user=${localStorage.getItem('user')}`);
+        const data = await response.json();
+        console.log(data);
     };
 
     return(
