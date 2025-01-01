@@ -16,9 +16,12 @@ function ProfileDropDownSidePopOut({ skills, sentRequests, fetchSentRequests, te
     };
     return(
         <div className={`group-hover:block hidden absolute -left-full w-full top-0 min-h-full h-max border-r border-stone-900 bg-stone-950`}>
-            {text === 'Requests' && <ProfileDropDownSidePopOutRequests sentRequests={sentRequests} fetchSentRequests={fetchSentRequests} removeMatchRequests={removeMatchRequests} />}
-            {text === 'Add skills to teach' && <ProfileDropDownSidePopOutSkillOptions skills={skills} />}
-            {text === 'Add skills to learn' && <ProfileDropDownSidePopOutSkillOptions skills={skills} />}
+            {text === 'Requests' && <ProfileDropDownSidePopOutRequests 
+                                        sentRequests={sentRequests} 
+                                        fetchSentRequests={fetchSentRequests} 
+                                        removeMatchRequests={removeMatchRequests}/>}
+            {text === 'Matches' && <ProfileDropDownSidePopOutRequests 
+                                        fetchSentRequests={fetchMatches}/>}
         </div>
     );
 };

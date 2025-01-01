@@ -18,27 +18,6 @@ function ProfileDropDownSidePopOutRequests({ sentRequests, removeMatchRequests }
     );
 };
 
-function ProfileDropDownSidePopOutSkillOptions({ skills }) {
-    return(
-        <div className='min-h-max max-h-80 bg-black w-full text-white rounded overflow-y-auto no-scrollbar shadow-xl shadow-black'>
-            <h3 className={`pl-2.5 p-2.5 text-stone-500`}>Add Skills</h3>
-            {skills?.map((obj) => {
-                return(
-                    <div key={obj.category} className='relative'>
-                        <h3 className='sticky top-0 p-2.5 text-sm text-stone-400 bg-stone-800'>{obj.category}</h3> 
-                        <ul className='bg-red-700'>
-                            {obj.skills.map((skill) => {
-                                return <li key={skill} className='pl-1 py-2 bg-stone-950 hover:bg-stone-900 text-stone-500 text-sm cursor-pointer'>{skill}</li>
-                            })}
-                        </ul>
-                    </div>
-                );
-            })}
-        </div>
-    );
-};
-
 export {
     ProfileDropDownSidePopOutRequests,
-    ProfileDropDownSidePopOutSkillOptions
 };

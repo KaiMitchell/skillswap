@@ -11,7 +11,7 @@ function NavOptions({ fetchSentRequests, sentRequests, setWhichFilter, skills, u
                 username={username} 
                 fetchProfiles={fetchProfiles} 
                 isNavDropDown={isNavDropDown} 
-                setIsNavDropDown={setIsNavDropDown} 
+                setIsNavDropDown={setIsNavDropDown}
             />
             <div className={`${isNavDropDown ? 'block' : 'hidden'} absolute sm:contents w-full sm:right-2.5 top-full flex flex-col gap-5 sm:flex-row sm:justify-between items-center bg-black sm:bg-transparent text-white sm:text-black p-0`}>
                 {skills?.map((obj, index) => <HeaderButton 
@@ -23,7 +23,7 @@ function NavOptions({ fetchSentRequests, sentRequests, setWhichFilter, skills, u
                                                 isLink={false} 
                                                 setFilter={setFilter} 
                                                 showRight={index > 1 ? true : false} 
-                                                obj={obj} 
+                                                obj={obj}
                                             />
                 )};
                 <div className='sticky right-0 flex bg-stone-950  shadow-[-7px_0px_10px_0px_black;]'>
