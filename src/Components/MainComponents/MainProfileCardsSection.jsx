@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { ToLearnProfiles, ToTeachProfiles } from './MainProfileCardRendering';
 import MainProfileCardsContainer from './MainProfileCardsContainer';
 
-function MainProfileCardsSection({ learnProfiles, teachProfiles, filter, whichFilter }) {
+function MainProfileCardsSection({ sentRequests, learnProfiles, teachProfiles, filter, whichFilter }) {
     const [filterType, setFilterType] = useState({learn: '', teach: ''});
 
     useEffect(() => {
@@ -35,8 +35,8 @@ function MainProfileCardsSection({ learnProfiles, teachProfiles, filter, whichFi
     const teachFilterInfo = `${teachCount === 0 ? 'No' : teachCount} profile${teachCount === 1 ? ' wants' : "'s want"} to teach...`;
     const learnSearchingByStr = `Searching by ${whichFilter.headerFilter ? 'SKILL' : filterType.learn}`;
     const teachSearchingByStr = `Searching by ${whichFilter.headerFilter ? 'SKILL' : filterType.teach}`;
-    let mappedLearnProfiles = <ToLearnProfiles learnprofiles={learnProfiles} whichfilter={whichFilter} />
-    let mappedTeachProfiles = <ToTeachProfiles teachprofiles={teachProfiles} whichfilter={whichFilter} />
+    let mappedLearnProfiles = <ToLearnProfiles sentRequests={sentRequests} learnprofiles={learnProfiles} whichfilter={whichFilter} />
+    let mappedTeachProfiles = <ToTeachProfiles sentRequests={sentRequests} teachprofiles={teachProfiles} whichfilter={whichFilter} />
     return(
         <section id='profile-cards' className='relative h-full w-full flex gap-5'>
             <MainProfileCardsContainer 

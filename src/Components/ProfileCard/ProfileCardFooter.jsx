@@ -1,12 +1,11 @@
 import { useState, useEffect, useRef } from 'react';
  
-function ProfileCardFooter({ city, availability, sendMatchRequest, username }) {
+function ProfileCardFooter({ sentRequests, city, availability, sendMatchRequest, username }) {
     const [isRequested, setIsRequested] = useState(false);
 
     useEffect(() => {
-        const userData = JSON.parse(localStorage.getItem('user data'));
-        const requested = userData.sentRequests.sent_requests.some(el => el === username);
-        setIsRequested(requested);
+        const isAlreadyRequested = sentRequests?.some(el => el === username);
+        setIsRequested(isAlreadyRequested);
     }, [username]);
 
     function handleClick() {

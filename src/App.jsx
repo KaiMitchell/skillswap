@@ -154,12 +154,14 @@ function App() {
       console.error(err.stack);
     };
   };
-
+  
+  //fetch sent match requests
   async function fetchSentRequests() {
     const response = await fetch(`http://localhost:3000/fetch-requests?user=${localStorage.getItem('user')}`);
     const data = await response.json();
     if(response.status === 200) {
-      setSentRequests(data);
+      console.log('fetchig');
+      setSentRequests(data.resData);
     };
   };
 
@@ -172,7 +174,7 @@ function App() {
           setUser={setUser} 
           setFilter={setHeaderFilter} 
           setIsSettings={setIsSettings} 
-          sentRequests={sentRequests.sentRequests}
+          sentRequests={sentRequests}
           fetchSentRequests={fetchSentRequests}
         />
         <SettingsModal 
@@ -182,6 +184,7 @@ function App() {
       <Routes>  
         <Route path='/' element={<Main />} />
         <Route index element={<Main 
+                                sentRequests={sentRequests}
                                 learnProfiles={learnProfiles} 
                                 teachProfiles={teachProfiles} 
                                 filter={mainFilter} 

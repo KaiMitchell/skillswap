@@ -3,6 +3,7 @@ import ProfileCard from '../ProfileCard/ProfileCard.jsx';
 function ToLearnProfiles({
     learnprofiles,
     whichfilter,
+    sentRequests,
     mappedlearnprofiles
 }) {
     mappedlearnprofiles = learnprofiles?.map((obj) => {
@@ -20,7 +21,7 @@ function ToLearnProfiles({
             skills = obj.to_learn;
         };
         return(
-            <ProfileCard key={obj.username} skills={skills} name={obj.username} />
+            <ProfileCard sentRequests={sentRequests} key={obj.username} skills={skills} name={obj.username} />
         );
     });
     return mappedlearnprofiles;
@@ -29,6 +30,7 @@ function ToLearnProfiles({
 function ToTeachProfiles({
     teachprofiles,
     whichfilter,
+    sentRequests,
     mappedteachprofiles
 }) {
     mappedteachprofiles = teachprofiles?.map((obj) => {
@@ -46,7 +48,7 @@ function ToTeachProfiles({
             skills = obj.to_teach;
         };
         return(
-            <ProfileCard key={obj.username} skills={skills} name={obj.username} />
+            <ProfileCard sentRequests={sentRequests} key={obj.username} skills={skills} name={obj.username} />
         );
     });
     return mappedteachprofiles;

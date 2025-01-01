@@ -60,15 +60,26 @@ app.get('/fetch-skills', async(req, res) => {
 
 app.get('/fetch-requests', async(req, res) => {
     const username = req.query.user;
-    console.log('logging: ', username);  
+    const resData = []; 
     const sentRequests = await client.query(
         `
-        SELECT ARRAY_AGG(DISTINCT username) sent_requests FROM users u
+        SELECT ARRAY_AGG(DISTINCT username) FROM users u
         JOIN match_requests mr ON mr.u_id1 = (SELECT id FROM users WHERE username = $1)
         WHERE mr.u_id2 = u.id
         `, [username]
     );
-    res.status(200).json({ sentRequests: sentRequests.rows[0] });
+    if(!sentRequests.rows[0].array_agg) {
+        resData.push('No Requests');
+    } else {
+        resData.push(...sentRequests.rows[0].array_agg);
+    };
+    // if(sentRequests) {
+    //     console.log('empty array');
+    // } else {
+    //     console.log('outside of empty array block');
+    // }
+    console.log(console.log(resData));
+    res.status(200).json({ resData: resData });
 });
 
 app.post('/', async(req, res) => {
@@ -491,7 +502,6 @@ app.post('/handle-match-request', async(req, res) => {
             `
         }
         const sendRequest = await client.query(query, [currentUser, selectedUser]);
-        console.log(sendRequest);
         res.status(200).json({ 
             isRequested: isRequested, 
             message: sendRequest
