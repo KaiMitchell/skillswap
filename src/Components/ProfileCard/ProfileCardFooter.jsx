@@ -1,7 +1,13 @@
 import { useState, useEffect, useRef } from 'react';
  
-function ProfileCardFooter({ city, availability, sendMatchRequest }) {
+function ProfileCardFooter({ city, availability, sendMatchRequest, username }) {
     const [isRequested, setIsRequested] = useState(false);
+
+    useEffect(() => {
+        const userData = JSON.parse(localStorage.getItem('user data'));
+        const requested = userData.sentRequests.sent_requests.some(el => el === username);
+        setIsRequested(requested);
+    }, [username]);
 
     function handleClick() {
         //Passed the match request function inside of the state because I can't figure out how to update the state immediately.

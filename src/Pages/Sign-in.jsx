@@ -10,11 +10,6 @@ function SignIn({ setUser, username }) {
         password: '',
     });
 
-    useEffect(() => {
-        console.log(userDetails);
-    }, [userDetails]);
-
-    //update value for each input field.
     function handleChangeInput(e, type) {
         setUserDetails(prev => ({
             ...prev,
@@ -30,10 +25,9 @@ function SignIn({ setUser, username }) {
             body: JSON.stringify(userDetails)
         });
         const data = await response.json(); 
-
         if(data.authorized) {
             setUser({ username: userDetails.username });
-            localStorage.setItem("user", userDetails.username);
+            localStorage.setItem("user", userDetails.username)
         };
     };
 
@@ -43,7 +37,7 @@ function SignIn({ setUser, username }) {
             Object.keys(prev).forEach((key) => newObj[key] = '');
             return newObj;
         });
-    }
+    };
 
     return(
         <div className='h-screen flex items-center'>

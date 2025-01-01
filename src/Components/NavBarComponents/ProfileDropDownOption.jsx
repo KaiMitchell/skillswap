@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import ProfileDropDownSidePopOut from "./ProfileDropDownSidePopOut.jsx";
 
-function ProfileDropDownOption({ setUser, text, setIsSettings, setIsShown }) {
+function ProfileDropDownOption({ sentRequests, setUser, text, setIsSettings, setIsShown }) {
     const [isPopOut, setIsPopOut] = useState(false);
 
     function handleClick() {
@@ -21,32 +21,17 @@ function ProfileDropDownOption({ setUser, text, setIsSettings, setIsShown }) {
             };
     };
 
-    let hoverHandler = {};
-    switch(true) {
-        case text !== 'Sign out' && text !== 'Settings':
-            hoverHandler.onMouseOver = () => {
-                setIsPopOut(true);
-                text === 'Requests' && fetchMatchRequests();
-            };
-            hoverHandler.onMouseLeave = () => setIsPopOut(false);
-            break;
-        case text === 'Requests':
-            hoverHandler.onMouseOver = () => console.log('requests');
-            break;
-    };
-
-    async function fetchMatchRequests() {
-        const response = await fetch(`http://localhost:3000/fetch-requests?user=${localStorage.getItem('user')}`);
-        const data = await response.json();
-        console.log(data);
-    };
+    const isNotSignOutOrSettings = text !== 'Sign out' && text !== 'Settings';
 
     return(
-            <div className='relative'>
+            <div className='relative group'>
                 <button {...clickHandler} {...hoverHandler} className='flex w-full py-5 px-10 items-center justify-center my-0 text-sm text-stone-500 hover:text-stone-400 hover:bg-stone-700 hover:cursor-pointer'>
                     {text}
                 </button>
-                <ProfileDropDownSidePopOut isPopOut={isPopOut} />
+                {isNotSignOutOrSettings && <ProfileDropDownSidePopOut 
+                                            isPopOut={isPopOut}
+                                            sentRequests={sentRequests}
+                                        />}
             </div>
     );
 };

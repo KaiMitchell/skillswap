@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import ProfileCard from "../ProfileCard/ProfileCard";
 import { ToLearnProfiles, ToTeachProfiles } from './MainProfileCardRendering';
 import MainProfileCardsContainer from './MainProfileCardsContainer';
 

@@ -63,12 +63,12 @@ app.get('/fetch-requests', async(req, res) => {
     console.log(username);
     const sentRequests = await client.query(
         `
-        SELECT ARRAY_AGG(DISTINCT username) FROM users u
+        SELECT ARRAY_AGG(DISTINCT username) sent_requests FROM users u
         JOIN match_requests mr ON mr.u_id1 = (SELECT id FROM users WHERE username = $1)
         WHERE mr.u_id2 = u.id
         `, [username]
     );
-    console.log(sentRequests.rows);
+    res.status(200).json({ sentRequests: sentRequests.rows[0] });
 });
 
 app.post('/', async(req, res) => {
@@ -111,8 +111,7 @@ app.post('/', async(req, res) => {
 app.post('/sign-in', async(req, res) => {
     try {
         const {username, password} = req.body;
-
-        //Guard clause - The catch block is lava :)
+        //Guard clause
         if(!password && !username) {
             res.status(401).json({ message: 'No data' });
             return;
@@ -123,7 +122,6 @@ app.post('/sign-in', async(req, res) => {
             res.status(401).json({ message: 'Please enter your username' });
             return;
         };
-
         const results = await client.query(
             `
              SELECT * FROM users u WHERE u.username = $1
@@ -131,7 +129,6 @@ app.post('/sign-in', async(req, res) => {
         );
         const user = results.rows[0];
         const match = await bcrypt.compare(password, user.password);
-
         if(!user) { 
             res.status(401).json({ message: 'User name does not exist', authorized: false });
             return;
@@ -139,13 +136,20 @@ app.post('/sign-in', async(req, res) => {
             res.status(401).json({ message: 'Incorrect password', authorized: false });
             return;
         };  
-
-        console.log(user);
-
         const token = jwt.sign({ userId: user.id }, 'SECRET', { expiresIn: '1h' });
-        console.log(token);
-    
-        res.status(200).json({ message: `Hi ${username}`, authorized: true, token: token });
+        const sentRequests = await client.query(
+            `
+            SELECT ARRAY_AGG(DISTINCT username) sent_requests FROM users u
+            JOIN match_requests mr ON mr.u_id1 = (SELECT id FROM users WHERE username = $1)
+            WHERE mr.u_id2 = u.id
+            `, [username]
+        );
+        res.status(200).json({ 
+            message: `Hi ${username}`, 
+            authorized: true, 
+            token: token,
+            sentRequests: sentRequests.rows[0]
+        });
     } catch(err) {
         console.error('error!: ', err);
     };

@@ -1,8 +1,17 @@
 import NavOptions from './NavOptions';
 
-function NavBar({ setWhichFilter, skills, username, setUser, setFilter, setIsSettings, fetchProfiles }) {
+function NavBar({ sentRequests, setWhichFilter, skills, username, setUser, setFilter, setIsSettings, fetchProfiles }) {
     return(
-        <NavOptions setWhichFilter={setWhichFilter} skills={skills} username={username} fetchProfiles={fetchProfiles} setUser={setUser} setFilter={setFilter} setIsSettings={setIsSettings} />
+        <NavOptions 
+            sentRequests={sentRequests} 
+            setWhichFilter={setWhichFilter} 
+            skills={skills} 
+            username={username} 
+            fetchProfiles={fetchProfiles} 
+            setUser={setUser} 
+            setFilter={setFilter} 
+            setIsSettings={setIsSettings} 
+        />
     );
 };
 

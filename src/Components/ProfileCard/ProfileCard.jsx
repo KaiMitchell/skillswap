@@ -4,8 +4,9 @@ import ProfileCardMain from "./ProfileCardMain";
 function ProfileCard({ img, skills, name }) {
 
     async function sendMatchRequest(isRequested) {
-        const currentUser = localStorage.getItem('user');
-        console.log(currentUser);
+        const userData = JSON.parse(localStorage.getItem('user data'));
+        const currentUser = userData.username;
+        console.log(userData);
         //Send the isRequested arg to be able to tell if the fetch should delete or insert a record
         const response = await fetch(`http://localhost:3000/handle-match-request`, {
             method: 'POST',
@@ -27,7 +28,8 @@ function ProfileCard({ img, skills, name }) {
             <ProfileCardFooter 
                 city='city' 
                 availability='availability' 
-                sendMatchRequest={sendMatchRequest} 
+                sendMatchRequest={sendMatchRequest}
+                username={name}
             />
         </div>
     );

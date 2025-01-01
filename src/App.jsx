@@ -11,6 +11,7 @@ import Main from './Sections/Main.jsx';
 const backendURL = 'localhost:3000';
 
 function App() {
+  const username = (localStorage.getItem('user'));
   const [skills, setSkills] = useState();
   const [newUserData, setNewUserData] = useState({
     username: '',
@@ -19,7 +20,8 @@ function App() {
     confirmPassword: ''
   });
   //TODO: add token.
-  const [user, setUser] = useState({ username: localStorage.getItem("user") || '' });
+  const [user, setUser] = useState({ username: username });
+  const [sentRequests, setSentRequests] = useState([]);
   const [whichFilter, setWhichFilter] = useState({
     headerFilter: false,
     mainFilter: false
@@ -39,13 +41,16 @@ function App() {
   const [teachProfiles, setTeachProfiles] = useState();
   const [isSettings, setIsSettings] = useState(false);
 
-  useEffect(() => {console.log(mainFilter)}, [mainFilter]);
+  useEffect(() => {
+    user && fetchSentRequests();
+  }, [user]);
 
-  useEffect(() => {fetchSkills()}, []);
+  useEffect(() => {
+    fetchSkills()
+  }, []);
 
   useEffect(() => {
     if(whichFilter.headerFilter) {
-      console.log('heeeeeeeeeeeeeeeeeeeeeeader: ', headerFilter);
       setMainFilter(prev => {
         const newValue = {...prev};
         for(const key in newValue) {
@@ -59,8 +64,6 @@ function App() {
       fetchProfiles();
     };
   }, [user, whichFilter]);
-
-  useEffect(() => {console.log('value change for headerFilter: ', headerFilter)}, [headerFilter]);
 
     useEffect(() => {
     if(mainFilter.toTeachCategory || mainFilter.toTeach) {
@@ -112,6 +115,7 @@ function App() {
       console.error(err);
     };
   };
+
  //fetch profiles that want to teach the skills filtered by the main drop down options
   async function filterTeachProfiles() {
     setTeachProfiles();
@@ -151,17 +155,63 @@ function App() {
     };
   };
 
+  async function fetchSentRequests() {
+    const response = await fetch(`http://localhost:3000/fetch-requests?user=${localStorage.getItem('user')}`);
+    const data = await response.json();
+    if(response.status === 200) {
+      setSentRequests(data);
+    };
+  };
+
   return(
     <BrowserRouter>
-        <Header setWhichFilter={setWhichFilter} skills={skills} username={user.username} fetchProfiles={fetchProfiles} setUser={setUser} setFilter={setHeaderFilter} setIsSettings={setIsSettings} />
-        <SettingsModal isSettings={isSettings} setIsSettings={setIsSettings} />
+        <Header 
+          setWhichFilter={setWhichFilter} 
+          skills={skills} username={user.username} 
+          fetchProfiles={fetchProfiles} 
+          setUser={setUser} 
+          setFilter={setHeaderFilter} 
+          setIsSettings={setIsSettings} 
+          sentRequests={sentRequests.sentRequests}
+        />
+        <SettingsModal 
+          isSettings={isSettings} 
+          setIsSettings={setIsSettings} 
+        />
       <Routes>  
         <Route path='/' element={<Main />} />
-        <Route index element={<Main learnProfiles={learnProfiles} teachProfiles={teachProfiles} filter={mainFilter} skills={skills} setFilter={setMainFilter} headerFilter={headerFilter} whichFilter={whichFilter} setWhichFilter={setWhichFilter} />} />
-        <Route path='pick-skills' element={<InitialPickSkillsPage skills={skills} username={newUserData.username} setUser={setUser} />} />
-        <Route path='pick-matches' element={<InitialPickMatchesPage setNewUserData={setNewUserData} newUserData={newUserData} />} />
-        <Route path="register" element={<Register setNewUserData={setNewUserData} newUserData={newUserData} />} />
-        <Route path="sign-in" element={<SignIn setUser={setUser} username={user.username} />} />
+        <Route index element={<Main 
+                                learnProfiles={learnProfiles} 
+                                teachProfiles={teachProfiles} 
+                                filter={mainFilter} 
+                                skills={skills} 
+                                setFilter={setMainFilter} 
+                                headerFilter={headerFilter} 
+                                whichFilter={whichFilter} 
+                                setWhichFilter={setWhichFilter} 
+                              />} 
+        />
+        <Route path='pick-skills' element={<InitialPickSkillsPage 
+                                              skills={skills} 
+                                              username={newUserData.username} 
+                                              setUser={setUser} 
+                                            />} 
+        />
+        <Route path='pick-matches' element={<InitialPickMatchesPage 
+                                              setNewUserData={setNewUserData} 
+                                              newUserData={newUserData} 
+                                            />} 
+        />
+        <Route path="register" element={<Register 
+                                          setNewUserData={setNewUserData} 
+                                          newUserData={newUserData} 
+                                        />} 
+        />
+        <Route path="sign-in" element={<SignIn 
+                                          setUser={setUser} 
+                                          username={user.username} 
+                                        />}
+        />
       </Routes>
     </BrowserRouter>
   );

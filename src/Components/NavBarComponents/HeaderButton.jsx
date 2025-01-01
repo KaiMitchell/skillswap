@@ -8,7 +8,7 @@ function HeaderButton({ setWhichFilter, obj, text, path, setUser, clickAction, i
         switch(clickAction) {
             case 'sign out':
                 setUser({ username: '' });
-                localStorage.removeItem("user");
+                localStorage.removeItem("user data");
                 break;
             case 'tips':
                 console.log('tips button clicked');
