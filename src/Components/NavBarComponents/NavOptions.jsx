@@ -3,7 +3,7 @@ import HeaderButton from './HeaderButton';
 import ProfileDropDownContainer from "./ProfileDropDownContainer";
 import MobileOptions from "./MobileOptions";
 
-function NavOptions({ sentRequests, setWhichFilter, skills, username, setUser, setFilter, setIsSettings, fetchProfiles }) {
+function NavOptions({ fetchSentRequests, sentRequests, setWhichFilter, skills, username, setUser, setFilter, setIsSettings, fetchProfiles }) {
     const [isNavDropDown, setIsNavDropDown] = useState(false);
     return(
         <nav className='relative w-full flex justify-between shadow-xl'>
@@ -35,6 +35,7 @@ function NavOptions({ sentRequests, setWhichFilter, skills, username, setUser, s
                     username={username} 
                     setIsSettings={setIsSettings} 
                     sentRequests={sentRequests}
+                    fetchSentRequests={fetchSentRequests}
                 />
             </div>
         </nav>

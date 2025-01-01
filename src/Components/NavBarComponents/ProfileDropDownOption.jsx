@@ -1,9 +1,7 @@
 import { useState } from 'react';
 import ProfileDropDownSidePopOut from "./ProfileDropDownSidePopOut.jsx";
 
-function ProfileDropDownOption({ sentRequests, setUser, text, setIsSettings, setIsShown }) {
-    const [isPopOut, setIsPopOut] = useState(false);
-
+function ProfileDropDownOption({ fetchSentRequests,sentRequests, setUser, text, setIsSettings, setIsShown }) {
     function handleClick() {
         localStorage.removeItem('user');
         setUser({ username: '' });
@@ -25,11 +23,11 @@ function ProfileDropDownOption({ sentRequests, setUser, text, setIsSettings, set
 
     return(
             <div className='relative group'>
-                <button {...clickHandler} {...hoverHandler} className='flex w-full py-5 px-10 items-center justify-center my-0 text-sm text-stone-500 hover:text-stone-400 hover:bg-stone-700 hover:cursor-pointer'>
+                <button {...clickHandler} className='flex w-full py-5 px-10 items-center justify-center my-0 text-sm text-stone-500 hover:text-stone-400 hover:bg-stone-700 hover:cursor-pointer'>
                     {text}
                 </button>
                 {isNotSignOutOrSettings && <ProfileDropDownSidePopOut 
-                                            isPopOut={isPopOut}
+                                            fetchSentRequests={fetchSentRequests}
                                             sentRequests={sentRequests}
                                         />}
             </div>

@@ -60,7 +60,7 @@ app.get('/fetch-skills', async(req, res) => {
 
 app.get('/fetch-requests', async(req, res) => {
     const username = req.query.user;
-    console.log(username);
+    console.log('logging: ', username);  
     const sentRequests = await client.query(
         `
         SELECT ARRAY_AGG(DISTINCT username) sent_requests FROM users u
@@ -463,8 +463,15 @@ app.post('/fetch-profile-skills', async(req, res) => {
 
 app.post('/handle-match-request', async(req, res) => {
     const { currentUser, selectedUser, isRequested } = req.body;
-    console.log(currentUser, selectedUser);
+    console.log('logging: ', currentUser, selectedUser);
     try{
+        // const alreadyRequested = await client.query(
+        //     `
+        //     SELECT u_id2 FROM match_requests mr 
+        //     JOIN users u ON u.id = u_id2
+        //     WHERE u  
+        //     `
+        // );
         let query;
         if(!isRequested) {
             query =         

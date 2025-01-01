@@ -173,6 +173,7 @@ function App() {
           setFilter={setHeaderFilter} 
           setIsSettings={setIsSettings} 
           sentRequests={sentRequests.sentRequests}
+          fetchSentRequests={fetchSentRequests}
         />
         <SettingsModal 
           isSettings={isSettings} 
