@@ -1,7 +1,8 @@
-import { useState } from "react";
-import { ProfileDropDownSidePopOutRequests, ProfileDropDownSidePopOutSkillOptions } from "./ProfileDropDownSidePopOutOptions";
+import { useState, useEffect } from "react";
+import { ProfileDropDownSidePopOutRequests } from "./ProfileDropDownSidePopOutOptions";
 
 function ProfileDropDownSidePopOut({ skills, sentRequests, fetchSentRequests, text }) {
+    const [isUpdated, setIsUpdated] = useState(false);
 
     async function removeMatchRequests(selectedUser) {
         const username = localStorage.getItem('user');
@@ -11,17 +12,17 @@ function ProfileDropDownSidePopOut({ skills, sentRequests, fetchSentRequests, te
             body: JSON.stringify({  currentUser: username, selectedUser: selectedUser, isRequested: false })
         });
         const data = await response.json();
-        console.log(data);
         fetchSentRequests();
     };
+
     return(
-        <div className={`group-hover:block hidden absolute -left-full w-full top-0 min-h-full h-max border-r border-stone-900 bg-stone-950`}>
+        <div className={`group-hover:block hidden absolute right-full w-fit top-0 min-h-full h-max border-r border-stone-900 bg-stone-950`}>
             {text === 'Requests' && <ProfileDropDownSidePopOutRequests 
                                         sentRequests={sentRequests} 
                                         fetchSentRequests={fetchSentRequests} 
                                         removeMatchRequests={removeMatchRequests}/>}
-            {text === 'Matches' && <ProfileDropDownSidePopOutRequests 
-                                        fetchSentRequests={fetchMatches}/>}
+            {/* {text === 'Matches' && <ProfileDropDownSidePopOutRequests 
+                                        fetchSentRequests={fetchMatches}/>} */}
         </div>
     );
 };

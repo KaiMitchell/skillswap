@@ -21,7 +21,10 @@ function App() {
   });
   //TODO: add token.
   const [user, setUser] = useState({ username: username });
-  const [sentRequests, setSentRequests] = useState([]);
+  const [requests, setRequests] = useState({
+    sent: [],
+    recieved: []
+  }); 
   const [whichFilter, setWhichFilter] = useState({
     headerFilter: false,
     mainFilter: false
@@ -42,7 +45,7 @@ function App() {
   const [isSettings, setIsSettings] = useState(false);
 
   useEffect(() => {
-    user && fetchSentRequests();
+    user && fetchRequests();
   }, [user]);
 
   useEffect(() => {
@@ -156,13 +159,24 @@ function App() {
   };
   
   //fetch sent match requests
-  async function fetchSentRequests() {
+  async function fetchRequests() {
+    let sent = [];
+    let recieved = [];
     const response = await fetch(`http://localhost:3000/fetch-requests?user=${localStorage.getItem('user')}`);
     const data = await response.json();
     if(response.status === 200) {
-      console.log('fetchig');
-      setSentRequests(data.resData);
-    };
+      data.sentRequests.length > 0 ? sent = data.sentRequests : sent = [];
+      data.recievedRequests.length > 0 ? recieved = data.recievedRequests : recieved = []; 
+      setRequests({ sent: sent, recieved: recieved });
+    }; 
+  };
+
+  async function fetchRecievedRequests() {
+
+  };
+
+  //fetch accepted matches
+  async function fetchMatches() {
   };
 
   return(
@@ -174,8 +188,8 @@ function App() {
           setUser={setUser} 
           setFilter={setHeaderFilter} 
           setIsSettings={setIsSettings} 
-          sentRequests={sentRequests}
-          fetchSentRequests={fetchSentRequests}
+          sentRequests={requests?.sent}
+          fetchSentRequests={fetchRequests}//CHANGE BACK TO FETCH REQUESTS
         />
         <SettingsModal 
           isSettings={isSettings} 
@@ -184,7 +198,8 @@ function App() {
       <Routes>  
         <Route path='/' element={<Main />} />
         <Route index element={<Main 
-                                sentRequests={sentRequests}
+                                requests={requests}
+                                fetchRequests={fetchRequests}
                                 learnProfiles={learnProfiles} 
                                 teachProfiles={teachProfiles} 
                                 filter={mainFilter} 

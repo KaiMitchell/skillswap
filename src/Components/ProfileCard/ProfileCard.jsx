@@ -1,7 +1,7 @@
 import ProfileCardFooter from "./ProfileCardFooter";
 import ProfileCardMain from "./ProfileCardMain";
 
-function ProfileCard({ sentRequests, img, skills, name }) {
+function ProfileCard({ fetchRequests, requests, img, skills, name }) {
 
     async function sendMatchRequest(isRequested) {
         const currentUser = localStorage.getItem('user');
@@ -26,9 +26,10 @@ function ProfileCard({ sentRequests, img, skills, name }) {
             <ProfileCardFooter 
                 city='city' 
                 availability='availability' 
-                sentRequests={sentRequests}
+                requests={requests}
                 sendMatchRequest={sendMatchRequest}
                 username={name}
+                fetchRequests={fetchRequests}
             />
         </div>
     );

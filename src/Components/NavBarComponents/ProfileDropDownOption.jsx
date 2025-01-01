@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from "react";
 import ProfileDropDownSidePopOut from "./ProfileDropDownSidePopOut.jsx";
 
 function ProfileDropDownOption({ 
@@ -9,7 +9,12 @@ function ProfileDropDownOption({
     text, 
     setIsSettings, 
     setIsShown
- }) {
+ }) { 
+    //fetch data effect for individual pop outs due to re-rendering.
+    useEffect(() => {
+        text === 'Requests' && fetchSentRequests();
+    }, []); 
+
     function handleClick() {
         localStorage.removeItem('user');
         setUser({ username: '' });
@@ -23,11 +28,10 @@ function ProfileDropDownOption({
         case 'Settings':
             clickHandler.onClick = () => {
                 setIsSettings(true);
-                setIsShown(false);
+                setIsShown(() => false);
             };
     };
-
-    const isNotSignOutOrSettings = text !== 'Sign out' && text !== 'Settings';
+    const isNotSignOutOrSettings = true;
 
     return(
             <div className='relative group h-fit'>

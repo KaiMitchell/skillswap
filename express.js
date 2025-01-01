@@ -60,26 +60,34 @@ app.get('/fetch-skills', async(req, res) => {
 
 app.get('/fetch-requests', async(req, res) => {
     const username = req.query.user;
-    const resData = []; 
-    const sentRequests = await client.query(
+    const sentRequests = []; 
+    const recievedRequests = []; 
+    const sentRequestsQuery = await client.query(
         `
         SELECT ARRAY_AGG(DISTINCT username) FROM users u
         JOIN match_requests mr ON mr.u_id1 = (SELECT id FROM users WHERE username = $1)
         WHERE mr.u_id2 = u.id
         `, [username]
     );
-    if(!sentRequests.rows[0].array_agg) {
-        resData.push('No Requests');
-    } else {
-        resData.push(...sentRequests.rows[0].array_agg);
+    const recievedRequestsQuery = await client.query(
+        `
+        SELECT ARRAY_AGG(DISTINCT username) FROM users u
+        JOIN match_requests mr ON mr.u_id1 = (SELECT id FROM users WHERE username = $1)
+        WHERE mr.u_id2 = u.id
+        `, [username]
+    );
+    //push the query results into array for readability and passing into res data
+    if(sentRequestsQuery.rows[0].array_agg) {
+        sentRequests.push(...sentRequestsQuery.rows[0].array_agg);
     };
-    // if(sentRequests) {
-    //     console.log('empty array');
-    // } else {
-    //     console.log('outside of empty array block');
-    // }
-    console.log(console.log(resData));
-    res.status(200).json({ resData: resData });
+    if(recievedRequestsQuery.rows[0].array_agg) {
+        recievedRequests.push(...recievedRequestsQuery.rows[0].array_agg);
+    };
+    
+    res.status(200).json({ 
+        sentRequests: sentRequests,
+        recievedRequests: recievedRequests
+     });
 });
 
 app.post('/', async(req, res) => {

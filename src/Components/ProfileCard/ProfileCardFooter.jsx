@@ -1,22 +1,19 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
  
-function ProfileCardFooter({ sentRequests, city, availability, sendMatchRequest, username }) {
+function ProfileCardFooter({ fetchRequests, requests, city, availability, sendMatchRequest, username }) {
     const [isRequested, setIsRequested] = useState(false);
 
     useEffect(() => {
-        const isAlreadyRequested = sentRequests?.some(el => el === username);
+        const isAlreadyRequested = requests?.sent.some(el => el === username);
         setIsRequested(isAlreadyRequested);
     }, [username]);
 
     function handleClick() {
         //Passed the match request function inside of the state because I can't figure out how to update the state immediately.
         //Don't know if this is okay.
-        setIsRequested(prev => {
-            const newState = !prev;
-            console.log(newState);
-            sendMatchRequest(newState);
-            return newState;
-        });
+        const newState = !isRequested;
+        setIsRequested(newState);
+        sendMatchRequest(newState);
     };
 
     return(

@@ -2,12 +2,20 @@ import { useEffect, useState } from 'react';
 import { ToLearnProfiles, ToTeachProfiles } from './MainProfileCardRendering';
 import MainProfileCardsContainer from './MainProfileCardsContainer';
 
-function MainProfileCardsSection({ sentRequests, learnProfiles, teachProfiles, filter, whichFilter }) {
+function MainProfileCardsSection({ 
+    requests, 
+    fetchRequests,
+    learnProfiles, 
+    teachProfiles, 
+    filter, 
+    whichFilter 
+}) {
     const [filterType, setFilterType] = useState({learn: '', teach: ''});
 
     useEffect(() => {
         let toLearnFilterHeader;
         let toTeachFilterHeader;
+        console.log('rendering');
 
         //label the filter type while filtering profiles
         if(filter.toTeachCategory && !filter.toTeach) {
@@ -35,8 +43,18 @@ function MainProfileCardsSection({ sentRequests, learnProfiles, teachProfiles, f
     const teachFilterInfo = `${teachCount === 0 ? 'No' : teachCount} profile${teachCount === 1 ? ' wants' : "'s want"} to teach...`;
     const learnSearchingByStr = `Searching by ${whichFilter.headerFilter ? 'SKILL' : filterType.learn}`;
     const teachSearchingByStr = `Searching by ${whichFilter.headerFilter ? 'SKILL' : filterType.teach}`;
-    let mappedLearnProfiles = <ToLearnProfiles sentRequests={sentRequests} learnprofiles={learnProfiles} whichfilter={whichFilter} />
-    let mappedTeachProfiles = <ToTeachProfiles sentRequests={sentRequests} teachprofiles={teachProfiles} whichfilter={whichFilter} />
+    let mappedLearnProfiles = <ToLearnProfiles 
+                                fetchRequests={fetchRequests} 
+                                requests={requests} 
+                                learnprofiles={learnProfiles} 
+                                whichfilter={whichFilter} 
+                              />
+    let mappedTeachProfiles = <ToTeachProfiles 
+                                fetchRequests={fetchRequests} 
+                                requests={requests} 
+                                teachprofiles={teachProfiles} 
+                                whichfilter={whichFilter} 
+                              />
     return(
         <section id='profile-cards' className='relative h-full w-full flex gap-5'>
             <MainProfileCardsContainer 
