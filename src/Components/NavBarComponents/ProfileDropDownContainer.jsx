@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import ProfileDropDown from './ProfileDropDown';
 
-function ProfileDropDownContainer({ fetchSentRequests, sentRequests, username, setUser,  setIsSettings }) {
+function ProfileDropDownContainer({ skills, fetchSentRequests, sentRequests, username, setUser,  setIsSettings }) {
     const [isShown, setIsShown] = useState();
 
     return(
@@ -15,6 +15,7 @@ function ProfileDropDownContainer({ fetchSentRequests, sentRequests, username, s
                 isShown={isShown} 
                 setIsShown={setIsShown} 
                 setIsSettings={setIsSettings} 
+                skills={skills}
             />
         </div>
     );

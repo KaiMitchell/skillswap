@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import ProfileDropDownSidePopOut from "./ProfileDropDownSidePopOut.jsx";
 
-function ProfileDropDownOption({ fetchSentRequests,sentRequests, setUser, text, setIsSettings, setIsShown }) {
+function ProfileDropDownOption({ skills, fetchSentRequests,sentRequests, setUser, text, setIsSettings, setIsShown }) {
     function handleClick() {
         localStorage.removeItem('user');
         setUser({ username: '' });
@@ -29,6 +29,8 @@ function ProfileDropDownOption({ fetchSentRequests,sentRequests, setUser, text, 
                 {isNotSignOutOrSettings && <ProfileDropDownSidePopOut 
                                             fetchSentRequests={fetchSentRequests}
                                             sentRequests={sentRequests}
+                                            text={text}
+                                            skills={skills}
                                         />}
             </div>
     );

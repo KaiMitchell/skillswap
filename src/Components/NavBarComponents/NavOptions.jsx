@@ -36,6 +36,7 @@ function NavOptions({ fetchSentRequests, sentRequests, setWhichFilter, skills, u
                     setIsSettings={setIsSettings} 
                     sentRequests={sentRequests}
                     fetchSentRequests={fetchSentRequests}
+                    skills={skills}
                 />
             </div>
         </nav>
