@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import ProfileDropDownSidePopOut from "./ProfileDropDownSidePopOut.jsx";
+import PopOut from "./PopOut.jsx";
 
-function ProfileDropDownOption({ 
+function Option({ 
     skills, 
     fetchRequests,
     requests, 
@@ -38,14 +38,16 @@ function ProfileDropDownOption({
                 <button {...clickHandler} className='flex w-full py-5 px-10 items-center justify-center my-0 text-sm text-stone-500 hover:text-stone-400 hover:bg-stone-700 hover:cursor-pointer'>
                     {text}
                 </button>
-                {isNotSignOutOrSettings && <ProfileDropDownSidePopOut 
-                                            fetchRequests={fetchRequests}
-                                            requests={requests}
-                                            text={text}
-                                            skills={skills}
-                                        />}
+                {isNotSignOutOrSettings && 
+                    <PopOut 
+                        fetchRequests={fetchRequests}
+                        requests={requests}
+                        text={text}
+                        skills={skills}
+                    />
+                }
             </div>
     );
 };
 
-export default ProfileDropDownOption;
+export default Option;

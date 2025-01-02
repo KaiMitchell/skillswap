@@ -1,4 +1,4 @@
-import HeaderButton from "../HeaderButton";
+import Selection from "../Selection";
 
 function Categories({ 
     skills,
@@ -8,7 +8,7 @@ function Categories({
     return(
         <>
             {skills?.map((obj, index) => 
-                <HeaderButton 
+                <Selection 
                     setWhichFilter={setWhichFilter} 
                     key={obj.category} 
                     category={obj.category} 

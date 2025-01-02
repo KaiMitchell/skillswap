@@ -1,7 +1,6 @@
-import { useState, useEffect } from "react";
-import { ProfileDropDownSidePopOutSentRequests, ProfileDropDownSidePopOutRecievedRequests } from "./ProfileDropDownSidePopOutOptions";
+import { SentRequests, RecievedRequests } from "./PopOutOptions";
 
-function ProfileDropDownSidePopOut({ skills, requests, fetchRequests, text }) {
+function ProfileDropDownSidePopOut({ requests, fetchRequests, text }) {
     //remove a request you sent
     async function removeMatchRequests(selectedUser) {
         const username = localStorage.getItem('user');
@@ -13,6 +12,7 @@ function ProfileDropDownSidePopOut({ skills, requests, fetchRequests, text }) {
         const data = await response.json();
         fetchRequests();
     };
+
     //accept a request sent to you
     async function acceptMatchRequest(selectedUser) {
         const username = localStorage.getItem('user');
@@ -28,13 +28,19 @@ function ProfileDropDownSidePopOut({ skills, requests, fetchRequests, text }) {
 
     return(
         <div className={`group-hover:block hidden absolute right-full w-fit top-0 min-h-full h-max border-r border-stone-900 bg-stone-950`}>
-            {text === 'Sent Requests' && <ProfileDropDownSidePopOutSentRequests 
-                                        requests={requests} 
-                                        removeMatchRequests={removeMatchRequests}/>}
-            {text === 'Match Requests' && <ProfileDropDownSidePopOutRecievedRequests 
-                                        requests={requests} 
-                                        acceptMatchRequest={acceptMatchRequest}
-                                        removeMatchRequests={removeMatchRequests}/>}
+            {text === 'Sent Requests' && 
+                <SentRequests 
+                    requests={requests} 
+                    removeMatchRequests={removeMatchRequests}
+                />
+            }
+            {text === 'Match Requests' && 
+                <RecievedRequests 
+                    requests={requests} 
+                    acceptMatchRequest={acceptMatchRequest}
+                    removeMatchRequests={removeMatchRequests}
+                />
+            }
         </div>
     );
 };

@@ -1,8 +1,20 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import HeaderDropDown from './HeaderDropDown';
+import SkillsDropDown from './Skills/SkillsDropDown';
 
-function HeaderButton({ setWhichFilter, obj, text, path, setUser, clickAction, isLink, canHover, category, showRight, setFilter }) {
+function Selection({ 
+    setWhichFilter, 
+    obj, 
+    text, 
+    path, 
+    setUser, 
+    clickAction, 
+    isLink, 
+    canHover, 
+    category, 
+    showRight, 
+    setFilter 
+}) {
     const [isShown, setIsShown] = useState(false);
     function handleClick() {
         switch(clickAction) {
@@ -39,9 +51,19 @@ function HeaderButton({ setWhichFilter, obj, text, path, setUser, clickAction, i
                     <button onClick={() => handleClick()} className='sm:mb-0 w-full sm:px-10 text-xl sm:text-xs text-white'>
                         {text}
                     </button>
-                    {canHover && <HeaderDropDown setWhichFilter={setWhichFilter} obj={obj} isShown={isShown} setIsShown={setIsShown} category={category} showRight={showRight} setFilter={setFilter} />}
+                    {canHover && 
+                        <SkillsDropDown 
+                            setWhichFilter={setWhichFilter} 
+                            obj={obj} 
+                            isShown={isShown} 
+                            setIsShown={setIsShown} 
+                            category={category} 
+                            showRight={showRight} 
+                            setFilter={setFilter} 
+                        />
+                    }
                 </div>
     )
 };
 
-export default HeaderButton;
+export default Selection;

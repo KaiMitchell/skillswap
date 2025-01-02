@@ -36,7 +36,7 @@ function ProfileDropDownSidePopOutOptions({ array, removeMatchRequests, acceptMa
     );
 };
 //side pop out for sent match requests
-function ProfileDropDownSidePopOutSentRequests({ requests, removeMatchRequests }) {
+function SentRequests({ requests, removeMatchRequests }) {
     return(
         <ul className="text-nowrap">
             {<ProfileDropDownSidePopOutOptions 
@@ -48,7 +48,7 @@ function ProfileDropDownSidePopOutSentRequests({ requests, removeMatchRequests }
     );
 };
 //side pop out for recieved match requests
-function ProfileDropDownSidePopOutRecievedRequests({ requests, removeMatchRequests, acceptMatchRequest }) {
+function RecievedRequests({ requests, removeMatchRequests, acceptMatchRequest }) {
     return(
         <ul className="text-nowrap">
             {<ProfileDropDownSidePopOutOptions 
@@ -63,6 +63,6 @@ function ProfileDropDownSidePopOutRecievedRequests({ requests, removeMatchReques
 };
 
 export {
-    ProfileDropDownSidePopOutSentRequests,
-    ProfileDropDownSidePopOutRecievedRequests
+    SentRequests,
+    RecievedRequests
 };
