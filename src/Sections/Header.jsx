@@ -1,4 +1,4 @@
-import NavBar from "../Components/NavBarComponents/NavBar";
+import NavBar from "../Components/NavBar/NavBar";
 
 function Header({ fetchRequests, requests, setWhichFilter, skills, username, setUser, setFilter, setIsSettings, fetchProfiles }) {
     return(
