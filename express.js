@@ -489,14 +489,21 @@ app.post('/handle-match-request', async(req, res) => {
     const { currentUser, selectedUser, isRequested } = req.body;
     console.log('logging: ', currentUser, selectedUser);
     try{
+
         let query;
         if(!isRequested) {
             //Remove from match_requests table 
             query =         
             `
             DELETE FROM match_requests
-            WHERE u_id1 = (SELECT id FROM users WHERE username = $1)
-            AND u_id2 = (SELECT id FROM users WHERE username = $2)
+            WHERE 
+                u_id1 = (SELECT id FROM users WHERE username = $1) 
+                AND 
+                u_id2 = (SELECT id FROM users WHERE username = $2)
+            OR 
+                u_id1 = (SELECT id FROM users WHERE username = $2) 
+                AND 
+                u_id2 = (SELECT id FROM users WHERE username = $1)
             `;
         } else if(isRequested) {
             //Insert into match_requests table
@@ -515,9 +522,12 @@ app.post('/handle-match-request', async(req, res) => {
             )
             `
         };
+        await client.query('BEGIN');
         await client.query(query, [currentUser, selectedUser]);
+        await client.query('COMMIT');
         res.status(200).json({ message: isRequested ? 'Request sent' : 'Request cancelled' });
     } catch(err) {
+        await client.query('ROLLBACK');
         console.error(err);
     };
 });
