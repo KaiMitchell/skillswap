@@ -98,21 +98,30 @@ app.post('/', async(req, res) => {
 
         const toLearn = await client.query(
             `
-             SELECT u.username, ARRAY_AGG(s.name) to_learn FROM users u
-             JOIN users_skills us ON u.id = us.user_id
-             JOIN skills s ON s.id = us.skill_id
-             WHERE us.is_learning = true AND u.username != $1
-             GROUP BY u.id
-             ORDER BY u.id
+            SELECT u.username, ARRAY_AGG(s.name) as to_learn 
+            FROM users u
+            JOIN users_skills us ON u.id = us.user_id
+            JOIN skills s ON s.id = us.skill_id
+            LEFT JOIN match_requests mr ON u.id = mr.u_id2 AND mr.u_id1 = (SELECT id FROM users WHERE username = $1)
+            WHERE us.is_learning = true 
+            AND mr.u_id2 IS NULL
+            AND u.username != $1
+            GROUP BY u.id
+            ORDER BY u.id
             `, [username]
         );
+        
+        
 
         const toTeach = await client.query(
             `
              SELECT u.username, ARRAY_AGG(s.name) to_teach FROM users u
              JOIN users_skills us ON u.id = us.user_id
              JOIN skills s ON s.id = us.skill_id
-             WHERE us.is_teaching = true AND u.username != $1
+             LEFT JOIN match_requests mr ON mr.u_id2 = u.id AND mr.u_id1 = (SELECT id FROM users WHERE username = $1)
+             WHERE us.is_teaching = true 
+             AND u.username != $1   
+             AND mr.u_id2 IS NULL
              GROUP BY u.id
              ORDER BY u.id
             `, [username]

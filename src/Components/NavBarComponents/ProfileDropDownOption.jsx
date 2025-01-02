@@ -31,7 +31,7 @@ function ProfileDropDownOption({
                 setIsShown(() => false);
             };
     };
-    const isNotSignOutOrSettings = true;
+    const isNotSignOutOrSettings = text !== 'Sign out' && text !== 'Settings';
 
     return(
             <div className='relative group h-fit'>

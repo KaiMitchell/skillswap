@@ -1,8 +1,7 @@
 import ProfileCardFooter from "./ProfileCardFooter";
 import ProfileCardMain from "./ProfileCardMain";
 
-function ProfileCard({ fetchRequests, requests, img, skills, name }) {
-
+function ProfileCard({ isRequested, reMount, fetchRequests, requests, img, skills, name }) {
     async function sendMatchRequest(isRequested) {
         const currentUser = localStorage.getItem('user');
         //Send the isRequested arg to be able to tell if the fetch should delete or insert a record
@@ -14,6 +13,7 @@ function ProfileCard({ fetchRequests, requests, img, skills, name }) {
             body: JSON.stringify({ currentUser: currentUser, selectedUser: name, isRequested: isRequested })
         });
         const data = await response.json();
+        reMount(JSON.stringify(isRequested + name));
         console.log(data);
     };
     return(
@@ -29,6 +29,7 @@ function ProfileCard({ fetchRequests, requests, img, skills, name }) {
                 requests={requests}
                 sendMatchRequest={sendMatchRequest}
                 username={name}
+                isRequested={isRequested}
                 fetchRequests={fetchRequests}
             />
         </div>

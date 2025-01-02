@@ -5,11 +5,18 @@ function ToLearnProfiles({
     whichfilter,
     requests,
     fetchRequests,
-    mappedlearnprofiles
+    mappedlearnprofiles,
+    reMount
 }) {
     mappedlearnprofiles = learnprofiles?.map((obj) => {
         //render skills based on whether user is filtering from nav or main options
         let skills;
+        let isRequested = false;
+        for(const request of requests?.sent) {
+            if(request === obj.username) {
+                isRequested = true
+            };
+        };
         if(whichfilter.headerFilter) {
             skills = obj.name; //skill name
         } else if(whichfilter.mainFilter) {
@@ -24,10 +31,12 @@ function ToLearnProfiles({
         return(
             <ProfileCard 
                 fetchRequests={fetchRequests} 
+                isrequested={isRequested}
                 requests={requests} 
                 key={obj.username} 
                 skills={skills} 
                 name={obj.username} 
+                reMount={reMount}
             />
         );
     });
@@ -37,13 +46,20 @@ function ToLearnProfiles({
 function ToTeachProfiles({
     teachprofiles,
     whichfilter,
-    sentRequests,
+    requests,
     fetchRequests,
-    mappedteachprofiles
+    mappedteachprofiles,
+    reMount
 }) {
     mappedteachprofiles = teachprofiles?.map((obj) => {
         //render skills based on whether user is filtering from nav or main options
         let skills;
+        let isRequested = false;
+        for(const request of requests?.sent) {
+            if(request === obj.username) {
+                isRequested = true
+            };
+        };
         if(whichfilter.headerFilter) {
             skills = obj.name; //skill name
         } else if(whichfilter.mainFilter) {
@@ -58,10 +74,12 @@ function ToTeachProfiles({
         return(
             <ProfileCard 
                 fetchRequests={fetchRequests} 
-                sentRequests={sentRequests} 
+                isrequested={isRequested}
+                requests={requests} 
                 key={obj.username} 
                 skills={skills} 
                 name={obj.username} 
+                reMount={reMount}
             />
         );
     });

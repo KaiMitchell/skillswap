@@ -44,14 +44,17 @@ function App() {
   const [teachProfiles, setTeachProfiles] = useState();
   const [isSettings, setIsSettings] = useState(false);
 
+  //fetch requests on initial render
   useEffect(() => {
     user && fetchRequests();
   }, [user]);
 
+  //fetch all skills for the user to select from 
   useEffect(() => {
-    fetchSkills()
+    fetchSkills();
   }, []);
 
+  //filter profile result using filters
   useEffect(() => {
     if(whichFilter.headerFilter) {
       setMainFilter(prev => {
@@ -63,7 +66,6 @@ function App() {
       });
       headerFilterProfiles();
     } else if(!whichFilter.mainFilter) {
-      console.log('re-render');
       fetchProfiles();
     };
   }, [user, whichFilter]);
