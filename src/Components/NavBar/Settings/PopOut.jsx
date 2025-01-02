@@ -16,14 +16,17 @@ function ProfileDropDownSidePopOut({ requests, fetchRequests, text }) {
     //accept a request sent to you
     async function acceptMatchRequest(selectedUser) {
         const username = localStorage.getItem('user');
-        const response = await fetch(`http://localhost:3000/handle-match-request`, {
+        const response = await fetch(`http://localhost:3000/accept-match-request`, {
             method: 'POST',
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({  currentUser: username, selectedUser: selectedUser, isAccepted: true })
+            body: JSON.stringify({  
+                currentUser: username, 
+                selectedUser: selectedUser, 
+            })
         });
         const data = await response.json();
-        console.log(data);
-        // fetchRequests();
+        console.log('data: ', data);
+        fetchRequests();
     };
 
     return(

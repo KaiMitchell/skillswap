@@ -1,4 +1,4 @@
-function ProfileDropDownSidePopOutOptions({ array, removeMatchRequests, acceptMatchRequest, type, isAcceptButton }) {
+function PopOutOptions({ array, removeMatchRequests, acceptMatchRequest, type, isAcceptButton }) {
     return(
         <>
             <h3 className={`p-2.5 text-stone-500`}>{type}</h3>
@@ -39,7 +39,7 @@ function ProfileDropDownSidePopOutOptions({ array, removeMatchRequests, acceptMa
 function SentRequests({ requests, removeMatchRequests }) {
     return(
         <ul className="text-nowrap">
-            {<ProfileDropDownSidePopOutOptions 
+            {<PopOutOptions 
                 array={requests.sent} 
                 removeMatchRequests={removeMatchRequests} 
                 type='Pending matches'
@@ -51,7 +51,7 @@ function SentRequests({ requests, removeMatchRequests }) {
 function RecievedRequests({ requests, removeMatchRequests, acceptMatchRequest }) {
     return(
         <ul className="text-nowrap">
-            {<ProfileDropDownSidePopOutOptions 
+            {<PopOutOptions 
                 array={requests.recieved} 
                 acceptMatchRequest={acceptMatchRequest} 
                 removeMatchRequests={removeMatchRequests} 

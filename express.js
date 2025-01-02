@@ -486,46 +486,75 @@ app.post('/fetch-profile-skills', async(req, res) => {
 });
 
 app.post('/handle-match-request', async(req, res) => {
-    const { currentUser, selectedUser, isRequested, isAccepted } = req.body;
+    const { currentUser, selectedUser, isRequested } = req.body;
     console.log('logging: ', currentUser, selectedUser);
     try{
         let query;
         if(!isRequested) {
+            //Remove from match_requests table 
             query =         
             `
             DELETE FROM match_requests
             WHERE u_id1 = (SELECT id FROM users WHERE username = $1)
             AND u_id2 = (SELECT id FROM users WHERE username = $2)
             `;
-        } else if(isRequested && !isAccepted) {
+        } else if(isRequested) {
+            //Insert into match_requests table
+            //Using the rule of UID1 < UID2
+            //if u_id1 < u_id2 then u_id1 is the requestor
             query =             
             `
             INSERT INTO match_requests(u_id1, u_id2, requestor)
-            SELECT
+            VALUES(
                 (SELECT id FROM users WHERE username = $1),
                 (SELECT id FROM users WHERE username = $2), 
-                'UID1'
-            `;
-        } else if(!isRequested && isAccepted) {
-            query = 
+                CASE WHEN (SELECT id FROM users WHERE username = $1) < (SELECT id FROM users WHERE username = $2)
+                    THEN 'UID1':: requestor 
+                    ELSE 'UID2':: requestor
+                END
+            )
             `
-            INSERT INTO matches(user_id, match_id)
-            SELECT
-                (SELECT id FROM users WHERE username = $1),
-                (SELECT id FROM match_requests WHERE u_id1 = ),
-            `;
-        }
-        const sendRequest = await client.query(query, [currentUser, selectedUser]);
-        res.status(200).json({ 
-            isRequested: isRequested, 
-            message: sendRequest
-        });
+        };
+        await client.query(query, [currentUser, selectedUser]);
+        res.status(200).json({ message: isRequested ? 'Request sent' : 'Request cancelled' });
     } catch(err) {
         console.error(err);
     };
 });
 
-app.post('/accept-match-request');
+app.post('/accept-match-request', async(req, res) => {
+    const { currentUser, selectedUser } = req.body;
+    //Use transactions to handle multiple queries
+    try {
+        await client.query('BEGIN');
+        await client.query(`
+            INSERT INTO matches(user_id, match_id) 
+            VALUES(
+                (SELECT id FROM users WHERE username = $1),
+                (SELECT id FROM users WHERE username = $2));
+            `, [currentUser, selectedUser]);
+        await client.query(`
+            INSERT INTO matches(match_id, user_id) 
+            VALUES(
+                (SELECT id FROM users WHERE username = $1),
+                (SELECT id FROM users WHERE username = $2));
+            `, [currentUser, selectedUser]);
+        //Remove the request from the match_requests table
+        await client.query(`
+                DELETE FROM match_requests
+                WHERE 
+                    (u_id1 = (SELECT id FROM users WHERE username = $1) AND u_id2 = (SELECT id FROM users WHERE username = $2))
+                OR 
+                    (u_id2 = (SELECT id FROM users WHERE username = $1) AND u_id1 = (SELECT id FROM users WHERE username = $2))
+            `, [currentUser, selectedUser]);
+        await client.query('COMMIT');
+        res.status(200).json({ message: 'Match succesful' });
+    } catch(err) {
+        //undo any changes made to the database if an error is caught
+        await client.query('ROLLBACK');
+        console.error(err);
+    }
+});
 
 app.listen(PORT, () => {
     console.log(`Listening on localhost:${PORT}`);
