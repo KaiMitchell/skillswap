@@ -1,9 +1,9 @@
-function ProfileDropDownSidePopOutRequests({ sentRequests, removeMatchRequests }) {
+function ProfileDropDownSidePopOutRequests({ requests, removeMatchRequests }) {
     return(
         <ul className="text-nowrap">
             <h3 className={`pl-2.5 pt-2.5 text-stone-500`}>Current requests</h3>
-            {Array.isArray(sentRequests) && sentRequests.length ? 
-                sentRequests.map(request => {
+            {Array.isArray(requests.sent) && requests.sent.length ? 
+                requests.sent.map(request => {
                     //On last item give padding to prevent mouse from leaving div due to 
                     //item being removed
                     return(

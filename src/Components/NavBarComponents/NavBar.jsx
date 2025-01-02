@@ -1,9 +1,9 @@
 import NavOptions from './NavOptions';
 
-function NavBar({ fetchSentRequests, sentRequests, setWhichFilter, skills, username, setUser, setFilter, setIsSettings, fetchProfiles }) {
+function NavBar({ fetchSentRequests, requests, setWhichFilter, skills, username, setUser, setFilter, setIsSettings, fetchProfiles }) {
     return(
         <NavOptions 
-            sentRequests={sentRequests} 
+            requests={requests} 
             setWhichFilter={setWhichFilter} 
             skills={skills} 
             username={username} 

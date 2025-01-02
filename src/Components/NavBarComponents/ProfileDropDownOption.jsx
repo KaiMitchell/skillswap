@@ -4,7 +4,7 @@ import ProfileDropDownSidePopOut from "./ProfileDropDownSidePopOut.jsx";
 function ProfileDropDownOption({ 
     skills, 
     fetchSentRequests,
-    sentRequests, 
+    requests, 
     setUser, 
     text, 
     setIsSettings, 
@@ -40,7 +40,7 @@ function ProfileDropDownOption({
                 </button>
                 {isNotSignOutOrSettings && <ProfileDropDownSidePopOut 
                                             fetchSentRequests={fetchSentRequests}
-                                            sentRequests={sentRequests}
+                                            requests={requests}
                                             text={text}
                                             skills={skills}
                                         />}

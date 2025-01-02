@@ -190,7 +190,7 @@ function App() {
           setUser={setUser} 
           setFilter={setHeaderFilter} 
           setIsSettings={setIsSettings} 
-          sentRequests={requests?.sent}
+          requests={requests}
           fetchSentRequests={fetchRequests}//CHANGE BACK TO FETCH REQUESTS
         />
         <SettingsModal 

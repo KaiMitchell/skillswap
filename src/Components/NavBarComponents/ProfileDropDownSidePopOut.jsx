@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { ProfileDropDownSidePopOutRequests } from "./ProfileDropDownSidePopOutOptions";
 
-function ProfileDropDownSidePopOut({ skills, sentRequests, fetchSentRequests, text }) {
+function ProfileDropDownSidePopOut({ skills, requests, fetchSentRequests, text }) {
     const [isUpdated, setIsUpdated] = useState(false);
 
     async function removeMatchRequests(selectedUser) {
@@ -18,7 +18,7 @@ function ProfileDropDownSidePopOut({ skills, sentRequests, fetchSentRequests, te
     return(
         <div className={`group-hover:block hidden absolute right-full w-fit top-0 min-h-full h-max border-r border-stone-900 bg-stone-950`}>
             {text === 'Requests' && <ProfileDropDownSidePopOutRequests 
-                                        sentRequests={sentRequests} 
+                                        requests={requests} 
                                         fetchSentRequests={fetchSentRequests} 
                                         removeMatchRequests={removeMatchRequests}/>}
             {/* {text === 'Matches' && <ProfileDropDownSidePopOutRequests 

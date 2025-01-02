@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import ProfileDropDown from './ProfileDropDown';
 
-function ProfileDropDownContainer({ skills, fetchSentRequests, sentRequests, username, setUser,  setIsSettings }) {
+function ProfileDropDownContainer({ skills, fetchSentRequests, requests, username, setUser,  setIsSettings }) {
     const [isShown, setIsShown] = useState();
 
     return(
@@ -12,7 +12,7 @@ function ProfileDropDownContainer({ skills, fetchSentRequests, sentRequests, use
             <p className='text-white self-center hover:bg-stone-700'>{username?.slice(0, 1).toUpperCase()}</p>
             <ProfileDropDown 
                 fetchSentRequests={fetchSentRequests}
-                sentRequests={sentRequests}
+                requests={requests}
                 setUser={setUser} 
                 username={username} 
                 isShown={isShown} 
