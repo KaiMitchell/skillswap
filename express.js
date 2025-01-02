@@ -72,8 +72,8 @@ app.get('/fetch-requests', async(req, res) => {
     const recievedRequestsQuery = await client.query(
         `
         SELECT ARRAY_AGG(DISTINCT username) FROM users u
-        JOIN match_requests mr ON mr.u_id1 = (SELECT id FROM users WHERE username = $1)
-        WHERE mr.u_id2 = u.id
+        JOIN match_requests mr ON mr.u_id2 = (SELECT id FROM users WHERE username = $1)
+        WHERE mr.u_id1 = u.id
         `, [username]
     );
     //push the query results into array for readability and passing into res data
@@ -83,7 +83,7 @@ app.get('/fetch-requests', async(req, res) => {
     if(recievedRequestsQuery.rows[0].array_agg) {
         recievedRequests.push(...recievedRequestsQuery.rows[0].array_agg);
     };
-    
+    console.log(recievedRequests, sentRequests);
     res.status(200).json({ 
         sentRequests: sentRequests,
         recievedRequests: recievedRequests
@@ -110,9 +110,7 @@ app.post('/', async(req, res) => {
             ORDER BY u.id
             `, [username]
         );
-        
-        
-
+        //Use 'and mr.u_id2 IS NULL to return all records that are NULL 
         const toTeach = await client.query(
             `
              SELECT u.username, ARRAY_AGG(s.name) to_teach FROM users u

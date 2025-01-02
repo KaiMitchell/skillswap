@@ -3,7 +3,7 @@ import ProfileDropDownSidePopOut from "./ProfileDropDownSidePopOut.jsx";
 
 function ProfileDropDownOption({ 
     skills, 
-    fetchSentRequests,
+    fetchRequests,
     requests, 
     setUser, 
     text, 
@@ -12,7 +12,7 @@ function ProfileDropDownOption({
  }) { 
     //fetch data effect for individual pop outs due to re-rendering.
     useEffect(() => {
-        text === 'Requests' && fetchSentRequests();
+        text === 'Requests' && fetchRequests();
     }, []); 
 
     function handleClick() {
@@ -39,7 +39,7 @@ function ProfileDropDownOption({
                     {text}
                 </button>
                 {isNotSignOutOrSettings && <ProfileDropDownSidePopOut 
-                                            fetchSentRequests={fetchSentRequests}
+                                            fetchRequests={fetchRequests}
                                             requests={requests}
                                             text={text}
                                             skills={skills}

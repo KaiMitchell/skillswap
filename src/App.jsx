@@ -191,7 +191,7 @@ function App() {
           setFilter={setHeaderFilter} 
           setIsSettings={setIsSettings} 
           requests={requests}
-          fetchSentRequests={fetchRequests}//CHANGE BACK TO FETCH REQUESTS
+          fetchRequests={fetchRequests}//CHANGE BACK TO FETCH REQUESTS
         />
         <SettingsModal 
           isSettings={isSettings} 
