@@ -1,7 +1,7 @@
-import ProfileCardFooter from "./ProfileCardFooter";
-import ProfileCardMain from "./ProfileCardMain";
+import CardFooter from "./CardFooter";
+import CardLayout from "./CardLayout";
 
-function ProfileCard({ isRequested, reMount, fetchRequests, requests, img, skills, name }) {
+function Card({ isRequested, reMount, fetchRequests, requests, img, skills, name }) {
     async function sendMatchRequest(isRequested) {
         const currentUser = localStorage.getItem('user');
         //Send the isRequested arg to be able to tell if the fetch should delete or insert a record
@@ -19,11 +19,11 @@ function ProfileCard({ isRequested, reMount, fetchRequests, requests, img, skill
     return(
         <div className='flex flex-col bg-black items-center my-10 shadow-xl bg-white'>
             {/* <div className='relative bg-contain h-64 w-full bg-center' style={{backgroundImage: `url(${img})`}}> */}
-            <ProfileCardMain 
+            <CardLayout 
                 name={name} 
                 skills={skills} 
             />
-            <ProfileCardFooter 
+            <CardFooter 
                 city='city' 
                 availability='availability' 
                 requests={requests}
@@ -36,4 +36,4 @@ function ProfileCard({ isRequested, reMount, fetchRequests, requests, img, skill
     );
 };
 
-export default ProfileCard;
+export default Card;

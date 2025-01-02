@@ -1,12 +1,10 @@
 import { useState, useEffect } from 'react';
  
-function ProfileCardFooter({ 
+function CardFooter({ 
     fetchRequests, 
-    requests, 
     city, 
     availability, 
     sendMatchRequest, 
-    username 
 }) {
     const [requested, setRequested] = useState(false);
 
@@ -18,16 +16,6 @@ function ProfileCardFooter({
         sendMatchRequest(newState);
         fetchRequests(requested);
     };
-    useEffect(() => {
-        let newState = false;
-        for(const item of requests?.sent) {
-            
-            if(item === username) {
-                newState = true;
-            };
-        };
-        setRequested(newState);
-    }, []);
 
     return(
         <footer id="card-footer" className="flex justify-between w-full items-center pl-2.5 bg-stone-900">
@@ -43,4 +31,4 @@ function ProfileCardFooter({
     );
 };
 
-export default ProfileCardFooter;
+export default CardFooter;

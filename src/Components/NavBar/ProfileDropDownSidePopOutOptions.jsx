@@ -1,4 +1,4 @@
-function ProfileDropDownSidePopOutOptions({ array, removeMatchRequests, type, isAcceptButton }) {
+function ProfileDropDownSidePopOutOptions({ array, removeMatchRequests, acceptMatchRequest, type, isAcceptButton }) {
     return(
         <>
             <h3 className={`p-2.5 text-stone-500`}>{type}</h3>
@@ -20,7 +20,7 @@ function ProfileDropDownSidePopOutOptions({ array, removeMatchRequests, type, is
                                 </button>
                                 {isAcceptButton && 
                                     <button 
-                                        onClick={() => removeMatchRequests(item)}
+                                        onClick={() => acceptMatchRequest(item)}
                                         className={`hover:bg-green-600 cursor-pointer`}>
                                         ✅
                                     </button>
@@ -35,7 +35,7 @@ function ProfileDropDownSidePopOutOptions({ array, removeMatchRequests, type, is
         </>
     );
 };
-
+//side pop out for sent match requests
 function ProfileDropDownSidePopOutSentRequests({ requests, removeMatchRequests }) {
     return(
         <ul className="text-nowrap">
@@ -47,12 +47,13 @@ function ProfileDropDownSidePopOutSentRequests({ requests, removeMatchRequests }
         </ul>
     );
 };
-
-function ProfileDropDownSidePopOutRecievedRequests({ requests, removeMatchRequests }) {
+//side pop out for recieved match requests
+function ProfileDropDownSidePopOutRecievedRequests({ requests, removeMatchRequests, acceptMatchRequest }) {
     return(
         <ul className="text-nowrap">
             {<ProfileDropDownSidePopOutOptions 
                 array={requests.recieved} 
+                acceptMatchRequest={acceptMatchRequest} 
                 removeMatchRequests={removeMatchRequests} 
                 isAcceptButton={true}
                 type='Match Requests'

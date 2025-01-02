@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
-import { RenderProfileDetails } from './RenderProfileData';
-import ProfileSkillsContainer from './ProfileSkillsContainer';
+import { Details } from './CardData';
+import CardSkillsContainer from './CardSkillsContainer';
 
-function ProfileCardMobileComponents({ username }) {
+function CardDetails({ username }) {
     const [isRenderAllSkills, setIsRenderAllSkills] = useState(false);
     const [toLearnProfileData, setToLearnProfileData] = useState();
     const [toTeachProfileData, setToTeachProfileData] = useState();
@@ -29,8 +29,8 @@ function ProfileCardMobileComponents({ username }) {
 
     return(
         <div className='relative h-full w-full flex flex-col justify-between text-stone-400'>
-            <RenderProfileDetails isRenderAllSkills={isRenderAllSkills} />
-            <ProfileSkillsContainer 
+            <Details isRenderAllSkills={isRenderAllSkills} />
+            <CardSkillsContainer 
                 toLearnProfileData={toLearnProfileData} 
                 toTeachProfileData={toTeachProfileData} 
                 isRenderAllSkills={isRenderAllSkills}
@@ -40,4 +40,4 @@ function ProfileCardMobileComponents({ username }) {
     );
 };
 
-export default ProfileCardMobileComponents;
+export default CardDetails;

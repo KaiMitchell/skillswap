@@ -1,4 +1,4 @@
-function RenderProfileSkills({ profileData }) {
+function Skills({ profileData }) {
     return(
         <>
             {profileData?.skills.map(skill => 
@@ -12,7 +12,7 @@ function RenderProfileSkills({ profileData }) {
     );
 };
 
-function RenderProfileDetails({ isRenderAllSkills }) {
+function Details({ isRenderAllSkills }) {
     //REPLACE DESCRIPTION AND PREFERENCES DATA WITH DATA FROM PROFILE
     return(
         <div className={`${isRenderAllSkills ? 'hidden' : 'block'} flex flex-col gap-2.5 mt-10 h-full w-full px-5`}>
@@ -31,6 +31,6 @@ function RenderProfileDetails({ isRenderAllSkills }) {
 }
 
 export {
-    RenderProfileSkills,
-    RenderProfileDetails
+    Skills,
+    Details
 };

@@ -49,6 +49,9 @@ function App() {
     user && fetchRequests();
   }, [user]);
 
+  //update the ui as requests data changes
+  useEffect(() => {fetchProfiles()}, [requests]);
+
   //fetch all skills for the user to select from 
   useEffect(() => {
     fetchSkills();
@@ -93,14 +96,12 @@ function App() {
     setLearnProfiles(data.data.learnProfiles);
     setTeachProfiles(data.data.teachProfiles);
   };
-
   //fetch skills for skill/category selections
   async function fetchSkills() {
     const response = await fetch(`http://localhost:3000/fetch-skills`);
     const data = await response.json();
     setSkills(data.data);
   };
-
   //fetch profiles that want to learn the skills filtered by the main drop down options
   async function filterLearnProfiles() {
     const body = { ...mainFilter };
@@ -120,7 +121,6 @@ function App() {
       console.error(err);
     };
   };
-
  //fetch profiles that want to teach the skills filtered by the main drop down options
   async function filterTeachProfiles() {
     setTeachProfiles();
@@ -141,7 +141,6 @@ function App() {
       console.error(err);
     };
   };
-
   //fetch profiles that want to learn and teach the skills selected from the nav bar options
   async function headerFilterProfiles() {
     console.log(headerFilter);
@@ -159,7 +158,7 @@ function App() {
       console.error(err.stack);
     };
   };
-  
+
   //fetch sent match requests
   async function fetchRequests() {
     let sent = [];

@@ -1,4 +1,4 @@
-import ProfileCard from '../ProfileCard/ProfileCard.jsx';
+import Card from '../Profile/Card.jsx';
 
 function ToLearnProfiles({
     learnprofiles,
@@ -29,7 +29,7 @@ function ToLearnProfiles({
             skills = obj.to_learn;
         };
         return(
-            <ProfileCard 
+            <Card 
                 fetchRequests={fetchRequests} 
                 isrequested={isRequested}
                 requests={requests} 
@@ -72,7 +72,7 @@ function ToTeachProfiles({
             skills = obj.to_teach;
         };
         return(
-            <ProfileCard 
+            <Card 
                 fetchRequests={fetchRequests} 
                 isrequested={isRequested}
                 requests={requests} 

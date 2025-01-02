@@ -124,10 +124,8 @@ app.post('/', async(req, res) => {
              ORDER BY u.id
             `, [username]
         );
-    
         toTeach.rows.forEach((row) => teachProfiles.push(row));
         toLearn.rows.forEach((row) => learnProfiles.push(row));
-
         res.status(200).send({ data: {learnProfiles: learnProfiles, teachProfiles: teachProfiles} });
     } catch(err) {
         console.error(err);
@@ -488,16 +486,9 @@ app.post('/fetch-profile-skills', async(req, res) => {
 });
 
 app.post('/handle-match-request', async(req, res) => {
-    const { currentUser, selectedUser, isRequested } = req.body;
+    const { currentUser, selectedUser, isRequested, isAccepted } = req.body;
     console.log('logging: ', currentUser, selectedUser);
     try{
-        // const alreadyRequested = await client.query(
-        //     `
-        //     SELECT u_id2 FROM match_requests mr 
-        //     JOIN users u ON u.id = u_id2
-        //     WHERE u  
-        //     `
-        // );
         let query;
         if(!isRequested) {
             query =         
@@ -505,8 +496,8 @@ app.post('/handle-match-request', async(req, res) => {
             DELETE FROM match_requests
             WHERE u_id1 = (SELECT id FROM users WHERE username = $1)
             AND u_id2 = (SELECT id FROM users WHERE username = $2)
-            `
-        } else {
+            `;
+        } else if(isRequested && !isAccepted) {
             query =             
             `
             INSERT INTO match_requests(u_id1, u_id2, requestor)
@@ -514,7 +505,15 @@ app.post('/handle-match-request', async(req, res) => {
                 (SELECT id FROM users WHERE username = $1),
                 (SELECT id FROM users WHERE username = $2), 
                 'UID1'
+            `;
+        } else if(!isRequested && isAccepted) {
+            query = 
             `
+            INSERT INTO matches(user_id, match_id)
+            SELECT
+                (SELECT id FROM users WHERE username = $1),
+                (SELECT id FROM match_requests WHERE u_id1 = ),
+            `;
         }
         const sendRequest = await client.query(query, [currentUser, selectedUser]);
         res.status(200).json({ 
@@ -525,6 +524,8 @@ app.post('/handle-match-request', async(req, res) => {
         console.error(err);
     };
 });
+
+app.post('/accept-match-request');
 
 app.listen(PORT, () => {
     console.log(`Listening on localhost:${PORT}`);

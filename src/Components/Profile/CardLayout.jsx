@@ -1,6 +1,6 @@
-import ProfileCardDetailComponents from "./ProfileCardDetailComponents";
+import CardDetails from "./CardDetails";
 
-function ProfileCardMain({ name, skills }) {
+function CardLayout({ name, skills }) {
     let skill;
     if(Array.isArray(skills) && skills.length > 0) {
         skill = skills[0];
@@ -22,10 +22,10 @@ function ProfileCardMain({ name, skills }) {
                     {/* Just a placeholder image for development purposes */}
                     <img className='object-cover h-full' src='https://static.vecteezy.com/system/resources/previews/035/187/362/non_2x/ai-generated-man-guy-model-look-white-smile-face-portrait-confidence-african-isolated-handsome-photo.jpg' />
                 </div>
-                <ProfileCardDetailComponents username={name} skills={skills} />
+                <CardDetails username={name} skills={skills} />
             </div>
         </div>
     );
 };
 
-export default ProfileCardMain;
+export default CardLayout;
