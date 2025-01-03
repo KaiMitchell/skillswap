@@ -1,7 +1,8 @@
-import PickMatchesContainer from "./PickMatchesContainer";
-import PickSkillsContainer from "./PickSkillsContainer";
+import { Container } from "postcss";
+import PickMatchesContainer from "./Matches/PickContainer";
+import PickSkillsContainer from "./Skills/PickContainer";
 
-function InitialCardsContainer({ matches, skills, isPickMatches, handleSkillAdd, selectedSkills, contentHeader }) {
+function Container({ matches, skills, isPickMatches, handleSkillAdd, selectedSkills, contentHeader }) {
     return(
         <div className='h-1/2'>
         <h2 className='text-2xl'>{contentHeader}</h2>
@@ -10,4 +11,4 @@ function InitialCardsContainer({ matches, skills, isPickMatches, handleSkillAdd,
     );
 };
 
-export default InitialCardsContainer;
+export default Container;

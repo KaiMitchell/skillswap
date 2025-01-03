@@ -1,7 +1,6 @@
-import { useEffect, useState } from 'react';
-import InitialUl from "./InitialUl";
+import InitialUl from "../UL";
 
-function PickSkillsCard({ index, obj, isPickMatches, selectedSkills, handleSkillAdd }) {
+function Card({ index, obj, isPickMatches, selectedSkills, handleSkillAdd }) {
     const isCategorySelected = obj.skills.some((skill) => selectedSkills.includes(skill));    
 
     return(
@@ -14,4 +13,4 @@ function PickSkillsCard({ index, obj, isPickMatches, selectedSkills, handleSkill
     )
 };
 
-export default PickSkillsCard;
+export default Card;

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import InitialCardsContainer from '../Components/InitialSignUpComponents/InitialCardsContainer';
+import Container from '../Components/InitialSignUp/Container';
 
 const PORT = 3000;
 
@@ -52,8 +52,8 @@ function InitialPickSkillsPage({ username, setUser, skills }) {
         <div className='p-5 bg-slate-100'>
             <main className='flex flex-col gap-5'>
                 <h1 className='text-3xl font-bold'>Let's get you started</h1>
-                    <InitialCardsContainer skills={skills} isPickMatches={false} handleSkillAdd={handleLearnSkillAdd} selectedSkills={selectedSkills.toLearn} contentHeader='Pick the skills you would like to learn' />     
-                    <InitialCardsContainer skills={skills} isPickMatches={false} handleSkillAdd={handleTeachSkillAdd} selectedSkills={selectedSkills.toTeach} contentHeader='Pick the skills you would like to teach' />
+                    <Container skills={skills} isPickMatches={false} handleSkillAdd={handleLearnSkillAdd} selectedSkills={selectedSkills.toLearn} contentHeader='Pick the skills you would like to learn' />     
+                    <Container skills={skills} isPickMatches={false} handleSkillAdd={handleTeachSkillAdd} selectedSkills={selectedSkills.toTeach} contentHeader='Pick the skills you would like to teach' />
                 <div className='self-end flex w-1/4'>
                     <button className='w-1/2 mr-5 p-2.5 border'>Skip</button>
                     <Link to='/' onClick={() => submitSkills()}>

@@ -1,8 +1,6 @@
-import { useState, useEffect } from 'react';
-import InitialUl from './InitialUl';
+import InitialUl from '../UL';
 
-function InitialMatchCard({ index, item }) {
-    const [selectedProfiles, setSelectedProfiles] = useState({});
+function Card({ index, item }) {
     const [isSelected, setIsSelected] = useState(false);
 
     let bgColor;
@@ -33,4 +31,4 @@ function InitialMatchCard({ index, item }) {
     );
 };
 
-export default InitialMatchCard;
+export default Card;

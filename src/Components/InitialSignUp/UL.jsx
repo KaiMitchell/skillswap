@@ -1,6 +1,6 @@
-import PickSkillList from "./pickSkillList";
+import PickSkillList from "./Skills/SkillsList";
 
-function InitialUl({ isSelected, index, handleSkillAdd, selectedSkills, isPickMatches, obj }) {
+function UL({ isSelected, index, handleSkillAdd, selectedSkills, isPickMatches, obj }) {
     return(
         <ul className={`hidden group-hover:block w-full h-48 border-t ${isSelected ? 'bg-green-500' : ''} text-xs bg-stone-900 shadow-inner overflow-y-auto no-scrollbar`}>
             {isPickMatches ?
@@ -17,4 +17,4 @@ function InitialUl({ isSelected, index, handleSkillAdd, selectedSkills, isPickMa
     );
 };
 
-export default InitialUl;
+export default UL;

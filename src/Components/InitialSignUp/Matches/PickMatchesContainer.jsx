@@ -1,6 +1,6 @@
-import InitialMatchCard from "./InitialMatchCard";
+import InitialMatchCard from "./Card";
 
-function PickMatchesContainer({ matches }) {
+function PickContainer({ matches }) {
   const skillCategories = { 
     Communication: [
       'Active Listening',
@@ -197,4 +197,4 @@ function PickMatchesContainer({ matches }) {
     );
 };
 
-export default PickMatchesContainer;
+export default PickContainer;
