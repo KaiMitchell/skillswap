@@ -1,4 +1,4 @@
-import Card from '../Profile/Card.jsx';
+import Card from '../../Profile/Card.jsx';
 
 function ToLearnProfiles({
     learnprofiles,

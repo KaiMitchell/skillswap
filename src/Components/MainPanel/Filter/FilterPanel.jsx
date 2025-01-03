@@ -1,6 +1,6 @@
-import MainFilterDropDownContainer from "./MainFilterDropDownContainer";
+import MainFilterDropDownContainer from "./Container";
 
-function MainFilterSection({ headerFilter, whichFilter, setWhichFilter, skills, setFilter, filter }) {
+function FilterPanel({ headerFilter, whichFilter, setWhichFilter, skills, setFilter, filter }) {
     return(
         <div className='h-full -mx-5 flex flex-col bg-red-500'>
             <div className='p-5 md:px-10'>
@@ -11,4 +11,4 @@ function MainFilterSection({ headerFilter, whichFilter, setWhichFilter, skills, 
     );
 };
 
-export default MainFilterSection;
+export default FilterPanel;

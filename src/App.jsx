@@ -178,7 +178,6 @@ function App() {
     const response = await fetch(`http://${backendURL}/matches?user=${localStorage.getItem('user')}`);
     const matches = await response.json();
     if(response.status === 200) {
-      console.log('matches: ', matches.matches);
       setMatches(matches.matches);
     };
 

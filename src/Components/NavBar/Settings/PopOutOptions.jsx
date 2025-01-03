@@ -55,7 +55,6 @@ function PopOutOptions({
 };
 //side pop out for sent match requests
 function SentRequests({ data, removeMatchRequests }) {
-    console.log(data);
     return(
         <ul className="text-nowrap">
             {<PopOutOptions 

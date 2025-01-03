@@ -1,5 +1,5 @@
-import MainFilterSection from '../Components/MainComponents/MainFilterSection';
-import MainProfileCardsSection from '../Components/MainComponents/MainProfileCardsSection';
+import FilterPanel from '../Components/MainPanel/Filter/FilterPanel';
+import CardPanel from '../Components/MainPanel/Cards/CardPanel';
 
 function Main({ 
     requests, 
@@ -15,7 +15,7 @@ function Main({
 }) {   
     return(
         <main className='px-5 h-72'>
-            <MainFilterSection 
+            <FilterPanel 
                 whichFilter={whichFilter} 
                 headerFilter={headerFilter} 
                 setWhichFilter={setWhichFilter} 
@@ -23,7 +23,7 @@ function Main({
                 filter={filter} 
                 skills={skills} 
             />
-            <MainProfileCardsSection 
+            <CardPanel 
                 requests={requests} 
                 fetchRequests={fetchRequests}
                 filter={filter} 

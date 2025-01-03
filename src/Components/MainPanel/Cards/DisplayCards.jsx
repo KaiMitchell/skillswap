@@ -1,4 +1,4 @@
-function MainProfileCardsContainer({
+function DisplayCards({
     filterInfo,
     searchingByStr,
     mappedProfiles
@@ -12,4 +12,4 @@ function MainProfileCardsContainer({
     );
 };
 
-export default MainProfileCardsContainer;
+export default DisplayCards;

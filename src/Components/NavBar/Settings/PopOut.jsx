@@ -32,7 +32,8 @@ function ProfileDropDownSidePopOut({ data, fetchData, text }) {
     async function displayProfile(username) {
         const response = await fetch(`http://localhost:3000/profile?user=${username}`);
         const data = await response.json();
-        console.log(data);
+        const profileData = data.profileData;
+        console.log(profileData);
         // setIsProfileDisplayed(true);
     };
 

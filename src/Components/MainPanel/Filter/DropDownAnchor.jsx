@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import MainFilterDropDown from './MainFilterDropDown.jsx';
+import MainFilterDropDown from './DropDown.jsx';
 
 function MainFilterDropDownComponent({ 
     headerFilter, 
@@ -23,9 +23,9 @@ function MainFilterDropDownComponent({
         return () => document.removeEventListener('mousedown', handleOutSideClick);
     }, []);
 
+    //close filter dropdown when clicked outside of it
     function handleOutSideClick(e) {
         if(node.current && !node.current.contains(e.target) ) {
-            console.log('clicked outside');
             setIsShown(false);
         };
     };
@@ -43,7 +43,7 @@ function MainFilterDropDownComponent({
             options = ['Female', 'Male', 'Other'];
             break;  
         case 'preferredGender':
-            options = ['Femal', 'Male', 'Other'];
+            options = ['Female', 'Male', 'Other'];
             break;
         case 'meetUp':
             options = ['Online', 'In Person'];
@@ -56,9 +56,13 @@ function MainFilterDropDownComponent({
     };
 
     return(
-        <div ref={node} onClick={() => {setIsShown(!isShown)}} className='relative min-h-20 h-fit w-44 px-5 py-2.5 rounded-lg bg-stone-900 hover:bg-stone-800 text-stone-200 cursor-pointer'>
+        <div 
+            ref={node} 
+            onClick={() => {setIsShown(!isShown)}} 
+            className='relative min-h-20 h-fit w-44 px-5 py-2.5 rounded-lg bg-stone-900 hover:bg-stone-800 text-stone-200 cursor-pointer'
+        >
             <h3 className='text-xs mb-2.5'>{dropDownTitle}</h3>
-            <p className='text-sm'>{filter[filterValueKey]}</p>
+            <p className='text-sm truncate'>{filter[filterValueKey]}</p>
             <MainFilterDropDown 
                 whichFilter={whichFilter} 
                 headerFilter={headerFilter} 

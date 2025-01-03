@@ -1,7 +1,7 @@
-import MainSkillDropDown from "./MainSkillDropDown";
+import MainSkillDropDown from "./SkillsDropDownAnchor";
 
 
-function MainSkillsDropDownContainer({
+function AnchorContainer({
     filter, 
     setWhichFilter,
     skills,
@@ -35,4 +35,4 @@ function MainSkillsDropDownContainer({
     );
 };
 
-export default MainSkillsDropDownContainer;
+export default AnchorContainer;

@@ -1,6 +1,6 @@
-import MainFilterDropDownComponent from "./MainFilterDropDownComponent";
+import DropDownAnchor from "../DropDownAnchor";
 
-function MainSkillDropDown({ 
+function SkillsDropDownAnchor({ 
     type, 
     dropDownTitle,
     filter, 
@@ -13,7 +13,7 @@ function MainSkillDropDown({
     return(
         <div className={`${isSkillsDropDown ? 'opacity-100' : 'opacity-0'}`}>
             <h2 className='text-center'>{type}</h2>
-            <MainFilterDropDownComponent 
+            <DropDownAnchor 
                 setWhichFilter={setWhichFilter} 
                 filter={filter} skills={skills} 
                 filterValueKey={filterValueKey} 
@@ -25,4 +25,4 @@ function MainSkillDropDown({
     );
 };
 
-export default MainSkillDropDown
+export default SkillsDropDownAnchor

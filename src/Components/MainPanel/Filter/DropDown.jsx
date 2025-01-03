@@ -1,4 +1,4 @@
-import { CategoryFilterDropDown, ExtraFilterDropDowns, SkillFilterDropDown } from './SkillFilterDropDown';
+import { CategoryFilterDropDown, ExtraFilterDropDowns, SkillFilterDropDown } from './Options';
 
 function MainFilterDropDown({ 
     headerFilter, 

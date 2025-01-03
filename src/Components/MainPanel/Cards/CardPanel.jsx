@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
-import { ToLearnProfiles, ToTeachProfiles } from './MainProfileCardRendering';
-import MainProfileCardsContainer from './MainProfileCardsContainer';
+import { ToLearnProfiles, ToTeachProfiles } from './RenderType';
+import DisplayCards from './DisplayCards';
 
-function MainProfileCardsSection({ 
+function CardPanel({ 
     requests, 
     fetchRequests,
     learnProfiles, 
@@ -67,12 +67,12 @@ function MainProfileCardsSection({
                               />
     return(
         <section id='profile-cards' className='relative h-full w-full flex gap-5'>
-            <MainProfileCardsContainer 
+            <DisplayCards 
                 filterInfo={learnFilterInfo}
                 searchingByStr={learnSearchingByStr}
                 mappedProfiles={mappedLearnProfiles}
             />
-            <MainProfileCardsContainer 
+            <DisplayCards 
                 filterInfo={teachFilterInfo}
                 searchingByStr={teachSearchingByStr}
                 mappedProfiles={mappedTeachProfiles} 
@@ -81,4 +81,4 @@ function MainProfileCardsSection({
     );
 };
 
-export default MainProfileCardsSection;
+export default CardPanel;

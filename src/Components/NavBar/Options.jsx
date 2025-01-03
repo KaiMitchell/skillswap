@@ -1,7 +1,7 @@
 import { useState } from "react";
-import ProfileDropDownContainer from "./Skills/DropDownContainer";
+import ProfileDropDownContainer from "./SkillFilters/DropDownContainer";
 import MobileOptions from "./MobileOptions";
-import Categories from "./Skills/Categories";
+import Categories from "./SkillFilters/Categories";
 import SignInSignUp from "./SignInSignUp";
 
 function Options({ 
