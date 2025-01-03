@@ -79,12 +79,14 @@ app.get('/fetch-requests', async(req, res) => {
     const username = req.query.user;
     const sentRequests = []; 
     const recievedRequests = []; 
+    const userIdQuery = await client.query(`SELECT id FROM users WHERE username = $1`, [username]);
+    const userId = userIdQuery.rows[0];
     const sentRequestsQuery = await client.query(
         `
         SELECT ARRAY_AGG(DISTINCT username) FROM users u
         JOIN match_requests mr ON mr.u_id1 = (SELECT id FROM users WHERE username = $1)
         WHERE mr.u_id2 = u.id
-        `, [username]
+        `, [userId]
     );
     const recievedRequestsQuery = await client.query(
         `
