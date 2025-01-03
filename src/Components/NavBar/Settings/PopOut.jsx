@@ -1,6 +1,6 @@
-import { SentRequests, RecievedRequests } from "./PopOutOptions";
+import { SentRequests, RecievedRequests, Matches } from "./PopOutOptions";
 
-function ProfileDropDownSidePopOut({ requests, fetchRequests, text }) {
+function ProfileDropDownSidePopOut({ data, fetchData, text }) {
     //remove a request you sent
     async function removeMatchRequests(selectedUser) {
         const username = localStorage.getItem('user');
@@ -10,7 +10,7 @@ function ProfileDropDownSidePopOut({ requests, fetchRequests, text }) {
             body: JSON.stringify({  currentUser: username, selectedUser: selectedUser, isRequested: false })
         });
         const data = await response.json();
-        fetchRequests();
+        fetchData();
     };
 
     //accept a request sent to you
@@ -26,22 +26,27 @@ function ProfileDropDownSidePopOut({ requests, fetchRequests, text }) {
         });
         const data = await response.json();
         console.log('data: ', data);
-        fetchRequests();
+        fetchData();
     };
 
     return(
         <div className={`group-hover:block hidden absolute right-full w-fit top-0 min-h-full h-max border-r border-stone-900 bg-stone-950`}>
             {text === 'Sent Requests' && 
                 <SentRequests 
-                    requests={requests} 
+                    data={data} 
                     removeMatchRequests={removeMatchRequests}
                 />
             }
             {text === 'Match Requests' && 
                 <RecievedRequests 
-                    requests={requests} 
+                    data={data} 
                     acceptMatchRequest={acceptMatchRequest}
                     removeMatchRequests={removeMatchRequests}
+                />
+            }
+            {text === 'Matches' && 
+                <Matches 
+                    data={data} 
                 />
             }
         </div>

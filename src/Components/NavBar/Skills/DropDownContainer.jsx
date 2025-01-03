@@ -1,7 +1,16 @@
 import { useState } from 'react';
 import DropDown from '../Settings/DropDown';
 
-function DropDownContainer({ skills, fetchRequests, requests, username, setUser,  setIsSettings }) {
+function DropDownContainer({ 
+    matches,
+    fetchMatches,
+    skills, 
+    fetchRequests, 
+    requests, 
+    username, 
+    setUser, 
+    setIsSettings 
+}) {
     const [isShown, setIsShown] = useState();
 
     return(
@@ -11,6 +20,8 @@ function DropDownContainer({ skills, fetchRequests, requests, username, setUser,
         >
             <p className='text-white self-center hover:bg-stone-700'>{username?.slice(0, 1).toUpperCase()}</p>
             <DropDown 
+                fetchMatches={fetchMatches}
+                matches={matches}
                 fetchRequests={fetchRequests}
                 requests={requests}
                 setUser={setUser} 

@@ -11,16 +11,6 @@ import Main from './Sections/Main.jsx';
 const backendURL = 'localhost:3000';
 
 function App() {
-  const username = (localStorage.getItem('user'));
-  const [skills, setSkills] = useState();
-  const [newUserData, setNewUserData] = useState({
-    username: '',
-    email: '',
-    password: '',
-    confirmPassword: ''
-  });
-  //TODO: add token.
-  const [user, setUser] = useState({ username: username });
   const [requests, setRequests] = useState({
     sent: [],
     recieved: []
@@ -29,7 +19,6 @@ function App() {
     headerFilter: false,
     mainFilter: false
   });
-  const [headerFilter, setHeaderFilter] = useState({category: '', skill: ''});
   const [mainFilter, setMainFilter] = useState({
       toLearnCategory: '',
       toTeachCategory: '',
@@ -40,13 +29,27 @@ function App() {
       meetUp: '',
     }
   );
+  const [newUserData, setNewUserData] = useState({
+    username: '',
+    email: '',
+    password: '',
+    confirmPassword: ''
+  });
+  const [headerFilter, setHeaderFilter] = useState({category: '', skill: ''});
+  const username = (localStorage.getItem('user'));
+  const [skills, setSkills] = useState();
+  const [user, setUser] = useState({ username: username });//TODO: add token.
   const [learnProfiles, setLearnProfiles] = useState();
   const [teachProfiles, setTeachProfiles] = useState();
-  const [isSettings, setIsSettings] = useState(false);
+  const [isSettings, setIsSettings] = useState(false);//renderring the settings modal
+  const [matches, setMatches] = useState([]);
 
-  //fetch requests on initial render
+  //fetch requests and matches on initial render
   useEffect(() => {
-    user && fetchRequests();
+    if(user) {
+      fetchRequests();
+      fetchMatches();
+    };
   }, [user]);
 
   //update the ui as requests data changes
@@ -158,7 +161,6 @@ function App() {
       console.error(err.stack);
     };
   };
-
   //fetch sent match requests
   async function fetchRequests() {
     let sent = [];
@@ -171,13 +173,15 @@ function App() {
       setRequests({ sent: sent, recieved: recieved });
     }; 
   };
-
-  async function fetchRecievedRequests() {
-
-  };
-
   //fetch accepted matches
   async function fetchMatches() {
+    const response = await fetch(`http://${backendURL}/matches?user=${localStorage.getItem('user')}`);
+    const matches = await response.json();
+    if(response.status === 200) {
+      console.log('matches: ', matches.matches);
+      setMatches(matches.matches);
+    };
+
   };
 
   return(
@@ -191,6 +195,8 @@ function App() {
           setIsSettings={setIsSettings} 
           requests={requests}
           fetchRequests={fetchRequests}//CHANGE BACK TO FETCH REQUESTS
+          matches={matches}
+          fetchMatches={fetchMatches}
         />
         <SettingsModal 
           isSettings={isSettings} 

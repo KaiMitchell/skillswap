@@ -1,4 +1,7 @@
+import RequestHander from "./Components/RequestHandler";
+
 function PopOutOptions({ array, removeMatchRequests, acceptMatchRequest, type, isAcceptButton }) {
+    console.log(array);
     return(
         <>
             <h3 className={`p-2.5 text-stone-500`}>{type}</h3>
@@ -13,17 +16,19 @@ function PopOutOptions({ array, removeMatchRequests, acceptMatchRequest, type, i
                         >
                             <p>{!isAcceptButton && 'pending'} {item}</p>
                             <div className="flex items-center gap-2">
-                                <button 
-                                    onClick={() => removeMatchRequests(item)}
-                                    className={`text-xl text-red-400 hover:text-red-600 cursor-pointer`}>
-                                    ❌
-                                </button>
-                                {isAcceptButton && 
-                                    <button 
-                                        onClick={() => acceptMatchRequest(item)}
-                                        className={`hover:bg-green-600 cursor-pointer`}>
-                                        ✅
-                                    </button>
+                                {removeMatchRequests &&
+                                    <RequestHander 
+                                        handler={removeMatchRequests} 
+                                        item={item}
+                                        icon='❌'
+                                    />
+                                }
+                                {acceptMatchRequest && 
+                                    <RequestHander
+                                        handler={acceptMatchRequest}
+                                        item={item}
+                                        icon='✅'
+                                    />
                                 }
                             </div>
                         </li>
@@ -36,11 +41,12 @@ function PopOutOptions({ array, removeMatchRequests, acceptMatchRequest, type, i
     );
 };
 //side pop out for sent match requests
-function SentRequests({ requests, removeMatchRequests }) {
+function SentRequests({ data, removeMatchRequests }) {
+    console.log(data);
     return(
         <ul className="text-nowrap">
             {<PopOutOptions 
-                array={requests.sent} 
+                array={data.sent} 
                 removeMatchRequests={removeMatchRequests} 
                 type='Pending matches'
             />}
@@ -48,21 +54,32 @@ function SentRequests({ requests, removeMatchRequests }) {
     );
 };
 //side pop out for recieved match requests
-function RecievedRequests({ requests, removeMatchRequests, acceptMatchRequest }) {
+function RecievedRequests({ data, removeMatchRequests, acceptMatchRequest }) {
     return(
         <ul className="text-nowrap">
             {<PopOutOptions 
-                array={requests.recieved} 
+                array={data.recieved} 
                 acceptMatchRequest={acceptMatchRequest} 
                 removeMatchRequests={removeMatchRequests} 
-                isAcceptButton={true}
                 type='Match Requests'
             />}
         </ul>
     );
 };
 
+function Matches({ data }) {
+    return(
+        <ul className="text-nowrap">
+            {<PopOutOptions 
+                array={data} 
+                type='Matches'
+            />}
+    </ul>
+    );
+};
+
 export {
     SentRequests,
-    RecievedRequests
+    RecievedRequests,
+    Matches
 };

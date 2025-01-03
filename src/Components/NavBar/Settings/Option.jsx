@@ -3,8 +3,8 @@ import PopOut from "./PopOut.jsx";
 
 function Option({ 
     skills, 
-    fetchRequests,
-    requests, 
+    fetchData,
+    data, 
     setUser, 
     text, 
     setIsSettings, 
@@ -12,7 +12,7 @@ function Option({
  }) { 
     //fetch data effect for individual pop outs due to re-rendering.
     useEffect(() => {
-        text === 'Requests' && fetchRequests();
+        text === 'Requests' && fetchData();
     }, []); 
 
     function handleClick() {
@@ -40,8 +40,8 @@ function Option({
                 </button>
                 {isNotSignOutOrSettings && 
                     <PopOut 
-                        fetchRequests={fetchRequests}
-                        requests={requests}
+                        fetchData={fetchData}
+                        data={data}
                         text={text}
                         skills={skills}
                     />

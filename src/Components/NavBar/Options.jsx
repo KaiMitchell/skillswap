@@ -4,7 +4,19 @@ import MobileOptions from "./MobileOptions";
 import Categories from "./Skills/Categories";
 import SignInSignUp from "./SignInSignUp";
 
-function Options({ fetchRequests, requests, setWhichFilter, skills, username, setUser, setFilter, setIsSettings, fetchProfiles }) {
+function Options({ 
+    matches, 
+    fetchMatches, 
+    fetchRequests, 
+    requests, 
+    setWhichFilter, 
+    skills, 
+    username, 
+    setUser, 
+    setFilter, 
+    setIsSettings, 
+    fetchProfiles 
+}) {
     const [isNavDropDown, setIsNavDropDown] = useState(false);
     return(
         <nav className='relative w-full flex justify-between shadow-xl'>
@@ -28,6 +40,8 @@ function Options({ fetchRequests, requests, setWhichFilter, skills, username, se
                     setIsSettings={setIsSettings} 
                     requests={requests}
                     fetchRequests={fetchRequests}
+                    fetchMatches={fetchMatches}
+                    matches={matches}
                     skills={skills}
                 />
             </div>

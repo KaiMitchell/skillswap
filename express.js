@@ -58,6 +58,23 @@ app.get('/fetch-skills', async(req, res) => {
         };
 });
 
+app.get('/matches', async(req, res) => {
+    const currentUser = req.query.user;
+    try {
+        const matches = await client.query(
+            `
+            SELECT DISTINCT ARRAY_AGG(username) FROM users u
+            JOIN matches m ON user_id = (SELECT id FROM users WHERE username = $1)
+            WHERE m.match_id = u.id
+            `, [currentUser]
+        );
+        console.log('matches: ', matches.rows[0].matches);
+        res.status(200).json({ matches: matches.rows[0].matches })
+    } catch(err) {
+        console.error(err);
+    };
+});
+
 app.get('/fetch-requests', async(req, res) => {
     const username = req.query.user;
     const sentRequests = []; 
@@ -180,52 +197,52 @@ app.post('/sign-in', async(req, res) => {
 });
 
 //fetch potential matches for a new user
-app.post('/fetch-matches', async(req, res) => {
-    const { username } = req.body;
-    const data = [];
+// app.get('/fetch-matches', async(req, res) => {
+//     const { username } = req.body;
+//     const data = [];
 
-    const toLearnSkills = await client.query(
-        `
-         SELECT u.username, ARRAY_AGG(s.name) skills_to_learn
-         FROM users u
-         JOIN users_skills us ON u.id = us.user_id
-         JOIN skills s ON s.id = us.skill_to_learn_id
-         WHERE u.username != $1
-         GROUP BY u.username
-        `, [username]
-    );
+//     const toLearnSkills = await client.query(
+//         `
+//          SELECT u.username, ARRAY_AGG(s.name) skills_to_learn
+//          FROM users u
+//          JOIN users_skills us ON u.id = us.user_id
+//          JOIN skills s ON s.id = us.skill_to_learn_id
+//          WHERE u.username != $1
+//          GROUP BY u.username
+//         `, [username]
+//     );
 
-    const toTeachSkills = await client.query(
-        `
-         SELECT u.username, ARRAY_AGG(s.name) skills_to_teach
-         FROM users u
-         JOIN users_skills us ON u.id = us.user_id
-         JOIN skills s ON s.id = us.skill_to_teach_id
-         WHERE u.username != $1
-         GROUP BY u.username
-        `, [username]
-    );
+//     const toTeachSkills = await client.query(
+//         `
+//          SELECT u.username, ARRAY_AGG(s.name) skills_to_teach
+//          FROM users u
+//          JOIN users_skills us ON u.id = us.user_id
+//          JOIN skills s ON s.id = us.skill_to_teach_id
+//          WHERE u.username != $1
+//          GROUP BY u.username
+//         `, [username]
+//     );
 
-    //Guard clause
-    if(toLearnSkills.rows.length == 0 && toTeachSkills.rows.length == 0) {
-        res.status(404).json({ error: 'no data' });
-        return;
-    };
+//     //Guard clause
+//     if(toLearnSkills.rows.length == 0 && toTeachSkills.rows.length == 0) {
+//         res.status(404).json({ error: 'no data' });
+//         return;
+//     };
 
-    toLearnSkills.rows.forEach(element => {
-        data.push(element);
-    });
+//     toLearnSkills.rows.forEach(element => {
+//         data.push(element);
+//     });
 
-    toTeachSkills.rows.forEach(element => {
-        for(const item of data) {
-            if(item.username === element.username) {
-                item.skills_to_teach = element.skills_to_teach;
-            };
-        };
-    });
+//     toTeachSkills.rows.forEach(element => {
+//         for(const item of data) {
+//             if(item.username === element.username) {
+//                 item.skills_to_teach = element.skills_to_teach;
+//             };
+//         };
+//     });
     
-    res.status(201).json({ data: data })
-});
+//     res.status(201).json({ data: data })
+// });
 
 app.post('/pick-skills', async(req, res) => {
     console.log(req.body);
