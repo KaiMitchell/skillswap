@@ -29,6 +29,13 @@ function ProfileDropDownSidePopOut({ data, fetchData, text }) {
         fetchData();
     };
 
+    async function displayProfile(username) {
+        const response = await fetch(`http://localhost:3000/profile?user=${username}`);
+        const data = await response.json();
+        console.log(data);
+        // setIsProfileDisplayed(true);
+    };
+
     return(
         <div className={`group-hover:block hidden absolute right-full w-fit top-0 min-h-full h-max border-r border-stone-900 bg-stone-950`}>
             {text === 'Sent Requests' && 
@@ -47,6 +54,7 @@ function ProfileDropDownSidePopOut({ data, fetchData, text }) {
             {text === 'Matches' && 
                 <Matches 
                     data={data} 
+                    displayProfile={displayProfile}
                 />
             }
         </div>

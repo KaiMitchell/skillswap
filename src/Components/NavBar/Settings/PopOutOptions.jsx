@@ -1,7 +1,12 @@
 import RequestHander from "./Components/RequestHandler";
 
-function PopOutOptions({ array, removeMatchRequests, acceptMatchRequest, type, isAcceptButton }) {
-    console.log(array);
+function PopOutOptions({ 
+    array, 
+    removeMatchRequests, 
+    acceptMatchRequest, 
+    displayProfile,
+    type 
+}) {
     return(
         <>
             <h3 className={`p-2.5 text-stone-500`}>{type}</h3>
@@ -14,7 +19,15 @@ function PopOutOptions({ array, removeMatchRequests, acceptMatchRequest, type, i
                             key={item}
                             className={`flex items-center justify-between p-2.5 border-b border-stone-900 text-sm text-stone-500 hover:text-stone-400 hadow-xl shadow-black`}
                         >
-                            <p>{!isAcceptButton && 'pending'} {item}</p>
+                            {/* text renderring for sent & recieved requests */}
+                            {removeMatchRequests && <p>{!acceptMatchRequest && 'pending'} {item}</p>}
+                            {displayProfile && 
+                                <p 
+                                    onClick={() => displayProfile(item)}
+                                >
+                                    {item}
+                                </p>
+                            }
                             <div className="flex items-center gap-2">
                                 {removeMatchRequests &&
                                     <RequestHander 
@@ -67,12 +80,13 @@ function RecievedRequests({ data, removeMatchRequests, acceptMatchRequest }) {
     );
 };
 
-function Matches({ data }) {
+function Matches({ data, displayProfile }) {
     return(
         <ul className="text-nowrap">
             {<PopOutOptions 
                 array={data} 
                 type='Matches'
+                displayProfile={displayProfile}
             />}
     </ul>
     );
