@@ -550,6 +550,17 @@ app.post('/accept-match-request', async(req, res) => {
     }
 });
 
+app.post('/submit-description', async(req, res) => {
+    const { description, username } = req.body;
+    await client.query(
+        `
+        UPDATE users
+        SET description = $2
+        WHERE username = $1
+        `, [username, description]);
+    res.status(200).json({ message: 'succesfully updated' });
+});
+
 app.listen(PORT, () => {
     console.log(`Listening on localhost:${PORT}`);
 });
