@@ -1,6 +1,9 @@
+import { useEffect } from 'react';
+
 function Right({ 
     isHovered,
-    setIsHovered
+    setIsHovered,
+    displayedMatch
 }) {
     return(
         <div className="w-1/2 flex flex-col gap-5">
@@ -9,6 +12,7 @@ function Right({
                     Matched
                 </h3>
                 <div className="hidden group-hover:flex items-center gap-2.5 absolute right-full top-1/2 transform -translate-y-1/2">
+                    {/* Message icon */}
                     <button 
                         onMouseOver={() => setIsHovered(true)}
                         onMouseLeave={() => setIsHovered(false)}
@@ -37,10 +41,10 @@ function Right({
                     </svg>
                 </div>
             </div>
-            <article className="">
+            <article>
                 <h3 className='text-xl font-bold underline'>About</h3>
                 <p>
-                    Lorem ipsum dolor sit amet consectetur, adipisicing elit. Commodi sequi ipsum distinctio ex itaque unde fuga recusandae praesentium, corrupti natus amet culpa ullam, porro placeat adipisci omnis aut nemo deleniti.
+                    {displayedMatch?.description || 'No Description'}
                 </p>
             </article>
         </div>

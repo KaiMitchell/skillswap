@@ -5,7 +5,6 @@ import Categories from "./SkillFilters/Categories";
 import SignInSignUp from "./SignInSignUp";
 
 function Options({ 
-    setIsDisplayMatch,
     matches, 
     fetchMatches, 
     fetchRequests, 
@@ -16,7 +15,8 @@ function Options({
     setUser, 
     setFilter, 
     setIsSettings, 
-    fetchProfiles 
+    fetchProfiles,
+    displayProfile
 }) {
     const [isNavDropDown, setIsNavDropDown] = useState(false);
     return(
@@ -39,12 +39,12 @@ function Options({
                     setUser={setUser} 
                     username={username} 
                     setIsSettings={setIsSettings} 
-                    setIsDisplayMatch={setIsDisplayMatch}
                     requests={requests}
                     fetchRequests={fetchRequests}
                     fetchMatches={fetchMatches}
                     matches={matches}
                     skills={skills}
+                    displayProfile={displayProfile}
                 />
             </div>
         </nav>

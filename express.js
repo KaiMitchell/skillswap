@@ -72,16 +72,26 @@ app.get('/profile', async(req, res) => {
 
 app.get('/matches', async(req, res) => {
     const currentUser = req.query.user;
-    try {   
+    try {
         const matches = await client.query(
             `
-            SELECT DISTINCT ARRAY_AGG(username) FROM users u
+            SELECT 
+                u.username, 
+                u.description, 
+                ARRAY_AGG(DISTINCT CASE WHEN us.is_learning = true THEN s.name END) AS skills_to_learn,
+                ARRAY_AGG(DISTINCT CASE WHEN us.is_teaching = true THEN s.name END) AS skills_to_teach
+            FROM users u
             JOIN matches m ON user_id = (SELECT id FROM users WHERE username = $1)
+            JOIN users_skills us ON us.user_id = (SELECT id FROM users WHERE username = $1)
+            JOIN skills s ON s.id = us.skill_id
             WHERE m.match_id = u.id
+            GROUP BY u.username, u.description, u.id
+            ORDER BY u.id
             `, [currentUser]
         );
         //send array of matched users as response
-        res.status(200).json({ matches: matches.rows[0].array_agg })
+        console.log(matches.rows);
+        res.status(200).json({ matches: matches.rows })
     } catch(err) {
         console.error(err);
     };

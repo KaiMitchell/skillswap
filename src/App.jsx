@@ -44,6 +44,7 @@ function App() {
   const [teachProfiles, setTeachProfiles] = useState();
   const [isSettings, setIsSettings] = useState(false);//renderring the settings modal
   const [isDisplayMatch, setIsDisplayMatch] = useState(false);
+  const [displayedMatch, setDisplayedMatch] = useState();
   const [matches, setMatches] = useState([]);
 
   //fetch requests and matches on initial render
@@ -148,7 +149,6 @@ function App() {
   };
   //fetch profiles that want to learn and teach the skills selected from the nav bar options
   async function headerFilterProfiles() {
-    console.log(headerFilter);
     try {
       const response = await fetch(`http://${backendURL}/fetch-quick-filtered-profiles`, {
         method: 'POST',
@@ -178,12 +178,26 @@ function App() {
   //fetch accepted matches
   async function fetchMatches() {
     const response = await fetch(`http://${backendURL}/matches?user=${localStorage.getItem('user')}`);
-    const matches = await response.json();
+    const data = await response.json();
     if(response.status === 200) {
-      setMatches(matches.matches);
+      const usernames = [];
+      for(const obj of data.matches) {
+        usernames.push(obj.username);
+      };
+      setMatches(usernames);
+      console.log(data.matches);
     };
-
   };
+
+  async function displayProfile(username) {
+    setIsDisplayMatch(true);
+    const response = await fetch(`http://localhost:3000/profile?user=${username}`);
+    const data = await response.json();
+    const profileData = data.profileData;
+    console.log(profileData);
+    setDisplayedMatch(profileData);
+    // setIsProfileDisplayed(true);
+};
 
   return(
     <BrowserRouter>
@@ -194,11 +208,11 @@ function App() {
           setUser={setUser} 
           setFilter={setHeaderFilter} 
           setIsSettings={setIsSettings} 
-          setIsDisplayMatch={setIsDisplayMatch}
           requests={requests}
           fetchRequests={fetchRequests}//CHANGE BACK TO FETCH REQUESTS
           matches={matches}
           fetchMatches={fetchMatches}
+          displayProfile={displayProfile}
         />
         <SettingsModal 
           isSettings={isSettings} 
@@ -207,6 +221,9 @@ function App() {
         <MatchesModal 
           isDisplayMatch={isDisplayMatch}
           setIsDisplayMatch={setIsDisplayMatch}
+          displayedMatch={displayedMatch}
+          teachProfiles={teachProfiles}
+          learnProfiles={learnProfiles}
         />
       <Routes>  
         <Route path='/' element={<Main />} />
@@ -237,7 +254,7 @@ function App() {
         <Route path="register" element={<Register 
                                           setNewUserData={setNewUserData} 
                                           newUserData={newUserData} 
-                                        />} 
+                                       />} 
         />
         <Route path="sign-in" element={<SignIn 
                                           setUser={setUser} 

@@ -1,7 +1,6 @@
 import Option from "./Option";
 
 function DropDown({ 
-    setIsDisplayMatch,
     fetchMatches,
     matches,
     fetchRequests, 
@@ -9,7 +8,8 @@ function DropDown({
     setUser, 
     isShown, 
     setIsShown, 
-    setIsSettings 
+    setIsSettings,
+    displayProfile,
 }) {  
     return(
         <>
@@ -37,7 +37,7 @@ function DropDown({
                         text="Matches" 
                         fetchData={fetchMatches} 
                         data={matches} 
-                        setIsDisplayMatch={setIsDisplayMatch} 
+                        displayProfile={displayProfile}
                     />
                     <Option 
                         setIsShown={setIsShown} 

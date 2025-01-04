@@ -8,9 +8,10 @@ function Option({
     setUser, 
     text, 
     setIsSettings, 
-    setIsDisplayMatch,
-    setIsShown
- }) { 
+    setIsShown,
+    displayProfile
+}) { 
+    let clickHandler = {};
     //fetch data effect for individual pop outs due to re-rendering.
     useEffect(() => {
         text === 'Requests' && fetchData();
@@ -21,7 +22,6 @@ function Option({
         setUser({ username: '' });
     };
 
-    let clickHandler = {};
     switch(text) {
         case 'Sign out':
             clickHandler.onClick = () => handleClick();
@@ -31,6 +31,7 @@ function Option({
                 setIsSettings(true);
                 setIsShown(() => false);
             };
+            break;
     };
     const isNotSignOutOrSettings = text !== 'Sign out' && text !== 'Settings';
 
@@ -41,11 +42,11 @@ function Option({
                 </button>
                 {isNotSignOutOrSettings && 
                     <PopOut 
-                        setIsDisplayMatch={setIsDisplayMatch}
                         fetchData={fetchData}
                         data={data}
                         text={text}
                         skills={skills}
+                        displayProfile={displayProfile}
                     />
                 }
             </div>

@@ -1,7 +1,6 @@
 import NavBar from "../Components/NavBar/NavBar";
 
 function Header({ 
-    setIsDisplayMatch,
     fetchRequests, 
     matches,
     fetchMatches,
@@ -12,7 +11,8 @@ function Header({
     setUser, 
     setFilter, 
     setIsSettings, 
-    fetchProfiles 
+    fetchProfiles,
+    displayProfile,
 }) {
     return(
         <header className='h-full pt-10 border-b'>
@@ -28,8 +28,8 @@ function Header({
                     setUser={setUser} 
                     setFilter={setFilter} 
                     setIsSettings={setIsSettings} 
-                    setIsDisplayMatch={setIsDisplayMatch}
                     fetchRequests={fetchRequests}
+                    displayProfile={displayProfile}
                 />
             </div>
         </header>

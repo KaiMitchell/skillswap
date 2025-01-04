@@ -1,6 +1,11 @@
 import { SentRequests, RecievedRequests, Matches } from "./PopOutOptions";
 
-function ProfileDropDownSidePopOut({ setIsDisplayMatch, data, fetchData, text }) {
+function ProfileDropDownSidePopOut({ 
+    displayProfile,
+    data, 
+    fetchData, 
+    text
+}) {
     //remove a request you sent
     async function removeMatchRequests(selectedUser) {
         const username = localStorage.getItem('user');
@@ -28,16 +33,6 @@ function ProfileDropDownSidePopOut({ setIsDisplayMatch, data, fetchData, text })
         console.log('data: ', data);
         fetchData();
     };
-
-    async function displayProfile(username) {
-        setIsDisplayMatch(true);
-        const response = await fetch(`http://localhost:3000/profile?user=${username}`);
-        const data = await response.json();
-        const profileData = data.profileData;
-        console.log(profileData);
-        // setIsProfileDisplayed(true);
-    };
-
     return(
         <div className={`group-hover:block hidden absolute right-full w-fit top-0 min-h-full h-max border-r border-stone-900 bg-stone-950`}>
             {text === 'Sent Requests' && 
@@ -46,7 +41,7 @@ function ProfileDropDownSidePopOut({ setIsDisplayMatch, data, fetchData, text })
                     removeMatchRequests={removeMatchRequests}
                 />
             }
-            {text === 'Match Requests' && 
+            {text === 'Match Requests' &&   
                 <RecievedRequests 
                     data={data} 
                     acceptMatchRequest={acceptMatchRequest}

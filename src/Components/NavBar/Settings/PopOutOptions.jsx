@@ -5,7 +5,9 @@ function PopOutOptions({
     removeMatchRequests, 
     acceptMatchRequest, 
     displayProfile,
-    type 
+    type,
+    teachProfiles,
+    learnProfiles
 }) {
     return(
         <>
@@ -79,13 +81,20 @@ function RecievedRequests({ data, removeMatchRequests, acceptMatchRequest }) {
     );
 };
 
-function Matches({ data, displayProfile }) {
+function Matches({ 
+    data, 
+    displayProfile,
+    teachProfiles,
+    learnProfiles 
+}) {
     return(
         <ul className="text-nowrap">
             {<PopOutOptions 
                 array={data} 
                 type='Matches'
                 displayProfile={displayProfile}
+                teachProfiles={teachProfiles}
+                learnProfiles={learnProfiles}
             />}
     </ul>
     );

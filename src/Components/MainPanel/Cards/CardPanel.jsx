@@ -14,7 +14,6 @@ function CardPanel({
     const [param, setParam] = useState(false);//Trigger useEffect to re render page with updated requests.
 
     useEffect(() => {
-        console.log('re-rendering using para: ', param);
         fetchRequests();
     }, [param]);
 
@@ -47,10 +46,26 @@ function CardPanel({
 
     const learnCount = learnProfiles?.length;
     const teachCount = teachProfiles?.length;
-    const learnFilterInfo = `${learnCount === 0 ? 'No' : learnCount} profile${learnCount === 1 ? ' wants' : "'s want"} to learn...`;
-    const teachFilterInfo = `${teachCount === 0 ? 'No' : teachCount} profile${teachCount === 1 ? ' wants' : "'s want"} to teach...`;
-    const learnSearchingByStr = `Searching by ${whichFilter.headerFilter ? 'SKILL' : filterType.learn}`;
-    const teachSearchingByStr = `Searching by ${whichFilter.headerFilter ? 'SKILL' : filterType.teach}`;
+    const learnFilterInfo = 
+        `
+        ${learnCount === 0 ? 'No' : learnCount} 
+        profile${learnCount === 1 ? ' wants' : "'s want"} 
+        to learn...
+        `;
+    const teachFilterInfo = 
+        `
+        ${teachCount === 0 ? 'No' : teachCount} 
+        profile${teachCount === 1 ? ' wants' : "'s want"} 
+        to teach...
+        `;
+    const learnSearchingByStr = 
+        `
+        Searching by ${whichFilter.headerFilter ? 'SKILL' : filterType.learn}
+        `;
+    const teachSearchingByStr = 
+        `
+        Searching by ${whichFilter.headerFilter ? 'SKILL' : filterType.teach}
+        `;
     let mappedLearnProfiles = <ToLearnProfiles 
                                 fetchRequests={fetchRequests} 
                                 requests={requests} 

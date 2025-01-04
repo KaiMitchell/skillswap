@@ -3,8 +3,9 @@ import Left from "./Left/Left";
 import Right from "./Right/Right";
 
 function Details({
+    displayedMatch,
     isHovered,
-    setIsHovered
+    setIsHovered,
 }) {
     return(
         <div className='flex gap-5'>
@@ -12,8 +13,14 @@ function Details({
                 {/* image */}
                 <div className='w-full'>
                     <div className="w-full flex justify-between">
-                        <Left />
-                        <Right isHovered={isHovered} setIsHovered={setIsHovered} />
+                        <Left 
+                            displayedMatch={displayedMatch}
+                        />
+                        <Right 
+                            displayedMatch={displayedMatch}
+                            isHovered={isHovered} 
+                            setIsHovered={setIsHovered}
+                        />
                     </div>
                     <BottomLeft />
                 </div>
