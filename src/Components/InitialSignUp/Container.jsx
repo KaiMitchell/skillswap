@@ -1,6 +1,5 @@
-import { Container } from "postcss";
-import PickMatchesContainer from "./Matches/PickContainer";
-import PickSkillsContainer from "./Skills/PickContainer";
+import PickMatchesContainer from "./Matches/PickMatchesContainer";
+import PickSkillsContainer from "./Skills/PickCardsContainer";
 
 function Container({ matches, skills, isPickMatches, handleSkillAdd, selectedSkills, contentHeader }) {
     return(

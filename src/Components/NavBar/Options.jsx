@@ -1,10 +1,11 @@
 import { useState } from "react";
-import ProfileDropDownContainer from "./SkillFilters/DropDownContainer";
+import DropDownContainer from "./SkillFilters/DropDownContainer";
 import MobileOptions from "./MobileOptions";
 import Categories from "./SkillFilters/Categories";
 import SignInSignUp from "./SignInSignUp";
 
 function Options({ 
+    setIsDisplayMatch,
     matches, 
     fetchMatches, 
     fetchRequests, 
@@ -34,10 +35,11 @@ function Options({
                     setFilter={setFilter}
                 />
                 <SignInSignUp username={username} />
-                <ProfileDropDownContainer 
+                <DropDownContainer 
                     setUser={setUser} 
                     username={username} 
                     setIsSettings={setIsSettings} 
+                    setIsDisplayMatch={setIsDisplayMatch}
                     requests={requests}
                     fetchRequests={fetchRequests}
                     fetchMatches={fetchMatches}

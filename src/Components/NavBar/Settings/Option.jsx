@@ -8,6 +8,7 @@ function Option({
     setUser, 
     text, 
     setIsSettings, 
+    setIsDisplayMatch,
     setIsShown
  }) { 
     //fetch data effect for individual pop outs due to re-rendering.
@@ -40,6 +41,7 @@ function Option({
                 </button>
                 {isNotSignOutOrSettings && 
                     <PopOut 
+                        setIsDisplayMatch={setIsDisplayMatch}
                         fetchData={fetchData}
                         data={data}
                         text={text}

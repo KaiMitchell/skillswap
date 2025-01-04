@@ -2,6 +2,7 @@ import { useState } from 'react';
 import DropDown from '../Settings/DropDown';
 
 function DropDownContainer({ 
+    setIsDisplayMatch,
     matches,
     fetchMatches,
     skills, 
@@ -28,6 +29,7 @@ function DropDownContainer({
                 username={username} 
                 isShown={isShown} 
                 setIsShown={setIsShown} 
+                setIsDisplayMatch={setIsDisplayMatch}
                 setIsSettings={setIsSettings} 
                 skills={skills}
             />

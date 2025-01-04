@@ -7,6 +7,7 @@ import SignIn from './Pages/Sign-in';
 import InitialPickMatchesPage from './Pages/InitialPickMatchesPage';
 import SettingsModal from './Components/SettingsModal/SettingsModal.jsx';
 import Main from './Sections/Main.jsx';
+import MatchesModal from './Components/MatchesModal/Modal.jsx';
 
 const backendURL = 'localhost:3000';
 
@@ -42,6 +43,7 @@ function App() {
   const [learnProfiles, setLearnProfiles] = useState();
   const [teachProfiles, setTeachProfiles] = useState();
   const [isSettings, setIsSettings] = useState(false);//renderring the settings modal
+  const [isDisplayMatch, setIsDisplayMatch] = useState(false);
   const [matches, setMatches] = useState([]);
 
   //fetch requests and matches on initial render
@@ -192,6 +194,7 @@ function App() {
           setUser={setUser} 
           setFilter={setHeaderFilter} 
           setIsSettings={setIsSettings} 
+          setIsDisplayMatch={setIsDisplayMatch}
           requests={requests}
           fetchRequests={fetchRequests}//CHANGE BACK TO FETCH REQUESTS
           matches={matches}
@@ -200,6 +203,10 @@ function App() {
         <SettingsModal 
           isSettings={isSettings} 
           setIsSettings={setIsSettings} 
+        />
+        <MatchesModal 
+          isDisplayMatch={isDisplayMatch}
+          setIsDisplayMatch={setIsDisplayMatch}
         />
       <Routes>  
         <Route path='/' element={<Main />} />

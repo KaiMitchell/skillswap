@@ -1,6 +1,7 @@
 import NavBar from "../Components/NavBar/NavBar";
 
 function Header({ 
+    setIsDisplayMatch,
     fetchRequests, 
     matches,
     fetchMatches,
@@ -27,6 +28,7 @@ function Header({
                     setUser={setUser} 
                     setFilter={setFilter} 
                     setIsSettings={setIsSettings} 
+                    setIsDisplayMatch={setIsDisplayMatch}
                     fetchRequests={fetchRequests}
                 />
             </div>

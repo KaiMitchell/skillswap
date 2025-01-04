@@ -1,6 +1,19 @@
 import Options from './Options';
 
-function NavBar({ fetchMatches, matches, fetchRequests, requests, setWhichFilter, skills, username, setUser, setFilter, setIsSettings, fetchProfiles }) {
+function NavBar({ 
+    setIsDisplayMatch, 
+    fetchMatches, 
+    matches, 
+    fetchRequests, 
+    requests, 
+    setWhichFilter, 
+    skills, 
+    username, 
+    setUser, 
+    setFilter, 
+    setIsSettings, 
+    fetchProfiles 
+}) {
     return(
         <Options 
             fetchMatches={fetchMatches}
@@ -13,6 +26,7 @@ function NavBar({ fetchMatches, matches, fetchRequests, requests, setWhichFilter
             setUser={setUser} 
             setFilter={setFilter} 
             setIsSettings={setIsSettings} 
+            setIsDisplayMatch={setIsDisplayMatch}
             fetchRequests={fetchRequests}
         />
     );

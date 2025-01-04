@@ -1,6 +1,6 @@
 import { SentRequests, RecievedRequests, Matches } from "./PopOutOptions";
 
-function ProfileDropDownSidePopOut({ data, fetchData, text }) {
+function ProfileDropDownSidePopOut({ setIsDisplayMatch, data, fetchData, text }) {
     //remove a request you sent
     async function removeMatchRequests(selectedUser) {
         const username = localStorage.getItem('user');
@@ -30,6 +30,7 @@ function ProfileDropDownSidePopOut({ data, fetchData, text }) {
     };
 
     async function displayProfile(username) {
+        setIsDisplayMatch(true);
         const response = await fetch(`http://localhost:3000/profile?user=${username}`);
         const data = await response.json();
         const profileData = data.profileData;
