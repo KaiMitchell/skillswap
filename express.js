@@ -62,7 +62,14 @@ app.get('/fetch-skills', async(req, res) => {
 app.get('/profile', async(req, res) => {
     const username = req.query.user;
     try {
-        const result = await client.query(`SELECT * FROM users WHERE username = $1`, [username]);
+        const result = await client.query(
+            `
+            SELECT 
+                TO_CHAR(created_at, 'YYYY,MON') created_at, 
+                email,
+                phone_number,
+                description
+            FROM users WHERE username = $1`, [username]);
         const profileData = result.rows[0];
         res.status(200).json({ profileData: profileData });
     } catch(err) {

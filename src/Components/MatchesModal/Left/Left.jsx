@@ -6,7 +6,7 @@ function Left({ displayedMatch }) {
             </div>
             <div>
                 <p className="text-xl text-stone-900 font-bold">{displayedMatch?.username}</p>
-                <p className="text-stone-500">City</p>
+                {displayedMatch?.phone_number && <p className="text-stone-500">City</p>}
             </div>
         </div>
     );

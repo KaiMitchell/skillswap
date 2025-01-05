@@ -41,7 +41,7 @@ function Right({
                     </svg>
                 </div>
             </div>
-            <article>
+            <article className='text-right'>
                 <h3 className='text-xl font-bold underline'>About</h3>
                 <p>
                     {displayedMatch?.description || 'No Description'}

@@ -22,7 +22,7 @@ function Details({
                             setIsHovered={setIsHovered}
                         />
                     </div>
-                    <BottomLeft />
+                    <BottomLeft displayedMatch={displayedMatch} />
                 </div>
             </div>
         </div>
