@@ -3,7 +3,7 @@ function Skills({ profileData }) {
         <>
             {profileData?.skills.map(skill => 
             <li 
-                className={`${!profileData.isSkills ? 'absolute transform -translate-x-1/2 -translate-y-1/2 ' : 'block'} top-1/2 left-1/2 text-white text-xs`} 
+                className={`${!profileData.isSkills ? 'absolute transform -translate-x-1/2 -translate-y-1/2 ' : 'block'} top-1/2 left-1/2 text-xs`} 
                 key={skill}
             >
                 {skill}
@@ -20,10 +20,10 @@ function Details({ isRenderAllSkills }) {
                 <h3>Preferrence:</h3>
                 <p className='text-xs'>In person</p>
             </div>
-            <div className='h-4/6'>
+            <div className='h-16'>
                 <h3 className=''>Description:</h3>
                 <div className='relative h-full overflow-y-auto no-scrollbar'>
-                    <p className='text-xs'>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ratione eveniet sequi, delectus quas id ducimus? Consequatur vitae adip, dolor sit amet consectetur adipisicing elit. Ratione eveniet sequi, delectus quas id ducimus? Consequatur vitae adipisci iusto, quisquam perspiciatis natus sequi quaerat provident, quas voluptate repellendus nihil magnam!</p>
+                    <p className=''>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ratione eveniet sequi, delectus quas id ducimus? Consequatur vitae adip, dolor sit amet consectetur adipisicing elit. Ratione eveniet sequi, delectus quas id ducimus? Consequatur vitae adipisci iusto, quisquam perspiciatis natus sequi quaerat provident, quas voluptate repellendus nihil magnam!</p>
                 </div>
             </div>
         </div>

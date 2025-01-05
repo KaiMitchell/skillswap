@@ -9,7 +9,11 @@ function CardFooter({
 }) {
     const [requested, setRequested] = useState(false);
 
+    const buttonHoverBg = {
+        matchRequest: 'bg-gradient-to-r from-blue-400 via-blue-500 to-blue-600'
+    };
     let skill;
+
     if(Array.isArray(skills) && skills.length > 0) {
         skill = skills[0];
     } else {
@@ -25,16 +29,18 @@ function CardFooter({
         fetchRequests(requested);
     };
 
+    //TODO: Use the isRequested state to display a loading icon or something to show data is being fetched
+
     return(
-        <footer id="card-footer" className="relative flex justify-between w-full items-center rounded-b-lg bg-stone-900">
-            <h3 className="px-2.5 font-bold text-xl rounded-bl-lg text-stone-500">
+        <footer id="card-footer" className="relative flex justify-between w-full items-center rounded-b-lg bg-zinc-300">
+            <h3 className="px-2.5 font-bold text-xl rounded-bl-lg">
                 {skill}
             </h3>
             <button 
-                className={`w-1/5 p-1 ${requested ? 'bg-green-500 hover:bg-green-900' : 'bg-stone-500 hover:bg-stone-950'} rounded-br-lg hover:bg-stone-950 hover:text-stone-500`}
+                className={`w-1/5 p-1 hover:${buttonHoverBg.matchRequest} hover:text-white rounded-br-lg hover:bg-stone-950 hover:text-stone-500`}
                 onClick={() => handleClick()}
             >
-                {requested ? 'Undo request' : 'Request match'}
+                Match
             </button>
         </footer>
     );

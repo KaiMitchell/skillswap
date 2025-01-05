@@ -329,7 +329,7 @@ app.post('/register', async(req, res) => {
     }
 });
 
-app.get('/fetch-filtered-teach-profiles', async(req, res) => {
+app.post('/fetch-filtered-teach-profiles', async(req, res) => {
     const body = req.body;
     try {
         const { toTeachCategory, toTeach} = body;
@@ -368,7 +368,7 @@ app.get('/fetch-filtered-teach-profiles', async(req, res) => {
     };
 });
 
-app.get('/fetch-filtered-learn-profiles', async(req, res) => {
+app.post('/fetch-filtered-learn-profiles', async(req, res) => {
     const body = req.body;
     try {
         const { toLearnCategory, toLearn} = body;
@@ -406,7 +406,7 @@ app.get('/fetch-filtered-learn-profiles', async(req, res) => {
     };
 });
 
-app.get('/fetch-quick-filtered-profiles', async(req, res) => {
+app.post('/fetch-quick-filtered-profiles', async(req, res) => {
     const body = req.body;
     try {
         const { category, skill } = body;

@@ -51,7 +51,7 @@ function ExtraFilterDropDowns({
         return <p 
                     key={option} 
                     onClick={() => handleFilterValueClick(option)} 
-                    className='p-5 hover:bg-stone-700 hover:cursor-pointer'
+                    className='p-2.5 text-sm hover:bg-zinc-100 hover:font-bold hover:cursor-pointer'
                 >
                     {option}
                 </p>

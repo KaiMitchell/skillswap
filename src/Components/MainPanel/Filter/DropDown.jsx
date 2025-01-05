@@ -78,7 +78,7 @@ function MainFilterDropDown({
     };
 
     return(
-        <div className={`${isShown ? 'block' : 'hidden'} absolute w-full left-0 z-10 top-full h-72 bg-stone-900 rounded-lg hover:border shadow-xl shadow-black hover:border-white overflow-y-auto no-scrollbar`}>
+        <div className={`${isShown ? 'block' : 'hidden'} absolute w-full left-0 z-10 top-full h-72 font-normal bg-white rounded-lg shadow-xl shadow-black overflow-y-auto no-scrollbar`}>
             {mappedOptions}
         </div>
     );

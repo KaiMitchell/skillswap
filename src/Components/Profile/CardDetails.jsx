@@ -24,7 +24,7 @@ function CardDetails({ username }) {
     };
 
     return(
-        <div className='relative h-full w-full flex flex-col justify-between text-stone-400'>
+        <div className='relative h-full w-full flex flex-col justify-between'>
             <Details isRenderAllSkills={isRenderAllSkills} />
             <CardSkillsContainer 
                 toLearnProfileData={toLearnProfileData} 
