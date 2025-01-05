@@ -8,19 +8,20 @@ function ProfileDropDownSidePopOut({
 }) {
     //remove a request you sent
     async function removeMatchRequests(selectedUser) {
-        const username = localStorage.getItem('user');
+        const username = JSON.parse(localStorage.getItem('user')).username;
         const response = await fetch(`http://localhost:3000/handle-match-request`, {
             method: 'POST',
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({  currentUser: username, selectedUser: selectedUser, isRequested: false })
         });
         const data = await response.json();
+        console.log(data);
         fetchData();
     };
 
     //accept a request sent to you
     async function acceptMatchRequest(selectedUser) {
-        const username = localStorage.getItem('user');
+        const username = JSON.parse(localStorage.getItem('user')).username;
         const response = await fetch(`http://localhost:3000/accept-match-request`, {
             method: 'POST',
             headers: { "Content-Type": "application/json" },
@@ -31,7 +32,7 @@ function ProfileDropDownSidePopOut({
         });
         const data = await response.json();
         console.log('data: ', data);
-        fetchData();
+        fetchData(selectedUser);
     };
     return(
         <div className={`group-hover:block hidden absolute right-full w-fit top-0 min-h-full h-max border-r border-stone-900 bg-stone-950`}>

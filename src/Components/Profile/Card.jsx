@@ -3,7 +3,7 @@ import CardLayout from "./CardLayout";
 
 function Card({ isRequested, reMount, fetchRequests, requests, img, skills, name }) {
     async function sendMatchRequest(isRequested) {
-        const currentUser = localStorage.getItem('user');
+        const currentUser = JSON.parse(localStorage.getItem('user')).username;
         //Send the isRequested arg to be able to tell if the fetch should delete or insert a record
         const response = await fetch(`http://localhost:3000/handle-match-request`, {
             method: 'POST',

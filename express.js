@@ -234,6 +234,7 @@ app.post('/sign-in', async(req, res) => {
         );
         res.status(200).json({ 
             message: `Hi ${username}`, 
+            username: username,
             authorized: true, 
             token: token,
             sentRequests: sentRequests.rows[0]

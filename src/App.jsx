@@ -38,18 +38,19 @@ function App() {
   });
   const [headerFilter, setHeaderFilter] = useState({category: '', skill: ''});
   const [skills, setSkills] = useState();
-  const [user, setUser] = useState(localStorage.getItem('user') || null);//TODO: add token.
+  const [user, setUser] = useState(JSON.parse(localStorage.getItem('user')) || null);//TODO: add token.
   const [learnProfiles, setLearnProfiles] = useState();
   const [teachProfiles, setTeachProfiles] = useState();
   const [isSettings, setIsSettings] = useState(false);//renderring the settings modal
   const [isDisplayMatch, setIsDisplayMatch] = useState(false);
   const [displayedMatch, setDisplayedMatch] = useState();
   const [matches, setMatches] = useState([]);
+  const [param, setParam] = useState(); // remount on accepting a request
 
   //set user on mount
   useEffect(() => {
     const savedUser = localStorage.getItem('user');
-    if (savedUser) {
+    if (savedUser?.username) {
       try {
         setUser(savedUser);
       } catch (error) {
@@ -58,10 +59,13 @@ function App() {
     }
   }, []);
   
+  useEffect(() => {
+    fetchMatches();
+  }, [param]);
 
   //fetch requests and matches on initial render
   useEffect(() => {
-    if(user) {
+    if(user?.username) {
       fetchRequests();
       fetchMatches();
     };
@@ -75,7 +79,7 @@ function App() {
 
   //update the ui as requests data changes
   useEffect(() => {
-    if(user) {
+    if(user?.username) {
       fetchProfiles();
     };
   }, [requests]);
@@ -182,14 +186,13 @@ function App() {
   };
   //fetch sent match requests
   async function fetchRequests() {
-    const currentUser = localStorage.getItem('user');
-    if(!currentUser) {
+    if(!user.username) {
       console.error('No user found');
       return;
     };
     let sent = [];
     let recieved = [];
-    const response = await fetch(`http://localhost:3000/fetch-requests?user=${currentUser}`);
+    const response = await fetch(`http://localhost:3000/fetch-requests?user=${user?.username}`);
     const data = await response.json();
     if(response.status === 200) {
       data.sentRequests.length > 0 ? sent = data.sentRequests : sent = [];
@@ -198,8 +201,8 @@ function App() {
     }; 
   };
   //fetch accepted matches
-  async function fetchMatches() {
-    const response = await fetch(`http://${backendURL}/matches?user=${localStorage.getItem('user')}`);
+  async function fetchMatches(param) {
+    const response = await fetch(`http://${backendURL}/matches?user=${user.username}`);
     const data = await response.json();
     if(response.status === 200) {
       const usernames = [];
@@ -207,6 +210,8 @@ function App() {
         usernames.push(obj.username);
       };
       setMatches(usernames);
+      setParam(param);
+      console.log(param);
       console.log(data.matches);
     };
   };
@@ -226,7 +231,7 @@ function App() {
         <Header 
           setWhichFilter={setWhichFilter} 
           skills={skills} 
-          username={user} 
+          username={user?.username} 
           fetchProfiles={fetchProfiles} 
           setUser={setUser} 
           setFilter={setHeaderFilter} 
@@ -261,7 +266,7 @@ function App() {
                                 headerFilter={headerFilter} 
                                 whichFilter={whichFilter} 
                                 setWhichFilter={setWhichFilter} 
-                                user={user}
+                                user={user || ''}
                               />} 
         />
         <Route path='pick-skills' element={<InitialPickSkillsPage 
