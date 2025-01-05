@@ -26,7 +26,7 @@ function CardFooter({
         const newState = !requested;
         setRequested(newState);
         sendMatchRequest(newState);
-        fetchRequests(requested);
+        fetchRequests(requested);       
     };
 
     //TODO: Use the isRequested state to display a loading icon or something to show data is being fetched

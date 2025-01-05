@@ -8,13 +8,17 @@ function CardPanel({
     learnProfiles, 
     teachProfiles, 
     filter, 
+    user,
     whichFilter 
 }) {
     const [filterType, setFilterType] = useState({learn: '', teach: ''});
     const [param, setParam] = useState(false);//Trigger useEffect to re render page with updated requests.
 
     useEffect(() => {
-        fetchRequests();
+        if(user) {
+            console.log('username: ', user);
+            fetchRequests();
+        };
     }, [param]);
 
     useEffect(() => {

@@ -26,8 +26,11 @@ function SignIn({ setUser, username }) {
         });
         const data = await response.json(); 
         if(data.authorized) {
-            setUser({ username: userDetails.username });
-            localStorage.setItem("user", userDetails.username)
+            localStorage.setItem("user", userDetails.username);
+            const storedUser = localStorage.getItem('user');
+            setUser(prev => {
+                return storedUser;
+            });
         };
     };
 

@@ -19,7 +19,7 @@ function Option({
 
     function handleClick() {
         localStorage.removeItem('user');
-        setUser({ username: '' });
+        setUser();
     };
 
     switch(text) {

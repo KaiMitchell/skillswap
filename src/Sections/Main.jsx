@@ -11,6 +11,7 @@ function Main({
     setFilter, 
     filter, 
     whichFilter, 
+    user,
     setWhichFilter 
 }) {   
     return(
@@ -24,6 +25,7 @@ function Main({
                 skills={skills} 
             />
             <CardPanel 
+                user={user}
                 requests={requests} 
                 fetchRequests={fetchRequests}
                 filter={filter} 

@@ -37,9 +37,8 @@ function App() {
     confirmPassword: ''
   });
   const [headerFilter, setHeaderFilter] = useState({category: '', skill: ''});
-  const username = (localStorage.getItem('user'));
   const [skills, setSkills] = useState();
-  const [user, setUser] = useState({ username: username });//TODO: add token.
+  const [user, setUser] = useState(localStorage.getItem('user') || null);//TODO: add token.
   const [learnProfiles, setLearnProfiles] = useState();
   const [teachProfiles, setTeachProfiles] = useState();
   const [isSettings, setIsSettings] = useState(false);//renderring the settings modal
@@ -47,21 +46,39 @@ function App() {
   const [displayedMatch, setDisplayedMatch] = useState();
   const [matches, setMatches] = useState([]);
 
+  //set user on mount
+  useEffect(() => {
+    const savedUser = localStorage.getItem('user');
+    if (savedUser) {
+      try {
+        setUser(savedUser);
+      } catch (error) {
+        console.error("Failed to parse user from localStorage:", error);
+      }
+    }
+  }, []);
+  
+
   //fetch requests and matches on initial render
   useEffect(() => {
     if(user) {
       fetchRequests();
       fetchMatches();
     };
+    fetchProfiles();
   }, [user]);
 
-  //update the ui as requests data changes
-  useEffect(() => {fetchProfiles()}, [requests]);
-
-  //fetch all skills for the user to select from 
+  //fetch all skills
   useEffect(() => {
     fetchSkills();
   }, []);
+
+  //update the ui as requests data changes
+  useEffect(() => {
+    if(user) {
+      fetchProfiles();
+    };
+  }, [requests]);
 
   //filter profile result using filters
   useEffect(() => {
@@ -96,7 +113,7 @@ function App() {
     const response = await fetch(`http://${backendURL}`, {
         method: 'POST',
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ username: user.username })
+        body: JSON.stringify({ username: user?.username })
     });
     const data = await response.json();
     setLearnProfiles(data.data.learnProfiles);
@@ -165,9 +182,14 @@ function App() {
   };
   //fetch sent match requests
   async function fetchRequests() {
+    const currentUser = localStorage.getItem('user');
+    if(!currentUser) {
+      console.error('No user found');
+      return;
+    };
     let sent = [];
     let recieved = [];
-    const response = await fetch(`http://localhost:3000/fetch-requests?user=${localStorage.getItem('user')}`);
+    const response = await fetch(`http://localhost:3000/fetch-requests?user=${currentUser}`);
     const data = await response.json();
     if(response.status === 200) {
       data.sentRequests.length > 0 ? sent = data.sentRequests : sent = [];
@@ -203,7 +225,8 @@ function App() {
     <BrowserRouter>
         <Header 
           setWhichFilter={setWhichFilter} 
-          skills={skills} username={user.username} 
+          skills={skills} 
+          username={user} 
           fetchProfiles={fetchProfiles} 
           setUser={setUser} 
           setFilter={setHeaderFilter} 
@@ -214,10 +237,10 @@ function App() {
           fetchMatches={fetchMatches}
           displayProfile={displayProfile}
         />
-        <SettingsModal 
+        {user && <SettingsModal 
           isSettings={isSettings} 
           setIsSettings={setIsSettings} 
-        />
+        />}
         <MatchesModal 
           isDisplayMatch={isDisplayMatch}
           setIsDisplayMatch={setIsDisplayMatch}
@@ -238,6 +261,7 @@ function App() {
                                 headerFilter={headerFilter} 
                                 whichFilter={whichFilter} 
                                 setWhichFilter={setWhichFilter} 
+                                user={user}
                               />} 
         />
         <Route path='pick-skills' element={<InitialPickSkillsPage 
@@ -258,7 +282,7 @@ function App() {
         />
         <Route path="sign-in" element={<SignIn 
                                           setUser={setUser} 
-                                          username={user.username} 
+                                          username={user} 
                                         />}
         />
       </Routes>

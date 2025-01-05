@@ -114,37 +114,44 @@ app.get('/matches', async(req, res) => {
 
 app.get('/fetch-requests', async(req, res) => {
     const username = req.query.user;
-    const sentRequests = []; 
-    const recievedRequests = []; 
-    const userIdQuery = await client.query(`SELECT id FROM users WHERE username = $1`, [username]);
-    const userId = userIdQuery.rows[0].id;
-    console.log(userId);
-    const sentRequestsQuery = await client.query(
-        `
-        SELECT ARRAY_AGG(DISTINCT username) FROM users u
-        JOIN match_requests mr ON mr.u_id1 = $1
-        WHERE mr.u_id2 = u.id
-        `, [userId]
-    );
-    const recievedRequestsQuery = await client.query(
-        `
-        SELECT ARRAY_AGG(DISTINCT username) FROM users u
-        JOIN match_requests mr ON mr.u_id2 = $1
-        WHERE mr.u_id1 = u.id
-        `, [userId]
-    );
-    //push the query results into array for readability and passing into res data
-    if(sentRequestsQuery.rows[0].array_agg) {
-        sentRequests.push(...sentRequestsQuery.rows[0].array_agg);
+    try{
+        const sentRequests = []; 
+        const recievedRequests = []; 
+        const userIdQuery = await client.query(`SELECT id FROM users WHERE username = $1`, [username]);
+        if (userIdQuery.rows.length === 0) {
+            return res.status(404).json({ error: 'User not found' });
+        };
+        const userId = userIdQuery.rows[0].id;
+        console.log(userId);
+        const sentRequestsQuery = await client.query(
+            `
+            SELECT ARRAY_AGG(DISTINCT username) FROM users u
+            JOIN match_requests mr ON mr.u_id1 = $1
+            WHERE mr.u_id2 = u.id
+            `, [userId]
+        );
+        const recievedRequestsQuery = await client.query(
+            `
+            SELECT ARRAY_AGG(DISTINCT username) FROM users u
+            JOIN match_requests mr ON mr.u_id2 = $1
+            WHERE mr.u_id1 = u.id
+            `, [userId]
+        );
+        //push the query results into array for readability and passing into res data
+        if(sentRequestsQuery.rows[0].array_agg) {
+            sentRequests.push(...sentRequestsQuery.rows[0].array_agg);
+        };
+        if(recievedRequestsQuery.rows[0].array_agg) {
+            recievedRequests.push(...recievedRequestsQuery.rows[0].array_agg);
+        };
+        console.log(recievedRequests, sentRequests);
+        res.status(200).json({ 
+            sentRequests: sentRequests,
+            recievedRequests: recievedRequests
+         });
+    } catch(err) {
+        console.error(err);
     };
-    if(recievedRequestsQuery.rows[0].array_agg) {
-        recievedRequests.push(...recievedRequestsQuery.rows[0].array_agg);
-    };
-    console.log(recievedRequests, sentRequests);
-    res.status(200).json({ 
-        sentRequests: sentRequests,
-        recievedRequests: recievedRequests
-     });
 });
 
 app.post('/', async(req, res) => {
@@ -152,7 +159,7 @@ app.post('/', async(req, res) => {
         const { username } = req.body;
         const learnProfiles = [];
         const teachProfiles = [];
-
+        const safeUsername = username || 'safeUsername';
         const toLearn = await client.query(
             `
             SELECT u.username, ARRAY_AGG(s.name) as to_learn 
@@ -165,7 +172,7 @@ app.post('/', async(req, res) => {
             AND u.username != $1
             GROUP BY u.id
             ORDER BY u.id
-            `, [username]
+            `, [safeUsername]
         );
         //Use 'and mr.u_id2 IS NULL to return all records that are NULL 
         const toTeach = await client.query(
@@ -179,7 +186,7 @@ app.post('/', async(req, res) => {
              AND mr.u_id2 IS NULL
              GROUP BY u.id
              ORDER BY u.id
-            `, [username]
+            `, [safeUsername]
         );
         toTeach.rows.forEach((row) => teachProfiles.push(row));
         toLearn.rows.forEach((row) => learnProfiles.push(row));

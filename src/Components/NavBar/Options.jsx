@@ -35,7 +35,7 @@ function Options({
                     setFilter={setFilter}
                 />
                 <SignInSignUp username={username} />
-                <DropDownContainer 
+                {username && <DropDownContainer 
                     setUser={setUser} 
                     username={username} 
                     setIsSettings={setIsSettings} 
@@ -45,7 +45,7 @@ function Options({
                     matches={matches}
                     skills={skills}
                     displayProfile={displayProfile}
-                />
+                />}
             </div>
         </nav>
     );
