@@ -65,11 +65,19 @@ app.get('/profile', async(req, res) => {
         const result = await client.query(
             `
             SELECT 
-                TO_CHAR(created_at, 'YYYY,MON') created_at, 
-                email,
-                phone_number,
-                description
-            FROM users WHERE username = $1`, [username]);
+                TO_CHAR(u.created_at, 'YYYY,MON') created_at, 
+                u.username,
+                u.email,
+                u.phone_number,
+                u.description,
+                ARRAY_AGG(DISTINCT CASE WHEN us.is_learning = true THEN s.name END) AS skills_to_learn,
+                ARRAY_AGG(DISTINCT CASE WHEN us.is_teaching = true THEN s.name END) AS skills_to_teach
+            FROM users u
+            JOIN users_skills us ON us.user_id = (SELECT id FROM users WHERE username = $1)
+            JOIN skills s ON s.id = us.skill_id
+            WHERE username = $1
+            GROUP BY created_at, u.email, u.phone_number, u.description, u.username
+            `, [username]);
         const profileData = result.rows[0];
         res.status(200).json({ profileData: profileData });
     } catch(err) {

@@ -1,6 +1,6 @@
 function Left({ displayedMatch }) {
     return(
-        <div className='flex items-center gap-5'>
+        <div className='flex h-max items-center gap-5'>
             <div className='min-w-40 min-h-40 bg-black rounded-full self-start flex justify-center items-center text-white'>
                 Image
             </div>

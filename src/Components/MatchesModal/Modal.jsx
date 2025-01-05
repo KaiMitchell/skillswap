@@ -22,7 +22,9 @@ function Modal({
     }, []);
 
     return(
-        <div ref={node} className={`${isDisplayMatch ? 'block' : 'hidden'} fixed flex flex-col justify-between sm:size-3/5 m-auto z-20 top-0 bottom-0 left-0 right-0 p-2.5 rounded bg-stone-100 shadow-xl shadow-black overflow-y-scroll no-scrollbar`}>
+        <div 
+            ref={node} 
+            className={`${isDisplayMatch ? 'block' : 'hidden'} fixed flex flex-col gap-5 sm:size-3/5 m-auto z-20 top-0 bottom-0 left-0 right-0 p-2.5 rounded bg-stone-100 shadow-xl shadow-black overflow-y-scroll no-scrollbar`}>
             <Details 
                 isHovered={isHovered} 
                 setIsHovered={setIsHovered}

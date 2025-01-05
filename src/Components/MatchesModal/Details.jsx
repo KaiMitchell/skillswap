@@ -8,21 +8,23 @@ function Details({
     setIsHovered,
 }) {
     return(
-        <div className='flex gap-5'>
-            <div className='w-full min-h-1/4 flex flex-col lg:flex-row gap-5 justify-between mb-5 text-center lg:text-left'>   
+        <div className='flex gap-5 h-full'>
+            <div className='w-full min-h-1/4 h-full flex flex-col lg:flex-row gap-5 justify-between mb-5 text-center lg:text-left'>   
                 {/* image */}
-                <div className='w-full'>
-                    <div className="w-full flex justify-between">
-                        <Left 
-                            displayedMatch={displayedMatch}
-                        />
+                <div className='w-full h-full'>
+                    <div className="w-full h-full flex justify-between">
+                        <div>
+                            <Left 
+                                displayedMatch={displayedMatch}
+                            />
+                            <BottomLeft displayedMatch={displayedMatch} />
+                        </div>
                         <Right 
                             displayedMatch={displayedMatch}
                             isHovered={isHovered} 
                             setIsHovered={setIsHovered}
                         />
                     </div>
-                    <BottomLeft displayedMatch={displayedMatch} />
                 </div>
             </div>
         </div>
