@@ -459,7 +459,7 @@ app.get('/fetch-quick-filtered-profiles', async(req, res) => {
 });
 
 app.get('/fetch-profile-skills', async(req, res) => {
-    const { username } = req.body;
+    const username = req.query.username;
     const toLearnData = {};
     const toTeachData = {};
     try{

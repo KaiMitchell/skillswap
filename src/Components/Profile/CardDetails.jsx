@@ -12,11 +12,7 @@ function CardDetails({ username }) {
     }, [isRenderAllSkills]);
 
     async function fetchProfileSkills() {
-        const response = await fetch(`http://localhost:3000/fetch-profile-skills`, {
-            method: 'POST',
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ username: username })
-        });
+        const response = await fetch(`http://localhost:3000/fetch-profile-skills?username=${username}`);
         const data = await response.json();
         if(data.status === 404) {
             console.log(data.error);
