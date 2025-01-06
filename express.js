@@ -6,6 +6,7 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
+import { profile } from 'console';
 
 dotenv.config();
 
@@ -70,8 +71,8 @@ app.get('/profile', async(req, res) => {
                 u.email,
                 u.phone_number,
                 u.description,
-                ARRAY_AGG(DISTINCT CASE WHEN us.is_learning = true THEN s.name END) AS skills_to_learn,
-                ARRAY_AGG(DISTINCT CASE WHEN us.is_teaching = true THEN s.name END) AS skills_to_teach
+                ARRAY_AGG(DISTINCT s.name) FILTER (WHERE us.is_learning = true) AS skills_to_learn,
+                ARRAY_AGG(DISTINCT s.name) FILTER (WHERE us.is_teaching = true) AS skills_to_teach
             FROM users u
             JOIN users_skills us ON us.user_id = (SELECT id FROM users WHERE username = $1)
             JOIN skills s ON s.id = us.skill_id
@@ -79,6 +80,17 @@ app.get('/profile', async(req, res) => {
             GROUP BY created_at, u.email, u.phone_number, u.description, u.username
             `, [username]);
         const profileData = result.rows[0];
+        for(const prop in profileData) {
+            if(prop === 'skills_to_learn' || prop === 'skills_to_teach') {
+                if(!profileData[prop] || profileData[prop].length === 0) {
+                    profileData[prop] = ['No skills to display'];
+                };
+            };
+        };
+        // if(!profileData.skills_to_learn) {
+        //     profileData.skills_to_learn = ['No skills to display'];
+        // }
+        console.log(profileData);
         res.status(200).json({ profileData: profileData });
     } catch(err) {
         console.error(err);

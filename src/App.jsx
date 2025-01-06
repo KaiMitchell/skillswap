@@ -205,12 +205,16 @@ function App() {
 
   async function displayProfile(username) {
     setIsDisplayMatch(true);
-    const response = await fetch(`http://localhost:3000/profile?user=${username}`);
-    const data = await response.json();
-    const profileData = data.profileData;
-    console.log(profileData);
-    setDisplayedMatch(profileData);
-    // setIsProfileDisplayed(true);
+    try {
+      const response = await fetch(`http://localhost:3000/profile?user=${username}`);
+      const data = await response.json();
+      const profileData = data.profileData;
+      console.log(profileData);
+      setDisplayedMatch(profileData);
+      // setIsProfileDisplayed(true);
+    } catch(err) {
+      console.error(err);
+    }
 };
 
   return(
