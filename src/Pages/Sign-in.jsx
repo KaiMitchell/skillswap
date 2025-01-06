@@ -26,14 +26,9 @@ function SignIn({ setUser, username }) {
         });
         const data = await response.json(); 
         if(data.authorized) {
-            localStorage.setItem("user", JSON.stringify({
-                username: userDetails.username,
-                token: data.token
-            }));
-            const storedUser = JSON.parse(localStorage.getItem('user'));
-            console.log(storedUser)
-            setUser(prev => {
-                return storedUser;
+            localStorage.setItem("user", userDetails.username);
+            setUser(() => {
+                return localStorage.getItem('user');
             });
         };
     };
@@ -56,7 +51,7 @@ function SignIn({ setUser, username }) {
                 <Link>Forgot password?</Link>
                 {/* Why do I need to neg the mt? */}
                 <button onClick={(e) => {clearForm(), authorize(e)}} className='px-5 py-2.5 border border-black'>Sign in</button>
-                {username?.username && <Navigate to='/' />}
+                {username && <Navigate to='/' />}
             </form>
         </div>
     );

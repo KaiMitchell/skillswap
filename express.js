@@ -91,21 +91,16 @@ app.get('/matches', async(req, res) => {
         const matches = await client.query(
             `
             SELECT 
-                u.username, 
-                u.description, 
-                ARRAY_AGG(DISTINCT CASE WHEN us.is_learning = true THEN s.name END) AS skills_to_learn,
-                ARRAY_AGG(DISTINCT CASE WHEN us.is_teaching = true THEN s.name END) AS skills_to_teach
+                u.username
             FROM users u
             JOIN matches m ON user_id = (SELECT id FROM users WHERE username = $1)
-            JOIN users_skills us ON us.user_id = (SELECT id FROM users WHERE username = $1)
-            JOIN skills s ON s.id = us.skill_id
             WHERE m.match_id = u.id
-            GROUP BY u.username, u.description, u.id
+            GROUP BY u.username, u.id
             ORDER BY u.id
             `, [currentUser]
         );
         //send array of matched users as response
-        console.log(matches.rows);
+        console.log('Matches: ', matches.rows);
         res.status(200).json({ matches: matches.rows })
     } catch(err) {
         console.error(err);
@@ -122,7 +117,6 @@ app.get('/fetch-requests', async(req, res) => {
             return res.status(404).json({ error: 'User not found' });
         };
         const userId = userIdQuery.rows[0].id;
-        console.log(userId);
         const sentRequestsQuery = await client.query(
             `
             SELECT ARRAY_AGG(DISTINCT username) FROM users u
@@ -144,7 +138,6 @@ app.get('/fetch-requests', async(req, res) => {
         if(recievedRequestsQuery.rows[0].array_agg) {
             recievedRequests.push(...recievedRequestsQuery.rows[0].array_agg);
         };
-        console.log(recievedRequests, sentRequests);
         res.status(200).json({ 
             sentRequests: sentRequests,
             recievedRequests: recievedRequests
@@ -245,12 +238,9 @@ app.post('/sign-in', async(req, res) => {
 });
 
 app.post('/pick-skills', async(req, res) => {
-    console.log(req.body);
     const data = req.body;
     const toTeach = data['toTeach'] ? data['toTeach'] : [];
     const toLearn = data['toLearn'] ? data['toLearn'] : [];
-
-    console.log(data.username);
     const addedSkills = {
         toLearn: data['toLearn'],
         toTeach: data['toTeach']
@@ -363,7 +353,6 @@ app.post('/fetch-filtered-teach-profiles', async(req, res) => {
             ORDER BY u.username
             `
         );
-        console.log(results.rows);
         if(results.rows.length === 0) {
             res.status(404).json({ noData: 'No data' });
             return;
@@ -420,12 +409,10 @@ app.post('/fetch-quick-filtered-profiles', async(req, res) => {
         const { category, skill } = body;
         const learnProfiles = [];
         const teachProfiles = [];
-            
         if(skill === undefined && category === undefined) {
             res.status(501).json({ error: 'No skill or category found' });
             return;
         };
-
         const toTeachMatches = await client.query(
             `
                 SELECT u.username, s.name, us.is_teaching, us.is_learning FROM users u
@@ -434,7 +421,6 @@ app.post('/fetch-quick-filtered-profiles', async(req, res) => {
                 WHERE us.is_teaching = true AND s.name = $1
             `, [skill]
         );
-
         const toLearnMatches = await client.query(
             `
                 SELECT u.username, s.name, us.is_teaching, us.is_learning FROM users u
@@ -443,24 +429,19 @@ app.post('/fetch-quick-filtered-profiles', async(req, res) => {
                 WHERE us.is_learning = true AND s.name = $1
             `, [skill]
         );
-
         if(toTeachMatches.rows.length === 0 && toLearnMatches.rows.length === 0) {
             res.status(404).json({ noData: 'No data' });
             return;
         };
-
         toTeachMatches.rows.forEach(result => teachProfiles.push(result));
         toLearnMatches.rows.forEach(result => learnProfiles.push(result));
-        console.log(learnProfiles, teachProfiles);
-
         const filterType = body.headerFilter ? 'header' : 'main';
-        res.status(200).json(
-            { 
+        res.status(200).json({ 
                 data: {...teachProfiles, ...learnProfiles}, 
                 learnProfiles: learnProfiles, 
                 teachProfiles: teachProfiles, 
                 filterType: filterType 
-            });
+        });
     } catch(err) {
         console.error(err.stack);
     };
@@ -504,7 +485,6 @@ app.get('/fetch-profile-skills', async(req, res) => {
 
 app.post('/handle-match-request', async(req, res) => {
     const { currentUser, selectedUser, isRequested } = req.body;
-    console.log('logging: ', currentUser, selectedUser);
     try{
 
         let query;

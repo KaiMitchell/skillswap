@@ -15,7 +15,7 @@ function CardPanel({
     const [param, setParam] = useState(false);//Trigger useEffect to re render page with updated requests.
 
     useEffect(() => {
-        if(user.username) {
+        if(user) {
             console.log('username: ', user);
             fetchRequests();
         };

@@ -5,9 +5,7 @@ function PopOutOptions({
     removeMatchRequests, 
     acceptMatchRequest, 
     displayProfile,
-    type,
-    teachProfiles,
-    learnProfiles
+    type
 }) {
     return(
         <>

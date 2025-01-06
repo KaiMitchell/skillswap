@@ -38,7 +38,7 @@ function App() {
   });
   const [headerFilter, setHeaderFilter] = useState({category: '', skill: ''});
   const [skills, setSkills] = useState();
-  const [user, setUser] = useState(JSON.parse(localStorage.getItem('user')) || null);//TODO: add token.
+  const [user, setUser] = useState(localStorage.getItem('user') || null);//TODO: add token.
   const [learnProfiles, setLearnProfiles] = useState();
   const [teachProfiles, setTeachProfiles] = useState();
   const [isSettings, setIsSettings] = useState(false);//renderring the settings modal
@@ -46,18 +46,6 @@ function App() {
   const [displayedMatch, setDisplayedMatch] = useState();
   const [matches, setMatches] = useState([]);
   const [param, setParam] = useState(); // remount on accepting a request
-
-  //set user on mount
-  useEffect(() => {
-    const savedUser = localStorage.getItem('user');
-    if (savedUser?.username) {
-      try {
-        setUser(savedUser);
-      } catch (error) {
-        console.error("Failed to parse user from localStorage:", error);
-      }
-    }
-  }, []);
   
   useEffect(() => {
     fetchMatches();
@@ -65,7 +53,7 @@ function App() {
 
   //fetch requests and matches on initial render
   useEffect(() => {
-    if(user?.username) {
+    if(user) {
       fetchRequests();
       fetchMatches();
     };
@@ -79,7 +67,7 @@ function App() {
 
   //update the ui as requests data changes
   useEffect(() => {
-    if(user?.username) {
+    if(user) {
       fetchProfiles();
     };
   }, [requests]);
@@ -117,7 +105,7 @@ function App() {
     const response = await fetch(`http://${backendURL}`, {
         method: 'POST',
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ username: user?.username })
+        body: JSON.stringify({ username: user })
     });
     const data = await response.json();
     setLearnProfiles(data.data.learnProfiles);
@@ -186,13 +174,13 @@ function App() {
   };
   //fetch sent match requests
   async function fetchRequests() {
-    if(!user.username) {
+    if(!user) {
       console.error('No user found');
       return;
     };
     let sent = [];
     let recieved = [];
-    const response = await fetch(`http://localhost:3000/fetch-requests?user=${user?.username}`);
+    const response = await fetch(`http://localhost:3000/fetch-requests?user=${user}`);
     const data = await response.json();
     if(response.status === 200) {
       data.sentRequests.length > 0 ? sent = data.sentRequests : sent = [];
@@ -202,7 +190,7 @@ function App() {
   };
   //fetch accepted matches
   async function fetchMatches(param) {
-    const response = await fetch(`http://${backendURL}/matches?user=${user.username}`);
+    const response = await fetch(`http://${backendURL}/matches?user=${user}`);
     const data = await response.json();
     if(response.status === 200) {
       const usernames = [];
@@ -211,7 +199,6 @@ function App() {
       };
       setMatches(usernames);
       setParam(param);
-      console.log(param);
       console.log(data.matches);
     };
   };
@@ -231,7 +218,7 @@ function App() {
         <Header 
           setWhichFilter={setWhichFilter} 
           skills={skills} 
-          username={user?.username} 
+          username={user} 
           fetchProfiles={fetchProfiles} 
           setUser={setUser} 
           setFilter={setHeaderFilter} 

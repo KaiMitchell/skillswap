@@ -8,7 +8,7 @@ function ProfileDropDownSidePopOut({
 }) {
     //remove a request you sent
     async function removeMatchRequests(selectedUser) {
-        const username = JSON.parse(localStorage.getItem('user')).username;
+        const username = localStorage.getItem('user');
         const response = await fetch(`http://localhost:3000/handle-match-request`, {
             method: 'POST',
             headers: { "Content-Type": "application/json" },
@@ -21,7 +21,7 @@ function ProfileDropDownSidePopOut({
 
     //accept a request sent to you
     async function acceptMatchRequest(selectedUser) {
-        const username = JSON.parse(localStorage.getItem('user')).username;
+        const username = localStorage.getItem('user');
         const response = await fetch(`http://localhost:3000/accept-match-request`, {
             method: 'POST',
             headers: { "Content-Type": "application/json" },
