@@ -9,6 +9,7 @@ function Option({
     text, 
     setIsSettings, 
     setIsShown,
+    accessToken,
     displayProfile
 }) { 
     let clickHandler = {};
@@ -17,14 +18,19 @@ function Option({
         text === 'Requests' && fetchData();
     }, []); 
 
-    function handleClick() {
+    async function signOut() {
+        await fetch(`http://localhost:4000/signout`, {
+            method: 'POST',
+            headers: { "Content-Type": "application/json" },
+            credentials: 'include'
+        });
         localStorage.removeItem('user');
         setUser();
     };
 
     switch(text) {
         case 'Sign out':
-            clickHandler.onClick = () => handleClick();
+            clickHandler.onClick = () => signOut();
             break;
         case 'Settings':
             clickHandler.onClick = () => {
@@ -47,6 +53,7 @@ function Option({
                         text={text}
                         skills={skills}
                         displayProfile={displayProfile}
+                        accessToken={accessToken}
                     />
                 }
             </div>

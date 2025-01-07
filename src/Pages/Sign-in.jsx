@@ -1,15 +1,23 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
+import { TokenContext } from '../App.jsx';
 import { Link, Navigate } from 'react-router-dom';
 import Input from '.././Components/Input';
 
-const backendURL = 'localhost:3000';
+const backendURL = 'localhost:4000';
 
-function SignIn({ setUser, username }) {
+function SignIn({ 
+    setUser, 
+    username, 
+    // setAccessToken,
+    // setRefreshToken 
+}) {
+    const { accessToken, setAccessToken } = useContext(TokenContext);
     const [userDetails, setUserDetails] = useState({
         username: '',
         password: '',
     });
 
+    //update state based on each input fields value
     function handleChangeInput(e, type) {
         setUserDetails(prev => ({
             ...prev,
@@ -17,19 +25,22 @@ function SignIn({ setUser, username }) {
         }));
     };
 
-    async function authorize(e) {
+    async function signIn(e) {
         e.preventDefault();
-        const response = await fetch(`http://${backendURL}/sign-in`, {
+        const response = await fetch(`http://${backendURL}/signin`, {
             method: "POST",
             headers: {"Content-Type": "application/json"},
+            // credentials: 'include',
             body: JSON.stringify(userDetails)
         });
         const data = await response.json(); 
-        if(data.authorized) {
+        if(response.status === 200) {
             localStorage.setItem("user", userDetails.username);
-            setUser(() => {
-                return localStorage.getItem('user');
-            });
+            setUser(() => localStorage.getItem('user'));
+            setAccessToken(data.accessToken);
+            // setAccessToken(() => data.accessToken);
+            // sessionStorage.setItem('access token', data.accessToken);
+            // setRefreshToken(() => data.refreshToken);
         };
     };
 
@@ -50,7 +61,7 @@ function SignIn({ setUser, username }) {
                 <p>Don't have an account? <Link to="/register" className='text-blue-400'>click here</Link></p>
                 <Link>Forgot password?</Link>
                 {/* Why do I need to neg the mt? */}
-                <button onClick={(e) => {clearForm(), authorize(e)}} className='px-5 py-2.5 border border-black'>Sign in</button>
+                <button onClick={(e) => {clearForm(), signIn(e)}} className='px-5 py-2.5 border border-black'>Sign in</button>
                 {username && <Navigate to='/' />}
             </form>
         </div>

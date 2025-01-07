@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, createContext } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Header from './Sections/Header';
 import InitialPickSkillsPage from './Pages/InitialPickSkillsPage';
@@ -8,6 +8,8 @@ import InitialPickMatchesPage from './Pages/InitialPickMatchesPage';
 import SettingsModal from './Components/SettingsModal/SettingsModal.jsx';
 import Main from './Sections/Main.jsx';
 import MatchesModal from './Components/MatchesModal/Modal.jsx';
+
+export const TokenContext = createContext();
 
 const backendURL = 'localhost:3000';
 
@@ -46,7 +48,10 @@ function App() {
   const [displayedMatch, setDisplayedMatch] = useState();
   const [matches, setMatches] = useState([]);
   const [param, setParam] = useState(); // remount on accepting a request
+  const [accessToken, setAccessToken] = useState();
   
+  useEffect(() => {console.log('current access token: ', accessToken)}, [accessToken]);
+
   useEffect(() => {
     fetchMatches();
   }, [param]);
@@ -60,9 +65,14 @@ function App() {
     fetchProfiles();
   }, [user]);
 
-  //fetch all skills
   useEffect(() => {
     fetchSkills();
+    // setInterval(async() => {
+    //   await fetch('http://localhost:4000/token', {
+    //     method: 'POST',
+    //     headers: { "Content-Type": "application/json" },
+    //   });
+    // }, 1500);
   }, []);
 
   //update the ui as requests data changes
@@ -180,7 +190,9 @@ function App() {
     };
     let sent = [];
     let recieved = [];
-    const response = await fetch(`http://localhost:3000/fetch-requests?user=${user}`);
+    const response = await fetch(`http://localhost:4000/fetch-requests?user=${user}`, {
+      headers: { 'authorization': `Bearer ${accessToken}` }
+    });
     const data = await response.json();
     if(response.status === 200) {
       data.sentRequests.length > 0 ? sent = data.sentRequests : sent = [];
@@ -203,10 +215,12 @@ function App() {
     };
   };
 
-  async function displayProfile(username) {
+  async function displayProfile(selectedUser) {
     setIsDisplayMatch(true);
     try {
-      const response = await fetch(`http://localhost:3000/profile?user=${username}`);
+      const response = await fetch(`http://localhost:4000/profile?selectedUser=${selectedUser}`, {
+        headers: { 'authorization': `Bearer ${sessionStorage.getItem('access token')}` }
+      });
       const data = await response.json();
       const profileData = data.profileData;
       console.log(profileData);
@@ -215,74 +229,79 @@ function App() {
     } catch(err) {
       console.error(err);
     }
-};
+  };
 
   return(
-    <BrowserRouter>
-        <Header 
-          setWhichFilter={setWhichFilter} 
-          skills={skills} 
-          username={user} 
-          fetchProfiles={fetchProfiles} 
-          setUser={setUser} 
-          setFilter={setHeaderFilter} 
-          setIsSettings={setIsSettings} 
-          requests={requests}
-          fetchRequests={fetchRequests}//CHANGE BACK TO FETCH REQUESTS
-          matches={matches}
-          fetchMatches={fetchMatches}
-          displayProfile={displayProfile}
-        />
-        {user && <SettingsModal 
-          isSettings={isSettings} 
-          setIsSettings={setIsSettings} 
-        />}
-        <MatchesModal 
-          isDisplayMatch={isDisplayMatch}
-          setIsDisplayMatch={setIsDisplayMatch}
-          displayedMatch={displayedMatch}
-          teachProfiles={teachProfiles}
-          learnProfiles={learnProfiles}
-        />
-      <Routes>  
-        <Route path='/' element={<Main />} />
-        <Route index element={<Main 
-                                requests={requests}
-                                fetchRequests={fetchRequests}
-                                learnProfiles={learnProfiles} 
-                                teachProfiles={teachProfiles} 
-                                filter={mainFilter} 
-                                skills={skills} 
-                                setFilter={setMainFilter} 
-                                headerFilter={headerFilter} 
-                                whichFilter={whichFilter} 
-                                setWhichFilter={setWhichFilter} 
-                                user={user || ''}
-                              />} 
-        />
-        <Route path='pick-skills' element={<InitialPickSkillsPage 
-                                              skills={skills} 
-                                              username={newUserData.username} 
-                                              setUser={setUser} 
-                                            />} 
-        />
-        <Route path='pick-matches' element={<InitialPickMatchesPage 
-                                              setNewUserData={setNewUserData} 
-                                              newUserData={newUserData} 
-                                            />} 
-        />
-        <Route path="register" element={<Register 
-                                          setNewUserData={setNewUserData} 
-                                          newUserData={newUserData} 
-                                       />} 
-        />
-        <Route path="sign-in" element={<SignIn 
-                                          setUser={setUser} 
-                                          username={user} 
-                                        />}
-        />
-      </Routes>
-    </BrowserRouter>
+    <TokenContext.Provider value={{ accessToken, setAccessToken }}>
+      <BrowserRouter>
+          <Header 
+            setWhichFilter={setWhichFilter} 
+            skills={skills} 
+            username={user} 
+            fetchProfiles={fetchProfiles} 
+            setUser={setUser} 
+            setFilter={setHeaderFilter} 
+            setIsSettings={setIsSettings} 
+            requests={requests}
+            fetchRequests={fetchRequests}//CHANGE BACK TO FETCH REQUESTS
+            matches={matches}
+            fetchMatches={fetchMatches}
+            displayProfile={displayProfile}
+            accessToken={accessToken}
+          />
+          {user && <SettingsModal 
+            isSettings={isSettings} 
+            setIsSettings={setIsSettings} 
+          />}
+          <MatchesModal 
+            isDisplayMatch={isDisplayMatch}
+            setIsDisplayMatch={setIsDisplayMatch}
+            displayedMatch={displayedMatch}
+            teachProfiles={teachProfiles}
+            learnProfiles={learnProfiles}
+          />
+        <Routes>  
+          <Route path='/' element={<Main />} />
+          <Route index element={<Main 
+                                  requests={requests}
+                                  fetchRequests={fetchRequests}
+                                  learnProfiles={learnProfiles} 
+                                  teachProfiles={teachProfiles} 
+                                  filter={mainFilter} 
+                                  skills={skills} 
+                                  setFilter={setMainFilter} 
+                                  headerFilter={headerFilter} 
+                                  whichFilter={whichFilter} 
+                                  setWhichFilter={setWhichFilter} 
+                                  user={user || ''}
+                                />} 
+          />
+          <Route path='pick-skills' element={<InitialPickSkillsPage 
+                                                skills={skills} 
+                                                username={newUserData.username} 
+                                                setUser={setUser} 
+                                              />} 
+          />
+          <Route path='pick-matches' element={<InitialPickMatchesPage 
+                                                setNewUserData={setNewUserData} 
+                                                newUserData={newUserData} 
+                                              />} 
+          />
+          <Route path="register" element={<Register 
+                                            setNewUserData={setNewUserData} 
+                                            newUserData={newUserData} 
+                                        />} 
+          />
+          <Route path="sign-in" element={<SignIn 
+                                            setUser={setUser} 
+                                            //pass username to check if not null. If it is then redirect to home page.
+                                            username={user} 
+                                            setAccessToken={setAccessToken}
+                                          />}
+          />
+        </Routes>
+      </BrowserRouter>
+    </TokenContext.Provider>
   );
 };
 

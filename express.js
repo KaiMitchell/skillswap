@@ -5,8 +5,7 @@ import pkg from 'pg';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import bcrypt from 'bcrypt';
-import jwt from 'jsonwebtoken';
-import { profile } from 'console';
+// import jwt from 'jsonwebtoken';
 
 dotenv.config();
 
@@ -59,44 +58,7 @@ app.get('/fetch-skills', async(req, res) => {
         };
 });
 
-//get matched profile data
-app.get('/profile', async(req, res) => {
-    const username = req.query.user;
-    try {
-        const result = await client.query(
-            `
-            SELECT 
-                TO_CHAR(u.created_at, 'YYYY,MON') created_at, 
-                u.username,
-                u.email,
-                u.phone_number,
-                u.description,
-                ARRAY_AGG(DISTINCT s.name) FILTER (WHERE us.is_learning = true) AS skills_to_learn,
-                ARRAY_AGG(DISTINCT s.name) FILTER (WHERE us.is_teaching = true) AS skills_to_teach
-            FROM users u
-            JOIN users_skills us ON us.user_id = (SELECT id FROM users WHERE username = $1)
-            JOIN skills s ON s.id = us.skill_id
-            WHERE username = $1
-            GROUP BY created_at, u.email, u.phone_number, u.description, u.username
-            `, [username]);
-        const profileData = result.rows[0];
-        for(const prop in profileData) {
-            if(prop === 'skills_to_learn' || prop === 'skills_to_teach') {
-                if(!profileData[prop] || profileData[prop].length === 0) {
-                    profileData[prop] = ['No skills to display'];
-                };
-            };
-        };
-        // if(!profileData.skills_to_learn) {
-        //     profileData.skills_to_learn = ['No skills to display'];
-        // }
-        console.log(profileData);
-        res.status(200).json({ profileData: profileData });
-    } catch(err) {
-        console.error(err);
-    };
-});
-
+//fetch all matches
 app.get('/matches', async(req, res) => {
     const currentUser = req.query.user;
     try {
@@ -119,46 +81,7 @@ app.get('/matches', async(req, res) => {
     };
 });
 
-app.get('/fetch-requests', async(req, res) => {
-    const username = req.query.user;
-    try{
-        const sentRequests = []; 
-        const recievedRequests = []; 
-        const userIdQuery = await client.query(`SELECT id FROM users WHERE username = $1`, [username]);
-        if (userIdQuery.rows.length === 0) {
-            return res.status(404).json({ error: 'User not found' });
-        };
-        const userId = userIdQuery.rows[0].id;
-        const sentRequestsQuery = await client.query(
-            `
-            SELECT ARRAY_AGG(DISTINCT username) FROM users u
-            JOIN match_requests mr ON mr.u_id1 = $1
-            WHERE mr.u_id2 = u.id
-            `, [userId]
-        );
-        const recievedRequestsQuery = await client.query(
-            `
-            SELECT ARRAY_AGG(DISTINCT username) FROM users u
-            JOIN match_requests mr ON mr.u_id2 = $1
-            WHERE mr.u_id1 = u.id
-            `, [userId]
-        );
-        //push the query results into array for readability and passing into res data
-        if(sentRequestsQuery.rows[0].array_agg) {
-            sentRequests.push(...sentRequestsQuery.rows[0].array_agg);
-        };
-        if(recievedRequestsQuery.rows[0].array_agg) {
-            recievedRequests.push(...recievedRequestsQuery.rows[0].array_agg);
-        };
-        res.status(200).json({ 
-            sentRequests: sentRequests,
-            recievedRequests: recievedRequests
-         });
-    } catch(err) {
-        console.error(err);
-    };
-});
-
+// initial mount of all unfiltered profiles
 app.post('/', async(req, res) => {
     try {
         const { username } = req.body;
@@ -201,98 +124,50 @@ app.post('/', async(req, res) => {
     };
 });
 
-app.post('/sign-in', async(req, res) => {
-    try {
-        const {username, password} = req.body;
-        //Guard clause
-        if(!password && !username) {
-            res.status(401).json({ message: 'No data' });
-            return;
-        } else if(!password) {
-            res.status(401).json({ message: 'Please enter your password' });
-            return;
-        } else if(!username) {
-            res.status(401).json({ message: 'Please enter your username' });
-            return;
-        };
-        const results = await client.query(
-            `
-             SELECT * FROM users u WHERE u.username = $1
-            `, [username]
-        );
-        const user = results.rows[0];
-        const match = await bcrypt.compare(password, user.password);
-        if(!user) { 
-            res.status(401).json({ message: 'User name does not exist', authorized: false });
-            return;
-        } else if(!match) {
-            res.status(401).json({ message: 'Incorrect password', authorized: false });
-            return;
-        };  
-        const token = jwt.sign({ userId: user.id }, 'SECRET', { expiresIn: '1h' });
-        const sentRequests = await client.query(
-            `
-            SELECT ARRAY_AGG(DISTINCT username) sent_requests FROM users u
-            JOIN match_requests mr ON mr.u_id1 = (SELECT id FROM users WHERE username = $1)
-            WHERE mr.u_id2 = u.id
-            `, [username]
-        );
-        res.status(200).json({ 
-            message: `Hi ${username}`, 
-            username: username,
-            authorized: true, 
-            token: token,
-            sentRequests: sentRequests.rows[0]
-        });
-    } catch(err) {
-        console.error('error!: ', err);
-    };
-});
-
 app.post('/pick-skills', async(req, res) => {
     const data = req.body;
-    const toTeach = data['toTeach'] ? data['toTeach'] : [];
-    const toLearn = data['toLearn'] ? data['toLearn'] : [];
-    const addedSkills = {
-        toLearn: data['toLearn'],
-        toTeach: data['toTeach']
-    };
-    
-//     //Guard clause
-    if(data['toTeach'].length == 0 && data['toLearn'] == 0) {
-        res.status(404).send({ message: 'No data please select your skills' });
-        return;
-    };
-    let toTeachQueryString = '';
-    let toLearnQueryString = '';
-
-    if(toTeach.length > 0) {
-        for(const item of data['toTeach']) {
-            toTeachQueryString += `INSERT INTO users_skills (user_id, skill_id, is_learning, is_teaching)
-                                VALUES (
-                                (SELECT users.id FROM users WHERE users.username = '${data.username}'),
-                                (SELECT skills.id FROM skills WHERE skills.name = '${item}'),
-                                true,
-                                false
-                                );`
+    try {
+        const toTeach = data['toTeach'] ? data['toTeach'] : [];
+        const toLearn = data['toLearn'] ? data['toLearn'] : [];
+        const addedSkills = {
+            toLearn: data['toLearn'],
+            toTeach: data['toTeach']
         };
-        await client.query(toTeachQueryString);
-    };
-
-    if(toLearn.length > 0) {
-        for(const item of data['toLearn']) {
-            toLearnQueryString += `INSERT INTO users_skills (user_id, skill_id, is_learning, is_teaching)
+        if(data['toTeach'].length == 0 && data['toLearn'] == 0) {
+            res.status(404).send({ message: 'No data please select your skills' });
+            return;
+        };
+        let toTeachQueryString = '';
+        let toLearnQueryString = '';
+        //for each item of the requested array execute an insert query with selected skill
+        if(toTeach.length > 0) {
+            for(const item of data['toTeach']) {
+                toTeachQueryString += `INSERT INTO users_skills (user_id, skill_id, is_learning, is_teaching)
                                     VALUES (
                                     (SELECT users.id FROM users WHERE users.username = '${data.username}'),
                                     (SELECT skills.id FROM skills WHERE skills.name = '${item}'),
                                     true,
                                     false
                                     );`
+            };
+            await client.query(toTeachQueryString);
         };
-        await client.query(toLearnQueryString);
-    };
+        if(toLearn.length > 0) {
+            for(const item of data['toLearn']) {
+                toLearnQueryString += `INSERT INTO users_skills (user_id, skill_id, is_learning, is_teaching)
+                                        VALUES (
+                                        (SELECT users.id FROM users WHERE users.username = '${data.username}'),
+                                        (SELECT skills.id FROM skills WHERE skills.name = '${item}'),
+                                        true,
+                                        false
+                                        );`
+            };
+            await client.query(toLearnQueryString);
+        };
+        res.status(201).json({ message: `Skills updated.`, newSkills: addedSkills });
+    } catch(err) {
 
-    res.status(201).json({ message: `Skills updated.`, newSkills: addedSkills });
+    };
 });
 
 app.post('/register', async(req, res) => {
@@ -585,6 +460,11 @@ app.post('/submit-description', async(req, res) => {
         `, [username, description]);
     res.status(200).json({ message: 'succesfully updated' });
 });
+
+//Test token middleware
+// app.get('/test-token', authenticateToken, (req, res) => {
+//     res.json(users.filter(user => user === req.user));
+// });
 
 app.listen(PORT, () => {
     console.log(`Listening on localhost:${PORT}`);

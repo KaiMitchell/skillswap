@@ -16,7 +16,8 @@ function Options({
     setFilter, 
     setIsSettings, 
     fetchProfiles,
-    displayProfile
+    displayProfile,
+    accessToken,
 }) {
     const [isNavDropDown, setIsNavDropDown] = useState(false);
     return(
@@ -45,6 +46,7 @@ function Options({
                     matches={matches}
                     skills={skills}
                     displayProfile={displayProfile}
+                    accessToken={accessToken}
                 />}
             </div>
         </nav>

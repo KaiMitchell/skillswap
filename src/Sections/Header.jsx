@@ -13,6 +13,7 @@ function Header({
     setIsSettings, 
     fetchProfiles,
     displayProfile,
+    accessToken,
 }) {
     return(
         <header className='h-full pt-10 border-b'>
@@ -30,6 +31,7 @@ function Header({
                     setIsSettings={setIsSettings} 
                     fetchRequests={fetchRequests}
                     displayProfile={displayProfile}
+                    accessToken={accessToken}
                 />
             </div>
         </header>
