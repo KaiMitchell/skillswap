@@ -36,12 +36,12 @@ function CardFooter({
             <h3 className="px-2.5 font-bold text-xl rounded-bl-lg">
                 {skill}
             </h3>
-            <button 
+            {localStorage.getItem('user') && <button 
                 className={`w-1/5 p-1 hover:${buttonHoverBg.matchRequest} hover:text-white rounded-br-lg hover:bg-stone-950 hover:text-stone-500`}
                 onClick={() => handleClick()}
             >
                 Match
-            </button>
+            </button>}
         </footer>
     );
 };

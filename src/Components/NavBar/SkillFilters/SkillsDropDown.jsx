@@ -11,10 +11,12 @@ function SkillsDropDown({
 }) {
     //fetch all users associated with the selected skill.
     async function handleClick(skill) {
+        //assign filter values to filter state object
         setFilter({
             category: category,
             skill: skill
         });
+        //determine whether filter option was selected from header or main section
         setWhichFilter({ mainFilter: false, headerFilter: true });
         setIsShown(false);
     };

@@ -241,7 +241,7 @@ app.post('/fetch-filtered-teach-profiles', async(req, res) => {
             `
         );
         if(results.rows.length === 0) {
-            res.status(404).json({ noData: 'No data' });
+            res.status(200).json({ message: 'No profiles want to learn ' + toLearn ? toLearn : toLearnCategory });
             return;
         };
         res.status(200).json({

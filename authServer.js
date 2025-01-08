@@ -39,7 +39,7 @@ client.connect()
 // };
 
 function generateToken(user) {
-    return jwt.sign({ user: user }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '15s' });
+    return jwt.sign({ user: user }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '1h' });
 };
 
 //BLOCKED
@@ -225,6 +225,51 @@ app.get('/fetch-requests', authenticateToken, async(req, res) => {
          });
     } catch(err) {
         console.error(err);
+    };
+});
+
+app.post('/unmatch', authenticateToken, async(req, res) => {
+    const { selectedUser, user } = req.body;
+    console.log('selected: ', selectedUser);
+    console.log('current: ', user);
+    try {
+        // delete relationship between the 2 selected users from the matches table
+        const deletion = await client.query(
+            `
+            DELETE FROM matches 
+            WHERE 
+                (user_id = (SELECT id FROM users WHERE username = $1)
+                AND 
+                match_id = (SELECT id FROM users WHERE username = $2))
+            OR  
+                (user_id = (SELECT id FROM users WHERE username = $2)
+                AND 
+                match_id = (SELECT id FROM users WHERE username = $1))
+            `, [selectedUser, user]
+        );
+        // //check if deletion fired
+        const results = await client.query(
+            `
+            SELECT * FROM matches
+            WHERE 
+                (user_id = (SELECT id FROM users WHERE username = $1)
+                AND 
+                match_id = (SELECT id FROM users WHERE username = $2))
+            OR  
+                (user_id = (SELECT id FROM users WHERE username = $2)
+                AND 
+                match_id = (SELECT id FROM users WHERE username = $1))
+            `, [selectedUser, user]
+        );
+        if(results.rows.length > 0) {
+            res.sendStatus(404);
+            return;
+        };
+        console.log('after deletion: ', results.rows.length);
+        console.log('testing deletion results: ', deletion);
+        res.status(200).json({ message: 'deleted' });
+    } catch(err) {
+        console.error(err)
     };
 });
 

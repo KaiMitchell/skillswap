@@ -50,17 +50,26 @@ function App() {
   const [param, setParam] = useState(); // remount on accepting a request
   const [accessToken, setAccessToken] = useState(sessionStorage.getItem('access token') || '');
   
+  //trigger re-render to immediately view new matches when accepting
   useEffect(() => {
     fetchMatches();
   }, [param]);
 
-  //fetch requests and matches on initial render
+  //fetch requests and matches on initial render, logout and signin
   useEffect(() => {
     if(user) {
       fetchRequests();
       fetchMatches();
     };
     fetchProfiles();
+    setMainFilter(prev => {
+      const newObj = {};
+      for(const key in prev) {
+        newObj[key] = '';
+      };
+      console.log(newObj);
+      return newObj;
+    });
   }, [user]);
 
   useEffect(() => {
@@ -184,7 +193,7 @@ function App() {
     let sent = [];
     let recieved = [];
     const response = await fetch(`http://localhost:4000/fetch-requests?user=${user}`, {
-      headers: { 'authorization': `Bearer ${accessToken}` }
+      headers: { 'authorization': `Bearer ${sessionStorage.getItem('access token')}` }
     });
     const data = await response.json();
     if(response.status === 401 || response.status === 403) {
@@ -206,8 +215,8 @@ function App() {
         usernames.push(obj.username);
       };
       setMatches(usernames);
+      //trigger useEffect to update UI
       setParam(param);
-      console.log(data.matches);
     };
   };
 
@@ -230,6 +239,32 @@ function App() {
     } catch(err) {
       console.error(err);
     }
+  };
+
+  async function unMatch(param, selectedUser) {
+    const response = await fetch(`http://localhost:4000/unmatch`, {
+      method: 'POST',
+      headers: { 
+        "Content-Type": "application/json",
+        'authorization': `Bearer ${sessionStorage.getItem('access token')}` 
+      },
+      body: JSON.stringify({ 
+        selectedUser: selectedUser,
+        user: localStorage.getItem('user')
+      })
+    });
+    if(response.status === 404) {
+      //check body values
+      console.log('selectedUser: ', selectedUser + ', currentUser: ', user);
+      return;
+    };
+    if(response.status === 403 || response.status === 401) {
+      signOut();
+      return;
+    };
+    //trigger rerender to update UI
+    setParam(param);
+    setIsDisplayMatch(false);
   };
 
   async function signOut() {
@@ -270,6 +305,7 @@ function App() {
             displayedMatch={displayedMatch}
             teachProfiles={teachProfiles}
             learnProfiles={learnProfiles}
+            unMatch={unMatch}
           />
         <Routes>  
           <Route path='/' element={<Main />} />

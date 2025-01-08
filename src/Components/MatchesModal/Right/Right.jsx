@@ -1,10 +1,12 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 function Right({ 
     isHovered,
     setIsHovered,
     displayedMatch
 }) {
+    const [unMatchedHovered, setUnMatchedHovered] = useState(false);
+    const showUnMatchedButton = unMatchedHovered || isHovered;
     return(
         <div className="w-1/2 h-full flex flex-col justify-between">
             <div className='flex flex-col gap-5 h-full w-full'>
@@ -12,11 +14,12 @@ function Right({
                     <h3 className="h-10 w-28 flex justify-center items-center rounded-lg text-white hover:font-semibold bg-gradient-to-r from-blue-400 via-blue-500 to-blue-600 cursor-pointer">
                         Matched
                     </h3>
-                    <div className="hidden group-hover:flex items-center gap-2.5 absolute right-full top-1/2 transform -translate-y-1/2">
+                    <div className="hidden group-hover:flex items-center absolute right-full top-1/2 transform -translate-y-1/2">
                         {/* Message icon */}
                         <button 
                             onMouseOver={() => setIsHovered(true)}
                             onMouseLeave={() => setIsHovered(false)}
+                            // onMouseLeave={() => setIsHovered(false)}
                             onClick={() => alert('clicked')}
                         >
                             <svg 
@@ -37,6 +40,7 @@ function Right({
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75" />
                             </svg>
                         </button>
+                        {/* arrow */}
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
                             <path strokeLinecap="round" strokeLinejoin="round" d="M6.75 15.75 3 12m0 0 3.75-3.75M3 12h18" />
                         </svg>

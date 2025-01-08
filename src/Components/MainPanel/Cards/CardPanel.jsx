@@ -9,7 +9,8 @@ function CardPanel({
     teachProfiles, 
     filter, 
     user,
-    whichFilter 
+    whichFilter,
+    headerFilter
 }) {
     const [filterType, setFilterType] = useState({learn: '', teach: ''});
     const [param, setParam] = useState(false);//Trigger useEffect to re render page with updated requests.
@@ -55,13 +56,13 @@ function CardPanel({
         `
         ${learnCount === 0 ? 'No' : learnCount || 'No'} 
         profile${learnCount === 1 ? ' wants' : "'s want"} 
-        to learn...
+        to learn... ${whichFilter.headerFilter ? headerFilter.skill : ''}
         `;
-    const teachFilterInfo = 
+    const teachFilterInfo =     
         `
         ${teachCount === 0 ? 'No' : teachCount || 'No'} 
         profile${teachCount === 1 ? ' wants' : "'s want"} 
-        to teach...
+        to teach... ${whichFilter.headerFilter ? headerFilter.skill : ''}
         `;
     const learnSearchingByStr = 
         `

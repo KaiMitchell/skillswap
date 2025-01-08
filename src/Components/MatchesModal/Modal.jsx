@@ -6,6 +6,7 @@ function Modal({
     displayedMatch,
     setIsDisplayMatch, 
     isDisplayMatch,
+    unMatch
  }) {
     const [isHovered, setIsHovered] = useState(false);
     const node = useRef();
@@ -29,6 +30,7 @@ function Modal({
                 isHovered={isHovered} 
                 setIsHovered={setIsHovered}
                 displayedMatch={displayedMatch}
+                unMatch={unMatch}
             />
             <Footer />
         </div>

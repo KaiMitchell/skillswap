@@ -6,6 +6,7 @@ function Details({
     displayedMatch,
     isHovered,
     setIsHovered,
+    unMatch
 }) {
     return(
         <div className='flex gap-5 h-full'>
@@ -13,11 +14,11 @@ function Details({
                 {/* image */}
                 <div className='w-full h-full'>
                     <div className="w-full h-full flex justify-between">
-                        <div>
+                        <div className="text-left">
                             <Left 
                                 displayedMatch={displayedMatch}
                             />
-                            <BottomLeft displayedMatch={displayedMatch} />
+                            <BottomLeft displayedMatch={displayedMatch} unMatch={unMatch} />
                         </div>
                         <Right 
                             displayedMatch={displayedMatch}

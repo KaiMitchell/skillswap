@@ -31,7 +31,8 @@ function Main({
                 filter={filter} 
                 learnProfiles={learnProfiles} 
                 teachProfiles={teachProfiles} 
-                whichFilter={whichFilter} 
+                whichFilter={whichFilter}
+                headerFilter={headerFilter}
             />
         </main>
     );
