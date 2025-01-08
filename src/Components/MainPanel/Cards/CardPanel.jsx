@@ -55,13 +55,15 @@ function CardPanel({
     let teachSearchFor = '';
     
     if(whichFilter.headerFilter) {
+        //render in text the current header filter that is applied to the search
         learnSearchFor = headerFilter.skill && headerFilter.skill;
         teachSearchFor = headerFilter.skill && headerFilter.skill;
     } else if(whichFilter.mainFilter) {
+        //render in text the skill or categories that are currently filtered in
         learnSearchFor = filter.toLearnCategory ? filter.toLearn :  filter.toLearnCategory;
         teachSearchFor = filter.toTeach ? filter.toTeach :  filter.toTeachCategory;
-        console.log(filter);
     };
+
     //ensure string does not render 'undefined profiles want to learn'
     const learnFilterInfo = 
         `
@@ -83,20 +85,24 @@ function CardPanel({
         `
         Searching by ${whichFilter.headerFilter ? 'SKILL' : filterType.teach}
         `;
-    let mappedLearnProfiles = <ToLearnProfiles 
-                                fetchRequests={fetchRequests} 
-                                requests={requests} 
-                                learnprofiles={learnProfiles} 
-                                whichfilter={whichFilter} 
-                                reMount={reMount}
-                              />
-    let mappedTeachProfiles = <ToTeachProfiles 
-                                fetchRequests={fetchRequests} 
-                                requests={requests} 
-                                teachprofiles={teachProfiles} 
-                                whichfilter={whichFilter} 
-                                reMount={reMount}
-                              />
+
+    let mappedLearnProfiles =
+        <ToLearnProfiles 
+            fetchRequests={fetchRequests} 
+            requests={requests} 
+            learnprofiles={learnProfiles} 
+            whichfilter={whichFilter} 
+            reMount={reMount}
+        />
+    let mappedTeachProfiles = 
+        <ToTeachProfiles 
+            fetchRequests={fetchRequests} 
+            requests={requests} 
+            teachprofiles={teachProfiles} 
+            whichfilter={whichFilter} 
+            reMount={reMount}
+        />
+
     return(
         <section id='profile-cards' className='relative h-full w-full flex gap-5'>
             <DisplayCards 

@@ -1,9 +1,13 @@
+import { useContext } from 'react';
 import Input from '../Components/Input';
 import { Link } from 'react-router-dom';
+import { TokenContext } from '../App';
 
-const PORT = 3000;
+const PORT = 4000;
 
 function SignUp({ setNewUserData, newUserData }) {
+    const { setAccessToken } = useContext(TokenContext);
+
     function handleInput(e, type) {
             setNewUserData(prev => ({
                 ...prev,
@@ -19,13 +23,9 @@ function SignUp({ setNewUserData, newUserData }) {
             },
             body: JSON.stringify(newUserData)
         });
-
         const data = await response.json();
-        //set error state if not succesfully signed up to stop next page rendering.
-        // if(data.message.includes('Welcome')) {
-        //     setIsRegistrationComplete(true)
-        // };
-        console.log(data);
+        sessionStorage.setItem('access token', data.accessToken);
+        setAccessToken(() => sessionStorage.getItem('access token'));
     };
 
     return(
