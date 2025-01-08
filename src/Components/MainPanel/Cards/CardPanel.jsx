@@ -50,15 +50,16 @@ function CardPanel({
 
     const learnCount = learnProfiles?.length;
     const teachCount = teachProfiles?.length;
+    //ensure string does not render 'undefined profiles want to learn'
     const learnFilterInfo = 
         `
-        ${learnCount === 0 ? 'No' : learnCount} 
+        ${learnCount === 0 ? 'No' : learnCount || 'No'} 
         profile${learnCount === 1 ? ' wants' : "'s want"} 
         to learn...
         `;
     const teachFilterInfo = 
         `
-        ${teachCount === 0 ? 'No' : teachCount} 
+        ${teachCount === 0 ? 'No' : teachCount || 'No'} 
         profile${teachCount === 1 ? ' wants' : "'s want"} 
         to teach...
         `;

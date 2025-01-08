@@ -11,7 +11,6 @@ function DropDownContainer({
     setUser, 
     setIsSettings,
     displayProfile,
-    accessToken,
 }) {
     const [isShown, setIsShown] = useState();
     return(
@@ -32,7 +31,6 @@ function DropDownContainer({
                 setIsSettings={setIsSettings} 
                 skills={skills}
                 displayProfile={displayProfile}
-                accessToken={accessToken}
             />
         </div>
     );

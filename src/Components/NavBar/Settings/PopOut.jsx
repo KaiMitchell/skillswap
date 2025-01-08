@@ -1,12 +1,16 @@
+import { useContext } from "react";
 import { SentRequests, RecievedRequests, Matches } from "./PopOutOptions";
+import { TokenContext } from "../../../App";
 
 function ProfileDropDownSidePopOut({ 
     displayProfile,
     data, 
     fetchData, 
     text,
-    accessToken
 }) {
+    //extract token from Context property
+    const accessToken = TokenContext.accessToken;
+    
     //remove a request you sent
     async function removeMatchRequests(selectedUser) {
         const username = localStorage.getItem('user');

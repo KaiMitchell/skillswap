@@ -40,7 +40,7 @@ function App() {
   });
   const [headerFilter, setHeaderFilter] = useState({category: '', skill: ''});
   const [skills, setSkills] = useState();
-  const [user, setUser] = useState(localStorage.getItem('user') || null);//TODO: add token.
+  const [user, setUser] = useState(localStorage.getItem('user') || null);
   const [learnProfiles, setLearnProfiles] = useState();
   const [teachProfiles, setTeachProfiles] = useState();
   const [isSettings, setIsSettings] = useState(false);//renderring the settings modal
@@ -48,10 +48,8 @@ function App() {
   const [displayedMatch, setDisplayedMatch] = useState();
   const [matches, setMatches] = useState([]);
   const [param, setParam] = useState(); // remount on accepting a request
-  const [accessToken, setAccessToken] = useState();
+  const [accessToken, setAccessToken] = useState(sessionStorage.getItem('access token') || '');
   
-  useEffect(() => {console.log('current access token: ', accessToken)}, [accessToken]);
-
   useEffect(() => {
     fetchMatches();
   }, [param]);
@@ -67,12 +65,6 @@ function App() {
 
   useEffect(() => {
     fetchSkills();
-    // setInterval(async() => {
-    //   await fetch('http://localhost:4000/token', {
-    //     method: 'POST',
-    //     headers: { "Content-Type": "application/json" },
-    //   });
-    // }, 1500);
   }, []);
 
   //update the ui as requests data changes
@@ -137,8 +129,9 @@ function App() {
         body: JSON.stringify(body)
       });
       const data = await response.json();
-      if(data.noData) {
-        console.log('no data');
+      if(!data.profiles) {
+        setLearnProfiles();
+        console.log(data);
         return;
       };
       setLearnProfiles(data.profiles);
@@ -194,6 +187,9 @@ function App() {
       headers: { 'authorization': `Bearer ${accessToken}` }
     });
     const data = await response.json();
+    if(response.status === 401 || response.status === 403) {
+      signOut();
+    };
     if(response.status === 200) {
       data.sentRequests.length > 0 ? sent = data.sentRequests : sent = [];
       data.recievedRequests.length > 0 ? recieved = data.recievedRequests : recieved = []; 
@@ -219,8 +215,13 @@ function App() {
     setIsDisplayMatch(true);
     try {
       const response = await fetch(`http://localhost:4000/profile?selectedUser=${selectedUser}`, {
-        headers: { 'authorization': `Bearer ${sessionStorage.getItem('access token')}` }
+        headers: { 'authorization': `Bearer ${accessToken}` }
       });
+      if(response.status === 401 || response.status === 403) {
+        signOut();
+        setDisplayedMatch();
+        return;
+      };
       const data = await response.json();
       const profileData = data.profileData;
       console.log(profileData);
@@ -229,6 +230,17 @@ function App() {
     } catch(err) {
       console.error(err);
     }
+  };
+
+  async function signOut() {
+    console.log('signing out');
+    await fetch(`http://localhost:4000/signout`, {
+      method: 'POST',
+      headers: { "Content-Type": "application/json" }
+    });
+    localStorage.removeItem('user');
+    sessionStorage.removeItem('access token');
+    setUser();
   };
 
   return(
@@ -247,7 +259,6 @@ function App() {
             matches={matches}
             fetchMatches={fetchMatches}
             displayProfile={displayProfile}
-            accessToken={accessToken}
           />
           {user && <SettingsModal 
             isSettings={isSettings} 
@@ -296,7 +307,6 @@ function App() {
                                             setUser={setUser} 
                                             //pass username to check if not null. If it is then redirect to home page.
                                             username={user} 
-                                            setAccessToken={setAccessToken}
                                           />}
           />
         </Routes>

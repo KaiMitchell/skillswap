@@ -255,9 +255,10 @@ app.post('/fetch-filtered-teach-profiles', async(req, res) => {
 app.post('/fetch-filtered-learn-profiles', async(req, res) => {
     const body = req.body;
     try {
-        const { toLearnCategory, toLearn} = body;
+        const { toLearnCategory, toLearn } = body;
         const filters = [];
         const groupBy = [];
+        //build sql query around filter values
         if(toLearnCategory) {
             filters.push(`AND c.category = '${toLearnCategory}'`);
             groupBy.push(`, c.category`);
@@ -279,7 +280,7 @@ app.post('/fetch-filtered-learn-profiles', async(req, res) => {
             `
         );
         if(results.rows.length === 0) {
-            res.status(404).json({ noData: 'No data' });
+            res.status(200).json({ message: 'No profiles want to learn ' + toLearn ? toLearn : toLearnCategory });
             return;
         };
         res.status(200).json({
@@ -317,7 +318,11 @@ app.post('/fetch-quick-filtered-profiles', async(req, res) => {
             `, [skill]
         );
         if(toTeachMatches.rows.length === 0 && toLearnMatches.rows.length === 0) {
-            res.status(404).json({ noData: 'No data' });
+            res.status(200).json({ 
+                message: 'No matches found',
+                learnProfiles: [], 
+                teachProfiles: [], 
+            });
             return;
         };
         toTeachMatches.rows.forEach(result => teachProfiles.push(result));

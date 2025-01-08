@@ -7,9 +7,7 @@ const backendURL = 'localhost:4000';
 
 function SignIn({ 
     setUser, 
-    username, 
-    // setAccessToken,
-    // setRefreshToken 
+    username,
 }) {
     const { accessToken, setAccessToken } = useContext(TokenContext);
     const [userDetails, setUserDetails] = useState({
@@ -37,10 +35,8 @@ function SignIn({
         if(response.status === 200) {
             localStorage.setItem("user", userDetails.username);
             setUser(() => localStorage.getItem('user'));
-            setAccessToken(data.accessToken);
-            // setAccessToken(() => data.accessToken);
-            // sessionStorage.setItem('access token', data.accessToken);
-            // setRefreshToken(() => data.refreshToken);
+            sessionStorage.setItem('access token', data.accessToken);
+            setAccessToken(() => sessionStorage.getItem('access token'));
         };
     };
 

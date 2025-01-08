@@ -13,7 +13,6 @@ function NavBar({
     setIsSettings, 
     fetchProfiles,
     displayProfile,
-    accessToken,
 }) {
     return(
         <Options 
@@ -29,7 +28,6 @@ function NavBar({
             setIsSettings={setIsSettings} 
             fetchRequests={fetchRequests}
             displayProfile={displayProfile}
-            accessToken={accessToken}
         />
     );
 };

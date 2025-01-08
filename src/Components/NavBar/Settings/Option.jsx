@@ -9,7 +9,6 @@ function Option({
     text, 
     setIsSettings, 
     setIsShown,
-    accessToken,
     displayProfile
 }) { 
     let clickHandler = {};
@@ -22,9 +21,10 @@ function Option({
         await fetch(`http://localhost:4000/signout`, {
             method: 'POST',
             headers: { "Content-Type": "application/json" },
-            credentials: 'include'
+            // credentials: 'include'
         });
         localStorage.removeItem('user');
+        sessionStorage.removeItem('access token');
         setUser();
     };
 
@@ -53,7 +53,6 @@ function Option({
                         text={text}
                         skills={skills}
                         displayProfile={displayProfile}
-                        accessToken={accessToken}
                     />
                 }
             </div>

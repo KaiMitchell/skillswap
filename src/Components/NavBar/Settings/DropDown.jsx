@@ -10,7 +10,6 @@ function DropDown({
     setIsShown, 
     setIsSettings,
     displayProfile,
-    accessToken,
 }) {  
     return(
         <>
@@ -26,7 +25,6 @@ function DropDown({
                         text="Sent Requests" 
                         fetchData={fetchRequests} 
                         data={requests} 
-                        accessToken={accessToken}
                     />
                     <Option 
                         setIsShown={setIsShown} 
