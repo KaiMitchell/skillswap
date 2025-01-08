@@ -51,18 +51,29 @@ function CardPanel({
 
     const learnCount = learnProfiles?.length;
     const teachCount = teachProfiles?.length;
+    let learnSearchFor = '';
+    let teachSearchFor = '';
+    
+    if(whichFilter.headerFilter) {
+        learnSearchFor = headerFilter.skill && headerFilter.skill;
+        teachSearchFor = headerFilter.skill && headerFilter.skill;
+    } else if(whichFilter.mainFilter) {
+        learnSearchFor = filter.toLearnCategory ? filter.toLearn :  filter.toLearnCategory;
+        teachSearchFor = filter.toTeach ? filter.toTeach :  filter.toTeachCategory;
+        console.log(filter);
+    };
     //ensure string does not render 'undefined profiles want to learn'
     const learnFilterInfo = 
         `
         ${learnCount === 0 ? 'No' : learnCount || 'No'} 
         profile${learnCount === 1 ? ' wants' : "'s want"} 
-        to learn... ${whichFilter.headerFilter ? headerFilter.skill : ''}
+        to learn... ${learnSearchFor || ''}
         `;
     const teachFilterInfo =     
         `
         ${teachCount === 0 ? 'No' : teachCount || 'No'} 
         profile${teachCount === 1 ? ' wants' : "'s want"} 
-        to teach... ${whichFilter.headerFilter ? headerFilter.skill : ''}
+        to teach... ${teachSearchFor || ''}
         `;
     const learnSearchingByStr = 
         `

@@ -186,10 +186,10 @@ function App() {
   };
   //fetch sent match requests
   async function fetchRequests() {
-    if(!user) {
-      console.error('No user found');
-      return;
-    };
+    // if(!user) {
+    //   console.error('No user found');
+    //   return;
+    // };
     let sent = [];
     let recieved = [];
     const response = await fetch(`http://localhost:4000/fetch-requests?user=${user}`, {
