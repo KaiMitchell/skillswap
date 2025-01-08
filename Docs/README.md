@@ -1,16 +1,24 @@
 # Skill Swap
 ## User stories
-    - As a user I want to be able to browse the website without having an account so that I can skip the hassle of signing up.
-    - As  a user I want to be able view profiles based on a relationship between there learn and my teach and vice versa
-    -As a user if no results are a match in a search I want profiles dislaying similar (same category) skills to my search to be rendered so that I don't have to keep searching untill my search input hits.
-    - As a user I would like to be able to edit my profile so that I can update my skill preference.
-    - As a user I want to be able to search for skills via a drop-down as an alternative to typing the skill to eliminate the thought process of "what is a skill".
+    - As a user I can filter results so that I can increase my chances of finding a profile I would like to exchange skills with.
+    - As a user I can add an image to my profile so that I am able to distininguish myself from other profiles, show that I am easy to get along with or demonstrate seriousness.
+    - As a user I can handle recieved requests accordingly, delete pending requests as well as un match with current matches if I happen to change my mind.
+    - As a user I can sleep knowing my personal details are secure and only viewed by profiles I matched with. 
 ## Acceptance criteria
-    - ✅ Features 2 filter options that determine what profiles are returned
-    
-    - ✅ Display profiles with profile picture (anything), The main skill they will teach, meeting preference(online, face 2 face), and their city.
-    - ✅ If there are no matches to the users search display 'no results' and render related skills on the side bar that WILL produce results.
-    - ✅ Features a drop down containing all possible skills. (Render all skill categories only and reveal all sub-skills in that category once clicked)
-    - ✅ Features filter options that may filter by newest to oldest skills and vice versa, meeting arrangements (in person or online).s
+### Filter
+    - ✅ Features filter drop downs with skill options to filter out the profiles that don't require / desire the selected skill.
+### Profile image
+    - ✅ Features a file input to upload an image to save as a profile picture.
+    - ✅ Features a settings option to change / delete the profile picture.
+### Handle Requests & Matches
+    - ✅ Features an interface that displays both:
+            Current requests (sent and rcieved).
+            And current matches.
+    That alows for interaction for the handling of requests and matches.
+    - ✅ Features a button to delete pending request .
+    - ✅ Features a button to accept an incoming request.
+    - ✅ Features a button to reject an incoming request.
+    - ✅ Features a button to unmatch with an existing match.
 ## This is an idea of what I will build
+### Not relevant
 ![screenshot](image-folder/skillswap.png)
