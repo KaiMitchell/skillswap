@@ -88,15 +88,25 @@ app.post('/', async(req, res) => {
         const learnProfiles = [];
         const teachProfiles = [];
         const safeUsername = username || 'safeUsername';
+        //tolearn and toteach queries ensure that displayed profiles 
+        // have not requested to match with the user
+        // the user has not sent them a request
+        // the user is not currently matched with them
         const toLearn = await client.query(
             `
             SELECT u.username, ARRAY_AGG(s.name) as to_learn 
             FROM users u
             JOIN users_skills us ON u.id = us.user_id
             JOIN skills s ON s.id = us.skill_id
-            LEFT JOIN match_requests mr ON u.id = mr.u_id2 AND mr.u_id1 = (SELECT id FROM users WHERE username = $1)
+            LEFT JOIN match_requests mr_sent ON u.id = mr_sent.u_id2 AND mr_sent.u_id1 = (SELECT id FROM users WHERE username = $1)
+            LEFT JOIN match_requests mr_recieved ON u.id = mr_recieved.u_id1 AND mr_recieved.u_id2 = (SELECT id FROM users WHERE username = $1)
+            LEFT JOIN matches m 
+                ON (m.user_id = (SELECT id FROM users WHERE username = $1) AND m.match_id = u.id)
+                OR (m.match_id = (SELECT id FROM users WHERE username = $1) AND m.user_id = u.id)
             WHERE us.is_learning = true 
-            AND mr.u_id2 IS NULL
+            AND mr_sent.u_id2 IS NULL
+            AND mr_recieved.u_id1 IS NULL
+            AND m.match_id IS NULL
             AND u.username != $1
             GROUP BY u.id
             ORDER BY u.id
@@ -108,10 +118,16 @@ app.post('/', async(req, res) => {
              SELECT u.username, ARRAY_AGG(s.name) to_teach FROM users u
              JOIN users_skills us ON u.id = us.user_id
              JOIN skills s ON s.id = us.skill_id
-             LEFT JOIN match_requests mr ON mr.u_id2 = u.id AND mr.u_id1 = (SELECT id FROM users WHERE username = $1)
+             LEFT JOIN match_requests mr_sent ON mr_sent.u_id2 = u.id AND mr_sent.u_id1 = (SELECT id FROM users WHERE username = $1)
+             LEFT JOIN match_requests mr_recieved ON mr_recieved.u_id1 = u.id AND mr_recieved.u_id2 = (SELECT id FROM users WHERE username = $1)
+             LEFT JOIN matches m 
+                ON (m.user_id = (SELECT id FROM users WHERE username = $1) AND m.match_id = u.id)
+                OR (m.match_id = (SELECT id FROM users WHERE username = $1) AND m.user_id = u.id)
              WHERE us.is_teaching = true 
              AND u.username != $1   
-             AND mr.u_id2 IS NULL
+             AND mr_sent.u_id2 IS NULL
+             AND mr_recieved.u_id2 IS NULL
+             AND m.match_id IS NULL
              GROUP BY u.id
              ORDER BY u.id
             `, [safeUsername]
