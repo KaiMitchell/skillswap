@@ -9,7 +9,7 @@ function DropDown({
     isShown, 
     setIsShown, 
     setIsSettings,
-    displayProfile,
+    displayProfile
 }) {  
     return(
         <>
