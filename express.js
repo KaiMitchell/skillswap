@@ -64,6 +64,11 @@ app.get('/fetch-users-skills', async(req, res) => {
     const username = req.query.username;
 
     try{
+        if(!username) {
+            res.status(500).json({ message: 'missing username' });
+            return;
+        };
+
         const toTeach = await client.query(
             `
             SELECT 
@@ -123,11 +128,13 @@ app.get('/fetch-users-skills', async(req, res) => {
             ORDER BY u.username;
             `, [username]
         );
-        
+        console.log(toLearn.rows[0])
+
+        //ensure the categories prop is existant for the map method
         res.status(200).json({ 
             message: 'skills',
-            toLearn: toLearn.rows[0],
-            toTeach: toTeach.rows[0]
+            toLearn: toLearn.rows[0] || { categories: [] },
+            toTeach: toTeach.rows[0] || { categories: [] }
         });
     } catch(err) {
         console.error('fetch-users-skill error!: ', err);
@@ -150,7 +157,6 @@ app.get('/matches', async(req, res) => {
             `, [currentUser]
         );
         //send array of matched users as response
-        console.log('Matches: ', matches.rows);
         res.status(200).json({ matches: matches.rows })
     } catch(err) {
         console.error(err);

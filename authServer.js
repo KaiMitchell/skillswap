@@ -64,6 +64,101 @@ function authenticateToken(req, res, next) {
     });
 };
 
+app.get('/remove-skill', async(req, res) => {
+    const { username, skill} = req.query;
+
+    try{
+        let beforeCount;
+        let afterCount;
+
+        const countBeforeAdd = await client.query(`
+            SELECT COUNT(user_id)
+            FROM users_skills 
+            WHERE user_id = (SELECT id FROM users WHERE username = $1)`
+        , [username]);
+
+        //remove selected skill for current user from users_skills junction table
+        await client.query(
+            `
+            DELETE FROM 
+                users_skills 
+            WHERE 
+                skill_id = (SELECT id FROM skills WHERE name = $1)
+            AND 
+                user_id = (SELECT id FROM users WHERE username = $2)
+            `, [skill, username]
+        );
+
+        const countAfterAdd = await client.query(`
+            SELECT COUNT(user_id)
+            FROM users_skills 
+            WHERE user_id = (SELECT id FROM users WHERE username = $1)`
+        , [username]);
+        
+        //query.length or row count
+        beforeCount = countBeforeAdd.rows[0].count
+        afterCount = countAfterAdd.rows[0].count
+
+        res.status(200).json({ 
+            message: 'deletion succesful',
+            rowCount: afterCount
+        });
+    } catch(err) {
+        console.log('error removing skill: ', err);
+    };
+});
+
+app.post('/add-skill', async(req, res) => {
+    const { skill, username, toLearn } = req.body;
+
+    try{
+        let lengthBefore;
+        let lengthAfter;
+
+        const resultBeforeAdd = await client.query(`
+            SELECT COUNT(user_id)
+            FROM users_skills 
+            WHERE user_id = (SELECT id FROM users WHERE username = $1)`
+        , [username]);
+
+        // insert selected skill into users_skills junction table 
+        await client.query(
+            `
+            INSERT INTO users_skills (user_id, skill_id, is_learning, is_teaching)
+            VALUES (
+                (SELECT id FROM users WHERE username = $1),
+                (SELECT id FROM skills WHERE name = $2),
+                $3,
+                $4
+            )
+            `, [username, skill, toLearn, !toLearn]
+        );
+
+        const resultAfterAdd = await client.query(`
+            SELECT COUNT(user_id)
+            FROM users_skills 
+            WHERE user_id = (SELECT id FROM users WHERE username = $1)`
+        , [username]);
+
+        lengthBefore = resultBeforeAdd.rows[0].count;
+        lengthAfter = resultAfterAdd.rows[0].count;
+
+        // if length before and after variables are equal to eachother than something went wrong
+        if(lengthBefore === lengthAfter) {
+            res.status(500).json({ message: 'query did not execute' });
+            return;
+        };
+
+        //useLengthAfter to make re render states value more unique
+        res.status(200).json({ 
+            message: `'${skill}' has been added to your list`,
+            rowCount: lengthAfter
+        });
+    } catch(err) {
+        console.error('Error adding skill: ', err);
+    };
+});
+
 //BLOCKED
 //end point to renew access token with refresh token
 // app.post('/token', async(req, res) => {
@@ -282,11 +377,9 @@ app.get('/fetch-requests', authenticateToken, async(req, res) => {
 
 app.post('/unmatch', authenticateToken, async(req, res) => {
     const { selectedUser, user } = req.body;
-    console.log('selected: ', selectedUser);
-    console.log('current: ', user);
     try {
         // delete relationship between the 2 selected users from the matches table
-        const deletion = await client.query(
+        await client.query(
             `
             DELETE FROM matches 
             WHERE 
@@ -317,8 +410,6 @@ app.post('/unmatch', authenticateToken, async(req, res) => {
             res.sendStatus(404);
             return;
         };
-        console.log('after deletion: ', results.rows.length);
-        console.log('testing deletion results: ', deletion);
         res.status(200).json({ message: 'deleted' });
     } catch(err) {
         console.error(err)

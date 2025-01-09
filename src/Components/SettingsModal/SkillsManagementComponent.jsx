@@ -8,17 +8,18 @@ function SkillsManagementComponent() {
     const [updateSkillsToTeach, setUpdateSkillsToTeach] = useState();
     const [skillsToLearn, setSkillsToLearn] = useState();
     const [skillsToTeach, setSkillsToTeach] = useState();
+    const [selectedSkill, setSelectedSkill] = useState(''); // a trigger to update ui with fresh data
 
-    //Fetch skill associated with current user
+    //fetch required skills and re render when updated
     useEffect(() => {
         fetchCurrentSkills();
         fetchAllSkills();
-    }, []);
+    }, [selectedSkill]);
 
+    //all skills a user is teaching or learning
     async function fetchCurrentSkills() {
         const response = await fetch(`http://localhost:3000/fetch-users-skills?username=${localStorage.getItem('user')}`);
         const data = await response.json();
-        console.log('current skills: ', data.toLearn.categories)
         setSkillsToLearn(data?.toLearn.categories);
         setSkillsToTeach(data?.toTeach.categories);
     };
@@ -26,10 +27,39 @@ function SkillsManagementComponent() {
     async function fetchAllSkills() {
         const response = await fetch(`http://localhost:3000/fetch-skills`);
         const data = await response.json();
-        console.log('all skill: ', data);
         setUpdateSkillsToLearn(data.data);
         setUpdateSkillsToTeach(data.data);
     };
+
+    async function removeSkill(skill) {
+        const response = await fetch(`http://localhost:4000/remove-skill?skill=${skill}&username=${localStorage.getItem('user')}`);
+        const data = await response.json();
+        if(response.status === 200) {
+            setSelectedSkill(() => `${skill}${data.rowCount}`);
+            console.log(data);
+        };
+    };
+
+    async function addSkill(skill, toLearn) {
+        const response = await fetch(`http://localhost:4000/add-skill`, {
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/json",
+                "authorization": `bearer ${sessionStorage.getItem('access token')}`
+            },
+            body: JSON.stringify({ 
+                skill: skill, 
+                username: localStorage.getItem('user'),
+                toLearn: toLearn
+            })
+        });
+        const data = await response.json();
+        if(response.status === 200) {
+            setSelectedSkill(() => `${skill}${data.rowCount}`);
+            console.log(skill + data);
+        };
+    };
+
 
     return(
         <div className='flex flex-col gap-10 h-fit w-full'>
@@ -39,12 +69,14 @@ function SkillsManagementComponent() {
                     <SelectSkills
                         text='Skills you can teach' 
                         skills={skillsToTeach}
+                        handleSkill={removeSkill}                        
                     />
                 } 
                 section2={
                     <SelectSkills
                         text='Skills you want to learn' 
                         skills={skillsToLearn}
+                        handleSkill={removeSkill}                        
                     />
                 }
             />
@@ -53,13 +85,15 @@ function SkillsManagementComponent() {
                 section1={
                     <SelectSkills 
                         text='Pick skills to teach'
-                        skills={updateSkillsToLearn} 
+                        skills={updateSkillsToLearn}
+                        handleSkill={addSkill} 
                     />
                 } 
                 section2={
                     <SelectSkills 
                         text='Pick skills to learn'
-                        skills={updateSkillsToTeach} 
+                        skills={updateSkillsToTeach}
+                        handleSkill={addSkill} 
                     />
                 }
             />
