@@ -2,11 +2,14 @@ import { useEffect, useState } from "react";
 import SelectSkills from "./SelectSkills";
 import DeleteSkills from "./DeleteSkills";
 import SectionContainer from './SectionContainer';
-import { CurrentSkillsToLearn, CurrentSkillsToTeach } from "./SMLists";
 
 function SkillsManagementComponent() {
+    const [updateSkillsToLearn, setUpdateSkillsToLearn] = useState();
+    const [updateSkillsToTeach, setUpdateSkillsToTeach] = useState();
     const [skillsToLearn, setSkillsToLearn] = useState();
     const [skillsToTeach, setSkillsToTeach] = useState();
+
+    //Fetch skill associated with current user
     useEffect(() => {
         async function fetchSkills() {
             const response = await fetch(`http://localhost:3000/fetch-users-skills?username=${localStorage.getItem('user')}`);
@@ -17,6 +20,7 @@ function SkillsManagementComponent() {
         };
         fetchSkills();
     }, []);
+
     return(
         <div className='flex flex-col gap-10 h-fit w-full'>
             <SectionContainer 
@@ -29,7 +33,7 @@ function SkillsManagementComponent() {
                 } 
                 section2={
                     <SelectSkills
-                        text='Skills you can learn' 
+                        text='Skills you want to learn' 
                         skills={skillsToLearn}
                     />
                 }
@@ -38,12 +42,14 @@ function SkillsManagementComponent() {
                 header='Pick new skills' 
                 section1={
                     <SelectSkills 
-                        text='Pick skills to teach' 
+                        text='Pick skills to teach'
+                        skills={updateSkillsToLearn} 
                     />
                 } 
                 section2={
                     <SelectSkills 
-                        text='Pick skills to learn' 
+                        text='Pick skills to learn'
+                        skills={updateSkillsToTeach} 
                     />
                 }
             />

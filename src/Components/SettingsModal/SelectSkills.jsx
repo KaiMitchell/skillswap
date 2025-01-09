@@ -1,4 +1,4 @@
-import { CurrentSkillsToLearn, UpdateSkillsList } from './SMLists';
+import { CurrentSkillsToLearn, CurrentSkillsToTeach, UpdateSkillsList } from './SMLists';
 import SkillListContainer from './SkillListContainer';
 
 function SelectSkills({ text, skills }) {
@@ -7,12 +7,15 @@ function SelectSkills({ text, skills }) {
         case 'Pick skills to teach':
             component = <UpdateSkillsList />;
             break;
-        case 'Pick skills to learn':
-            component = <CurrentSkillsToLearn />;
-        case 'Skills you can learn':
+        // case 'Pick skills to learn':
+        //     component = <CurrentSkillsToLearn />;
+        //     break;
+        case 'Skills you want to learn':
             component = <CurrentSkillsToLearn skills={skills} />;
+            break;
         case 'Skills you can teach':
-            component = <CurrentSkillsToLearn skills={skills} />;
+            component = <CurrentSkillsToTeach skills={skills} />;
+            break;
     };
     return(
         <SkillListContainer text={text} list={component} />

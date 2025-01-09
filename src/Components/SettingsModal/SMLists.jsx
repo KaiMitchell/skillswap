@@ -2,15 +2,6 @@
 import { useEffect, useState } from 'react';
 
 function UpdateSkillsList({ skills }) {
-
-    // useEffect(() => {
-    //     async function fetchSkills() {
-    //         const response = await fetch(`http://localhost:3000/fetch-users-skills?username=${localStorage.getItem('user')}`);
-    //         const data = await response.json();
-    //     };
-    //     fetchSkills();
-    // }, []);
-
     return(
         <div className='h-40 bg-black w-full text-white rounded overflow-y-auto no-scrollbar'>
             {skills?.user_categories.map((obj) => {
