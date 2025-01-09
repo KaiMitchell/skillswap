@@ -64,6 +64,32 @@ function authenticateToken(req, res, next) {
     });
 };
 
+//fetch al skills that current user has not already selected
+app.get('/fetch-unselected-skills', async(req, res) => {
+    const { username } = req.query.params;
+
+    try {
+        const result = await client.query(
+            `
+            SELECT c.category, ARRAY_AGG(s.name ORDER BY s.name ASC) skills FROM skills s
+            JOIN categories_skills cs ON cs.skill_id = s.id
+            JOIN categories c ON cs.category_id = c.id
+            WHERE cs.category_id = c.id
+            AND cs.skill_id = s.id
+            GROUP BY c.category ORDER BY c.category     
+            `);
+            
+        if(result.rows.length === 0) {
+            res.status(404).json({ error: 'No data' });
+            return;
+        };
+
+        res.status(200).json({ data: result.rows });
+        } catch(err) {
+            console.error(err);
+        };
+});
+
 app.get('/remove-skill', async(req, res) => {
     const { username, skill} = req.query;
 

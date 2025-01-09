@@ -37,6 +37,7 @@ app.use(express.static(path.join(__dirname + './src')));
 app.use(cors());
 app.use(fileUpload());
 
+//fetch all available skills
 app.get('/fetch-skills', async(req, res) => {
     try {
         const result = await client.query(
