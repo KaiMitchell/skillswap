@@ -1,22 +1,29 @@
 import dotenv from 'dotenv';
 import express from 'express';
+import path, { dirname } from 'path';
+import { fileURLToPath } from 'url';
 import jwt from 'jsonwebtoken';
 import cors from 'cors';
 import bcrypt from 'bcrypt';
 import pkg from 'pg';
-import cookieParser from 'cookie-parser';
+import fileUpload from 'express-fileupload';
 
 dotenv.config();
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 const app = express();
 const { Client } = pkg;
 
 app.use(express.json());
-app.use(cookieParser());
 app.use(cors({ 
     origin: 'http://localhost:5173',
     credentials: true 
 }));
+app.use(fileUpload());
+app.use(express.static('assets'));
+app.use(express.static(path.join(__dirname + './src')));
 
 const clientConfig = {
     user: 'postgres',
@@ -316,6 +323,77 @@ app.post('/unmatch', authenticateToken, async(req, res) => {
     } catch(err) {
         console.error(err)
     };
+});
+
+app.post('/edit-profile', async(req, res) => {
+    const {
+        currentUsername,
+        newUsername,
+        newDescription
+    } = req.body;
+
+    //check if new username is already in use
+    const existingUsername = await client.query(
+        `
+        SELECT * FROM users WHERE username = $1
+        `, [newUsername || '']
+    );
+
+    //prevent conflicting usernames
+    if(existingUsername.rows.length > 0) {
+        res.status(409).json({ message: `Username of: ${newUsername} already exists`});
+        return;
+    };
+
+    let imgFile;
+    let imgPath;
+    let uploadPath;
+    //array to dynamically build update query
+    let updates = [];
+
+    if(req.files && req.files.imgFile) {
+        imgFile = req.files.imgFile;
+        imgPath = Date.now() + imgFile.name;
+        //define path to move file to
+        //use date dot now to prevent conflicting file names
+        uploadPath = __dirname + '/assets/' + imgPath;
+    
+        //use mv to place the file into my assets folder
+        imgFile.mv(uploadPath, (err) => {
+            if(err) {
+                res.status(500).json({ error: err });
+                return;
+            };
+        });
+
+        updates.push(`profile_picture = '${imgPath}'`);
+    };
+
+    newUsername && updates.push(`username = '${newUsername}'`);
+    newDescription && updates.push(`description = '${newDescription}'`);
+
+    //if no file is uploaded select the current profile picture to return.
+    //to prevent no picture being displayed.
+    let currentProfilePicture;
+
+    if(!req.files || !req.files.imgFile) {
+        const result = await client.query(`SELECT profile_picture FROM users WHERE username = $1`, [currentUsername]);
+        currentProfilePicture = result.rows[0]?.profile_picture || '';
+    };
+
+    //insert image path into profile_picture column
+    await client.query(        
+        `
+        UPDATE users
+        SET ${updates.join(', ')}
+        WHERE username = $1
+        `, [currentUsername]
+    );
+
+    res.json({ 
+        img: `http://localhost:3000/${imgPath ? imgPath : currentProfilePicture}`,
+        newUsername: newUsername
+    });
 });
 
 app.listen(4000, () => {

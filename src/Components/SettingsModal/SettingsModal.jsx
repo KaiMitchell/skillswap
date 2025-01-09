@@ -48,7 +48,7 @@ function SettingsModal({ isSettings, setIsSettings }) {
         formData.append('currentUsername', localStorage.getItem('user'));
         formData.append('newUsername', newUserVal);
         formData.append('newDescription', newDescription);
-        const response = await fetch(`http://localhost:3000/test-image-upload`, {
+        const response = await fetch(`http://localhost:4000/edit-profile`, {
             method: 'POST',
             headers: {
                 "Accept": "application/json",
