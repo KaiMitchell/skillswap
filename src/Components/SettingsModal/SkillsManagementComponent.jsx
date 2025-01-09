@@ -13,7 +13,7 @@ function SkillsManagementComponent() {
     //fetch required skills and re render when updated
     useEffect(() => {
         fetchCurrentSkills();
-        fetchAllSkills();
+        fetchUnselectedSkills();
     }, [selectedSkill]);
 
     //all skills a user is teaching or learning
@@ -24,9 +24,11 @@ function SkillsManagementComponent() {
         setSkillsToTeach(data?.toTeach.categories);
     };
 
-    async function fetchAllSkills() {
-        const response = await fetch(`http://localhost:3000/fetch-skills`);
+    async function fetchUnselectedSkills() {
+        console.log(localStorage.getItem('user'));
+        const response = await fetch(`http://localhost:4000/fetch-unselected-skills?username=${localStorage.getItem('user')}`);
         const data = await response.json();
+        console.log('fetch unselected skills: ', data);
         setUpdateSkillsToLearn(data.data);
         setUpdateSkillsToTeach(data.data);
     };

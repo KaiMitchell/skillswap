@@ -64,20 +64,32 @@ function authenticateToken(req, res, next) {
     });
 };
 
-//fetch al skills that current user has not already selected
+//fetch all skills that current user has not already selected
 app.get('/fetch-unselected-skills', async(req, res) => {
-    const { username } = req.query.params;
+    const { username } = req.query;
 
     try {
+        console.log(`user with username '${username}' not found`);
         const result = await client.query(
             `
-            SELECT c.category, ARRAY_AGG(s.name ORDER BY s.name ASC) skills FROM skills s
-            JOIN categories_skills cs ON cs.skill_id = s.id
-            JOIN categories c ON cs.category_id = c.id
-            WHERE cs.category_id = c.id
-            AND cs.skill_id = s.id
-            GROUP BY c.category ORDER BY c.category     
-            `);
+            SELECT
+                c.category, 
+                ARRAY_AGG(s.name ORDER BY s.name ASC) skills 
+            FROM 
+                categories c
+            JOIN 
+                categories_skills cs ON cs.category_id = c.id
+            JOIN 
+                skills s ON cs.skill_id = s.id  
+            WHERE 
+                s.id NOT IN (
+                    SELECT skill_id
+                    FROM users_skills
+                    WHERE user_id = (SELECT id FROM users WHERE username = $1)
+                )
+            GROUP BY c.category 
+            ORDER BY c.category     
+            `, [username]);
             
         if(result.rows.length === 0) {
             res.status(404).json({ error: 'No data' });
