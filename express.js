@@ -64,8 +64,6 @@ app.get('/fetch-users-skills', async(req, res) => {
     const username = req.query.username;
 
     try{
-        console.log(username);
-
         const toTeach = await client.query(
             `
             SELECT 
@@ -73,15 +71,15 @@ app.get('/fetch-users-skills', async(req, res) => {
                 json_agg(
                     json_build_object(
                         'category', subquery.category,
-                        'to_learn', subquery.skills_to_teach
+                        'skills', subquery.skills
                     )
-                ) AS user_categories
+                ) AS categories
             FROM users u
             JOIN (
                 SELECT 
                     u.id AS user_id, 
                     c.category, 
-                    ARRAY_AGG(s.name) AS skills_to_teach
+                    ARRAY_AGG(s.name) AS skills
                 FROM users u
                 JOIN users_skills us ON u.id = us.user_id
                 JOIN skills s ON s.id = us.skill_id
@@ -103,15 +101,15 @@ app.get('/fetch-users-skills', async(req, res) => {
                 json_agg(
                     json_build_object(
                         'category', subquery.category,
-                        'to_learn', subquery.skills_to_learn
+                        'skills', subquery.skills
                     )
-                ) AS user_categories
+                ) AS categories
             FROM users u
             JOIN (
                 SELECT 
                     u.id AS user_id, 
                     c.category, 
-                    ARRAY_AGG(s.name) AS skills_to_learn
+                    ARRAY_AGG(s.name) AS skills
                 FROM users u
                 JOIN users_skills us ON u.id = us.user_id
                 JOIN skills s ON s.id = us.skill_id

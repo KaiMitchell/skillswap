@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import SelectSkills from "./SelectSkills";
-import DeleteSkills from "./DeleteSkills";
+// import DeleteSkills from "./DeleteSkills";
 import SectionContainer from './SectionContainer';
 
 function SkillsManagementComponent() {
@@ -11,15 +11,25 @@ function SkillsManagementComponent() {
 
     //Fetch skill associated with current user
     useEffect(() => {
-        async function fetchSkills() {
-            const response = await fetch(`http://localhost:3000/fetch-users-skills?username=${localStorage.getItem('user')}`);
-            const data = await response.json();
-            console.log(data)
-            setSkillsToLearn(data?.toLearn);
-            setSkillsToTeach(data?.toTeach);
-        };
-        fetchSkills();
+        fetchCurrentSkills();
+        fetchAllSkills();
     }, []);
+
+    async function fetchCurrentSkills() {
+        const response = await fetch(`http://localhost:3000/fetch-users-skills?username=${localStorage.getItem('user')}`);
+        const data = await response.json();
+        console.log('current skills: ', data.toLearn.categories)
+        setSkillsToLearn(data?.toLearn.categories);
+        setSkillsToTeach(data?.toTeach.categories);
+    };
+
+    async function fetchAllSkills() {
+        const response = await fetch(`http://localhost:3000/fetch-skills`);
+        const data = await response.json();
+        console.log('all skill: ', data);
+        setUpdateSkillsToLearn(data.data);
+        setUpdateSkillsToTeach(data.data);
+    };
 
     return(
         <div className='flex flex-col gap-10 h-fit w-full'>
@@ -53,7 +63,7 @@ function SkillsManagementComponent() {
                     />
                 }
             />
-            <SectionContainer 
+            {/* <SectionContainer 
                 header='Remove skills' 
                 section1={
                     <DeleteSkills 
@@ -65,7 +75,7 @@ function SkillsManagementComponent() {
                         text='Remove from skills to learn' 
                     />
                 }
-            />
+            /> */}
         </div>
     );
 };
