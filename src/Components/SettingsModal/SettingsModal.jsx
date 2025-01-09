@@ -24,21 +24,7 @@ function SettingsModal({ isSettings, setIsSettings }) {
         return () => document.removeEventListener('mousedown', closeModal);
     }, []);
 
-    async function submitDescription(e) {
-        e.preventDefault();
-        const response = await fetch(`http://localhost:3000/submit-description`, {
-            method: 'POST',
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ 
-                username: localStorage.getItem('user'),
-                description: descriptionValue
-            })
-        });
-        const data = await response.json();
-        console.log(data);
-    };
-
-
+    //submit updated profile pic, description or username
     async function handleSubmit(e) {
         e.preventDefault();
         const formData = new FormData();
