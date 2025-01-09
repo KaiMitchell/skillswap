@@ -441,14 +441,33 @@ app.post('/submit-description', async(req, res) => {
 });
 
 app.post('/test-image-upload', async(req, res) => {
+    const {
+        currentUsername,
+        newUsername,
+        newDescription
+    } = req.body;
+
+    //check if new username is already in use
+    const existingUsername = await client.query(
+        `
+        SELECT * FROM users WHERE username = $1
+        `, [!newUsername ? currentUsername : newUsername]
+    );
+
+    //prevent conflicting usernames
+    if(existingUsername.rows.length > 0) {
+        res.status(409).json({ message: `Username of: ${newUsername} already exists`});
+        return;
+    };
+
     let imgFile;
     let imgPath;
     let uploadPath;
+    //query builder
+    let updates = [];
+    let query = '';
 
-    if(!req.files || Object.keys(req.files).length === 0) {
-        res.status(400).json({ message: 'No files were uploaded' });
-        return;
-    } else {
+    if(req.files && req.files.imgFile) {
         imgFile = req.files.imgFile;
         imgPath = Date.now() + imgFile.name;
         //define path to move file to
@@ -462,18 +481,35 @@ app.post('/test-image-upload', async(req, res) => {
                 return;
             };
         });
+
+        updates.push(`profile_picture = '${imgPath}'`);
+    };
+
+    newUsername && updates.push(`username = '${newUsername}'`);
+    newDescription && updates.push(`description = '${newDescription}'`);
+
+    //if no file is uploaded select the current profile picture to return.
+    //to prevent no picture being displayed.
+    let currentProfilePicture;
+
+    if(!req.files || !req.files.imgFile) {
+        const result = await client.query(`SELECT profile_picture FROM users WHERE username = $1`, [currentUsername]);
+        currentProfilePicture = result.rows[0]?.profile_picture || '';
     };
 
     //insert image path into profile_picture column
-    await client.query(
+    await client.query(        
         `
         UPDATE users
-        SET profile_picture = $1
-        WHERE username = 'user1'
-        `, [imgPath]
+        SET ${updates.join(', ')}
+        WHERE username = $1
+        `, [currentUsername]
     );
 
-    res.json({ img: 'http://localhost:3000/' + imgPath });
+    res.json({ 
+        img: `http://localhost:3000/${imgPath ? imgPath : currentProfilePicture}`,
+        newUsername: newUsername
+    });
 });
 
 //Test token middleware

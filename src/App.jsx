@@ -41,7 +41,6 @@ function App() {
   const [headerFilter, setHeaderFilter] = useState({category: '', skill: ''});
   const [skills, setSkills] = useState();
   const [user, setUser] = useState(localStorage.getItem('user') || null);
-  const [profilePic, setProfilePic] = useState(localStorage.getItem('profile pic') || '');
   const [learnProfiles, setLearnProfiles] = useState();
   const [teachProfiles, setTeachProfiles] = useState();
   const [isSettings, setIsSettings] = useState(false);//renderring the settings modal
