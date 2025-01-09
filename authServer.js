@@ -369,7 +369,7 @@ app.post('/edit-profile', async(req, res) => {
         updates.push(`profile_picture = '${imgPath}'`);
     };
 
-    newUsername && updates.push(`username = '${newUsername}'`);
+    newUsername ? updates.push(`username = '${newUsername}'`) : updates.push(`username = $1`);
     newDescription && updates.push(`description = '${newDescription}'`);
 
     //if no file is uploaded select the current profile picture to return.
@@ -392,7 +392,7 @@ app.post('/edit-profile', async(req, res) => {
 
     res.json({ 
         img: `http://localhost:3000/${imgPath ? imgPath : currentProfilePicture}`,
-        newUsername: newUsername
+        newUsername: newUsername || currentUsername
     });
 });
 

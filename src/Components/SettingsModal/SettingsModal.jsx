@@ -64,7 +64,6 @@ function SettingsModal({ isSettings, setIsSettings }) {
         };
         //ensure old image is not removed with no new image to replace it
         if(data.img) {
-            console.log(data.img);
             setImg(data.img);
             localStorage.setItem('profile picture', data.img);
         };
