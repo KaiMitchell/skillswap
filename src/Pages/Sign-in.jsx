@@ -35,6 +35,8 @@ function SignIn({
         if(response.status === 200) {
             localStorage.setItem("user", userDetails.username);
             setUser(() => localStorage.getItem('user'));
+            console.log(data);
+            localStorage.setItem('profile picture', 'http://localhost:3000/' + data.profile_picture);
             sessionStorage.setItem('access token', data.accessToken);
             setAccessToken(() => sessionStorage.getItem('access token'));
         };

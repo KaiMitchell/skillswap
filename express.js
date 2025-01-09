@@ -60,6 +60,82 @@ app.get('/fetch-skills', async(req, res) => {
         };
 });
 
+app.get('/fetch-users-skills', async(req, res) => {
+    const username = req.query.username;
+
+    try{
+        console.log(username);
+
+        const toTeach = await client.query(
+            `
+            SELECT 
+                u.username,
+                json_agg(
+                    json_build_object(
+                        'category', subquery.category,
+                        'to_learn', subquery.skills_to_teach
+                    )
+                ) AS user_categories
+            FROM users u
+            JOIN (
+                SELECT 
+                    u.id AS user_id, 
+                    c.category, 
+                    ARRAY_AGG(s.name) AS skills_to_teach
+                FROM users u
+                JOIN users_skills us ON u.id = us.user_id
+                JOIN skills s ON s.id = us.skill_id
+                JOIN categories_skills cs ON cs.skill_id = s.id
+                JOIN categories c ON c.id = cs.category_id
+                WHERE us.is_teaching = true
+                GROUP BY u.id, c.category
+            ) AS subquery ON u.id = subquery.user_id
+            WHERE u.username = $1
+            GROUP BY u.id, u.username
+            ORDER BY u.username;
+            `, [username]
+        );
+
+        const toLearn = await client.query(
+            `
+            SELECT 
+                u.username,
+                json_agg(
+                    json_build_object(
+                        'category', subquery.category,
+                        'to_learn', subquery.skills_to_learn
+                    )
+                ) AS user_categories
+            FROM users u
+            JOIN (
+                SELECT 
+                    u.id AS user_id, 
+                    c.category, 
+                    ARRAY_AGG(s.name) AS skills_to_learn
+                FROM users u
+                JOIN users_skills us ON u.id = us.user_id
+                JOIN skills s ON s.id = us.skill_id
+                JOIN categories_skills cs ON cs.skill_id = s.id
+                JOIN categories c ON c.id = cs.category_id
+                WHERE us.is_learning = true
+                GROUP BY u.id, c.category
+            ) AS subquery ON u.id = subquery.user_id
+            WHERE u.username = $1
+            GROUP BY u.id, u.username
+            ORDER BY u.username;
+            `, [username]
+        );
+        
+        res.status(200).json({ 
+            message: 'skills',
+            toLearn: toLearn.rows[0],
+            toTeach: toTeach.rows[0]
+        });
+    } catch(err) {
+        console.error('fetch-users-skill error!: ', err);
+    };
+});
+
 //fetch all matches
 app.get('/matches', async(req, res) => {
     const currentUser = req.query.user;

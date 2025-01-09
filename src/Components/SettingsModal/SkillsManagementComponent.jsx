@@ -1,21 +1,36 @@
+import { useEffect, useState } from "react";
 import SelectSkills from "./SelectSkills";
 import DeleteSkills from "./DeleteSkills";
-import CurrentSkills from "./Currentskills";
 import SectionContainer from './SectionContainer';
+import { CurrentSkillsToLearn, CurrentSkillsToTeach } from "./SMLists";
 
 function SkillsManagementComponent() {
+    const [skillsToLearn, setSkillsToLearn] = useState();
+    const [skillsToTeach, setSkillsToTeach] = useState();
+    useEffect(() => {
+        async function fetchSkills() {
+            const response = await fetch(`http://localhost:3000/fetch-users-skills?username=${localStorage.getItem('user')}`);
+            const data = await response.json();
+            console.log(data)
+            setSkillsToLearn(data?.toLearn);
+            setSkillsToTeach(data?.toTeach);
+        };
+        fetchSkills();
+    }, []);
     return(
         <div className='flex flex-col gap-10 h-fit w-full'>
             <SectionContainer 
                 header='Current skills' 
                 section1={
-                    <CurrentSkills 
+                    <SelectSkills
                         text='Skills you can teach' 
+                        skills={skillsToTeach}
                     />
                 } 
                 section2={
-                    <SelectSkills 
+                    <SelectSkills
                         text='Skills you can learn' 
+                        skills={skillsToLearn}
                     />
                 }
             />
