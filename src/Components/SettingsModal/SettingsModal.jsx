@@ -2,8 +2,12 @@ import { useEffect, useRef, useState } from 'react';
 import SkillsManagementComponent from './SkillsManagementComponent.jsx';
 
 function SettingsModal({ isSettings, setIsSettings }) {    
-    const [descriptionValue, setDescriptionValue] = useState('');
+    const [newUsername, setNewUsername] = useState('');
+    const [newDescription, setNewDescription] = useState('');
+    const [img, setImg] = useState();
+
     const node = useRef();
+    const fileRef = useRef();
 
     function closeModal(e) {
         if(node.current && !node.current.contains(e.target)) {
@@ -30,33 +34,67 @@ function SettingsModal({ isSettings, setIsSettings }) {
         console.log(data);
     };
 
+
+    async function handleSubmit(e) {
+        e.preventDefault();
+        const formData = new FormData();
+        formData.append('imgFile', fileRef.current.files[0]);
+        formData.append('newUsername', newUsername);
+        formData.append('newDescription', newDescription);
+        const response = await fetch(`http://localhost:3000/test-image-upload`, {
+            method: 'POST',
+            headers: {
+                "Accept": "application/json",
+            },
+            body: formData
+        });
+        const data = await response.json();
+        setImg(data.img);
+        console.log(data);
+    };
+
+
     return(
         <div ref={node} className={`${isSettings ? 'block' : 'hidden'} fixed size-10/12 m-auto z-20 top-0 bottom-0 left-0 right-0 px-10 py-5 rounded bg-stone-100 shadow-xl shadow-black overflow-y-scroll no-scrollbar`}>
             <div className='w-full min-h-1/4 flex flex-col lg:flex-row gap-5 justify-between mb-5 text-center lg:text-left'>   
-                <form className='w-full lg:w-1/2'>
+                <form onSubmit={handleSubmit} className='w-full lg:w-1/2'>
                     <label className='font-bold'>Update profile picture</label><br />
-                    <input type="text" className='p-1 border border-r-0 border-black rounded rounded-r-none'/>
-                    <button className='px-2.5 py-1 border border-l-0 border-black rounded rounded-l-none'>Update</button>
+                    <input 
+                        ref={fileRef}
+                        type="file" 
+                        name='fileInput' 
+                        className='p-1 border border-black rounded'
+                    />
                     <br />
                     <br />
-                    <label className='font-bold'>change username</label><br />
-                    <input type="text" className='p-1 border border-r-0 border-black rounded rounded-r-none'/>
-                    <button className='px-2.5 py-1 border border-l-0 border-black rounded rounded-l-none'>Change</button>
+                    <label className='font-bold'>Change your username</label><br />
+                    <input 
+                        value={newUsername}
+                        onChange={(e) => setNewUsername(e.target.value)}
+                        type="text" 
+                        className='p-1 border border-black rounded'
+                    />
                     <br />
                     <br />
-                    <label className='font-bold'>Describe yourself</label><br />
+                    <label className='font-bold'>Update Description</label><br />
                     <textarea 
-                        value={descriptionValue} 
-                        onChange={(e) => setDescriptionValue(e.target.value)} 
+                        value={newDescription} 
+                        onChange={(e) => setNewDescription(e.target.value)} 
                         rows='5' 
                         className='w-full'
                     />
-                    <button onClick={(e) => submitDescription(e)} className='px-2.5 py-1 border border-l-0 border-black rounded rounded-l-none'>Change</button>
+                    <button 
+                        type='submit' 
+                        className='px-2.5 py-1 border border-black rounded'>
+                            Change
+                    </button>
                 </form>
                 {/* image */}
-                <div className='w-full lg:w-1/3 flex justify-center lg:justify-end items-center'>
-                    <div className='min-w-40 min-h-40 bg-black rounded-full self-start flex justify-center items-center text-white'>Image</div>
-                </div>
+                <img 
+                    src={img}
+                    alt='profile'
+                    className="rounded-full size-80 border-solid border border-slate-500"
+                />
             </div>
             <div className='flex flex-col gap-10 h-fit w-full'>
                 <SkillsManagementComponent />

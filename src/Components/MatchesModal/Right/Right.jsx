@@ -11,8 +11,8 @@ function Right({
         <div className="w-1/2 h-full flex flex-col justify-between">
             <div className='flex flex-col gap-5 h-full w-full'>
                 <div className='relative group self-end'>
-                    <h3 className="h-10 w-28 flex justify-center items-center rounded-lg text-white hover:font-semibold bg-gradient-to-r from-blue-400 via-blue-500 to-blue-600 cursor-pointer">
-                        Matched
+                    <h3 className="h-10 w-28 flex justify-center items-center rounded-lg text-white group-hover:font-semibold bg-gradient-to-r from-blue-400 via-blue-500 to-blue-600 cursor-pointer">
+                        Connect
                     </h3>
                     <div className="hidden group-hover:flex items-center absolute right-full top-1/2 transform -translate-y-1/2">
                         {/* Message icon */}

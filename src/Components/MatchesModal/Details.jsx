@@ -1,3 +1,4 @@
+import { useState } from "react";
 import BottomLeft from "./Left/BottomLeft";
 import Left from "./Left/Left";
 import Right from "./Right/Right";
@@ -8,6 +9,7 @@ function Details({
     setIsHovered,
     unMatch
 }) {
+    const [img, setImg] = useState('');
     return(
         <div className='flex gap-5 h-full'>
             <div className='w-full min-h-1/4 h-full flex flex-col lg:flex-row gap-5 justify-between mb-5 text-center lg:text-left'>   
@@ -17,6 +19,7 @@ function Details({
                         <div className="text-left">
                             <Left 
                                 displayedMatch={displayedMatch}
+                                img={img}
                             />
                             <BottomLeft displayedMatch={displayedMatch} unMatch={unMatch} />
                         </div>

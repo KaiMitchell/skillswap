@@ -4,18 +4,17 @@ import { fileURLToPath } from 'url';
 import pkg from 'pg';
 import cors from 'cors';
 import dotenv from 'dotenv';
-import bcrypt from 'bcrypt';
+import fileUpload from 'express-fileupload';
 // import jwt from 'jsonwebtoken';
+
+let PORT = 3000;
+const app = express();
 
 dotenv.config();
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
-
 const { Client } = pkg;
-const app = express();
-let PORT = 3000;
-
 //config PostgreSQL database
 const clientConfig = {
     user: 'postgres',
@@ -31,9 +30,12 @@ client
     .then(() => console.log("Connected to PostgreSQL database"))
     .catch((err) => console.error("Connection error", err.stack));
 
+//serve file relative to the static directory
+app.use(express.static('assets'));
 app.use(express.static(path.join(__dirname + './src')));
 app.use(cors());
 app.use(express.json());
+app.use(fileUpload());
 
 app.get('/fetch-skills', async(req, res) => {
     try {
@@ -436,6 +438,42 @@ app.post('/submit-description', async(req, res) => {
         WHERE username = $1
         `, [username, description]);
     res.status(200).json({ message: 'succesfully updated' });
+});
+
+app.post('/test-image-upload', async(req, res) => {
+    let imgFile;
+    let imgPath;
+    let uploadPath;
+
+    if(!req.files || Object.keys(req.files).length === 0) {
+        res.status(400).json({ message: 'No files were uploaded' });
+        return;
+    } else {
+        imgFile = req.files.imgFile;
+        imgPath = Date.now() + imgFile.name;
+        //define path to move file to
+        //use date dot now to prevent conflicting file names
+        uploadPath = __dirname + '/assets/' + imgPath;
+    
+        //use mv to place the file into my assets folder
+        imgFile.mv(uploadPath, (err) => {
+            if(err) {
+                res.status(500).json({ error: err });
+                return;
+            };
+        });
+    };
+
+    //insert image path into profile_picture column
+    await client.query(
+        `
+        UPDATE users
+        SET profile_picture = $1
+        WHERE username = 'user1'
+        `, [imgPath]
+    );
+
+    res.json({ img: 'http://localhost:3000/' + imgPath });
 });
 
 //Test token middleware
