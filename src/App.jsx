@@ -312,6 +312,7 @@ function App() {
             displayedProfile={displayedProfile}
             teachProfiles={teachProfiles}
             learnProfiles={learnProfiles}
+            matches={matches}
             unMatch={unMatch}
           />
         <Routes>  

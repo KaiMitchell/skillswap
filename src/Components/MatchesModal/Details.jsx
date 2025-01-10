@@ -7,8 +7,11 @@ function Details({
     displayedProfile,
     isHovered,
     setIsHovered,
-    unMatch
+    unMatch,
+    matches
 }) {
+    //determine whether profile shows private details or not based on matched status
+    const isMatched = matches.includes(displayedProfile?.username);
     const defaultProfileImg = 'https://static.vecteezy.com/system/resources/thumbnails/009/292/244/small/default-avatar-icon-of-social-media-user-vector.jpg';
     const imgURL = 'http://localhost:3000/';
 
@@ -24,8 +27,13 @@ function Details({
                             <Left 
                                 displayedProfile={displayedProfile}
                                 img={displayedProfile?.profile_picture ? imgPath : defaultProfileImg}
+                                isMatched={isMatched}
                             />
-                            <BottomLeft displayedProfile={displayedProfile} unMatch={unMatch} />
+                            <BottomLeft 
+                                displayedProfile={displayedProfile} 
+                                unMatch={unMatch} 
+                                isMatched={isMatched}
+                            />
                         </div>
                         <Right 
                             displayedProfile={displayedProfile}
