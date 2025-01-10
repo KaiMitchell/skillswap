@@ -3,7 +3,8 @@ import CardDetails from "./CardDetails";
 function CardLayout({ 
     name, 
     skills,
-    profilePicture 
+    profilePicture,
+    description
 }) {
     let skill;
 
@@ -25,11 +26,12 @@ function CardLayout({
                     <h3 className="hidden sm:block absolute top-2.5 sm:left-2.5 font-bold text-xl px-2.5 rounded-tl-lg bg-black bg-opacity-30">
                         {name}
                     </h3>
-                    {/* <h3 className="hidden sm:block absolute bottom-2.5 left-2.5 font-bold text-xl px-2.5 bg-black bg-opacity-30">
-                        {skill}
-                    </h3> */}
                 </div>
-                <CardDetails username={name} skills={skills} />
+                <CardDetails 
+                    username={name} 
+                    skills={skills} 
+                    description={description}
+                />
             </div>
         </div>
     );

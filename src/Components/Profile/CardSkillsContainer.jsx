@@ -5,7 +5,7 @@ function CardSkillsContainer({
     setIsRenderAllSkills,
     isRenderAllSkills, 
     toLearnProfileData, 
-    toTeachProfileData
+    toTeachProfileData,
 }) {
     const showSkillsToggleBg = {
         hover: 'hover:from-blue-600 hover:via-blue-800 hover:to-blue-800',
@@ -13,8 +13,16 @@ function CardSkillsContainer({
     };
     return(
         <div className='h-full w-full flex flex-col justify-between'>
-            <CardSkills profileData={toLearnProfileData} isRenderAllSkills={isRenderAllSkills} type={'To learn:'} />
-            <CardSkills profileData={toTeachProfileData} isRenderAllSkills={isRenderAllSkills} type={'To teach:'} />
+            <CardSkills 
+                profileData={toLearnProfileData} 
+                isRenderAllSkills={isRenderAllSkills} 
+                type={'To learn:'} 
+            />
+            <CardSkills 
+                profileData={toTeachProfileData} 
+                isRenderAllSkills={isRenderAllSkills} 
+                type={'To teach:'} 
+            />
             <button 
                 className={`${isRenderAllSkills ? 'relative rounded-t-lg': 'absolute top-0 rounded-b-lg'} bg-gradient-to-r ${showSkillsToggleBg.hover} ${showSkillsToggleBg.initial} w-1/2 self-center text-sm text-white cursor-pointer`}
                 onClick={() => setIsRenderAllSkills(!isRenderAllSkills)}

@@ -38,6 +38,7 @@ function ToLearnProfiles({
             <Card 
                 fetchRequests={fetchRequests} 
                 isrequested={isRequested}
+                description={obj?.description || ''}
                 requests={requests} 
                 profilePicture={obj?.profile_picture ? imgURL + obj.profile_picture : defaultProfileImg}
                 key={obj.username} 
@@ -83,6 +84,7 @@ function ToTeachProfiles({
                 fetchRequests={fetchRequests} 
                 isrequested={isRequested}
                 requests={requests} 
+                description={obj?.description || 'no description'}
                 profilePicture={obj?.profile_picture ? imgURL + obj.profile_picture : defaultProfileImg}
                 key={obj.username} 
                 skills={skills} 

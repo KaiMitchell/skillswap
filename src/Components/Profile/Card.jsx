@@ -8,6 +8,7 @@ function Card({
     requests, 
     profilePicture, 
     skills, 
+    description,
     name 
 }) {
     async function sendMatchRequest(isRequested) {
@@ -29,6 +30,7 @@ function Card({
                 name={name} 
                 skills={skills} 
                 profilePicture={profilePicture}
+                description={description}
             />
             <CardFooter 
                 city='city' 

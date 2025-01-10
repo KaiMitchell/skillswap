@@ -12,7 +12,7 @@ function Skills({ profileData }) {
     );
 };
 
-function Details({ isRenderAllSkills }) {
+function Details({ isRenderAllSkills, description }) {
     //REPLACE DESCRIPTION AND PREFERENCES DATA WITH DATA FROM PROFILE
     return(
         <div className={`${isRenderAllSkills ? 'hidden' : 'block'} flex flex-col gap-2.5 mt-10 h-full w-full px-5`}>
@@ -21,9 +21,8 @@ function Details({ isRenderAllSkills }) {
                 <p className='text-xs'>In person</p>
             </div>
             <div className='h-16'>
-                <h3 className=''>Description:</h3>
                 <div className='relative h-full overflow-y-auto no-scrollbar'>
-                    <p className=''>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ratione eveniet sequi, delectus quas id ducimus? Consequatur vitae adip, dolor sit amet consectetur adipisicing elit. Ratione eveniet sequi, delectus quas id ducimus? Consequatur vitae adipisci iusto, quisquam perspiciatis natus sequi quaerat provident, quas voluptate repellendus nihil magnam!</p>
+                    <p className=''>{description}</p>
                 </div>
             </div>
         </div>

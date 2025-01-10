@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Details } from './CardData';
 import CardSkillsContainer from './CardSkillsContainer';
 
-function CardDetails({ username }) {
+function CardDetails({ username, description }) {
     const [isRenderAllSkills, setIsRenderAllSkills] = useState(false);
     const [toLearnProfileData, setToLearnProfileData] = useState();
     const [toTeachProfileData, setToTeachProfileData] = useState();
@@ -25,7 +25,10 @@ function CardDetails({ username }) {
 
     return(
         <div className='relative h-full w-full flex flex-col justify-between'>
-            <Details isRenderAllSkills={isRenderAllSkills} />
+            <Details 
+                description={description}
+                isRenderAllSkills={isRenderAllSkills}       
+            />
             <CardSkillsContainer 
                 toLearnProfileData={toLearnProfileData} 
                 toTeachProfileData={toTeachProfileData} 

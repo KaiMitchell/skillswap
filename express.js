@@ -179,7 +179,12 @@ app.post('/', async(req, res) => {
         // the user is not currently matched with them
         const toLearn = await client.query(
             `
-            SELECT u.username, u.profile_picture, ARRAY_AGG(s.name) as to_learn 
+            SELECT 
+                u.username, 
+                u.description, 
+                u.profile_picture, 
+                ARRAY_AGG(s.name) as 
+            to_learn 
             FROM users u
             JOIN users_skills us ON u.id = us.user_id
             JOIN skills s ON s.id = us.skill_id
@@ -201,7 +206,13 @@ app.post('/', async(req, res) => {
         //Use 'and mr.u_id2 IS NULL to return all records that are NULL 
         const toTeach = await client.query(
             `
-             SELECT u.username, u.profile_picture, ARRAY_AGG(s.name) to_teach FROM users u
+             SELECT 
+                u.username, 
+                u.description, 
+                u.profile_picture,
+                u.gender
+                ARRAY_AGG(s.name) to_teach 
+            FROM users u
              JOIN users_skills us ON u.id = us.user_id
              JOIN skills s ON s.id = us.skill_id
              LEFT JOIN match_requests mr_sent ON mr_sent.u_id2 = u.id AND mr_sent.u_id1 = (SELECT id FROM users WHERE username = $1)
