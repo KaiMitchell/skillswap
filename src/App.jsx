@@ -223,23 +223,25 @@ function App() {
 
   async function displayProfile(selectedUser) {
     setIsDisplayMatch(true);
+    console.log(selectedUser);
     try {
       const response = await fetch(`http://localhost:4000/profile?selectedUser=${selectedUser}`, {
         headers: { 'authorization': `Bearer ${accessToken}` }
       });
+
       if(response.status === 401 || response.status === 403) {
         signOut();
         setDisplayedMatch();
         return;
       };
+
       const data = await response.json();
       const profileData = data.profileData;
       console.log(profileData);
       setDisplayedMatch(profileData);
-      // setIsProfileDisplayed(true);
     } catch(err) {
       console.error(err);
-    }
+    };
   };
 
   async function unMatch(param, selectedUser) {

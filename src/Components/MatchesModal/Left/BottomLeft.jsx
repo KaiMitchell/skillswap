@@ -2,6 +2,7 @@ function BottomLeft({ displayedMatch, unMatch }) {
     //arguments for un match functions parameters
     const param = displayedMatch?.email;
     const selectedUser = displayedMatch?.username;
+    console.log(selectedUser);
     return(
         <>
             <p className='my-5'>member since: {displayedMatch?.created_at}</p>

@@ -10,8 +10,8 @@ function PopOutOptions({
     return(
         <>
             <h3 className={`p-2.5 text-stone-500`}>{type}</h3>
-            {Array.isArray(array) && array.length ? 
-                array.map(item => {
+            {Array.isArray(array) && array?.length ? 
+                array?.map(item => {
                     //On last item give padding to prevent mouse from leaving div due to 
                     //item being removed
                     return(
