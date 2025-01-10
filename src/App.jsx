@@ -223,7 +223,6 @@ function App() {
 
   async function displayProfile(selectedUser) {
     setIsDisplayMatch(true);
-    console.log(selectedUser);
     try {
       const response = await fetch(`http://localhost:4000/profile?selectedUser=${selectedUser}`, {
         headers: { 'authorization': `Bearer ${accessToken}` }

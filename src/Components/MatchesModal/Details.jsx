@@ -9,7 +9,11 @@ function Details({
     setIsHovered,
     unMatch
 }) {
-    const [img, setImg] = useState('');
+    const defaultProfileImg = 'https://static.vecteezy.com/system/resources/thumbnails/009/292/244/small/default-avatar-icon-of-social-media-user-vector.jpg';
+    const imgURL = 'http://localhost:3000/';
+
+    const imgPath = imgURL + displayedMatch?.profile_picture;
+
     return(
         <div className='flex gap-5 h-full'>
             <div className='w-full min-h-1/4 h-full flex flex-col lg:flex-row gap-5 justify-between mb-5 text-center lg:text-left'>   
@@ -19,7 +23,7 @@ function Details({
                         <div className="text-left">
                             <Left 
                                 displayedMatch={displayedMatch}
-                                img={img}
+                                img={displayedMatch?.profile_picture ? imgPath : defaultProfileImg}
                             />
                             <BottomLeft displayedMatch={displayedMatch} unMatch={unMatch} />
                         </div>

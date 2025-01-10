@@ -12,6 +12,7 @@ function Option({
     displayProfile
 }) { 
     let clickHandler = {};
+    
     //fetch data effect for individual pop outs due to re-rendering.
     useEffect(() => {
         text === 'Requests' && fetchData();
