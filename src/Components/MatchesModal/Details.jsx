@@ -39,6 +39,7 @@ function Details({
                             displayedProfile={displayedProfile}
                             isHovered={isHovered} 
                             setIsHovered={setIsHovered}
+                            isMatched={isMatched}
                         />
                     </div>
                 </div>
