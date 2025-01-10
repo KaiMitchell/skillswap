@@ -3,9 +3,9 @@ import Details from "./Details";
 import Footer from "./Footer";
 
 function Modal({ 
-    displayedMatch,
-    setIsDisplayMatch, 
-    isDisplayMatch,
+    displayedProfile,
+    setIsDisplayedProfile, 
+    isDisplayedProfile,
     unMatch
  }) {
     const [isHovered, setIsHovered] = useState(false);
@@ -13,7 +13,7 @@ function Modal({
 
     function closeModal(e) {
         if(node.current && !node.current.contains(e.target)) {
-            setIsDisplayMatch(false);
+            setIsDisplayedProfile(false);
         };
     };
 
@@ -25,11 +25,11 @@ function Modal({
     return(
         <div 
             ref={node} 
-            className={`${isDisplayMatch ? 'block' : 'hidden'} fixed flex flex-col gap-5 sm:size-3/5 m-auto z-20 top-0 bottom-0 left-0 right-0 p-2.5 rounded bg-stone-100 shadow-xl shadow-black overflow-y-scroll no-scrollbar`}>
+            className={`${isDisplayedProfile ? 'block' : 'hidden'} fixed flex flex-col gap-5 sm:size-3/5 m-auto z-20 top-0 bottom-0 left-0 right-0 p-2.5 rounded bg-stone-100 shadow-xl shadow-black overflow-y-scroll no-scrollbar`}>
             <Details 
                 isHovered={isHovered} 
                 setIsHovered={setIsHovered}
-                displayedMatch={displayedMatch}
+                displayedProfile={displayedProfile}
                 unMatch={unMatch}
             />
             <Footer />

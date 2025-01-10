@@ -44,8 +44,8 @@ function App() {
   const [learnProfiles, setLearnProfiles] = useState();
   const [teachProfiles, setTeachProfiles] = useState();
   const [isSettings, setIsSettings] = useState(false);//renderring the settings modal
-  const [isDisplayMatch, setIsDisplayMatch] = useState(false);
-  const [displayedMatch, setDisplayedMatch] = useState();
+  const [isDisplayedProfile, setIsDisplayedProfile] = useState(false);
+  const [displayedProfile, setDisplayedProfile] = useState();
   const [matches, setMatches] = useState([]);
   const [param, setParam] = useState();//remount on accepting a request
   const [accessToken, setAccessToken] = useState(sessionStorage.getItem('access token') || '');
@@ -222,7 +222,9 @@ function App() {
   };
 
   async function displayProfile(selectedUser) {
-    setIsDisplayMatch(true);
+    //show the profile modal
+    setIsDisplayedProfile(true);
+
     try {
       const response = await fetch(`http://localhost:4000/profile?selectedUser=${selectedUser}`, {
         headers: { 'authorization': `Bearer ${accessToken}` }
@@ -230,14 +232,13 @@ function App() {
 
       if(response.status === 401 || response.status === 403) {
         signOut();
-        setDisplayedMatch();
+        setDisplayedProfile();
         return;
       };
 
       const data = await response.json();
       const profileData = data.profileData;
-      console.log(profileData);
-      setDisplayedMatch(profileData);
+      setDisplayedProfile(profileData);
     } catch(err) {
       console.error(err);
     };
@@ -268,7 +269,7 @@ function App() {
     };
     //trigger rerender to update UI
     setParam(param);
-    setIsDisplayMatch(false);
+    setIsDisplayedProfile(false);
   };
 
   async function signOut() {
@@ -282,6 +283,8 @@ function App() {
     setUser();
   };
 
+  //FOR NOW USE MATCHES MODAL TO DISPLAY PROFILE DETAILS IF MATCHED SHOW ALL DETAILS
+  //IF NOT ONLY SHOW WHAT IS NOT PRIVATE
   return(
     <TokenContext.Provider value={{ accessToken, setAccessToken }}>
       <BrowserRouter>
@@ -304,9 +307,9 @@ function App() {
             setIsSettings={setIsSettings} 
           />}
           <MatchesModal 
-            isDisplayMatch={isDisplayMatch}
-            setIsDisplayMatch={setIsDisplayMatch}
-            displayedMatch={displayedMatch}
+            isDisplayedProfile={isDisplayedProfile}
+            setIsDisplayedProfile={setIsDisplayedProfile}
+            displayedProfile={displayedProfile}
             teachProfiles={teachProfiles}
             learnProfiles={learnProfiles}
             unMatch={unMatch}

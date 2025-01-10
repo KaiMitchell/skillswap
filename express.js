@@ -165,7 +165,7 @@ app.get('/matches', async(req, res) => {
 });
 
 // initial mount of all unfiltered profiles
-app.post('/', async(req, res) => {
+app.post('/', async(req, res) => {  
     const { username } = req.body;
 
     try {

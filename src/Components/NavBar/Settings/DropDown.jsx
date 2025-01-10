@@ -23,13 +23,15 @@ function DropDown({
                     <Option 
                         setIsShown={setIsShown} 
                         text="Sent Requests" 
-                        fetchData={fetchRequests} 
+                        fetchData={fetchRequests}
+                        displayProfile={displayProfile} 
                         data={requests} 
                     />
                     <Option 
                         setIsShown={setIsShown} 
                         text="Match Requests" 
-                        fetchData={fetchRequests} 
+                        fetchData={fetchRequests}
+                        displayProfile={displayProfile} 
                         data={requests} 
                     />
                     <Option 

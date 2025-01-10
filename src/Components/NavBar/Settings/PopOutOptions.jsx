@@ -7,6 +7,9 @@ function PopOutOptions({
     displayProfile,
     type
 }) {
+    if(displayProfile) {
+        console.log(type);
+    }
     return(
         <>
             <h3 className={`p-2.5 text-stone-500`}>{type}</h3>
@@ -20,10 +23,10 @@ function PopOutOptions({
                             className={`flex items-center justify-between p-2.5 border-b border-stone-900 text-sm text-stone-500 hover:text-stone-400 hadow-xl shadow-black`}
                         >
                             {/* text renderring for sent & recieved requests */}
-                            {removeMatchRequests && <p>{!acceptMatchRequest && 'pending'} {item}</p>}
+                            {/* {removeMatchRequests && <p>{!acceptMatchRequest && 'pending'}</p>} */}
                             {displayProfile && 
                                 <p 
-                                    onClick={() => displayProfile(item)}
+                                    onClick={() => {console.log('clicked'), displayProfile(item)}}
                                 >
                                     {item}
                                 </p>
@@ -54,25 +57,27 @@ function PopOutOptions({
     );
 };
 //side pop out for sent match requests
-function SentRequests({ data, removeMatchRequests }) {
+function SentRequests({ data, removeMatchRequests, displayProfile }) {
     return(
         <ul className="text-nowrap">
             {<PopOutOptions 
                 array={data.sent} 
-                removeMatchRequests={removeMatchRequests} 
+                removeMatchRequests={removeMatchRequests}
+                displayProfile={displayProfile} 
                 type='Pending matches'
             />}
         </ul>
     );
 };
 //side pop out for recieved match requests
-function RecievedRequests({ data, removeMatchRequests, acceptMatchRequest }) {
+function RecievedRequests({ data, removeMatchRequests, displayProfile, acceptMatchRequest }) {
     return(
         <ul className="text-nowrap">
             {<PopOutOptions 
                 array={data.recieved} 
                 acceptMatchRequest={acceptMatchRequest} 
-                removeMatchRequests={removeMatchRequests} 
+                removeMatchRequests={removeMatchRequests}
+                displayProfile={displayProfile} 
                 type='Match Requests'
             />}
         </ul>

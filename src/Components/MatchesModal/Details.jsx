@@ -4,7 +4,7 @@ import Left from "./Left/Left";
 import Right from "./Right/Right";
 
 function Details({
-    displayedMatch,
+    displayedProfile,
     isHovered,
     setIsHovered,
     unMatch
@@ -12,7 +12,7 @@ function Details({
     const defaultProfileImg = 'https://static.vecteezy.com/system/resources/thumbnails/009/292/244/small/default-avatar-icon-of-social-media-user-vector.jpg';
     const imgURL = 'http://localhost:3000/';
 
-    const imgPath = imgURL + displayedMatch?.profile_picture;
+    const imgPath = imgURL + displayedProfile?.profile_picture;
 
     return(
         <div className='flex gap-5 h-full'>
@@ -22,13 +22,13 @@ function Details({
                     <div className="w-full h-full flex justify-between">
                         <div className="text-left">
                             <Left 
-                                displayedMatch={displayedMatch}
-                                img={displayedMatch?.profile_picture ? imgPath : defaultProfileImg}
+                                displayedProfile={displayedProfile}
+                                img={displayedProfile?.profile_picture ? imgPath : defaultProfileImg}
                             />
-                            <BottomLeft displayedMatch={displayedMatch} unMatch={unMatch} />
+                            <BottomLeft displayedProfile={displayedProfile} unMatch={unMatch} />
                         </div>
                         <Right 
-                            displayedMatch={displayedMatch}
+                            displayedProfile={displayedProfile}
                             isHovered={isHovered} 
                             setIsHovered={setIsHovered}
                         />

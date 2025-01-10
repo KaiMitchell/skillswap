@@ -51,6 +51,7 @@ function ProfileDropDownSidePopOut({
                 <SentRequests 
                     data={data} 
                     removeMatchRequests={removeMatchRequests}
+                    displayProfile={displayProfile}
                 />
             }
             {text === 'Match Requests' &&   
@@ -58,6 +59,8 @@ function ProfileDropDownSidePopOut({
                     data={data} 
                     acceptMatchRequest={acceptMatchRequest}
                     removeMatchRequests={removeMatchRequests}
+                    displayProfile={displayProfile}
+
                 />
             }
             {text === 'Matches' && 

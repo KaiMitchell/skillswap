@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 function Right({ 
     isHovered,
     setIsHovered,
-    displayedMatch
+    displayedProfile
 }) {
     const [unMatchedHovered, setUnMatchedHovered] = useState(false);
     const showUnMatchedButton = unMatchedHovered || isHovered;
@@ -49,14 +49,14 @@ function Right({
                 <article className='text-right'>
                     <h3 className='text-xl font-bold underline'>About</h3>
                     <p>
-                        {displayedMatch?.description || 'No Description'}
+                        {displayedProfile?.description || 'No Description'}
                     </p>
                 </article>
             </div>
             <div className='flex flex-col gap-2.5'>      
                 <div className='flex items-center gap-2.5 text-nowrap'>
                     <ul className='flex w-full bg-zinc-300 text-nowrap snap-mandatory snap-x overflow-x-auto no-scrollbar'>
-                        {displayedMatch?.skills_to_teach.map(skill => {
+                        {displayedProfile?.skills_to_teach.map(skill => {
                             return(
                                 <li 
                                     key={skill} 
@@ -71,7 +71,7 @@ function Right({
                 </div>
                 <div className='flex items-center gap-2.5 text-nowrap'>
                     <ul className='flex w-full bg-zinc-300 text-nowrap snap-mandatory snap-x overflow-x-auto no-scrollbar'>
-                        {displayedMatch?.skills_to_learn.map(skill => {
+                        {displayedProfile?.skills_to_learn.map(skill => {
                             return(
                                 <li 
                                     key={skill} 
