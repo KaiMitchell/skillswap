@@ -180,6 +180,8 @@ app.post('/add-skill', async(req, res) => {
         lengthBefore = resultBeforeAdd.rows[0].count;
         lengthAfter = resultAfterAdd.rows[0].count;
 
+        console.log('before count: ', lengthBefore + ' after count: ', lengthAfter);
+
         // if length before and after variables are equal to eachother than something went wrong
         if(lengthBefore === lengthAfter) {
             res.status(500).json({ message: 'query did not execute' });
@@ -337,6 +339,7 @@ app.post('/signout', async(req, res) => {
 //get matched profile data
 app.get('/profile', authenticateToken, async(req, res) => {
     const selectedUser = req.query.selectedUser;
+    console.log(selectedUser);
     try {
         // Return all necessary details for selected matched profile
         const result = await client.query(
@@ -345,6 +348,7 @@ app.get('/profile', authenticateToken, async(req, res) => {
                 TO_CHAR(u.created_at, 'YYYY,MON') created_at, 
                 u.username,
                 u.email,
+                u.profile_picture,
                 u.phone_number,
                 u.description,
                 ARRAY_AGG(DISTINCT s.name) FILTER (WHERE us.is_learning = true) AS skills_to_learn,
@@ -353,9 +357,18 @@ app.get('/profile', authenticateToken, async(req, res) => {
             JOIN users_skills us ON us.user_id = (SELECT id FROM users WHERE username = $1)
             JOIN skills s ON s.id = us.skill_id
             WHERE username = $1
-            GROUP BY created_at, u.email, u.phone_number, u.description, u.username
+            GROUP BY 
+                created_at, 
+                u.email, 
+                u.profile_picture,
+                u.phone_number, 
+                u.description, 
+                u.username
             `, [selectedUser]);
+
         const profileData = result.rows[0];
+        console.log('data: ', result);
+
         //ensure arrays do not return null
         for(const prop in profileData) {
             if(prop === 'skills_to_learn' || prop === 'skills_to_teach') {
@@ -364,7 +377,7 @@ app.get('/profile', authenticateToken, async(req, res) => {
                 };
             };
         };
-        console.log(profileData);
+
         res.status(200).json({ profileData: profileData });
     } catch(err) {
         console.error(err);

@@ -1,8 +1,5 @@
 import Card from '../../Profile/Card.jsx';
 
-const defaultProfileImg = 'https://static.vecteezy.com/system/resources/thumbnails/009/292/244/small/default-avatar-icon-of-social-media-user-vector.jpg';
-const imgURL = 'http://localhost:3000/';
-
 function MappedProfiles({
     profiles,
     whichfilter,
@@ -11,7 +8,6 @@ function MappedProfiles({
     mappedProfiles,
     reMount
 }) {
-    const profileData = {};
     mappedProfiles = profiles?.map((obj) => {
         //render skills based on whether user is filtering from nav or main options
         let skills; 
@@ -32,20 +28,17 @@ function MappedProfiles({
                 skills = obj.to_learn;
             };
         } else {
-            skills = obj.to_learn;
+            skills = obj.to_teach || obj.to_learn;
         };
         
         return(
             <Card 
+                key={obj?.username}
+                profileData={obj}
                 fetchRequests={fetchRequests} 
                 isrequested={isRequested}
-                gender={obj?.gender}
-                description={obj?.description || ''}
                 requests={requests} 
-                profilePicture={obj?.profile_picture ? imgURL + obj.profile_picture : defaultProfileImg}
-                key={obj.username} 
                 skills={skills} 
-                name={obj.username} 
                 reMount={reMount}
             />
         );

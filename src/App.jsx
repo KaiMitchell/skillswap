@@ -47,7 +47,7 @@ function App() {
   const [isDisplayMatch, setIsDisplayMatch] = useState(false);
   const [displayedMatch, setDisplayedMatch] = useState();
   const [matches, setMatches] = useState([]);
-  const [param, setParam] = useState(); // remount on accepting a request
+  const [param, setParam] = useState();//remount on accepting a request
   const [accessToken, setAccessToken] = useState(sessionStorage.getItem('access token') || '');
   
   //trigger re-render to immediately view new matches when accepting
@@ -62,12 +62,12 @@ function App() {
       fetchMatches();
     };
     fetchProfiles();
+    console.log(teachProfiles);
     setMainFilter(prev => {
       const newObj = {};
       for(const key in prev) {
         newObj[key] = '';
       };
-      console.log(newObj);
       return newObj;
     });
   }, [user]);
@@ -243,6 +243,8 @@ function App() {
   };
 
   async function unMatch(param, selectedUser) {
+    console.log('selected user: ', selectedUser);
+    console.log('rerender param: ', param);
     const response = await fetch(`http://localhost:4000/unmatch`, {
       method: 'POST',
       headers: { 

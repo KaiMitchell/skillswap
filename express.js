@@ -234,7 +234,8 @@ app.post('/', async(req, res) => {
         toTeach.rows.forEach((row) => teachProfiles.push(row));
         toLearn.rows.forEach((row) => learnProfiles.push(row));
 
-        console.log(toLearn.rows);
+        console.log(toTeach.rows);
+
         res.status(200).send({ data: {learnProfiles: learnProfiles, teachProfiles: teachProfiles} });
     } catch(err) {
         console.error(err);

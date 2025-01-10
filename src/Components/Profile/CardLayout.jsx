@@ -1,13 +1,18 @@
 import CardDetails from "./CardDetails";
 
+const defaultProfileImg = 'https://static.vecteezy.com/system/resources/thumbnails/009/292/244/small/default-avatar-icon-of-social-media-user-vector.jpg';
+const imgURL = 'http://localhost:3000/';
+
 function CardLayout({ 
-    name, 
     skills,
-    profilePicture,
-    description
+    profileData
 }) {
+    //img url path to serve img file from my server
+    const imgPath = imgURL + profileData?.profile_picture;
+    const name = profileData?.username;
+
     let skill;
-    
+
     if(Array.isArray(skills) && skills.length > 0) {
         skill = skills[0];
     } else {
@@ -20,7 +25,7 @@ function CardLayout({
                     {/* Just a placeholder image for development purposes */}
                     <img 
                         className='object-cover h-full rounded-lg' 
-                        src={profilePicture} />
+                        src={profileData?.profile_picture ? imgPath : defaultProfileImg} />
                     <h3 className="hidden sm:block absolute top-2.5 sm:left-2.5 font-bold text-xl px-2.5 rounded-tl-lg bg-black bg-opacity-30">
                         {name}
                     </h3>
@@ -28,7 +33,7 @@ function CardLayout({
                 <CardDetails 
                     username={name} 
                     skills={skills} 
-                    description={description}
+                    description={profileData?.description}
                 />
             </div>
         </div>

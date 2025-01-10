@@ -25,10 +25,8 @@ function SkillsManagementComponent() {
     };
 
     async function fetchUnselectedSkills() {
-        console.log(localStorage.getItem('user'));
         const response = await fetch(`http://localhost:4000/fetch-unselected-skills?username=${localStorage.getItem('user')}`);
         const data = await response.json();
-        console.log('fetch unselected skills: ', data);
         setUpdateSkillsToLearn(data.data);
         setUpdateSkillsToTeach(data.data);
     };
@@ -38,7 +36,6 @@ function SkillsManagementComponent() {
         const data = await response.json();
         if(response.status === 200) {
             setSelectedSkill(() => `${skill}${data.rowCount}`);
-            console.log(data);
         };
     };
 

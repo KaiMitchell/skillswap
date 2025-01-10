@@ -17,7 +17,6 @@ function CardPanel({
 
     useEffect(() => {
         if(user) {
-            console.log('username: ', user);
             fetchRequests();
         };
     }, [param]);
@@ -48,7 +47,6 @@ function CardPanel({
     function reMount(param) {
         setParam(() => param);
     };
-
     const learnCount = learnProfiles?.length;
     const teachCount = teachProfiles?.length;
     let learnSearchFor = '';
