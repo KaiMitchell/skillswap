@@ -25,7 +25,7 @@ function Card({
         reMount(JSON.stringify(isRequested + name));
     };
     return(
-        <div className=''>
+        <div>
             <CardLayout 
                 name={name} 
                 skills={skills} 

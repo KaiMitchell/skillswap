@@ -7,9 +7,7 @@ function CardLayout({
     description
 }) {
     let skill;
-
-    profilePicture && console.log(profilePicture);
-
+    
     if(Array.isArray(skills) && skills.length > 0) {
         skill = skills[0];
     } else {

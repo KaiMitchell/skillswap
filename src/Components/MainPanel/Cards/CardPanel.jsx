@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { ToLearnProfiles, ToTeachProfiles } from './RenderType';
+import MappedProfile from './MappedProfile';
 import DisplayCards from './DisplayCards';
 
 function CardPanel({ 
@@ -87,18 +87,18 @@ function CardPanel({
         `;
 
     let mappedLearnProfiles =
-        <ToLearnProfiles 
+        <MappedProfile
             fetchRequests={fetchRequests} 
             requests={requests} 
-            learnprofiles={learnProfiles} 
+            profiles={learnProfiles} 
             whichfilter={whichFilter} 
             reMount={reMount}
         />
     let mappedTeachProfiles = 
-        <ToTeachProfiles 
+        <MappedProfile 
             fetchRequests={fetchRequests} 
             requests={requests} 
-            teachprofiles={teachProfiles} 
+            profiles={teachProfiles} 
             whichfilter={whichFilter} 
             reMount={reMount}
         />

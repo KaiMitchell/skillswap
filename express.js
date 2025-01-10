@@ -183,6 +183,7 @@ app.post('/', async(req, res) => {
                 u.username, 
                 u.description, 
                 u.profile_picture, 
+                u.gender,
                 ARRAY_AGG(s.name) as 
             to_learn 
             FROM users u
@@ -210,7 +211,7 @@ app.post('/', async(req, res) => {
                 u.username, 
                 u.description, 
                 u.profile_picture,
-                u.gender
+                u.gender,
                 ARRAY_AGG(s.name) to_teach 
             FROM users u
              JOIN users_skills us ON u.id = us.user_id
