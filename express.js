@@ -166,18 +166,20 @@ app.get('/matches', async(req, res) => {
 
 // initial mount of all unfiltered profiles
 app.post('/', async(req, res) => {
+    const { username } = req.body;
+
     try {
-        const { username } = req.body;
         const learnProfiles = [];
         const teachProfiles = [];
         const safeUsername = username || 'safeUsername';
+
         //tolearn and toteach queries ensure that displayed profiles 
         // have not requested to match with the user
         // the user has not sent them a request
         // the user is not currently matched with them
         const toLearn = await client.query(
             `
-            SELECT u.username, ARRAY_AGG(s.name) as to_learn 
+            SELECT u.username, u.profile_picture, ARRAY_AGG(s.name) as to_learn 
             FROM users u
             JOIN users_skills us ON u.id = us.user_id
             JOIN skills s ON s.id = us.skill_id
@@ -195,10 +197,11 @@ app.post('/', async(req, res) => {
             ORDER BY u.id
             `, [safeUsername]
         );
+
         //Use 'and mr.u_id2 IS NULL to return all records that are NULL 
         const toTeach = await client.query(
             `
-             SELECT u.username, ARRAY_AGG(s.name) to_teach FROM users u
+             SELECT u.username, u.profile_picture, ARRAY_AGG(s.name) to_teach FROM users u
              JOIN users_skills us ON u.id = us.user_id
              JOIN skills s ON s.id = us.skill_id
              LEFT JOIN match_requests mr_sent ON mr_sent.u_id2 = u.id AND mr_sent.u_id1 = (SELECT id FROM users WHERE username = $1)
@@ -215,8 +218,11 @@ app.post('/', async(req, res) => {
              ORDER BY u.id
             `, [safeUsername]
         );
+
         toTeach.rows.forEach((row) => teachProfiles.push(row));
         toLearn.rows.forEach((row) => learnProfiles.push(row));
+
+        console.log(toLearn.rows);
         res.status(200).send({ data: {learnProfiles: learnProfiles, teachProfiles: teachProfiles} });
     } catch(err) {
         console.error(err);

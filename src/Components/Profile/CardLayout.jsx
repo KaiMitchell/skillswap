@@ -1,7 +1,14 @@
 import CardDetails from "./CardDetails";
 
-function CardLayout({ name, skills }) {
+function CardLayout({ 
+    name, 
+    skills,
+    profilePicture 
+}) {
     let skill;
+
+    profilePicture && console.log(profilePicture);
+
     if(Array.isArray(skills) && skills.length > 0) {
         skill = skills[0];
     } else {
@@ -12,7 +19,9 @@ function CardLayout({ name, skills }) {
             <div className='relative flex h-64'>
                 <div className='w-full h-full p-2.5'>
                     {/* Just a placeholder image for development purposes */}
-                    <img className='object-cover h-full rounded-lg' src='https://static.vecteezy.com/system/resources/previews/035/187/362/non_2x/ai-generated-man-guy-model-look-white-smile-face-portrait-confidence-african-isolated-handsome-photo.jpg' />
+                    <img 
+                        className='object-cover h-full rounded-lg' 
+                        src={profilePicture} />
                     <h3 className="hidden sm:block absolute top-2.5 sm:left-2.5 font-bold text-xl px-2.5 rounded-tl-lg bg-black bg-opacity-30">
                         {name}
                     </h3>

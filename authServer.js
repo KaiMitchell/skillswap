@@ -69,7 +69,6 @@ app.get('/fetch-unselected-skills', async(req, res) => {
     const { username } = req.query;
 
     try {
-        console.log(`user with username '${username}' not found`);
         const result = await client.query(
             `
             SELECT

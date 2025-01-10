@@ -122,6 +122,7 @@ function App() {
     setLearnProfiles(data.data.learnProfiles);
     setTeachProfiles(data.data.teachProfiles);
   };
+  
   //fetch skills for skill/category selections
   async function fetchSkills() {
     const response = await fetch(`http://localhost:3000/fetch-skills`);

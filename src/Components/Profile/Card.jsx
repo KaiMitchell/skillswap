@@ -1,7 +1,15 @@
 import CardFooter from "./CardFooter";
 import CardLayout from "./CardLayout";
 
-function Card({ isRequested, reMount, fetchRequests, requests, img, skills, name }) {
+function Card({ 
+    isRequested, 
+    reMount, 
+    fetchRequests, 
+    requests, 
+    profilePicture, 
+    skills, 
+    name 
+}) {
     async function sendMatchRequest(isRequested) {
         const currentUser = localStorage.getItem('user');
         //Send the isRequested arg to be able to tell if the fetch should delete or insert a record
@@ -17,10 +25,10 @@ function Card({ isRequested, reMount, fetchRequests, requests, img, skills, name
     };
     return(
         <div className=''>
-            {/* <div className='relative bg-contain h-64 w-full bg-center' style={{backgroundImage: `url(${img})`}}> */}
             <CardLayout 
                 name={name} 
                 skills={skills} 
+                profilePicture={profilePicture}
             />
             <CardFooter 
                 city='city' 
