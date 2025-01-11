@@ -10,7 +10,9 @@ function Card({
     profileData
 }) {
     async function sendMatchRequest(isRequested) {
+
         const currentUser = localStorage.getItem('user');
+
         //Send the isRequested arg to be able to tell if the fetch should delete or insert a record
         await fetch(`http://localhost:3000/handle-match-request`, {
             method: 'POST',
@@ -24,6 +26,7 @@ function Card({
                 isRequested: isRequested 
             })
         });
+        
         // const data = await response.json();
         reMount(JSON.stringify(isRequested + profileData?.username));
     };

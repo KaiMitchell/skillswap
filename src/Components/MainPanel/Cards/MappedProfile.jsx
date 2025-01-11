@@ -10,6 +10,7 @@ function MappedProfiles({
     isToLearn
 }) {
     mappedProfiles = profiles?.map((obj) => {
+
         //render skills based on whether user is filtering from nav or main options
         let skills; 
         let isRequested = false;
@@ -28,17 +29,18 @@ function MappedProfiles({
 
             if(obj.skills){
 
+                //appliy category filters to profiles
                 skills = obj.skills;
 
             } else if(isToLearn) {
 
+                //apply filters to learn profiles
                 skills = obj.to_learn;
-                console.log('obj.toLearn');
 
             } else if(!isToLearn) {
 
+                //apply filters to learn profiles
                 skills = obj.to_teach;
-                console.log('to teach');
 
             };
             

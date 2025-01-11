@@ -12,15 +12,21 @@ function CardDetails({ username, description }) {
     }, [isRenderAllSkills]);
 
     async function fetchProfileSkills() {
+
         const response = await fetch(`http://localhost:3000/fetch-profile-skills?username=${username}`);
         const data = await response.json();
+
         if(data.status === 404) {
+
             console.log(data.error);
             setIsRenderAllSkills(false);
             return;
+
         };
+
         setToLearnProfileData(data.toLearn);
         setToTeachProfileData(data.toTeach);
+        
     };
 
     return(

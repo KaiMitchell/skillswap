@@ -7,6 +7,7 @@ function CardLayout({
     skills,
     profileData
 }) {
+    
     //img url path to serve img file from my server
     const imgPath = imgURL + profileData?.profile_picture;
     const name = profileData?.username;
@@ -14,9 +15,13 @@ function CardLayout({
     let skill;
 
     if(Array.isArray(skills) && skills.length > 0) {
+
         skill = skills[0];
+    
     } else {
+
         skill = skills;
+
     };
     return(
         <div className='relative bg-white bg-contain w-full rounded-t-lg bg-center'>
