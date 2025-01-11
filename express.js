@@ -285,11 +285,15 @@ app.post('/pick-skills', async(req, res) => {
     };
 });
 
-app.post('/fetch-filtered-teach-profiles', async(req, res) => {
+app.get('/main-filter-teach-profiles', async(req, res) => {
+
     const { 
-        toTeachCategory, 
+        meetUp,
+        preferredGender,
         toTeach,
-    } = req.body;
+        toTeachCategory,
+        yourGender
+    } = req.query;
 
     try {
         const filters = [];
@@ -318,10 +322,15 @@ app.post('/fetch-filtered-teach-profiles', async(req, res) => {
             `
         );
 
-        //send a response message indicating no profiles want to learn the filtered skill / category
+        //return immediately if no results are returned
         if(results.rows.length === 0) {
-            res.status(200).json({ message: 'No profiles want to learn ' + toLearn ? toLearn : toTeachCategory });
-            return;
+            if(!preferredGender && !yourGender && !meetUp) {
+                res.status(200).json({ message: 'No results' });
+                return;
+            } else {
+                res.status(200).json({ message: 'No profiles want to learn ' + toTeach ? toTeach : toTeachCategory });
+                return;
+            };
         };
 
         res.status(200).json({
@@ -332,26 +341,32 @@ app.post('/fetch-filtered-teach-profiles', async(req, res) => {
     };
 });
 
-app.post('/fetch-filtered-learn-profiles', async(req, res) => {
+app.get('/main-filter-learn-profiles', async(req, res) => {
 
     const { 
-        toLearnCategory, 
-        toLearn
-    } = req.body;
+        meetUp,
+        preferredGender,
+        toLearn,
+        toLearnCategory,
+        yourGender
+    } = req.query;
 
     try {
 
         const filters = [];
         const groupBy = [];
+
         //build sql query around filter values
         if(toLearnCategory) {
             filters.push(`AND c.category = '${toLearnCategory}'`);
             groupBy.push(`, c.category`);
         };
+
         if(toLearn) {
             filters.push(`AND s.name = '${toLearn}'`);
             groupBy.push(`, s.name`);
         };
+
         const results = await client.query(
             `
             SELECT u.username, c.category, ARRAY_AGG(s.name) skills, us.is_learning, us.is_teaching FROM users u
@@ -364,10 +379,18 @@ app.post('/fetch-filtered-learn-profiles', async(req, res) => {
             ORDER BY u.username
             `
         );
+
+        //return immediately if no results are returned
         if(results.rows.length === 0) {
-            res.status(200).json({ message: 'No profiles want to learn ' + toLearn ? toLearn : toLearnCategory });
-            return;
+            if(!preferredGender && !yourGender && !meetUp) {
+                res.status(200).json({ message: 'No results' });
+                return;
+            } else {
+                res.status(200).json({ message: 'No profiles want to learn ' + toLearn ? toLearn : toLearnCategory });
+                return;
+            };
         };
+
         res.status(200).json({
             profiles: results.rows
         });

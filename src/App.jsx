@@ -151,19 +151,38 @@ function App() {
 
   //fetch profiles that want to learn the skills filtered by the main drop down options
   async function filterLearnProfiles() {
-    const body = { ...mainFilter };
+    const queryValues = {};
+
+    //only apply properties from main filter to the query
+    //value object if the value is not null
+    for(const prop in mainFilter) {
+
+        //if the current prop is not null then populate the query values object
+        if (mainFilter[prop]) {
+
+          //database enum column for certain values is set to lowercase, do this 
+          //instead of changing dta base enum values
+          if(prop === 'yourGender' || prop === 'preferredGender' || prop === 'meetUp') {
+            queryValues[prop] = mainFilter[prop].toLowerCase();
+          } else {
+            queryValues[prop] = mainFilter[prop];
+          };
+        }; 
+    };
+
+    //generate query parameters
+    const searchParams = new URLSearchParams(queryValues);
+
     try{
-      const response = await fetch(`http://${backendURL}/fetch-filtered-learn-profiles`, {
-        method: 'POST',
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(body)
-      });
+      const response = await fetch(`http://${backendURL}/main-filter-learn-profiles?${searchParams}`);
       const data = await response.json();
+
       if(!data.profiles) {
         setLearnProfiles();
         console.log(data);
         return;
       };
+
       setLearnProfiles(data.profiles);
     }catch(err) {
       console.error(err);
@@ -172,19 +191,38 @@ function App() {
 
  //fetch profiles that want to teach the skills filtered by the main drop down options
   async function filterTeachProfiles() {
-    setTeachProfiles();
-    const body = { ...mainFilter, mainFilter: true };
+    const queryValues = {};
+
+    //only apply properties from main filter to the query
+    //value object if the value is not null
+    for(const prop in mainFilter) {
+
+        //if the current prop is not null then populate the query values object
+        if (mainFilter[prop]) {
+
+          //database enum column for certain values is set to lowercase, do this 
+          //instead of changing dta base enum values
+          if(prop === 'yourGender' || prop === 'preferredGender' || prop === 'meetUp') {
+            queryValues[prop] = mainFilter[prop].toLowerCase();
+          } else {
+            queryValues[prop] = mainFilter[prop];
+          };
+        }; 
+    };
+
+    //generate query parameters
+    const searchParams = new URLSearchParams(queryValues);
+
     try{
-      const response = await fetch(`http://${backendURL}/fetch-filtered-teach-profiles`, {
-        method: 'POST',
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(body)
-      });
+      const response = await fetch(`http://${backendURL}/main-filter-teach-profiles?${searchParams}`);
       const data = await response.json();
-      if(data.noData) {
-        console.log('no data');
+
+      if(!data.profiles) {
+        setTeachProfiles();
+        console.log(data);
         return;
       };
+      
       setTeachProfiles(data.profiles);
     }catch(err) {
       console.error(err);
