@@ -309,6 +309,16 @@ app.get('/main-filter-teach-profiles', async(req, res) => {
             groupBy.push(`, s.name`);
         };
         
+        if(yourGender) {
+            filters.push(`AND u.genderpreference = '${yourGender}'`);
+            // groupBy.push(`, u.genderpreference`);
+        };
+
+        if(preferredGender) {
+            filters.push(`AND u.gender = '${preferredGender}'`);
+            // groupBy.push(`, u.gender`);
+        };
+
         const results = await client.query(
             `
             SELECT u.username, c.category, ARRAY_AGG(s.name) skills, us.is_teaching FROM users u
@@ -317,7 +327,7 @@ app.get('/main-filter-teach-profiles', async(req, res) => {
             JOIN categories_skills cs ON cs.skill_id = s.id
             JOIN categories c ON cs.category_id = c.id
             WHERE us.is_teaching = true ${filters.join(' ')}
-            GROUP BY u.username, us.is_teaching, us.is_teaching${groupBy.join(' ')}
+            GROUP BY c.category, u.username, us.is_teaching, us.is_teaching${groupBy.join(' ')}
             ORDER BY u.username
             `
         );
@@ -353,6 +363,9 @@ app.get('/main-filter-learn-profiles', async(req, res) => {
 
     try {
 
+        let isJsonAggQuery = false;
+        let jsonAggQuery = '';
+
         const filters = [];
         const groupBy = [];
 
@@ -367,16 +380,60 @@ app.get('/main-filter-learn-profiles', async(req, res) => {
             groupBy.push(`, s.name`);
         };
 
+        // if(yourGender) {
+        //     filters.push(`AND u.genderpreference = '${yourGender}'`);
+        //     // groupBy.push(`, u.genderpreference`);
+        // };
+
+        // if(preferredGender) {
+        //     filters.push(`AND u.gender = '${preferredGender}'`);
+        //     // groupBy.push(`, u.gender`);
+        // };
+
+        if(toLearn || yourGender || preferredGender) {
+
+            isJsonAggQuery = true;
+
+            jsonAggQuery = `
+                SELECT 
+                    u.username,
+                    json_agg(
+                        json_build_object(
+                            'category', subquery.category,
+                            'skills', subquery.skills
+                        )
+                    ) AS categories
+                FROM users u
+                JOIN (
+            `;
+        };
+
         const results = await client.query(
             `
-            SELECT u.username, c.category, ARRAY_AGG(s.name) skills, us.is_learning, us.is_teaching FROM users u
-            JOIN users_skills us ON us.user_id = u.id
-            JOIN skills s ON us.skill_id = s.id
-            JOIN categories_skills cs ON cs.skill_id = s.id
-            JOIN categories c ON cs.category_id = c.id
-            WHERE us.is_learning = true ${filters.join(' ')}
-            GROUP BY u.username, us.is_learning, us.is_teaching${groupBy.join(' ')}
-            ORDER BY u.username
+            SELECT 
+                u.username, 
+                ARRAY_AGG(s.name) AS skills, 
+                us.is_learning, 
+                us.is_teaching 
+            FROM 
+                users u
+            JOIN 
+                users_skills us ON us.user_id = u.id
+            JOIN 
+                skills s ON us.skill_id = s.id
+            JOIN 
+                categories_skills cs ON cs.skill_id = s.id
+            JOIN    
+                categories c ON cs.category_id = c.id
+            WHERE 
+                us.is_learning = true ${filters.join(' ')}
+            GROUP BY 
+                c.category, 
+                u.username, 
+                us.is_learning,
+                us.is_teaching${groupBy.join(' ')}
+            ORDER BY 
+            u.username
             `
         );
 
@@ -444,24 +501,6 @@ app.post('/fetch-quick-filtered-profiles', async(req, res) => {
         });
     } catch(err) {
         console.error(err.stack);
-    };
-});
-
-app.get('/miscellaneous-filter', async(req, res) => {
-    
-    const {
-        preferredGender,
-        yourGender,
-        meetUp
-    } = req.query;
-
-
-
-    try{
-        
-        res.status(200).json({ message: req.query });
-    } catch(err) {
-        console.error(err);
     };
 });
 

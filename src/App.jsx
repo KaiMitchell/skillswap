@@ -116,7 +116,8 @@ function App() {
 
     //apply filters like 'gender', 'gender preference', or 'meet up preference'
     if(mainFilter.preferredGender || mainFilter.yourGender || mainFilter.meetUp) {
-      applyMiscellaneousFilters();
+      filterLearnProfiles();
+      filterTeachProfiles();
     };
 
     //apply filters to return profiles that teach skills that pass a filter
@@ -223,6 +224,8 @@ function App() {
         return;
       };
       
+      console.log('teach data: ', data.profiles);
+
       setTeachProfiles(data.profiles);
     }catch(err) {
       console.error(err);

@@ -20,6 +20,7 @@ function SkillsManagementComponent() {
     async function fetchCurrentSkills() {
         const response = await fetch(`http://localhost:3000/fetch-users-skills?username=${localStorage.getItem('user')}`);
         const data = await response.json();
+        console.log(data);
         setSkillsToLearn(data?.toLearn.categories);
         setSkillsToTeach(data?.toTeach.categories);
     };
