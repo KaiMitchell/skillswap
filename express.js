@@ -129,7 +129,6 @@ app.get('/fetch-users-skills', async(req, res) => {
             ORDER BY u.username;
             `, [username]
         );
-        console.log(toLearn.rows[0])
 
         //ensure the categories prop is existant for the map method
         res.status(200).json({ 
@@ -234,8 +233,6 @@ app.post('/', async(req, res) => {
         toTeach.rows.forEach((row) => teachProfiles.push(row));
         toLearn.rows.forEach((row) => learnProfiles.push(row));
 
-        console.log(toTeach.rows);
-
         res.status(200).send({ data: {learnProfiles: learnProfiles, teachProfiles: teachProfiles} });
     } catch(err) {
         console.error(err);
@@ -292,7 +289,6 @@ app.post('/fetch-filtered-teach-profiles', async(req, res) => {
     const { 
         toTeachCategory, 
         toTeach,
-        // preferredGender
     } = req.body;
 
     try {
@@ -308,12 +304,7 @@ app.post('/fetch-filtered-teach-profiles', async(req, res) => {
             filters.push(`AND s.name = '${toTeach}'`);
             groupBy.push(`, s.name`);
         };
-
-        // if(preferredGender) {
-        //     filters.push(`AND u.gender = '${preferredGender}'`);
-        //     groupBy.push(`, u.gender`);
-        // };
-
+        
         const results = await client.query(
             `
             SELECT u.username, c.category, ARRAY_AGG(s.name) skills, us.is_teaching FROM users u
@@ -342,9 +333,14 @@ app.post('/fetch-filtered-teach-profiles', async(req, res) => {
 });
 
 app.post('/fetch-filtered-learn-profiles', async(req, res) => {
-    const body = req.body;
+
+    const { 
+        toLearnCategory, 
+        toLearn
+    } = req.body;
+
     try {
-        const { toLearnCategory, toLearn } = body;
+
         const filters = [];
         const groupBy = [];
         //build sql query around filter values
@@ -428,13 +424,19 @@ app.post('/fetch-quick-filtered-profiles', async(req, res) => {
     };
 });
 
-app.get('/custom-filters', async(req, res) => {
+app.get('/miscellaneous-filter', async(req, res) => {
+    
     const {
-        genderPreferrence
+        preferredGender,
+        yourGender,
+        meetUp
     } = req.query;
 
+
+
     try{
-        console.log(genderPreferrence);
+        
+        res.status(200).json({ message: req.query });
     } catch(err) {
         console.error(err);
     };

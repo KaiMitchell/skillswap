@@ -91,31 +91,44 @@ function App() {
   //filter profile result using filters
   useEffect(() => {
     console.log(mainFilter);
+
     if(whichFilter.headerFilter) {
+
+      //clear main sec filters to prevent conflicts
       setMainFilter(prev => {
         const newValue = {...prev};
+
         for(const key in newValue) {
           newValue[key] = ''
         };
+
         return newValue; 
       });
+
       headerFilterProfiles();
     } else if(!whichFilter.mainFilter) {
       fetchProfiles();
     };
   }, [user, whichFilter]);
 
-    useEffect(() => {
+  //apply appropriate filter types to search results
+  useEffect(() => {
+
+    //apply filters like 'gender', 'gender preference', or 'meet up preference'
+    if(mainFilter.preferredGender || mainFilter.yourGender || mainFilter.meetUp) {
+      applyMiscellaneousFilters();
+    };
+
+    //apply filters to return profiles that teach skills that pass a filter
     if(mainFilter.toTeachCategory || mainFilter.toTeach) {
       filterTeachProfiles();
     };
-  }, [mainFilter.toTeachCategory, mainFilter.toTeach]);
 
-  useEffect(() => {
+    //apply filters to return profiles that teach skills that pass a filter
     if(mainFilter.toLearnCategory || mainFilter.toLearn) {
       filterLearnProfiles();
     };
-  }, [mainFilter.toLearnCategory, mainFilter.toLearn]);
+  }, [mainFilter]);
 
   //fetch all unfilterred profiles
   async function fetchProfiles() {
@@ -218,6 +231,7 @@ function App() {
       setRequests({ sent: sent, recieved: recieved });
     }; 
   };
+
   //fetch accepted matches
   async function fetchMatches(param) {
     const response = await fetch(`http://${backendURL}/matches?user=${user}`);
@@ -234,6 +248,27 @@ function App() {
       //trigger useEffect to update UI
       setParam(param);
     };
+  };
+
+  //fetch by miscellaneous filters
+  async function applyMiscellaneousFilters() {
+
+    const queryValues = {};
+
+    //only apply properties from main filter to the query
+    //value object if the value is not null
+    for(const prop in mainFilter) {
+      if(prop === 'yourGender' || prop === 'preferredGender' || prop === 'meetUp') {
+        if (mainFilter[prop]) queryValues[prop] = mainFilter[prop].toLowerCase();
+      };
+    };
+
+    //generate search parameters
+    const searchParams = new URLSearchParams(queryValues);
+
+    const response = await fetch(`http://${backendURL}/miscellaneous-filter?${searchParams}`);
+    const data = await response.json();
+    console.log(data);
   };
 
   async function displayProfile(selectedUser, type) {
