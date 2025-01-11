@@ -43,11 +43,15 @@ function App() {
   const [user, setUser] = useState(localStorage.getItem('user') || null);
   const [learnProfiles, setLearnProfiles] = useState();
   const [teachProfiles, setTeachProfiles] = useState();
-  const [isSettings, setIsSettings] = useState(false);//renderring the settings modal
+  //renderring the settings modal
+  const [isSettings, setIsSettings] = useState(false);
   const [isDisplayedProfile, setIsDisplayedProfile] = useState(false);
   const [displayedProfile, setDisplayedProfile] = useState();
+  //determine the type of call to display profile (recieved, or sent request or matched)
+  const [displayedProfileType, setDisplayedProfileType] = useState('');
   const [matches, setMatches] = useState([]);
-  const [param, setParam] = useState();//remount on accepting a request
+  //remount on accepting a request
+  const [param, setParam] = useState();
   const [accessToken, setAccessToken] = useState(sessionStorage.getItem('access token') || '');
   
   //trigger re-render to immediately view new matches when accepting
@@ -129,6 +133,7 @@ function App() {
     const data = await response.json();
     setSkills(data.data);
   };
+
   //fetch profiles that want to learn the skills filtered by the main drop down options
   async function filterLearnProfiles() {
     const body = { ...mainFilter };
@@ -149,6 +154,7 @@ function App() {
       console.error(err);
     };
   };
+
  //fetch profiles that want to teach the skills filtered by the main drop down options
   async function filterTeachProfiles() {
     setTeachProfiles();
@@ -169,6 +175,7 @@ function App() {
       console.error(err);
     };
   };
+
   //fetch profiles that want to learn and teach the skills selected from the nav bar options
   async function headerFilterProfiles() {
     try {
@@ -185,12 +192,9 @@ function App() {
       console.error(err.stack);
     };
   };
-  //fetch sent match requests
+
+  //fetch sent match requests   
   async function fetchRequests() {
-    // if(!user) {
-    //   console.error('No user found');
-    //   return;
-    // };
     let sent = [];
     let recieved = [];
     const response = await fetch(`http://localhost:4000/fetch-requests?user=${user}`, {
@@ -201,6 +205,7 @@ function App() {
       signOut();
     };
     if(response.status === 200) {
+      //prevent populating requests state with an undefined value
       data.sentRequests.length > 0 ? sent = data.sentRequests : sent = [];
       data.recievedRequests.length > 0 ? recieved = data.recievedRequests : recieved = []; 
       setRequests({ sent: sent, recieved: recieved });
@@ -221,9 +226,10 @@ function App() {
     };
   };
 
-  async function displayProfile(selectedUser) {
+  async function displayProfile(selectedUser, type) {
     //show the profile modal
     setIsDisplayedProfile(true);
+    setDisplayedProfileType(type);
 
     try {
       const response = await fetch(`http://localhost:4000/profile?selectedUser=${selectedUser}`, {
@@ -297,7 +303,7 @@ function App() {
             setFilter={setHeaderFilter} 
             setIsSettings={setIsSettings} 
             requests={requests}
-            fetchRequests={fetchRequests}//CHANGE BACK TO FETCH REQUESTS
+            fetchRequests={fetchRequests}
             matches={matches}
             fetchMatches={fetchMatches}
             displayProfile={displayProfile}
@@ -310,10 +316,12 @@ function App() {
             isDisplayedProfile={isDisplayedProfile}
             setIsDisplayedProfile={setIsDisplayedProfile}
             displayedProfile={displayedProfile}
+            displayedProfileType={displayedProfileType}
             teachProfiles={teachProfiles}
             learnProfiles={learnProfiles}
             matches={matches}
             unMatch={unMatch}
+            fetchRequests={fetchRequests}
           />
         <Routes>  
           <Route path='/' element={<Main />} />

@@ -11,7 +11,7 @@ function ProfileDropDownSidePopOut({
     //extract token from Context property
     const accessToken = TokenContext.accessToken;
     
-    //remove a request you sent
+    //remove a pending match request you sent
     async function removeMatchRequests(selectedUser) {
         const username = localStorage.getItem('user');
         const response = await fetch(`http://localhost:3000/handle-match-request`, {
@@ -27,7 +27,7 @@ function ProfileDropDownSidePopOut({
         fetchData();
     };
 
-    //accept a request sent to you
+    //accept a match request sent to user
     async function acceptMatchRequest(selectedUser) {
         const username = localStorage.getItem('user');
         const response = await fetch(`http://localhost:3000/accept-match-request`, {
@@ -45,6 +45,7 @@ function ProfileDropDownSidePopOut({
         console.log('data: ', data);
         fetchData(selectedUser);
     };
+
     return(
         <div className={`group-hover:block hidden absolute right-full w-fit top-0 min-h-full h-max border-r border-stone-900 bg-stone-950`}>
             {text === 'Sent Requests' && 

@@ -7,9 +7,7 @@ function PopOutOptions({
     displayProfile,
     type
 }) {
-    if(displayProfile) {
-        console.log(type);
-    }
+    
     return(
         <>
             <h3 className={`p-2.5 text-stone-500`}>{type}</h3>
@@ -26,7 +24,7 @@ function PopOutOptions({
                             {/* {removeMatchRequests && <p>{!acceptMatchRequest && 'pending'}</p>} */}
                             {displayProfile && 
                                 <p 
-                                    onClick={() => {console.log('clicked'), displayProfile(item)}}
+                                    onClick={() => displayProfile(item, type)}
                                 >
                                     {item}
                                 </p>

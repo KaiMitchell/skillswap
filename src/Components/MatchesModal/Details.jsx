@@ -8,6 +8,9 @@ function Details({
     isHovered,
     setIsHovered,
     unMatch,
+    fetchRequests,
+    setIsDisplayedProfile,
+    displayedProfileType,
     matches
 }) {
     //determine whether profile shows private details or not based on matched status
@@ -36,10 +39,13 @@ function Details({
                             />
                         </div>
                         <Right 
+                            displayedProfileType={displayedProfileType}
+                            setIsDisplayedProfile={setIsDisplayedProfile}
                             displayedProfile={displayedProfile}
                             isHovered={isHovered} 
                             setIsHovered={setIsHovered}
                             isMatched={isMatched}
+                            fetchRequests={fetchRequests}
                         />
                     </div>
                 </div>
