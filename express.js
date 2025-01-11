@@ -289,19 +289,31 @@ app.post('/pick-skills', async(req, res) => {
 });
 
 app.post('/fetch-filtered-teach-profiles', async(req, res) => {
-    const body = req.body;
+    const { 
+        toTeachCategory, 
+        toTeach,
+        // preferredGender
+    } = req.body;
+
     try {
-        const { toTeachCategory, toTeach} = body;
         const filters = [];
         const groupBy = [];
+
         if(toTeachCategory) {
             filters.push(`AND c.category = '${toTeachCategory}'`);
             groupBy.push(`, c.category`);
         };
+
         if(toTeach) {
             filters.push(`AND s.name = '${toTeach}'`);
             groupBy.push(`, s.name`);
         };
+
+        // if(preferredGender) {
+        //     filters.push(`AND u.gender = '${preferredGender}'`);
+        //     groupBy.push(`, u.gender`);
+        // };
+
         const results = await client.query(
             `
             SELECT u.username, c.category, ARRAY_AGG(s.name) skills, us.is_teaching FROM users u
@@ -314,10 +326,13 @@ app.post('/fetch-filtered-teach-profiles', async(req, res) => {
             ORDER BY u.username
             `
         );
+
+        //send a response message indicating no profiles want to learn the filtered skill / category
         if(results.rows.length === 0) {
-            res.status(200).json({ message: 'No profiles want to learn ' + toLearn ? toLearn : toLearnCategory });
+            res.status(200).json({ message: 'No profiles want to learn ' + toLearn ? toLearn : toTeachCategory });
             return;
         };
+
         res.status(200).json({
             profiles: results.rows
         });
@@ -410,6 +425,18 @@ app.post('/fetch-quick-filtered-profiles', async(req, res) => {
         });
     } catch(err) {
         console.error(err.stack);
+    };
+});
+
+app.get('/custom-filters', async(req, res) => {
+    const {
+        genderPreferrence
+    } = req.query;
+
+    try{
+        console.log(genderPreferrence);
+    } catch(err) {
+        console.error(err);
     };
 });
 

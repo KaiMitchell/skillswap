@@ -65,8 +65,9 @@ function App() {
       fetchRequests();
       fetchMatches();
     };
+
     fetchProfiles();
-    console.log(teachProfiles);
+
     setMainFilter(prev => {
       const newObj = {};
       for(const key in prev) {
@@ -89,6 +90,7 @@ function App() {
 
   //filter profile result using filters
   useEffect(() => {
+    console.log(mainFilter);
     if(whichFilter.headerFilter) {
       setMainFilter(prev => {
         const newValue = {...prev};
@@ -184,8 +186,9 @@ function App() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(headerFilter)
       });
+
       const data = await response.json();
-      console.log(data);
+
       setTeachProfiles(data.teachProfiles);
       setLearnProfiles(data.learnProfiles);
     } catch(err) {
@@ -197,13 +200,17 @@ function App() {
   async function fetchRequests() {
     let sent = [];
     let recieved = [];
+
     const response = await fetch(`http://localhost:4000/fetch-requests?user=${user}`, {
       headers: { 'authorization': `Bearer ${sessionStorage.getItem('access token')}` }
     });
+
     const data = await response.json();
+
     if(response.status === 401 || response.status === 403) {
       signOut();
     };
+
     if(response.status === 200) {
       //prevent populating requests state with an undefined value
       data.sentRequests.length > 0 ? sent = data.sentRequests : sent = [];
@@ -214,12 +221,15 @@ function App() {
   //fetch accepted matches
   async function fetchMatches(param) {
     const response = await fetch(`http://${backendURL}/matches?user=${user}`);
+
     const data = await response.json();
+
     if(response.status === 200) {
       const usernames = [];
       for(const obj of data.matches) {
         usernames.push(obj.username);
       };
+
       setMatches(usernames);
       //trigger useEffect to update UI
       setParam(param);
@@ -251,8 +261,6 @@ function App() {
   };
 
   async function unMatch(param, selectedUser) {
-    console.log('selected user: ', selectedUser);
-    console.log('rerender param: ', param);
     const response = await fetch(`http://localhost:4000/unmatch`, {
       method: 'POST',
       headers: { 
@@ -264,15 +272,18 @@ function App() {
         user: localStorage.getItem('user')
       })
     });
+
     if(response.status === 404) {
-      //check body values
+      //check response body values
       console.log('selectedUser: ', selectedUser + ', currentUser: ', user);
       return;
     };
+
     if(response.status === 403 || response.status === 401) {
       signOut();
       return;
     };
+
     //trigger rerender to update UI
     setParam(param);
     setIsDisplayedProfile(false);
@@ -280,10 +291,12 @@ function App() {
 
   async function signOut() {
     console.log('signing out');
+
     await fetch(`http://localhost:4000/signout`, {
       method: 'POST',
       headers: { "Content-Type": "application/json" }
     });
+
     localStorage.removeItem('user');
     sessionStorage.removeItem('access token');
     setUser();
