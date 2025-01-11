@@ -115,10 +115,10 @@ function App() {
   useEffect(() => {
 
     //apply filters like 'gender', 'gender preference', or 'meet up preference'
-    if(mainFilter.preferredGender || mainFilter.yourGender || mainFilter.meetUp) {
-      filterLearnProfiles();
-      filterTeachProfiles();
-    };
+    // if(mainFilter.preferredGender || mainFilter.yourGender || mainFilter.meetUp) {
+    //   filterLearnProfiles();
+    //   filterTeachProfiles();
+    // };
 
     //apply filters to return profiles that teach skills that pass a filter
     if(mainFilter.toTeachCategory || mainFilter.toTeach) {
@@ -192,17 +192,13 @@ function App() {
 
  //fetch profiles that want to teach the skills filtered by the main drop down options
   async function filterTeachProfiles() {
+
     const queryValues = {};
 
-    //only apply properties from main filter to the query
-    //value object if the value is not null
     for(const prop in mainFilter) {
 
-        //if the current prop is not null then populate the query values object
         if (mainFilter[prop]) {
 
-          //database enum column for certain values is set to lowercase, do this 
-          //instead of changing dta base enum values
           if(prop === 'yourGender' || prop === 'preferredGender' || prop === 'meetUp') {
             queryValues[prop] = mainFilter[prop].toLowerCase();
           } else {
@@ -211,7 +207,6 @@ function App() {
         }; 
     };
 
-    //generate query parameters
     const searchParams = new URLSearchParams(queryValues);
 
     try{
@@ -226,7 +221,7 @@ function App() {
       
       console.log('teach data: ', data.profiles);
 
-      setTeachProfiles(data.profiles);
+      setTeachProfiles(data.profiles);  
     }catch(err) {
       console.error(err);
     };
@@ -289,27 +284,6 @@ function App() {
       //trigger useEffect to update UI
       setParam(param);
     };
-  };
-
-  //fetch by miscellaneous filters
-  async function applyMiscellaneousFilters() {
-
-    const queryValues = {};
-
-    //only apply properties from main filter to the query
-    //value object if the value is not null
-    for(const prop in mainFilter) {
-      if(prop === 'yourGender' || prop === 'preferredGender' || prop === 'meetUp') {
-        if (mainFilter[prop]) queryValues[prop] = mainFilter[prop].toLowerCase();
-      };
-    };
-
-    //generate search parameters
-    const searchParams = new URLSearchParams(queryValues);
-
-    const response = await fetch(`http://${backendURL}/miscellaneous-filter?${searchParams}`);
-    const data = await response.json();
-    console.log(data);
   };
 
   async function displayProfile(selectedUser, type) {

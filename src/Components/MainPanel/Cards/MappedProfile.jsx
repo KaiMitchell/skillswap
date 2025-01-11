@@ -6,7 +6,8 @@ function MappedProfiles({
     requests,
     fetchRequests,
     mappedProfiles,
-    reMount
+    reMount,
+    isToLearn
 }) {
     mappedProfiles = profiles?.map((obj) => {
         //render skills based on whether user is filtering from nav or main options
@@ -20,15 +21,31 @@ function MappedProfiles({
         };
 
         if(whichfilter.headerFilter) {
+
             skills = obj.name; //skill name
+
         } else if(whichfilter.mainFilter) {
+
             if(obj.skills){
+
                 skills = obj.skills;
-            } else {
+
+            } else if(isToLearn) {
+
                 skills = obj.to_learn;
+                console.log('obj.toLearn');
+
+            } else if(!isToLearn) {
+
+                skills = obj.to_teach;
+                console.log('to teach');
+
             };
+            
         } else {
+
             skills = obj.to_teach || obj.to_learn;
+
         };
         
         return(

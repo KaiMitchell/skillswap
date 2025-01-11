@@ -308,16 +308,6 @@ app.get('/main-filter-teach-profiles', async(req, res) => {
             filters.push(`AND s.name = '${toTeach}'`);
             groupBy.push(`, s.name`);
         };
-        
-        if(yourGender) {
-            filters.push(`AND u.genderpreference = '${yourGender}'`);
-            // groupBy.push(`, u.genderpreference`);
-        };
-
-        if(preferredGender) {
-            filters.push(`AND u.gender = '${preferredGender}'`);
-            // groupBy.push(`, u.gender`);
-        };
 
         const results = await client.query(
             `
@@ -363,9 +353,6 @@ app.get('/main-filter-learn-profiles', async(req, res) => {
 
     try {
 
-        let isJsonAggQuery = false;
-        let jsonAggQuery = '';
-
         const filters = [];
         const groupBy = [];
 
@@ -378,34 +365,6 @@ app.get('/main-filter-learn-profiles', async(req, res) => {
         if(toLearn) {
             filters.push(`AND s.name = '${toLearn}'`);
             groupBy.push(`, s.name`);
-        };
-
-        // if(yourGender) {
-        //     filters.push(`AND u.genderpreference = '${yourGender}'`);
-        //     // groupBy.push(`, u.genderpreference`);
-        // };
-
-        // if(preferredGender) {
-        //     filters.push(`AND u.gender = '${preferredGender}'`);
-        //     // groupBy.push(`, u.gender`);
-        // };
-
-        if(toLearn || yourGender || preferredGender) {
-
-            isJsonAggQuery = true;
-
-            jsonAggQuery = `
-                SELECT 
-                    u.username,
-                    json_agg(
-                        json_build_object(
-                            'category', subquery.category,
-                            'skills', subquery.skills
-                        )
-                    ) AS categories
-                FROM users u
-                JOIN (
-            `;
         };
 
         const results = await client.query(
