@@ -1,9 +1,18 @@
-function Button({ text }) {
+function Button({ 
+    text, 
+    handleOnMouseLeave,
+    handleOnMouseOver,
+    handleOnClick,
+    isHover,
+    styles
+}) {
+
+
     return(
         <button 
-            onMouseOver={() => setIsHovered(true)}
-            onMouseLeave={() => setIsHovered(false)}
-            onClick={() => alert('clicked')}
+            {...(isHover && { onMouseOver: () => handleOnMouseOver(), onMouseLeave: () => handleOnMouseLeave() })}
+            onClick={handleOnClick}
+            className={styles}
         >
             {text}
         </button>
