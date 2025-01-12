@@ -21,7 +21,6 @@ function MainFilterDropDown({
         //Drop down for the category options
         mappedOptions = <CategoryFilterDropDown
                             options={options} 
-                            mappedOptions={mappedOptions} 
                             handleFilterValueClick={handleFilterValueClick} 
                             filterValueKey={filterValueKey}
                         />
@@ -30,7 +29,6 @@ function MainFilterDropDown({
         // Drop down for the skills options
         mappedOptions = <SkillFilterDropDown 
                             options={options} 
-                            mappedOptions={mappedOptions} 
                             handleFilterValueClick={handleFilterValueClick} 
                             dropDownTitle={dropDownTitle} 
                         />
@@ -39,7 +37,6 @@ function MainFilterDropDown({
         // Drop downs for extra options like 'gender, etc'
         mappedOptions = <ExtraFilterDropDowns 
                             options={options} 
-                            mappedOptions={mappedOptions} 
                             handleFilterValueClick={handleFilterValueClick} 
                             filterValueKey={filterValueKey}
                         />

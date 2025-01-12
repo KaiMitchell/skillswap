@@ -68,8 +68,10 @@ function MainFilterDropDownComponent({
                 headerFilter={headerFilter} 
                 setWhichFilter={setWhichFilter} 
                 filterValueKey={filterValueKey} 
-                isShown={isShown} setIsShown={setIsShown} 
-                setFilter={setFilter} options={options} 
+                isShown={isShown} 
+                setIsShown={setIsShown} 
+                setFilter={setFilter} 
+                options={options} 
                 isSkillsDropDown={isSkillsDropDown} 
                 dropDownTitle={dropDownTitle} 
             />

@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import DropDownAnchor from "./DropDownAnchor";
 import MainSkillsDropDownContainer from './Skills/AnchorContainer';
+import MapData from '../../../features/methods/MapData';
 
 function Container({ headerFilter, whichFilter, setWhichFilter, skills, filter, setFilter }) {
     const [isToLearnSkillsDropDown, setIsToLearnSkillsDropDown] = useState(false);
@@ -38,22 +39,23 @@ function Container({ headerFilter, whichFilter, setWhichFilter, skills, filter, 
     return(
         <div className='w-full flex flex-col gap-2.5'>
             <div className='flex gap-2.5'>
-                {filterValueKeys?.map((key, index) => {
-                    return(
+                <MapData
+                    data={filterValueKeys}
+                    render={(key, index) => (
                         <DropDownAnchor 
                             key={key} 
                             skills={skills} 
                             whichFilter={whichFilter} 
                             headerFilter={headerFilter} 
                             setWhichFilter={setWhichFilter} 
-                            filter={filter} setFilter={setFilter} 
+                            filter={filter} 
+                            setFilter={setFilter} 
                             filterValueKey={key} 
                             dropDownTitle={dropDownTitles[index]} 
                         />
-                    );
-                })}
+                    )}
+                />
             </div>
-
             <MainSkillsDropDownContainer 
                 filter={filter} 
                 setWhichFilter={setWhichFilter}

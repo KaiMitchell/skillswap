@@ -15,11 +15,10 @@ function PopOutOption({
             {/* text renderring for sent & recieved requests */}
             {/* {removeMatchRequests && <p>{!acceptMatchRequest && 'pending'}</p>} */}
             {displayProfile && 
-                <p 
-                    onClick={() => displayProfile(item, type)}
-                >
-                    {item}
-                </p>
+                <Button 
+                    handleOnClick={() => displayProfile(item, type)}
+                    text={item}
+                />
             }
             <div className="flex items-center gap-2">
                 {removeMatchRequests &&

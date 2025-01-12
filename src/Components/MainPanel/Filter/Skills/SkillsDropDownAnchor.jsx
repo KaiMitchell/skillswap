@@ -15,7 +15,8 @@ function SkillsDropDownAnchor({
             <h2 className='text-center'>{type}</h2>
             <DropDownAnchor 
                 setWhichFilter={setWhichFilter} 
-                filter={filter} skills={skills} 
+                filter={filter} 
+                skills={skills} 
                 filterValueKey={filterValueKey} 
                 setFilter={setFilter}
                 dropDownTitle={dropDownTitle} 

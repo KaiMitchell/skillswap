@@ -1,62 +1,81 @@
-import Option from "./Option";
+import Button from "../../../commonComponents/Button";
+import MapData from "../../../features/methods/MapData";
 
+//main filter options for skillls
 function SkillFilterDropDown({ 
     options, 
     handleFilterValueClick, 
-    mappedOptions, 
     dropDownTitle 
 }) {
-    options?.map((obj) => {
-        if(obj.category === dropDownTitle) {
-            mappedOptions = obj.skills?.map((skill, index) => {
-                return(
-                    <Option 
-                        key={index} 
-                        option={skill} 
-                        handleFilterValueClick={handleFilterValueClick} 
-                    />
-                );
-            });
-        };
-    });
-    return mappedOptions;
+    return(
+        <div>
+            <MapData
+                data={options}
+                render={(obj, index) => {
+                    if(obj.category === dropDownTitle) {
+                        return(
+                            <div key={index}>
+                                <MapData 
+                                    data={obj.skills}
+                                    render={(skill, index) => (         
+                                        <Button 
+                                            key={index}
+                                            handleOnClick={() => handleFilterValueClick(skill)}
+                                            styles={`w-full p-2.5 text-sm hover:bg-zinc-100 hover:font-bold`}
+                                            text={skill}
+                                        />
+                                    )}
+                                />
+                            </div>
+                        );
+                    };
+                }}
+            />
+        </div>
+    );
 };
 
+//main filter options for categories
 function CategoryFilterDropDown({ 
     options, 
     handleFilterValueClick, 
-    filterValueKey, 
-    mappedOptions 
 }) {
-    mappedOptions = options?.map((obj, index) => {
-        return(
-            <Option 
-                key={index} 
-                option={obj.category} 
-                handleFilterValueClick={handleFilterValueClick} 
-                isSelectCategory={true} 
-                filterValueKey={filterValueKey} 
-            />
-        );
-    });
-    return mappedOptions;
+    return(
+        <MapData 
+            data={options}
+            render={(obj, index) => (                  
+                <Button 
+                    key={index}
+                    handleOnClick={() => handleFilterValueClick(obj.category, true)}
+                    styles={`w-full p-2.5 text-sm hover:bg-zinc-100 hover:font-bold`}
+                    text={obj.category}
+                />
+            )}
+        />
+    );
 };
 
+//main filter opitons for miscellaneous
 function ExtraFilterDropDowns({ 
     options, 
     handleFilterValueClick, 
-    mappedOptions 
 }) {
-    mappedOptions = options?.map((option) => {
-        return <p 
-                    key={option} 
-                    onClick={() => handleFilterValueClick(option)} 
-                    className='p-2.5 text-sm hover:bg-zinc-100 hover:font-bold hover:cursor-pointer'
-                >
-                    {option}
-                </p>
-    });
-    return mappedOptions;
+    return(
+        <div>
+            <MapData 
+                data={options}
+                render={(option, index) => (
+                    <Button 
+                        key={option}
+                        handleOnClick={() => handleFilterValueClick(option)}
+                        styles={`w-full p-2.5 text-sm hover:bg-zinc-100 hover:font-bold`}
+                        text={option}
+                    />
+                )}
+            />
+        </div>
+    );
+    
 };
 
 export {
