@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import SelectSkills from "./SelectSkills";
-import SectionContainer from './SectionContainer';
 
 function SkillsManagementComponent() {
 
@@ -85,40 +84,36 @@ function SkillsManagementComponent() {
 
     return(
         <div className='flex flex-col gap-10 h-fit w-full'>
-            <SectionContainer 
-                header='Current skills' 
-                section1={
+            <div>
+                <h2 className='text-left text-3xl font-bold'>Current skills</h2>
+                <div className='w-full min-h-44 flex flex-col lg:flex-row gap-2.5'>
                     <SelectSkills
                         text='Skills you can teach' 
                         skills={skillsToTeach}
                         handleSkill={removeSkill}                        
                     />
-                } 
-                section2={
                     <SelectSkills
                         text='Skills you want to learn' 
                         skills={skillsToLearn}
                         handleSkill={removeSkill}                        
                     />
-                }
-            />
-            <SectionContainer 
-                header='Pick new skills' 
-                section1={
+                </div>
+            </div>
+            <div>
+                <h2 className='text-left text-3xl font-bold'>Pick new skills</h2>
+                <div className='w-full min-h-44 flex flex-col lg:flex-row gap-2.5'>
                     <SelectSkills 
                         text='Pick skills to teach'
                         skills={updateSkillsToLearn}
                         handleSkill={addSkill} 
                     />
-                } 
-                section2={
                     <SelectSkills 
                         text='Pick skills to learn'
                         skills={updateSkillsToTeach}
                         handleSkill={addSkill} 
                     />
-                }
-            />
+                </div>
+            </div>
         </div>
     );
 };
