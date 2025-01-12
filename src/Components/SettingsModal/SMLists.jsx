@@ -2,6 +2,8 @@ import SMList from "./SMList";
 import MapData from "../../features/methods/MapData";
 
 function SkillsList({ skills, handleSkill, text }) {
+    
+    //return a list of skills that are assigned to their respective categories
     return(
         <div className='h-40 bg-black w-full text-white rounded overflow-y-auto no-scrollbar'>
             <MapData 

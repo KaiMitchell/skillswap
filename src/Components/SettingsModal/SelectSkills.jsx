@@ -1,5 +1,4 @@
 import SkillsList from './SMLists';
-import SkillListContainer from './SkillListContainer';
 
 function SelectSkills({ 
     text, 
@@ -7,14 +6,14 @@ function SelectSkills({
     handleSkill,
  }) {
     return(
-        <SkillListContainer 
-            text={text} 
-            list={<SkillsList 
-                    skills={skills}
-                    handleSkill={handleSkill}
-                    text={text}
-            />} 
-    />
+        <div className='min-h-1/2 w-full'>
+            <h3 className='text-xl font-bold text-right'>{text}</h3>
+            <SkillsList
+                skills={skills}
+                handleSkill={handleSkill}
+                text={text}
+            />
+        </div>
     );
 };
 

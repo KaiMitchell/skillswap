@@ -30,6 +30,7 @@ function SkillsManagementComponent() {
     
     };
 
+    //renderring of a list of skills not assigned to the current user
     async function fetchUnselectedSkills() {
 
         const response = await fetch(`http://localhost:4000/fetch-unselected-skills?username=${localStorage.getItem('user')}`);
@@ -69,7 +70,9 @@ function SkillsManagementComponent() {
                 toLearn: toLearn
             })
         });
+
         const data = await response.json();
+        
         if(response.status === 200) {
 
             setSelectedSkill(() => `${skill}${data.rowCount}`);
