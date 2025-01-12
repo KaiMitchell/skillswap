@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import Button from '../../commonComponents/Button.jsx';
  
 function CardFooter({ 
     fetchRequests, 
@@ -12,7 +13,7 @@ function CardFooter({
     const buttonHoverBg = {
         matchRequest: 'bg-gradient-to-r from-blue-400 via-blue-500 to-blue-600'
     };
-    let skill;
+    let skill;  
 
     if(Array.isArray(skills) && skills.length > 0) {
         skill = skills[0];
@@ -36,12 +37,13 @@ function CardFooter({
             <h3 className="px-2.5 font-bold text-xl rounded-bl-lg">
                 {skill}
             </h3>
-            {localStorage.getItem('user') && <button 
-                className={`w-1/5 p-1 hover:${buttonHoverBg.matchRequest} hover:text-white rounded-br-lg hover:bg-stone-950 hover:text-stone-500`}
-                onClick={() => handleClick()}
-            >
-                Match
-            </button>}
+            {localStorage.getItem('user') && 
+                <Button 
+                    text='Match'
+                    handleOnClick={handleClick}
+                    styles={`w-1/5 p-1 hover:${buttonHoverBg.matchRequest} hover:text-white hover:font-bold rounded-br-lg hover:bg-gradient-to-r blue-grad`}
+                />
+            }
         </footer>
     );
 };

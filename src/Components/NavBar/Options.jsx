@@ -1,8 +1,10 @@
 import { useState } from "react";
 import DropDownContainer from "./SkillFilters/DropDownContainer";
 import MobileOptions from "./MobileOptions";
+import Selection from "./Selection";
 import Categories from "./SkillFilters/Categories";
 import SignInSignUp from "./SignInSignUp";
+import MapData from "../../features/methods/MapData";
 
 function Options({ 
     matches, 
@@ -29,10 +31,21 @@ function Options({
             />
             <div className={`${isNavDropDown ? 'block' : 'hidden'} absolute sm:contents w-full sm:right-2.5 top-full flex flex-col gap-5 sm:flex-row sm:justify-between items-center bg-black sm:bg-transparent text-white sm:text-black p-0`}>
                 {/* Render all categories in nav bar with skill options as a drop down */}
-                <Categories 
-                    skills={skills}
-                    setWhichFilter={setWhichFilter}
-                    setFilter={setFilter}
+                <MapData 
+                    data={skills}
+                    render={(obj, index) => (
+                        <Selection 
+                            setWhichFilter={setWhichFilter} 
+                            key={obj.category} 
+                            category={obj.category} 
+                            text={obj.category} 
+                            canHover={true} 
+                            isLink={false} 
+                            setFilter={setFilter} 
+                            showRight={index > 1 ? true : false} 
+                            obj={obj}
+                        />
+                    )}
                 />
                 <SignInSignUp username={username} />
                 {username && <DropDownContainer 

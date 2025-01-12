@@ -1,4 +1,3 @@
-import { Skills } from "./CardData";
 import MapData from '../../features/methods/MapData.jsx';
 
 function CardSkills({ 

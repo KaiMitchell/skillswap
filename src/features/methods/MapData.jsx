@@ -9,10 +9,20 @@ function MapData({
     return(
         data?.map((el, index) => {
             if(render) {
+                //use when nested map methods are required
                 return render(el, index);
             } else if(Component) {
-                return <Component key={el} {...componentProps} />;
-            } else {
+                //return a component as the maps element
+                return(
+                    <Component 
+                        key={el} 
+                        index={index}
+                        { ...el }
+                        { ...componentProps } 
+                    />
+                )
+            } else {    
+                //standard method returning a list element
                 return <li key={el} className={styles}>{el}</li>;
             };
         })

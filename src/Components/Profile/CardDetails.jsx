@@ -34,8 +34,10 @@ function CardDetails({ username, description }) {
         
     };
 
+    //toggle between displaying a users details or associated skills
     return(
         <div className='relative h-full w-full flex flex-col justify-between'>
+            {/* display user details on card */}
             <div className={`${isRenderAllSkills ? 'hidden' : 'block'} flex flex-col gap-2.5 mt-10 h-full w-full px-5`}>
                 <div className='flex gap-2.5 items-center'>
                     <h3>Preferrence:</h3>
@@ -47,6 +49,7 @@ function CardDetails({ username, description }) {
                     </div>
                 </div>
             </div>
+            {/* display users associated skills on card */}
             <div className='h-full w-full flex flex-col justify-between'>
                 <CardSkills 
                     profileData={toLearnProfileData} 

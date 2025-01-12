@@ -7,7 +7,8 @@ export default {
   theme: {
     extend: {
       colors: {
-        'custom-green': '#2bfd92'
+        'custom-green': '#2bfd92',
+        'blue-grad': 'from-blue-400 via-blue-500 to-blue-600'
       },
     },
   },

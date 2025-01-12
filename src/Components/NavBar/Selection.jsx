@@ -1,14 +1,15 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import SkillsDropDown from './SkillFilters/SkillsDropDown';
+import Button from '../../commonComponents/Button';
+import MapData from '../../features/methods/MapData';
+import Option from './SkillFilters/Option';
 
 function Selection({ 
     setWhichFilter, 
     obj, 
     text, 
     path, 
-    setUser, 
-    clickAction, 
     isLink, 
     canHover, 
     category, 
@@ -16,16 +17,17 @@ function Selection({
     setFilter 
 }) {
     const [isShown, setIsShown] = useState(false);
-    function handleClick() {
-        switch(clickAction) {
-            case 'sign out':
-                setUser({ username: '' });
-                localStorage.removeItem("user data");
-                break;
-            case 'tips':
-                console.log('tips button clicked');
-                break;
-        };
+
+    //fetch all users associated with the selected skill.
+    async function handleSkillOnClick(skill) {
+        //assign filter values to filter state object
+        setFilter({
+            category: category,
+            skill: skill
+        });
+        //determine whether filter option was selected from header or main section
+        setWhichFilter({ mainFilter: false, headerFilter: true });
+        setIsShown(false);
     };
 
     function handleHover(state) {
@@ -43,27 +45,36 @@ function Selection({
         isLink ?
                 //Home page button / icon
                 <Link className='sm:mb-0 px-2.5 text-white flex justify-between items-center hover:bg-stone-700' to={path}>
-                    <button className={`text-nowrap text-xs`}>
-                        {text}
-                    </button>
+                    <Button styles='text-nowrap text-xs' text={text} />
                 </Link>
             :
-                //Category item in header 
-                <div className='relative w-full flex items-center justify-center my-0 hover:bg-stone-700' {...(canHover && { onMouseOver: () => handleHover('in'), onMouseLeave: () => handleHover('out') })}>
-                    <button onClick={() => handleClick()} className='sm:mb-0 w-full sm:px-10 text-xl sm:text-xs text-white'>
-                        {text}
-                    </button>
-                    {/* Skills set for hovered over category */}
+                //Category item in navbar options
+                <div 
+                    className='relative w-full flex items-center justify-center my-0 hover:bg-stone-700' 
+                    {...(canHover && { 
+                            onMouseOver: () => handleHover('in'), 
+                            onMouseLeave: () => handleHover('out') 
+                        })
+                    }
+                >
+                    <p className='sm:mb-0 w-full sm:px-10 text-xl sm:text-xs text-white'>{text}</p>
+                    {/* Skills set for hovered over category in navbar */}
                     {canHover && 
-                        <SkillsDropDown 
-                            setWhichFilter={setWhichFilter} 
-                            obj={obj} 
-                            isShown={isShown} 
-                            setIsShown={setIsShown} 
-                            category={category} 
-                            showRight={showRight} 
-                            setFilter={setFilter} 
-                        />
+                        <ul 
+                            id='dropDown' 
+                            className={`${isShown ? 'block' : 'hidden'} absolute top-full ${showRight ? 'sm:right-0' : 'sm:left-0'} w-full w-max h-72 py-5 grid grid-cols-2 sm:gap-x-5 bg-stone-950 sm:px-50 shadow-xl overflow-y-auto no-scrollbar`}
+                        >
+                            <MapData 
+                                data={obj?.skills}
+                                render={(skill, index) => (
+                                    <Option 
+                                        key={skill}
+                                        skill={skill}
+                                        handleClick={handleSkillOnClick}
+                                    />
+                                )}
+                            />
+                        </ul>
                     }
                 </div>
     )
