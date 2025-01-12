@@ -1,4 +1,4 @@
-import RequestHander from "./Components/RequestHandler";
+import Button from "../../../commonComponents/Button";
 
 function PopOutOption({
     displayProfile,
@@ -23,17 +23,17 @@ function PopOutOption({
             }
             <div className="flex items-center gap-2">
                 {removeMatchRequests &&
-                    <RequestHander 
-                        handler={removeMatchRequests} 
-                        item={item}
-                        icon='❌'
+                    <Button 
+                        handleOnClick={() => removeMatchRequests(item)} 
+                        styles={`text-xl text-red-400 hover:font-bold cursor-pointer`}
+                        text='❌'
                     />
                 }
                 {acceptMatchRequest && 
-                    <RequestHander
-                        handler={acceptMatchRequest}
-                        item={item}
-                        icon='✅'
+                    <Button
+                        handleOnClick={() => acceptMatchRequest(item)}
+                        styles={`text-xl text-red-400 hover:font-bold cursor-pointer`}
+                        text='✅'
                     />
                 }
             </div>
