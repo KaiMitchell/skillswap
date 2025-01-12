@@ -3,14 +3,14 @@ function Button({
     handleOnMouseLeave,
     handleOnMouseOver,
     handleOnClick,
-    isHover,
+    isHandleHover,
     styles
 }) {
 
 
     return(
         <button 
-            {...(isHover && { onMouseOver: () => handleOnMouseOver(), onMouseLeave: () => handleOnMouseLeave() })}
+            {...(isHandleHover && { onMouseOver: () => handleOnMouseOver(), onMouseLeave: () => handleOnMouseLeave() })}
             onClick={handleOnClick}
             className={styles}
         >
