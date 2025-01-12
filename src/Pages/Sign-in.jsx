@@ -1,7 +1,7 @@
 import { useEffect, useState, useContext } from 'react';
 import { TokenContext } from '../App.jsx';
 import { Link, Navigate } from 'react-router-dom';
-import Input from '.././Components/Input';
+import Input from '../commonComponents/form/Input.jsx';
 
 const backendURL = 'localhost:4000';
 
@@ -54,8 +54,22 @@ function SignIn({
         <div className='h-screen flex items-center'>
             <form className='flex flex-col gap-5 w-fit mx-auto px-5 py-10 border'>
                 <h1 className='text-xl font-bold'>Sign in</h1>
-                <Input label="Enter your username" type="text" userDetails={userDetails.username} parameterType="username" handleInput={handleChangeInput} />
-                <Input label="Enter your password" type="password" userDetails={userDetails.password} parameterType="password" handleInput={handleChangeInput} />
+                <Input 
+                    label='Enter your username'
+                    type='text'
+                    value={userDetails.username}
+                    onChangeHandler={handleChangeInput}
+                    isSigninOrRegister={true}
+                    name='username'
+                />
+                <Input 
+                    label='Enter your password'
+                    name='password'
+                    type='password'
+                    value={userDetails.password}
+                    onChangeHandler={handleChangeInput}
+                    isSigninOrRegister={true}
+                />
                 <p>Don't have an account? <Link to="/register" className='text-blue-400'>click here</Link></p>
                 <Link>Forgot password?</Link>
                 {/* Why do I need to neg the mt? */}

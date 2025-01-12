@@ -8,6 +8,7 @@ function Input({
     value,
     onChangeHandler,
     isTxtArea,
+    isSigninOrRegister,
     fileRef
 }) {
     return(
@@ -23,7 +24,8 @@ function Input({
                 />
             :
                 <input 
-                    {...(onChangeHandler && { onChange: (e) => onChangeHandler(e.target.value) })}
+                    {...(onChangeHandler && !isSigninOrRegister && { onChange: (e) => onChangeHandler(e.target.value) })}
+                    {...(isSigninOrRegister && { onChange: (e) => onChangeHandler(e, name)})}
                     value={value}
                     ref={fileRef || undefined}
                     type={type}
