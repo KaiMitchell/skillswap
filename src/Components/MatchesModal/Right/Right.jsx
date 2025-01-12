@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import Button from '../../../commonComponents/Button';
+import MapData from '../../../features/methods/MapData';
 
 function Right({ 
     isHovered,
@@ -80,7 +81,7 @@ function Right({
     async function acceptMatchRequest() {
 
         const username = localStorage.getItem('user');
-        
+
         const response = await fetch(`http://localhost:3000/accept-match-request`, {
             method: 'POST',
             headers: { 
@@ -147,31 +148,19 @@ function Right({
             <div className='flex flex-col gap-2.5'>      
                 <div className='flex items-center gap-2.5 text-nowrap'>
                     <ul className='flex w-full bg-zinc-300 text-nowrap snap-mandatory snap-x overflow-x-auto no-scrollbar'>
-                        {displayedProfile?.skills_to_teach.map(skill => {
-                            return(
-                                <li 
-                                    key={skill} 
-                                    className='p-2.5 min-w-full text-center snap-center'
-                                >
-                                    {skill}
-                                </li>
-                            );
-                    })}
+                        <MapData 
+                            data={displayedProfile?.skills_to_teach} 
+                            styles={`p-2.5 min-w-full text-center snap-center`}
+                        />
                     </ul>
                     <p>Skills to offer</p>
                 </div>
                 <div className='flex items-center gap-2.5 text-nowrap'>
                     <ul className='flex w-full bg-zinc-300 text-nowrap snap-mandatory snap-x overflow-x-auto no-scrollbar'>
-                        {displayedProfile?.skills_to_learn.map(skill => {
-                            return(
-                                <li 
-                                    key={skill} 
-                                    className='p-2.5 min-w-full text-center snap-center'
-                                >
-                                    {skill}
-                                </li>
-                            );
-                        })}
+                        <MapData 
+                            data={displayedProfile?.skills_to_learn} 
+                            styles={`p-2.5 min-w-full text-center snap-center`}
+                        />
                     </ul>
                     <p>Skills desired</p>
                 </div>
