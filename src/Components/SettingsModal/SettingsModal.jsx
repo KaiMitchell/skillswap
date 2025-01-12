@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import SkillsManagementComponent from './SkillsManagementComponent.jsx';
 import Button from '../../commonComponents/Button.jsx';
+import Input from '../../commonComponents/form/Input.jsx';
 
 function SettingsModal({ isSettings, setIsSettings }) {    
     //although username and profile pic are locally stored. 
@@ -85,41 +86,32 @@ function SettingsModal({ isSettings, setIsSettings }) {
 
         setConflictMessage('');
         setNewUserVal(currentVal);
-        
+
     };
 
     return(
         <div ref={node} className={`${isSettings ? 'block' : 'hidden'} fixed size-10/12 m-auto z-20 top-0 bottom-0 left-0 right-0 px-10 py-5 rounded bg-stone-100 shadow-xl shadow-black overflow-y-scroll no-scrollbar`}>
             <div className='w-full min-h-1/4 flex flex-col lg:flex-row gap-5 justify-between mb-5 text-center lg:text-left'>   
                 <form className='flex flex-col gap-5 w-full lg:w-1/2'>
-                    <div>
-                        <label className='font-bold'>Update profile picture</label>
-                        <input 
-                            ref={fileRef}
-                            type="file" 
-                            name='fileInput' 
-                            className='p-1 border border-black rounded'
-                        />
-                    </div>
-                    <div>
-                        <label className='font-bold'>Change your username</label> <br />
-                        <input 
-                            value={newUserVal}
-                            onChange={(e) => handlenewUserOnChange(e.target.value)}
-                            type="text" 
-                            className='p-1 border border-black rounded'
-                        />
-                    </div>
-                    {conflictMessage && <p className='text-xs text-red-500'>{conflictMessage}</p>}                   
-                    <div>
-                        <label className='font-bold'>Update Description</label>
-                        <textarea 
-                            value={newDescription} 
-                            onChange={(e) => setNewDescription(e.target.value)} 
-                            rows='5' 
-                            className='w-full'
-                        />
-                    </div>
+                    <Input 
+                        label='Update profile picture'
+                        fileRef={fileRef}
+                        name='fileInput'
+                        type='file'
+                    />
+                    <Input 
+                        label='Change your username'
+                        onChangeHandler={handlenewUserOnChange}
+                        value={newUserVal}
+                        type='text'
+                    />
+                    {conflictMessage && <p className='text-xs text-red-500'>{conflictMessage}</p>}   
+                    <Input 
+                        label='Update Description'
+                        onChangeHandler={setNewDescription}
+                        value={newDescription}
+                        isTxtArea={true}
+                    />  
                     <Button 
                         handleOnClick={handleSubmit}
                         text={'Submit'}
