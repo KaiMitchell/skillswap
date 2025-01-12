@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import SkillsDropDown from './SkillFilters/SkillsDropDown';
 import Button from '../../commonComponents/Button';
 import MapData from '../../features/methods/MapData';
 import Option from './SkillFilters/Option';

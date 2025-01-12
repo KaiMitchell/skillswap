@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import PopOut from "./PopOut.jsx";
+import Button from "../../../commonComponents/Button.jsx";
 
 function Option({ 
     skills, 
@@ -11,7 +12,7 @@ function Option({
     setIsShown,
     displayProfile
 }) { 
-    let clickHandler = {};
+    let clickHandler = () => {};
     
     //fetch data effect for individual pop outs due to re-rendering.
     useEffect(() => {
@@ -29,24 +30,29 @@ function Option({
         setUser();
     };
 
+    //dynamically apply a handler to certain button
     switch(text) {
         case 'Sign out':
-            clickHandler.onClick = () => signOut();
+            clickHandler = signOut;
             break;
         case 'Settings':
-            clickHandler.onClick = () => {
+            clickHandler = () => {
                 setIsSettings(true);
                 setIsShown(() => false);
             };
             break;
     };
+
+    //only apply the pop out feature on elements that are not for signing out or opening settings
     const isNotSignOutOrSettings = text !== 'Sign out' && text !== 'Settings';
 
     return(
             <div className='relative group h-fit'>
-                <button {...clickHandler} className='flex w-full py-5 px-10 items-center justify-center my-0 text-sm text-stone-500 hover:text-stone-400 hover:bg-stone-700 hover:cursor-pointer'>
-                    {text}
-                </button>
+                <Button 
+                    handleOnClick={clickHandler} 
+                    styles={`flex w-full py-5 px-10 items-center justify-center my-0 text-sm text-stone-500 hover:text-stone-400 hover:bg-stone-700 hover:cursor-pointer`}
+                    text={text}
+                />
                 {isNotSignOutOrSettings && 
                     <PopOut 
                         fetchData={fetchData}

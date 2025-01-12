@@ -2,7 +2,6 @@ import { useState } from "react";
 import DropDownContainer from "./SkillFilters/DropDownContainer";
 import MobileOptions from "./MobileOptions";
 import Selection from "./Selection";
-import Categories from "./SkillFilters/Categories";
 import SignInSignUp from "./SignInSignUp";
 import MapData from "../../features/methods/MapData";
 
@@ -48,17 +47,19 @@ function Options({
                     )}
                 />
                 <SignInSignUp username={username} />
-                {username && <DropDownContainer 
-                    setUser={setUser} 
-                    username={username} 
-                    setIsSettings={setIsSettings} 
-                    requests={requests}
-                    fetchRequests={fetchRequests}
-                    fetchMatches={fetchMatches}
-                    matches={matches}
-                    skills={skills}
-                    displayProfile={displayProfile}
-                />}
+                {username && 
+                    <DropDownContainer 
+                        setUser={setUser} 
+                        username={username} 
+                        setIsSettings={setIsSettings} 
+                        requests={requests}
+                        fetchRequests={fetchRequests}
+                        fetchMatches={fetchMatches}
+                        matches={matches}
+                        skills={skills}
+                        displayProfile={displayProfile}
+                    />
+                }
             </div>
         </nav>
     );
