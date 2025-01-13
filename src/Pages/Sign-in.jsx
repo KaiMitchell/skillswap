@@ -24,21 +24,27 @@ function SignIn({
     };
 
     async function signIn(e) {
+
         e.preventDefault();
+        
         const response = await fetch(`http://${backendURL}/signin`, {
             method: "POST",
             headers: {"Content-Type": "application/json"},
             // credentials: 'include',
             body: JSON.stringify(userDetails)
         });
+
         const data = await response.json(); 
+
         if(response.status === 200) {
+
             localStorage.setItem("user", userDetails.username);
             setUser(() => localStorage.getItem('user'));
             console.log(data);
             localStorage.setItem('profile picture', 'http://localhost:3000/' + data.profile_picture);
             sessionStorage.setItem('access token', data.accessToken);
             setAccessToken(() => sessionStorage.getItem('access token'));
+            
         };
     };
 

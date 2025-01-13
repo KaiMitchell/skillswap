@@ -37,9 +37,89 @@ app.use(express.static(path.join(__dirname + './src')));
 app.use(cors());
 app.use(fileUpload());
 
+// Home page
+app.get('/', async(req, res) => {  
+    const { username } = req.query;
+
+    try {
+
+        const learnProfiles = [];
+        const teachProfiles = [];
+        const safeUsername = username || 'safeUsername';
+
+        //tolearn and toteach queries ensure that displayed profiles 
+        // have not requested to match with the user
+        // the user has not sent them a request
+        // the user is not currently matched with them
+        const toLearn = await client.query(
+            `
+            SELECT 
+                u.username, 
+                u.description, 
+                u.profile_picture, 
+                u.gender,
+                ARRAY_AGG(s.name) as 
+            to_learn 
+            FROM users u
+            JOIN users_skills us ON u.id = us.user_id
+            JOIN skills s ON s.id = us.skill_id
+            LEFT JOIN match_requests mr_sent ON u.id = mr_sent.u_id2 AND mr_sent.u_id1 = (SELECT id FROM users WHERE username = $1)
+            LEFT JOIN match_requests mr_recieved ON u.id = mr_recieved.u_id1 AND mr_recieved.u_id2 = (SELECT id FROM users WHERE username = $1)
+            LEFT JOIN matches m 
+                ON (m.user_id = (SELECT id FROM users WHERE username = $1) AND m.match_id = u.id)
+                OR (m.match_id = (SELECT id FROM users WHERE username = $1) AND m.user_id = u.id)
+            WHERE us.is_learning = true 
+            AND mr_sent.u_id2 IS NULL
+            AND mr_recieved.u_id1 IS NULL
+            AND m.match_id IS NULL
+            AND u.username != $1
+            GROUP BY u.id
+            ORDER BY u.id
+            `, [safeUsername]
+        );
+
+        //Use 'and mr.u_id2 IS NULL to return all records that are NULL 
+        const toTeach = await client.query(
+            `
+             SELECT 
+                u.username, 
+                u.description, 
+                u.profile_picture,
+                u.gender,
+                ARRAY_AGG(s.name) to_teach 
+            FROM users u
+             JOIN users_skills us ON u.id = us.user_id
+             JOIN skills s ON s.id = us.skill_id
+             LEFT JOIN match_requests mr_sent ON mr_sent.u_id2 = u.id AND mr_sent.u_id1 = (SELECT id FROM users WHERE username = $1)
+             LEFT JOIN match_requests mr_recieved ON mr_recieved.u_id1 = u.id AND mr_recieved.u_id2 = (SELECT id FROM users WHERE username = $1)
+             LEFT JOIN matches m 
+                ON (m.user_id = (SELECT id FROM users WHERE username = $1) AND m.match_id = u.id)
+                OR (m.match_id = (SELECT id FROM users WHERE username = $1) AND m.user_id = u.id)
+             WHERE us.is_teaching = true 
+             AND u.username != $1   
+             AND mr_sent.u_id2 IS NULL
+             AND mr_recieved.u_id2 IS NULL
+             AND m.match_id IS NULL
+             GROUP BY u.id
+             ORDER BY u.id
+            `, [safeUsername]
+        );
+
+        toTeach.rows.forEach((row) => teachProfiles.push(row));
+        toLearn.rows.forEach((row) => learnProfiles.push(row));
+
+        res.status(200).send({ data: {learnProfiles: learnProfiles, teachProfiles: teachProfiles} });
+
+    } catch(err) {
+        console.error(err);
+    };
+});
+
 //fetch all available skills
 app.get('/fetch-skills', async(req, res) => {
+
     try {
+
         const result = await client.query(
             `
             SELECT c.category, ARRAY_AGG(s.name ORDER BY s.name ASC) skills FROM skills s
@@ -56,12 +136,13 @@ app.get('/fetch-skills', async(req, res) => {
         };
 
         res.status(200).json({ data: result.rows });
+        
         } catch(err) {
             console.error(err);
         };
 });
 
-app.get('/fetch-users-skills', async(req, res) => {
+app.get('/users-skills', async(req, res) => {
     const username = req.query.username;
 
     try{
@@ -163,81 +244,6 @@ app.get('/matches', async(req, res) => {
     };
 });
 
-// initial mount of all unfiltered profiles
-app.post('/', async(req, res) => {  
-    const { username } = req.body;
-
-    try {
-        const learnProfiles = [];
-        const teachProfiles = [];
-        const safeUsername = username || 'safeUsername';
-
-        //tolearn and toteach queries ensure that displayed profiles 
-        // have not requested to match with the user
-        // the user has not sent them a request
-        // the user is not currently matched with them
-        const toLearn = await client.query(
-            `
-            SELECT 
-                u.username, 
-                u.description, 
-                u.profile_picture, 
-                u.gender,
-                ARRAY_AGG(s.name) as 
-            to_learn 
-            FROM users u
-            JOIN users_skills us ON u.id = us.user_id
-            JOIN skills s ON s.id = us.skill_id
-            LEFT JOIN match_requests mr_sent ON u.id = mr_sent.u_id2 AND mr_sent.u_id1 = (SELECT id FROM users WHERE username = $1)
-            LEFT JOIN match_requests mr_recieved ON u.id = mr_recieved.u_id1 AND mr_recieved.u_id2 = (SELECT id FROM users WHERE username = $1)
-            LEFT JOIN matches m 
-                ON (m.user_id = (SELECT id FROM users WHERE username = $1) AND m.match_id = u.id)
-                OR (m.match_id = (SELECT id FROM users WHERE username = $1) AND m.user_id = u.id)
-            WHERE us.is_learning = true 
-            AND mr_sent.u_id2 IS NULL
-            AND mr_recieved.u_id1 IS NULL
-            AND m.match_id IS NULL
-            AND u.username != $1
-            GROUP BY u.id
-            ORDER BY u.id
-            `, [safeUsername]
-        );
-
-        //Use 'and mr.u_id2 IS NULL to return all records that are NULL 
-        const toTeach = await client.query(
-            `
-             SELECT 
-                u.username, 
-                u.description, 
-                u.profile_picture,
-                u.gender,
-                ARRAY_AGG(s.name) to_teach 
-            FROM users u
-             JOIN users_skills us ON u.id = us.user_id
-             JOIN skills s ON s.id = us.skill_id
-             LEFT JOIN match_requests mr_sent ON mr_sent.u_id2 = u.id AND mr_sent.u_id1 = (SELECT id FROM users WHERE username = $1)
-             LEFT JOIN match_requests mr_recieved ON mr_recieved.u_id1 = u.id AND mr_recieved.u_id2 = (SELECT id FROM users WHERE username = $1)
-             LEFT JOIN matches m 
-                ON (m.user_id = (SELECT id FROM users WHERE username = $1) AND m.match_id = u.id)
-                OR (m.match_id = (SELECT id FROM users WHERE username = $1) AND m.user_id = u.id)
-             WHERE us.is_teaching = true 
-             AND u.username != $1   
-             AND mr_sent.u_id2 IS NULL
-             AND mr_recieved.u_id2 IS NULL
-             AND m.match_id IS NULL
-             GROUP BY u.id
-             ORDER BY u.id
-            `, [safeUsername]
-        );
-
-        toTeach.rows.forEach((row) => teachProfiles.push(row));
-        toLearn.rows.forEach((row) => learnProfiles.push(row));
-
-        res.status(200).send({ data: {learnProfiles: learnProfiles, teachProfiles: teachProfiles} });
-    } catch(err) {
-        console.error(err);
-    };
-});
 
 app.post('/pick-skills', async(req, res) => {
     const data = req.body;

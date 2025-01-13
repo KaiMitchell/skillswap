@@ -20,7 +20,7 @@ function SkillsManagementComponent() {
     //all skills a user is teaching or learning
     async function fetchCurrentSkills() {
 
-        const response = await fetch(`http://localhost:3000/fetch-users-skills?username=${localStorage.getItem('user')}`);
+        const response = await fetch(`http://localhost:3000/users-skills?username=${localStorage.getItem('user')}`);
         
         const data = await response.json();
 
@@ -29,10 +29,10 @@ function SkillsManagementComponent() {
     
     };
 
-    //renderring of a list of skills not assigned to the current user
+    //render a list of skills not assigned to the current user
     async function fetchUnselectedSkills() {
 
-        const response = await fetch(`http://localhost:4000/fetch-unselected-skills?username=${localStorage.getItem('user')}`);
+        const response = await fetch(`http://localhost:4000/unselected-skills?username=${localStorage.getItem('user')}`);
         
         const data = await response.json();
 
@@ -41,9 +41,12 @@ function SkillsManagementComponent() {
     
     };
 
+    //delete a skill from skills list
     async function removeSkill(skill) {
 
-        const response = await fetch(`http://localhost:4000/remove-skill?skill=${skill}&username=${localStorage.getItem('user')}`);
+        const response = await fetch(`http://localhost:4000/remove-skill?skill=${skill}&username=${localStorage.getItem('user')}`, {
+            method: 'DELETE'
+        });
         
         const data = await response.json();
 
@@ -55,8 +58,10 @@ function SkillsManagementComponent() {
     
     };
 
+    //add a new skill into skill list
     async function addSkill(skill, toLearn) {
 
+        //using a post method because the query inserts not updates
         const response = await fetch(`http://localhost:4000/add-skill`, {
             method: 'POST',
             headers: {
@@ -80,7 +85,6 @@ function SkillsManagementComponent() {
         };
     
     };
-
 
     return(
         <div className='flex flex-col gap-10 h-fit w-full'>

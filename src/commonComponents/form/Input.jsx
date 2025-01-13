@@ -4,16 +4,19 @@ function Input({
     label,
     type,
     styles,
+    id,
     name,
     value,
     onChangeHandler,
     isTxtArea,
     isSigninOrRegister,
-    fileRef
+    fileRef,
+    error
 }) {
+
     return(
-        <div>
-            {label && <label className='font-bold'>{label}</label>}
+        <div className='relative'>
+            {label && <label htmlFor={id} className='font-bold'>{label}</label>}
             {type !== 'file' && <br />}
             {isTxtArea ? 
                 <textarea 
@@ -26,13 +29,20 @@ function Input({
                 <input 
                     {...(onChangeHandler && !isSigninOrRegister && { onChange: (e) => onChangeHandler(e.target.value) })}
                     {...(isSigninOrRegister && { onChange: (e) => onChangeHandler(e, name)})}
+                    {...(type === 'email' && { 
+                        pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/, 
+                        title: 'barbra@example.com',
+                        placeholder: 'barbra@example.com' 
+                    })}
                     value={value}
+                    id={id}
                     ref={fileRef || undefined}
                     type={type}
                     name={name}
-                    className='p-1 border border-black rounded'
+                    className={`${isSigninOrRegister && 'w-full'} p-1 border border-black rounded`}
                 />
             }
+            {error && <p className='absolute top-full text-xs text-red-500'>{error}</p>}
         </div>
     );
 };

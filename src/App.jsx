@@ -131,14 +131,13 @@ function App() {
     };
   }, [mainFilter]);
 
-  //fetch all unfilterred profiles
+  // fetch all unfilterred profiles
   async function fetchProfiles() {
-    const response = await fetch(`http://${backendURL}`, {
-        method: 'POST',
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ username: user })
-    });
+
+    const response = await fetch(`http://${backendURL}?username=${user}`);
+
     const data = await response.json();
+
     setLearnProfiles(data.data.learnProfiles);
     setTeachProfiles(data.data.teachProfiles);
   };
@@ -204,7 +203,7 @@ function App() {
           } else {
             queryValues[prop] = mainFilter[prop];
           };
-        }; 
+        };  
     };
 
     const searchParams = new URLSearchParams(queryValues);

@@ -37,22 +37,9 @@ client.connect()
     .then(() => console.log('Connected to the database'))
     .catch(err => console.error('Database connection failed:', err));
 
-//BLOCKED
-//store refresh token into the database for comparing
-// async function storeRefreshToken(token, username) {
-//     await client.query(`
-//         INSERT INTO refresh_tokens(token, username) VALUES($1, $2)
-//         `, [token, username]);
-// };
-
 function generateToken(user) {
     return jwt.sign({ user: user }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '1h' });
 };
-
-//BLOCKED
-// function generateRefreshToken(user) {
-//     return jwt.sign({ user: user }, process.env.REFRESH_TOKEN_SECRET, { expiresIn: '1d' });
-// };
 
 function authenticateToken(req, res, next) {
     const authHeader = req.headers['authorization'];
@@ -65,7 +52,7 @@ function authenticateToken(req, res, next) {
 };
 
 //fetch all skills that current user has not already selected
-app.get('/fetch-unselected-skills', async(req, res) => {
+app.get('/unselected-skills', async(req, res) => {
     const { username } = req.query;
 
     try {
@@ -101,10 +88,14 @@ app.get('/fetch-unselected-skills', async(req, res) => {
         };
 });
 
-app.get('/remove-skill', async(req, res) => {
+//delete a skill from skills list
+//whether the skill is to learn or teach does not matter
+//their can only be one instance of a skill assign to a user
+app.delete('/remove-skill', async(req, res) => {
     const { username, skill} = req.query;
 
     try{
+
         let beforeCount;
         let afterCount;
 
@@ -132,20 +123,28 @@ app.get('/remove-skill', async(req, res) => {
             WHERE user_id = (SELECT id FROM users WHERE username = $1)`
         , [username]);
         
-        //query.length or row count
-        beforeCount = countBeforeAdd.rows[0].count
-        afterCount = countAfterAdd.rows[0].count
+        //if before and after count are equal then no skill was deleted and something went wrong
+        beforeCount = countBeforeAdd.rows[0].count;
+        afterCount = countAfterAdd.rows[0].count;
+
+        if(beforeCount === afterCount) {
+            res.status(500).json({ message: 'something went wrong' });
+            return;
+        };
 
         res.status(200).json({ 
             message: 'deletion succesful',
             rowCount: afterCount
         });
+
     } catch(err) {
         console.log('error removing skill: ', err);
     };
 });
 
+//add a new skill to the users skill list
 app.post('/add-skill', async(req, res) => {
+
     const { skill, username, toLearn } = req.body;
 
     try{
@@ -196,74 +195,80 @@ app.post('/add-skill', async(req, res) => {
     };
 });
 
-//BLOCKED
-//end point to renew access token with refresh token
-// app.post('/token', async(req, res) => {
-//     const refreshToken = req.cookies.refreshToken;
-//     console.log(refreshToken);
-//     if(!refreshToken) return res.status(401).json({ message: 'Refresh token is required' });
-//     try {
-//         const results = await client.query(`SELECT * FROM refresh_tokens WHERE token = $1`, [refreshToken]);
-//         if(results.rows.length === 0) return res.status(403).json({ message: 'Invalid refresh token' });
-//         jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, payload) => {
-//             if(err) return res.status(403).json({ message: 'Invalid refresh token' });
-//             const newAccessToken = generateToken(payload.user);
-//             res.status(200).json({ accessToken: newAccessToken });
-//         });
-//     } catch(err) {
-//         console.error('token refresh error: ', err);
-//         res.status(500).json({ error: 'internal server error' });
-//     };
-// });
-
-//assign token on register
+//create a new user
 app.post('/register', async(req, res) => {
+
+    const data = req.body;
+
     try {   
+        
+        //initialize error object to store 409 conflict statuses
+        let newErrors = {};
+
         //Set empty strings to null to let psql know they are null values.
-        const data = req.body;
         for(const prop in data) {
             if(data[prop] === '') {
                 data[prop] = null;
             }
         };
+
         //Updated values. PostgreSQL will not create the user if a value is null
         const { username, email, password, confirmPassword} = data;
-        const existingUser_Email = await client.query(`
+
+        //check db for existing username
+        const existingUser = await client.query(`
+
             SELECT * FROM users
             WHERE username = $1
-            OR
-            email = $2 
-        `, [username, email]);
-        //Guard clause
-        if(password != confirmPassword) {
-            res.status(401).send({ message: 'Passwords do not match' });
-            return;
-        } else if(existingUser_Email.rows.length > 0) {
-            res.status(409).json({ message: 'User name or email already exists' });
-            return;
-        } else if(password === null) { // prevent bcrypt from trying to hash a null value
-            res.status(401).json({ message: 'password is required' });
+
+        `, [username]);
+
+        //check db for existing email
+        const existingEmail = await client.query(`
+
+            SELECT * FROM users
+            WHERE email = $1 
+
+        `, [email]);
+
+        if(existingUser.rows.length > 0) newErrors.username = 'Username already exists';
+        if(existingEmail.rows.length > 0) newErrors.email = 'Email already exists';
+
+        if(Object.keys(newErrors).length > 0) {
+            res.status(409).json({ newErrors });
             return;
         };
+
         const hashedPassword = await bcrypt.hash(password, 12);
+
+        //insert new user into postgreSQL database
         await client.query(`
+
             INSERT INTO users(username, email, password)
             VALUES($1, $2, $3)
+
         `, [username, email, hashedPassword]);
+
+        //generate access token to pass to client side
         const accessToken = generateToken(username);
-        console.log(accessToken);
+
         res.status(201).json({ 
             message: `Welcome to Skill Swap ${username}`,
             accessToken: accessToken
         });
+
     } catch(err) {
         console.error('error: ', err.stack);
     }
 });
 
+//login
 app.post('/signin', async(req, res) => {
+
+    const {username, password} = req.body;
+
     try {
-        const {username, password} = req.body;
+
         //Guard clause
         if(!password && !username) {
             res.status(401).json({ message: 'No data' });
@@ -275,6 +280,7 @@ app.post('/signin', async(req, res) => {
             res.status(401).json({ message: 'Please enter your username' });
             return;
         };
+        
         const results = await client.query(
             `
              SELECT * FROM users u WHERE u.username = $1
@@ -317,6 +323,7 @@ app.post('/signin', async(req, res) => {
     };
 });
 
+//logout
 app.post('/signout', async(req, res) => {
     //BLOCKED
     // const token = req.cookies.refreshToken;
@@ -542,3 +549,40 @@ app.post('/edit-profile', async(req, res) => {
 app.listen(4000, () => {
     console.log('listening on port 4000');
 });
+
+
+//BLOCKED
+// function generateRefreshToken(user) {
+//     return jwt.sign({ user: user }, process.env.REFRESH_TOKEN_SECRET, { expiresIn: '1d' });
+// };
+
+
+//BLOCKED
+//store refresh token into the database for comparing
+// async function storeRefreshToken(token, username) {
+//     await client.query(`
+//         INSERT INTO refresh_tokens(token, username) VALUES($1, $2)
+//         `, [token, username]);
+// };
+
+
+
+//BLOCKED
+//end point to renew access token with refresh token
+// app.post('/token', async(req, res) => {
+//     const refreshToken = req.cookies.refreshToken;
+//     console.log(refreshToken);
+//     if(!refreshToken) return res.status(401).json({ message: 'Refresh token is required' });
+//     try {
+//         const results = await client.query(`SELECT * FROM refresh_tokens WHERE token = $1`, [refreshToken]);
+//         if(results.rows.length === 0) return res.status(403).json({ message: 'Invalid refresh token' });
+//         jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, payload) => {
+//             if(err) return res.status(403).json({ message: 'Invalid refresh token' });
+//             const newAccessToken = generateToken(payload.user);
+//             res.status(200).json({ accessToken: newAccessToken });
+//         });
+//     } catch(err) {
+//         console.error('token refresh error: ', err);
+//         res.status(500).json({ error: 'internal server error' });
+//     };
+// });
