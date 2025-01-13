@@ -1,6 +1,7 @@
 import { useEffect, useState, useContext } from 'react';
 import { TokenContext } from '../App.jsx';
-import { Link, Navigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import handleClientSideValidation from '../jsFunctions/handleClientSideValidation.js';
 import Input from '../commonComponents/form/Input.jsx';
 
 const backendURL = 'localhost:4000';
@@ -10,23 +11,56 @@ function SignIn({
     username,
 }) {
     const { accessToken, setAccessToken } = useContext(TokenContext);
+
+    const [errors, setErrors] = useState({});
     const [userDetails, setUserDetails] = useState({
         username: '',
         password: '',
     });
 
+    const navigate = new useNavigate();
+
     //update state based on each input fields value
     function handleChangeInput(e, type) {
+
+        //only reset invalidation errors for the nput that has changed
+        setErrors(prev => ({ 
+            ...prev,
+            [type]: ''
+        }));
+
         setUserDetails(prev => ({
             ...prev,
             [type]: e.target.value
         }));
+
+        console.log(userDetails);
+
     };
 
     async function signIn(e) {
 
         e.preventDefault();
+
+        //initialize object to store invalid error values
+        let newErrors = {};
+
+        handleClientSideValidation({
+            username: userDetails.username || null,
+            password: userDetails.password || null,
+            isSignIn: true,
+            newErrors
+        });
         
+        //client-side validtion
+        if(Object.keys(newErrors).length) {
+            console.log('new errors: ', newErrors);
+            setErrors(newErrors);
+            return;
+        };
+        
+        console.log('before fetch: ', userDetails);
+
         const response = await fetch(`http://${backendURL}/signin`, {
             method: "POST",
             headers: {"Content-Type": "application/json"},
@@ -36,6 +70,15 @@ function SignIn({
 
         const data = await response.json(); 
 
+        
+
+        if(response.status === 401) {
+
+            setErrors(data.newErrors);
+            console.log(data.newErrors);
+            return;
+        };
+
         if(response.status === 200) {
 
             localStorage.setItem("user", userDetails.username);
@@ -44,8 +87,10 @@ function SignIn({
             localStorage.setItem('profile picture', 'http://localhost:3000/' + data.profile_picture);
             sessionStorage.setItem('access token', data.accessToken);
             setAccessToken(() => sessionStorage.getItem('access token'));
-            
+
         };
+
+        navigate('/');
     };
 
     function clearForm() {
@@ -67,6 +112,7 @@ function SignIn({
                     onChangeHandler={handleChangeInput}
                     isSigninOrRegister={true}
                     name='username'
+                    error={errors.username || null}
                 />
                 <Input 
                     label='Enter your password'
@@ -75,12 +121,12 @@ function SignIn({
                     value={userDetails.password}
                     onChangeHandler={handleChangeInput}
                     isSigninOrRegister={true}
+                    error={errors.password || null}
                 />
                 <p>Don't have an account? <Link to="/register" className='text-blue-400'>click here</Link></p>
                 <Link>Forgot password?</Link>
                 {/* Why do I need to neg the mt? */}
                 <button onClick={(e) => {clearForm(), signIn(e)}} className='px-5 py-2.5 border border-black'>Sign in</button>
-                {username && <Navigate to='/' />}
             </form>
         </div>
     );

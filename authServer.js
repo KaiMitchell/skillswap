@@ -213,7 +213,7 @@ app.post('/register', async(req, res) => {
         };
 
         //Updated values. PostgreSQL will not create the user if a value is null
-        const { username, email, password, confirmPassword} = data;
+        const { username, email} = data;
 
         //check db for existing username
         const existingUser = await client.query(`
@@ -265,36 +265,37 @@ app.post('/register', async(req, res) => {
 //login
 app.post('/signin', async(req, res) => {
 
-    const {username, password} = req.body;
+    const { username, password } = req.body;
 
     try {
 
-        //Guard clause
-        if(!password && !username) {
-            res.status(401).json({ message: 'No data' });
-            return;
-        } else if(!password) {
-            res.status(401).json({ message: 'Please enter your password' });
-            return;
-        } else if(!username) {
-            res.status(401).json({ message: 'Please enter your username' });
-            return;
-        };
-        
-        const results = await client.query(
+        //initialize error object to store incorrect data errors
+        let newErrors = {};
+    
+        //retrieve requested username from the postgreSQL db
+        const existingUser = await client.query(
             `
              SELECT * FROM users u WHERE u.username = $1
             `, [username]
         );
-        const user = results.rows[0];
-        const match = await bcrypt.compare(password, user.password);
-        if(!user) { 
-            res.status(401).json({ message: 'User name does not exist', authorized: false });
-            return;
-        } else if(!match) {
-            res.status(401).json({ message: 'Incorrect password', authorized: false });
+
+        const user = existingUser.rows[0];
+
+        if(!user) {
+            newErrors.username = 'Incorrect username';
+        } else {
+            const match = await bcrypt.compare(password, user.password);
+            if(!match) {
+                newErrors.password = 'Incorrect password';
+            };
+        };
+
+        console.log(newErrors)
+        if(Object.keys(newErrors).length > 0) {
+            res.status(401).json({ newErrors });
             return;
         };  
+
         await client.query(
             `
             SELECT ARRAY_AGG(DISTINCT username) sent_requests FROM users u
@@ -302,6 +303,7 @@ app.post('/signin', async(req, res) => {
             WHERE mr.u_id2 = u.id
             `, [username]
         );
+
         //generate access token and store refresh token in an httpOnly cookie
         const accessToken = generateToken(username);
 

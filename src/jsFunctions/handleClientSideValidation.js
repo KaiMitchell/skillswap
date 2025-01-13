@@ -3,6 +3,7 @@ function handleClientSideValidation({
     password,
     email,
     confirmPassword,
+    isSignIn,
     newErrors
 }) {
 
@@ -20,19 +21,19 @@ function handleClientSideValidation({
     };
 
     //invalid values for email
-    if(!validateEmail(email)) {
+    if(email && !validateEmail(email)) {
         newErrors.email = 'Please enter a valid email address';
     };
 
     //invalid values for password
     if(!password) {
         newErrors.password = 'Password is required';
-    } else if(password.length < 12) {
+    } else if(!isSignIn && password.length < 12) {
         newErrors.password = 'Password must contain atleast 13 characters';
     };
 
     //invalid values for password confirmation
-    if(password && password.length > 11 && password !== confirmPassword) {
+    if(password && confirmPassword && password.length > 11 && password !== confirmPassword) {
         newErrors.confirmPassword = 'Password do not match';
     };    
 
