@@ -5,21 +5,25 @@ import Container from '../Components/InitialSignUp/Container';
 const PORT = 3000;
 
 function InitialPickSkillsPage({ username, setUser, skills }) {
+
     const [selectedSkills, setSelectedSkills] = useState({
         toTeach: [],
         toLearn: []
     });
     
     async function submitSkills() {
+
         try {
+
             const response = await fetch(`http://localhost:${PORT}/pick-skills`, {
                 method: 'POST',
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ ...selectedSkills, username: username })
             });
-            console.log(await response.json());
-            setUser({ username: username });
+            
             localStorage.setItem('user', username);
+            setUser({ username: localStorage.getItem('user') });
+            
         } catch(err) {
             console.error(err);
         };

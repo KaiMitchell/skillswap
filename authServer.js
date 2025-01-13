@@ -213,7 +213,7 @@ app.post('/register', async(req, res) => {
         };
 
         //Updated values. PostgreSQL will not create the user if a value is null
-        const { username, email} = data;
+        const { username, email, password } = data;
 
         //check db for existing username
         const existingUser = await client.query(`
@@ -254,7 +254,8 @@ app.post('/register', async(req, res) => {
 
         res.status(201).json({ 
             message: `Welcome to Skill Swap ${username}`,
-            accessToken: accessToken
+            accessToken: accessToken,
+            username: username
         });
 
     } catch(err) {

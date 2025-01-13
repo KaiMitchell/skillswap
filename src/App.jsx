@@ -246,6 +246,7 @@ function App() {
 
   //fetch sent match requests   
   async function fetchRequests() {
+    
     let sent = [];
     let recieved = [];
 
@@ -413,6 +414,7 @@ function App() {
                                               />} 
           />
           <Route path="register" element={<Register 
+                                            setUser={setUser}
                                             setNewUserData={setNewUserData} 
                                             newUserData={newUserData} 
                                         />} 

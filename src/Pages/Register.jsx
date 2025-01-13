@@ -8,7 +8,7 @@ import Button from '../commonComponents/Button';
 
 const PORT = 4000;
 
-function SignUp({ setNewUserData, newUserData }) {
+function SignUp({ setNewUserData, newUserData, setUser}) {
 
     const [errors, setErrors] = useState({});
     const { setAccessToken } = useContext(TokenContext);
@@ -35,8 +35,6 @@ function SignUp({ setNewUserData, newUserData }) {
     async function handleRegister(e) {
 
         e.preventDefault();
-
-        console.log()
 
         //initialize object to store invalid input values
         const newErrors = {};
@@ -68,12 +66,11 @@ function SignUp({ setNewUserData, newUserData }) {
         //server side validation / confliction check
         if(response.status === 409) {
             setErrors(data.newErrors);
-            console.log(data.newErrors);
             return;
         };
 
+        localStorage.setItem('user', data.username);
         sessionStorage.setItem('access token', data.accessToken);
-
         //apply access token
         setAccessToken(() => sessionStorage.getItem('access token'));
 

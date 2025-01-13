@@ -33,9 +33,7 @@ function SignIn({
             ...prev,
             [type]: e.target.value
         }));
-
-        console.log(userDetails);
-
+        
     };
 
     async function signIn(e) {
@@ -54,7 +52,6 @@ function SignIn({
         
         //client-side validtion
         if(Object.keys(newErrors).length) {
-            console.log('new errors: ', newErrors);
             setErrors(newErrors);
             return;
         };
