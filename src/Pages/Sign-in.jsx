@@ -40,6 +40,13 @@ function SignIn({
 
         e.preventDefault();
 
+        //trim each input value
+        for(const key in userDetails) {
+            if(key === 'username') {
+                userDetails[key] = userDetails[key].trim(); 
+            };
+        };
+
         //initialize object to store invalid error values
         let newErrors = {};
 

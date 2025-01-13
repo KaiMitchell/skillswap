@@ -18,7 +18,10 @@ function DropDownContainer({
              onMouseEnter={() => setIsShown(true)} 
              onMouseLeave={() => setIsShown(false)}
         >
-            <p className='text-white self-center hover:bg-stone-700'>{typeof username === 'string' ? username.slice(0, 1).toUpperCase() : ''}</p>
+            {/* display capitalized first letter of username on profile drop down button */}
+            <p className='text-white self-center hover:bg-stone-700'>
+                {typeof username === 'string' ? username.slice(0, 1).toUpperCase() : ''}
+            </p>
             <DropDown 
                 fetchMatches={fetchMatches}
                 matches={matches}

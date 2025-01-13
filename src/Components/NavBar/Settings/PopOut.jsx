@@ -52,7 +52,6 @@ function ProfileDropDownSidePopOut({
 
         const data = await response.json();
         
-        console.log('data: ', data);
         fetchData(selectedUser);
     };
 

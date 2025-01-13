@@ -16,7 +16,7 @@ function handleClientSideValidation({
     //invalid values for username
     if(!username) {
         newErrors.username = 'Username is required';
-    } else if(username.length <= 4) {
+    } else if(username.length < 4) {
         newErrors.username = 'Username must be atleast 4 characters long';
     };
 
