@@ -13,15 +13,16 @@ const app = express();
 dotenv.config();
 
 const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+const __dirname = dirname(__filename);  
 const { Client } = pkg;
 //config PostgreSQL database
 const clientConfig = {
-    user: 'postgres',
-    password: 'Password123!',
-    host: 'localhost',
+    user: process.env.PGUSER,
+    password: process.env.PGPASSWORD,
+    host: process.env.PGHOST,
     port: 5432,
-    database:'skillswap_db'
+    database: process.env.PGDATABASE,
+    ssl: true
 };
 const client = new Client(clientConfig);
 

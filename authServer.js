@@ -26,11 +26,12 @@ app.use(express.static('assets'));
 app.use(express.static(path.join(__dirname + './src')));
 
 const clientConfig = {
-    user: 'postgres',
-    password: 'Password123!',
-    host: 'localhost',
+    user: process.env.PGUSER,
+    password: process.env.PGPASSWORD,
+    host: process.env.PGHOST,
     port: 5432,
-    database:'skillswap_db'
+    database: process.env.PGDATABASE,
+    ssl: true
 };
 const client = new Client(clientConfig);
 client.connect()

@@ -14,7 +14,7 @@ function FilterPanel({ headerFilter, whichFilter, setWhichFilter, skills, setFil
             <div className='relative p-5 md:px-10'>
                 <h1 className='text-4xl pb-2.5 font-bold underline'>Skill Swap</h1>
                 <Button 
-                    styles='absolute right-5 top-5 text-xl'
+                    styles='absolute right-5 top-5 sm:hidden text-xl'
                     handleOnClick={() => setIsMobileFilter(!isMobileFilter)}  
                     text='filter'             
                 />
