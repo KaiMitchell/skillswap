@@ -14,7 +14,7 @@ function DropDownContainer({
 }) {
     const [isShown, setIsShown] = useState();
     return(
-        <div className={`${username ? 'block' : 'hidden'} sticky right-0 z-20 flex flex-col items-center justify-center py-2.5 px-5 bg-stone-950 shadow-[-7px_0px_10px_0px_black;] hover:bg-stone-700`} 
+        <div className={`hidden sm:block sticky right-0 z-20 flex flex-col items-center justify-center py-2.5 px-5 bg-stone-950 shadow-[-7px_0px_10px_0px_black;] hover:bg-stone-700`} 
              onMouseEnter={() => setIsShown(true)} 
              onMouseLeave={() => setIsShown(false)}
         >

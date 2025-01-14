@@ -8,11 +8,23 @@ function SkillsDropDownAnchor({
     setWhichFilter,
     skills,
     filterValueKey,
+    isMobile,
     isSkillsDropDown
 }) {
+
+    let isOpacity;
+
+    if(isMobile) {
+        isOpacity = false;
+    } else if(isSkillsDropDown) {
+        isOpacity = false;
+    };
+
+    const mobileStyles = '';
+
     return(
-        <div className={`${isSkillsDropDown ? 'opacity-100' : 'opacity-0'}`}>
-            <h2 className='text-center'>{type}</h2>
+        <div className={`${isSkillsDropDown || isMobile ? 'opacity-100' : 'opacity-0'} sm:block`}>
+            <h2 className='text-center'>{!isMobile && type}</h2>
             <DropDownAnchor 
                 setWhichFilter={setWhichFilter} 
                 filter={filter} 

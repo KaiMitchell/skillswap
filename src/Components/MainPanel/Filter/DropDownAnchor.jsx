@@ -59,7 +59,7 @@ function MainFilterDropDownComponent({
         <div 
             ref={node} 
             onClick={() => {setIsShown(!isShown)}} 
-            className={`${isShown ? 'font-bold': ''} relative min-h-20 h-fit w-44 px-5 py-2.5 hover:font-bold rounded-lg bg-white cursor-pointer`}
+            className={`${isShown ? 'font-bold': ''} relative min-h-20 h-fit w-full sm:w-44 px-5 py-2.5 hover:font-bold rounded-lg bg-white cursor-pointer`}
         >
             <h3 className='text-xs mb-2.5'>{dropDownTitle}</h3>
             <p className='text-sm truncate'>{filter[filterValueKey]}</p>

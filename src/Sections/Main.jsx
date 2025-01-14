@@ -15,7 +15,7 @@ function Main({
     setWhichFilter 
 }) {   
     return(
-        <main className='px-5 h-72'>
+        <main className='px-5 h-full sm:h-72'>
             <FilterPanel 
                 whichFilter={whichFilter} 
                 headerFilter={headerFilter} 

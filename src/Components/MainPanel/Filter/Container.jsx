@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import DropDownAnchor from "./DropDownAnchor";
 import MainSkillsDropDownContainer from './Skills/AnchorContainer';
 import MapData from '../../../features/methods/MapData';
+import MainSkillDropDown from './Skills/SkillsDropDownAnchor';
 
 function Container({ headerFilter, whichFilter, setWhichFilter, skills, filter, setFilter }) {
     const [isToLearnSkillsDropDown, setIsToLearnSkillsDropDown] = useState(false);
@@ -38,22 +39,58 @@ function Container({ headerFilter, whichFilter, setWhichFilter, skills, filter, 
 
     return(
         <div className='w-full flex flex-col gap-2.5'>
-            <div className='flex gap-2.5'>
+            <div className='flex flex-col sm:flex-row gap-2.5'>
                 <MapData
                     data={filterValueKeys}
-                    render={(key, index) => (
-                        <DropDownAnchor 
-                            key={key} 
-                            skills={skills} 
-                            whichFilter={whichFilter} 
-                            headerFilter={headerFilter} 
-                            setWhichFilter={setWhichFilter} 
-                            filter={filter} 
-                            setFilter={setFilter} 
-                            filterValueKey={key} 
-                            dropDownTitle={dropDownTitles[index]} 
-                        />
-                    )}
+                    render={(key, index) => {
+                        console.log(key);
+                        const isLearningCategory = key === 'toLearnCategory';
+                        const isTeachingCategory = key === 'toTeachCategory';
+                        return(
+                            <>
+                                <DropDownAnchor 
+                                    key={key} 
+                                    skills={skills} 
+                                    whichFilter={whichFilter} 
+                                    headerFilter={headerFilter} 
+                                    setWhichFilter={setWhichFilter} 
+                                    filter={filter} 
+                                    setFilter={setFilter} 
+                                    filterValueKey={key} 
+                                    dropDownTitle={dropDownTitles[index]} 
+                                />
+                                {isLearningCategory && 
+                                    <div className='sm:hidden'>
+                                        <MainSkillDropDown 
+                                            type={'to Learn'} 
+                                            isMobile={true}
+                                            dropDownTitle={`${filter?.toLearnCategory || 'select a skill to learn'}`}
+                                            isSkillsDropDown={isToLearnSkillsDropDown}
+                                            filter={filter}
+                                            setWhichFilter={setWhichFilter}
+                                            skills={skills}
+                                            setFilter={setFilter}
+                                            filterValueKey={'toLearn'}
+                                        />
+                                    </div>
+                                }
+                                {isTeachingCategory && 
+                                    <div className='sm:hidden'>
+                                        <MainSkillDropDown 
+                                            type={'to Teach'} 
+                                            isMobile={true}
+                                            dropDownTitle={`${filter?.toTeachCategory || 'select a skill to teach'}`}
+                                            isSkillsDropDown={isToTeachSkillsDropDown}
+                                            filter={filter}
+                                            setWhichFilter={setWhichFilter}
+                                            skills={skills}
+                                            setFilter={setFilter}
+                                            filterValueKey={'toTeach'}
+                                        />
+                                    </div>
+                                }
+                            </>
+                    )}}
                 />
             </div>
             <MainSkillsDropDownContainer 
