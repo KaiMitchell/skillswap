@@ -361,8 +361,9 @@ app.get('/profile', authenticateToken, async(req, res) => {
                 u.phone_number,
                 u.description,
                 COALESCE(ARRAY_AGG(DISTINCT s.name) FILTER (WHERE us.is_learning = true), ARRAY['No skills to teach']) AS skills_to_learn,
-                COALESCE(ARRAY_AGG(DISTINCT s.name) FILTER (WHERE us.is_teaching = true), ARRAY['No skills to teach']) AS skills_to_teach
+                COALESCE(ARRAY_AGG(DISTINCT s.name) FILTER (WHERE us.is_teaching = true), ARRAY['No skills to teach']) AS skills_to_teach,
             FROM users u
+            LEFT JOIN social_links sl ON sl.user_id = (SELECT id FROM users WHERE username = $1)
             LEFT JOIN users_skills us ON us.user_id = (SELECT id FROM users WHERE username = $1)
             LEFT JOIN skills s ON s.id = us.skill_id
             WHERE username = $1
@@ -372,8 +373,17 @@ app.get('/profile', authenticateToken, async(req, res) => {
                 u.profile_picture,
                 u.phone_number, 
                 u.description, 
-                u.username
-            `, [selectedUser]);
+                u.username,
+
+        `, [selectedUser]);
+
+        // //return all platform links associated with the selected user
+        // const socials = await client.query(`
+        //     SELECT platform, text FROM social_links sl
+        //     INNER JOIN users u ON u.id = sl.user_id
+        //     WHERE 
+        //     `,
+        // );
 
         const profileData = result.rows[0];
         console.log(profileData);

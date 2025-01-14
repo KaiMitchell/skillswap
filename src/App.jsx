@@ -304,6 +304,7 @@ function App() {
 
       const data = await response.json();
       const profileData = data.profileData;
+      console.log(profileData);
       setDisplayedProfile(profileData);
     } catch(err) {
       console.error(err);
