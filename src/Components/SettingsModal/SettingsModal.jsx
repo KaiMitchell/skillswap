@@ -3,7 +3,7 @@ import SkillsManagementComponent from './SkillsManagementComponent.jsx';
 import Button from '../../commonComponents/Button.jsx';
 import Input from '../../commonComponents/form/Input.jsx';
 import MapData from '../../features/methods/MapData.jsx';
-import StandardSVG from '../../commonComponents/StandardSVG.jsx';
+import { Facebook, LinkedIn, Twitter } from '../../commonComponents/SVGs.jsx';
 
 function SettingsModal({ isSettings, setIsSettings }) {    
     //although username and profile pic are locally stored. 
@@ -20,9 +20,6 @@ function SettingsModal({ isSettings, setIsSettings }) {
 
     //array of platforms to help select the platforms name and use it
     const platforms = ['facebook', 'twitter', 'linkedIn'];
-    const facebookSvgD = 'M21 1.5H3A1.5 1.5 0 0 0 1.5 3v18A1.5 1.5 0 0 0 3 22.5h8.5v-8h-2v-3h2v-2a4 4 0 0 1 4-4h3v3h-3a1 1 0 0 0-1 1v2h4l-.5 3h-3.5v8H21a1.5 1.5 0 0 0 1.5-1.5V3A1.5 1.5 0 0 0 21 1.5Z';
-    const twitterSvgD = 'M355.904 100H408.832L293.2 232.16L429.232 412H322.72L239.296 302.928L143.84 412H90.8805L214.56 270.64L84.0645 100H193.28L268.688 199.696L355.904 100ZM337.328 380.32H366.656L177.344 130.016H145.872L337.328 380.32Z';
-    const linkedInD = 'M24.299 23.921v-6.137c0-3.288-1.755-4.818-4.096-4.818-1.889 0-2.735 1.039-3.206 1.768v-1.517h-3.558c.047 1.005 0 10.704 0 10.704h3.558v-5.978c0-.319.023-.639.117-.867.257-.639.842-1.301 1.825-1.301 1.288 0 1.803.981 1.803 2.42v5.727l3.557-.001zM9.69 11.756c1.24 0 2.013-.823 2.013-1.85-.023-1.05-.773-1.849-1.99-1.849s-2.012.799-2.012 1.849c0 1.028.772 1.85 1.967 1.85h.022zm1.779 12.165V13.217H7.912v10.704h3.557z';
 
     function closeModal(e) {
         if(node.current && !node.current.contains(e.target)) {
@@ -127,22 +124,21 @@ function SettingsModal({ isSettings, setIsSettings }) {
                                 data={platforms}
                                 render={(item) => {
 
-                                    let d;
+                                    let svg;
 
                                     //assign appropriate svg attributes to each platform icon
                                     if(item === 'facebook') {
-                                        d = facebookSvgD;
+                                        svg = <Facebook isHovered={isHovered} />;
                                     } else if(item === 'twitter') {
-                                        d = twitterSvgD;
+                                        svg = <Twitter isHovered={isHovered} />;
                                     } else if(item === 'linkedIn') {
-                                        d = linkedInD;
+                                        svg = <LinkedIn isHovered={isHovered} />;
                                     };
 
                                     return(
                                         <Button 
                                             key={item}
-                                            text={<StandardSVG d={d} />}
-
+                                            text={svg}
                                         />
                                     );
                                 }}
