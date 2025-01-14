@@ -58,9 +58,8 @@ function Container({
                         const isTeachingCategory = key === 'toTeachCategory';
 
                         return(
-                            <>
+                            <div key={key}>
                                 <DropDownAnchor 
-                                    key={key} 
                                     skills={skills} 
                                     whichFilter={whichFilter} 
                                     headerFilter={headerFilter} 
@@ -100,7 +99,7 @@ function Container({
                                         />
                                     </div>
                                 }
-                            </>
+                            </div>
                     )}}
                 />
             </div>

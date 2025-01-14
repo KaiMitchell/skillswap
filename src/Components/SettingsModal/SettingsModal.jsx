@@ -34,6 +34,10 @@ function SettingsModal({ isSettings, setIsSettings }) {
         return () => document.removeEventListener('mousedown', closeModal);
     }, []);
 
+    useEffect(() => {
+
+    }, []);
+
     //submit updated profile pic, description or username
     async function handleSubmit(e) {
 
@@ -42,14 +46,14 @@ function SettingsModal({ isSettings, setIsSettings }) {
         const formData = new FormData();
 
         if(fileRef.current?.files.length > 0) {
-
-            formData.append('imgFile', fileRef.current.files[0]);
-
+            formData.append('imgFile', fileRef.current.files[0]);               
         };
 
         formData.append('currentUsername', localStorage.getItem('user'));
         formData.append('newUsername', newUserVal);
         formData.append('newDescription', newDescription);
+        formData.append('linkToPlatform', platformLink);
+        formData.append('platform', platform);
 
         const response = await fetch(`http://localhost:4000/edit-profile`, {
             method: 'POST',
@@ -62,7 +66,6 @@ function SettingsModal({ isSettings, setIsSettings }) {
         const data = await response.json();
 
         if(response.status === 409) {
-
             setConflictMessage(data.message);
             //clear input value
             setNewUserVal('');
@@ -82,21 +85,16 @@ function SettingsModal({ isSettings, setIsSettings }) {
 
         setNewUsername(localStorage.getItem('user'));
         //clear input values and reset conflict prompt
+        setPlatformLink('');
         setNewDescription('');
         setNewUserVal('');
         setConflictMessage('');
         fileRef.current.value = '';
-
     };
 
     const handlenewUserOnChange = (currentVal) => {
         setConflictMessage('');
         setNewUserVal(currentVal);
-    };
-
-    const handlePlatformLinkOnChange = (currentVal) => {
-        setConflictMessage('');
-        setPlatformLink(currentVal);
     };
 
     function handleSetPlatform(e, platform) {
@@ -125,7 +123,7 @@ function SettingsModal({ isSettings, setIsSettings }) {
                     <div className='flex items-end'>
                         <Input
                             label='Add social links'
-                            onChangeHandler={handlePlatformLinkOnChange}
+                            onChangeHandler={setPlatformLink}
                             placeholder={`enter you ${platform} link`}
                             value={platformLink}
                             type='text'

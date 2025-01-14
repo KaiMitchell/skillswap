@@ -483,71 +483,109 @@ app.post('/edit-profile', async(req, res) => {
     const {
         currentUsername,
         newUsername,
-        newDescription
+        newDescription,
+        linkToPlatform,
+        platform
     } = req.body;
 
-    //check if new username is already in use
-    const existingUsername = await client.query(
-        `
-        SELECT * FROM users WHERE username = $1
-        `, [newUsername || '']
-    );
+    console.log(req.body);
 
-    //prevent conflicting usernames
-    if(existingUsername.rows.length > 0) {
-        res.status(409).json({ message: `Username of: ${newUsername} already exists`});
-        return;
-    };
+    try {
+        
+        let imgFile;
+        let imgPath;
+        let uploadPath;
+        //array to dynamically build update queries
+        let usersUpdates = [];
+        let platformUpdates = [];
+        //bool to determine whether a platform link is existant
+        let existingPlatfom;
 
-    let imgFile;
-    let imgPath;
-    let uploadPath;
-    //array to dynamically build update query
-    let updates = [];
+        //check if new username is already in use
+        const existingUsername = await client.query(
+            `
+            SELECT * FROM users WHERE username = $1
+            `, [newUsername || '']
+        );
 
-    if(req.files && req.files.imgFile) {
-        imgFile = req.files.imgFile;
-        imgPath = Date.now() + imgFile.name;
-        //define path to move file to
-        //use date dot now to prevent conflicting file names
-        uploadPath = __dirname + '/assets/' + imgPath;
+        //prevent conflicting usernames
+        if(existingUsername.rows.length > 0) {
+            res.status(409).json({ message: `Username of: ${newUsername} already exists`});
+            return;
+        };
+
+        const exsistingLinkToPlatform = await client.query(`
+            SELECT * FROM social_links WHERE url = $1 AND platform = $2
+            `, [linkToPlatform, platform]
+        );
     
-        //use mv to place the file into my assets folder
-        imgFile.mv(uploadPath, (err) => {
-            if(err) {
-                res.status(500).json({ error: err });
-                return;
-            };
+        //prevent conflicting social links
+        if(exsistingLinkToPlatform.rows.length > 0) {
+            res.status(409).json({ message: `link already exists`});
+            return;
+        };
+
+        //
+        if(req.files && req.files.imgFile) {
+            imgFile = req.files.imgFile;
+            imgPath = Date.now() + imgFile.name;
+            //define path to move file to
+            //use date dot now to prevent conflicting file names
+            uploadPath = __dirname + '/assets/' + imgPath;
+        
+            //use mv to place the file into my assets folder
+            imgFile.mv(uploadPath, (err) => {
+                if(err) {
+                    res.status(500).json({ error: err });
+                    return;
+                };
+            });
+    
+            //set update query to add img url into database
+            usersUpdates.push(`profile_picture = '${imgPath}'`);
+        };
+    
+        //updates for users table
+        newUsername ? usersUpdates.push(`username = '${newUsername}'`) : usersUpdates.push(`username = $1`);
+        newDescription && usersUpdates.push(`description = '${newDescription}'`);
+
+        if(platform && linkToPlatform) {
+            console.log('inserting into social_links table: ', platform, linkToPlatform);
+            await client.query(`
+                INSERT INTO social_links(user_id, platform, url)
+                VALUES(
+                    (SELECT id FROM users WHERE username = $1),
+                    $2,
+                    $3 
+                );
+            `, [currentUsername, platform, linkToPlatform]);
+        };
+    
+        //if no file is uploaded select the current profile picture to return.
+        //to prevent no picture being displayed.
+        let currentProfilePicture;
+    
+        if(!req.files || !req.files.imgFile) {
+            const result = await client.query(`SELECT profile_picture FROM users WHERE username = $1`, [currentUsername]);
+            currentProfilePicture = result.rows[0]?.profile_picture || '';
+        };
+    
+        //apply updated data to user
+        await client.query(        
+            `
+            UPDATE users
+            SET ${usersUpdates.join(', ')}
+            WHERE username = $1
+            `, [currentUsername]
+        );
+    
+        res.json({ 
+            img: `http://localhost:3000/${imgPath ? imgPath : currentProfilePicture}`,
+            newUsername: newUsername || currentUsername          
         });
-
-        updates.push(`profile_picture = '${imgPath}'`);
+    } catch(err) {
+        console.error(err);
     };
-
-    newUsername ? updates.push(`username = '${newUsername}'`) : updates.push(`username = $1`);
-    newDescription && updates.push(`description = '${newDescription}'`);
-
-    //if no file is uploaded select the current profile picture to return.
-    //to prevent no picture being displayed.
-    let currentProfilePicture;
-
-    if(!req.files || !req.files.imgFile) {
-        const result = await client.query(`SELECT profile_picture FROM users WHERE username = $1`, [currentUsername]);
-        currentProfilePicture = result.rows[0]?.profile_picture || '';
-    };
-
-    //insert image path into profile_picture column
-    await client.query(        
-        `
-        UPDATE users
-        SET ${updates.join(', ')}
-        WHERE username = $1
-        `, [currentUsername]
-    );
-
-    res.json({ 
-        img: `http://localhost:3000/${imgPath ? imgPath : currentProfilePicture}`,
-        newUsername: newUsername || currentUsername
-    });
 });
 
 app.listen(4000, () => {

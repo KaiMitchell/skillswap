@@ -380,8 +380,6 @@ function App() {
             setIsDisplayedProfile={setIsDisplayedProfile}
             displayedProfile={displayedProfile}
             displayedProfileType={displayedProfileType}
-            teachProfiles={teachProfiles}
-            learnProfiles={learnProfiles}
             matches={matches}
             unMatch={unMatch}
             fetchRequests={fetchRequests}
