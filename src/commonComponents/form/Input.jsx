@@ -10,6 +10,7 @@ function Input({
     isTxtArea,
     isSigninOrRegister,
     fileRef,
+    placeholder,
     error
 }) {
 
@@ -33,6 +34,7 @@ function Input({
                         title: 'barbra@example.com',
                         placeholder: 'barbra@example.com' 
                     })}
+                    placeholder={placeholder || ''}
                     value={value}
                     id={id}
                     ref={fileRef || undefined}

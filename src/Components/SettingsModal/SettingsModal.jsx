@@ -28,6 +28,11 @@ function SettingsModal({ isSettings, setIsSettings }) {
     };
 
     useEffect(() => {
+        console.log('platform: ', platform);
+    }, [platform]);
+
+    //close settings modal when clicked outside of it
+    useEffect(() => {
         document.addEventListener('mousedown', closeModal);
         return () => document.removeEventListener('mousedown', closeModal);
     }, []);
@@ -65,7 +70,6 @@ function SettingsModal({ isSettings, setIsSettings }) {
             //clear input value
             setNewUserVal('');
             return;
-
         };
 
         //ensure old image is not removed with no new image to replace it
@@ -89,9 +93,13 @@ function SettingsModal({ isSettings, setIsSettings }) {
     };
 
     const handlenewUserOnChange = (currentVal) => {
-
         setConflictMessage('');
         setNewUserVal(currentVal);
+    };
+
+    function handleSetPlatform(e, platform) {
+        e.preventDefault();
+        setPlatform(platform);
     };
 
     return(
@@ -116,6 +124,7 @@ function SettingsModal({ isSettings, setIsSettings }) {
                         <Input
                             label='Add social links'
                             onChangeHandler={handlenewUserOnChange}
+                            placeholder={`enter you ${platform} link`}
                             value={newUserVal}
                             type='text'
                         />
@@ -123,10 +132,11 @@ function SettingsModal({ isSettings, setIsSettings }) {
                             <MapData
                                 data={platforms}
                                 render={(item) => {
+                                    const [isHovered, setIsHovered] = useState(false);
 
                                     let svg;
 
-                                    //assign appropriate svg attributes to each platform icon
+                                    //assign appropriate svg to each platform icon
                                     if(item === 'facebook') {
                                         svg = <Facebook isHovered={isHovered} />;
                                     } else if(item === 'twitter') {
@@ -139,6 +149,10 @@ function SettingsModal({ isSettings, setIsSettings }) {
                                         <Button 
                                             key={item}
                                             text={svg}
+                                            handleOnMouseOver={() => setIsHovered(true)}
+                                            handleOnMouseLeave={() => setIsHovered(false)}
+                                            handleOnClick={(e) => handleSetPlatform(e, item)}
+                                            isHandleHover={true}
                                         />
                                     );
                                 }}
