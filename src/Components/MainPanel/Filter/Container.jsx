@@ -4,7 +4,15 @@ import MainSkillsDropDownContainer from './Skills/AnchorContainer';
 import MapData from '../../../features/methods/MapData';
 import MainSkillDropDown from './Skills/SkillsDropDownAnchor';
 
-function Container({ headerFilter, whichFilter, setWhichFilter, skills, filter, setFilter }) {
+function Container({ 
+    headerFilter, 
+    whichFilter, 
+    setWhichFilter, 
+    skills, 
+    filter, 
+    setFilter, 
+    isMobileFilter 
+}) {
     const [isToLearnSkillsDropDown, setIsToLearnSkillsDropDown] = useState(false);
     const [isToTeachSkillsDropDown, setIsToTeachSkillsDropDown] = useState(false);
 
@@ -37,15 +45,18 @@ function Container({ headerFilter, whichFilter, setWhichFilter, skills, filter, 
         };
     }, [filter]);
 
+    //PASS PROP FOR A CONDITIONAL TO RENDER FILTERS ON MOBILE SIZE
+
     return(
         <div className='w-full flex flex-col gap-2.5'>
             <div className='flex flex-col sm:flex-row gap-2.5'>
                 <MapData
                     data={filterValueKeys}
                     render={(key, index) => {
-                        console.log(key);
+                        //display skill filter under it's category
                         const isLearningCategory = key === 'toLearnCategory';
                         const isTeachingCategory = key === 'toTeachCategory';
+
                         return(
                             <>
                                 <DropDownAnchor 

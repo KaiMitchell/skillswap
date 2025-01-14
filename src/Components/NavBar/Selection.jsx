@@ -43,8 +43,8 @@ function Selection({
     return(
         isLink ?
                 //Home page button / icon
-                <Link className='sm:mb-0 px-2.5 text-white flex justify-between items-center hover:bg-stone-700' to={path}>
-                    <Button styles='text-nowrap text-xs' text={text} />
+                <Link className='sm:mb-0 sm:px-10 w-1/2 text-center text-white flex justify-between items-center hover:bg-stone-700' to={path}>
+                    <Button styles='w-full text-nowrap text-xs' text={text} />
                 </Link>
             :
                 //Category item in navbar options
