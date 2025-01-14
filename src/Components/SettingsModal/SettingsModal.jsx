@@ -14,6 +14,7 @@ function SettingsModal({ isSettings, setIsSettings }) {
     const [img, setImg] = useState(localStorage.getItem('profile picture') || '');
     const [conflictMessage, setConflictMessage] = useState('');
     const [platform, setPlatform] = useState('');
+    const [platformLink, setPlatformLink] = useState('');
 
     const node = useRef();
     const fileRef = useRef();
@@ -26,10 +27,6 @@ function SettingsModal({ isSettings, setIsSettings }) {
             setIsSettings(false);
         };
     };
-
-    useEffect(() => {
-        console.log('platform: ', platform);
-    }, [platform]);
 
     //close settings modal when clicked outside of it
     useEffect(() => {
@@ -97,6 +94,11 @@ function SettingsModal({ isSettings, setIsSettings }) {
         setNewUserVal(currentVal);
     };
 
+    const handlePlatformLinkOnChange = (currentVal) => {
+        setConflictMessage('');
+        setPlatformLink(currentVal);
+    };
+
     function handleSetPlatform(e, platform) {
         e.preventDefault();
         setPlatform(platform);
@@ -123,9 +125,9 @@ function SettingsModal({ isSettings, setIsSettings }) {
                     <div className='flex items-end'>
                         <Input
                             label='Add social links'
-                            onChangeHandler={handlenewUserOnChange}
+                            onChangeHandler={handlePlatformLinkOnChange}
                             placeholder={`enter you ${platform} link`}
-                            value={newUserVal}
+                            value={platformLink}
                             type='text'
                         />
                         <div className='flex gap-2.5 ml-2.5'>
