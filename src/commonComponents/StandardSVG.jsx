@@ -11,7 +11,8 @@ function StandardSVG({dAttribute, size, strokeWidth}) {
             <path 
                 strokeLinecap="round" 
                 strokeLinejoin="round" 
-                d={dAttribute} />
+                d={dAttribute} 
+            />
         </svg>
     );
 };
