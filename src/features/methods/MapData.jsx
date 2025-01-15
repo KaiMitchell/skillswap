@@ -23,7 +23,7 @@ function MapData({
                 )
             } else {    
                 //standard method returning a list element
-                return <li key={el} className={styles}>{el}</li>;
+                return <li key={el} id={index} className={styles}>{el}</li>;
             };
         })
     );

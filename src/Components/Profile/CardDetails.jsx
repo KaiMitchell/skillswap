@@ -57,17 +57,17 @@ function CardDetails({
 
     //toggle between displaying a users details or associated skills
     return(
-        <div className='relative h-full w-2/3 flex flex-col justify-between'>
+        <div className='relative max-w-full h-full w-2/3 flex flex-col justify-between'>
             <div className={`ml-5 mt-2.5`}>
                 <p className={`${isRenderAllSkills && 'text-xs'}`}>primary skill to {isToLearn ? 'learn' : 'teach'}:</p>
                 <h2 className={`${isRenderAllSkills ? 'text-xl' : 'text-3xl'} font-extrabold`}>{addLineBreak(displayedSkill)}</h2>
             </div>
             {/* display users associated skills on card */}
             <div 
-                className={`${isRenderAllSkills ? 'block' : 'hidden'} h-content w-full flex flex-col overflow-x-auto`}
+                className={`${isRenderAllSkills ? 'block' : 'hidden'} h-content max-w-full flex flex-col`}
                 // onMouseLeave={() => setIsRenderAllSkills(false)}
             >
-                <div>
+                <div className='max-w-1/2'>
                     <CardSkills 
                         profileData={toLearnProfileData} 
                         isRenderAllSkills={isRenderAllSkills} 
@@ -83,9 +83,9 @@ function CardDetails({
                 </div>
             </div>
             {localStorage.getItem('user') && 
-                <div className='flex w-full bottom-0'>
+                <div className={`flex ${isMatchHovered || !isRenderAllSkills && 'flex-row-reverse'} w-full bottom-0`}>
                     <Button 
-                        styles={`${isRenderAllSkills || isMatchHovered ? 'opacity-100' : 'opacity-0'} w-1/2 py-2.5 bg-gradient-to-r hover:${buttonBg.matchRequestHover} hover:text-white hover:font-bold`}
+                        styles={`${isRenderAllSkills || isMatchHovered ? 'block' : 'hidden'} w-1/2 py-2.5 bg-gradient-to-r hover:${buttonBg.matchRequestHover} hover:text-white`}
                         handleOnClick={() => setIsRenderAllSkills(!isRenderAllSkills)}
                         handleOnMouseOver={() => setIsMatchHovered(true)}
                         handleOnMouseLeave={() => setIsMatchHovered(false)}
@@ -98,7 +98,7 @@ function CardDetails({
                         handleOnMouseOver={() => setIsMatchHovered(true)}
                         handleOnMouseLeave={() => setIsMatchHovered(false)}
                         isHandleHover={true}
-                        styles={`w-1/2 py-2.5 bg-gradient-to-r hover:${buttonBg.matchRequestHover} hover:text-white hover:font-bold rounded-br`}
+                        styles={`w-1/2 py-2.5 bg-gradient-to-r hover:${buttonBg.matchRequestHover} hover:text-white rounded-br`}
                     />
                 </div>
             }

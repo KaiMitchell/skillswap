@@ -1,11 +1,42 @@
+import { useRef } from "react";
 import MapData from "../features/methods/MapData";
+import Button from "./Button";
 
 const HorizontalListItems = ({ data }) => {
+    const listRef = useRef();
+
+    const scrollAnimation = [
+        { transform: "rotate(0) scale(1)" },
+        { transform: "rotate(360deg) scale(0)" },
+      ];
+      
+      const timing = {
+        duration: 2000,
+        iterations: 1,
+      };
+
+    function handleScroll(direction) {
+        direction === 'left' ? listRef.current.scrollLeft -= listRef.current.offsetWidth : listRef.current.scrollLeft += listRef.current.offsetWidth;
+    };
+
     return(
-        <ul className='flex w-full bg-zinc-300 text-nowrap snap-mandatory snap-x overflow-x-auto no-scrollbar'>
+        <ul 
+            className='relative flex justify-between w-full bg-zinc-300 text-nowrap snap-mandatory snap-x overflow-x-auto no-scrollbar'
+            ref={listRef}
+        > 
+            <Button 
+                text='<'
+                styles={`sticky left-2.5`}
+                handleOnClick={() => handleScroll('left')}
+            />
             <MapData 
                 data={data} 
-                styles={`py-2.5 min-w-full text-center snap-center`}
+                styles={`p-2.5 min-w-full text-center snap-center`}
+            />
+            <Button 
+                text='>'
+                styles={`sticky right-2.5`}
+                handleOnClick={() => handleScroll('right')}
             />
         </ul>
     );
