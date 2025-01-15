@@ -1,5 +1,4 @@
 import HorizontalListItems from '../../commonComponents/HorizontalListItems.jsx';
-import MapData from '../../features/methods/MapData.jsx';
 
 function CardSkills({ 
     profileData, 

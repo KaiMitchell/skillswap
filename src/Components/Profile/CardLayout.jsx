@@ -16,23 +16,27 @@ function CardLayout({
     const imgPath = imgURL + profileData?.profile_picture;
     const name = profileData?.username;
 
-    let skill;
+    let displayedSkill;
 
     if(Array.isArray(skills) && skills.length > 0) {
-        skill = skills[0];
+        displayedSkill = skills[0];
     } else {
-        skill = skills;
+        displayedSkill = skills;
     };
     
     return(
         <div className='relative bg-white bg-contain w-full rounded-t-lg bg-center'>
             <div className='relative w-full flex h-64'>
-                <img 
-                    className='w-1/3 h-full object-cover rounded-lg' 
-                    src={profileData?.profile_picture ? imgPath : defaultProfileImg} 
-                />
+                <div className=' relative w-1/3'>
+                    <img 
+                        className='w-full h-full object-cover rounded-lg' 
+                        src={profileData?.profile_picture ? imgPath : defaultProfileImg} 
+                    />
+                    <h3 className='absolute top-0 left-0'>{name}</h3>
+                </div>
                 <CardDetails 
-                    username={name} 
+                    username={name}
+                    displayedSkill={displayedSkill}
                     skills={skills} 
                     description={profileData?.description}
                     requests={requests}

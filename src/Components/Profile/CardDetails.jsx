@@ -4,8 +4,7 @@ import Button from '../../commonComponents/Button';
 
 function CardDetails({ 
     username, 
-    description,
-    requests,
+    displayedSkill,
     sendMatchRequest,
     fetchRequests, 
 }) {
@@ -15,20 +14,21 @@ function CardDetails({
     const [requested, setRequested] = useState(false);
     const [isMatchHovered, setIsMatchHovered] = useState(false);
 
-    const showSkillsToggleBg = {
-        hover: 'hover:from-blue-600 hover:via-blue-800 hover:to-blue-800',
-        initial: 'from-blue-400 via-blue-500 to-blue-600'
-    };
-
     const buttonBg = {
         matchRequestHover: 'bg-gradient-to-l from-blue-400 via-blue-500 to-blue-600',
         matchRequest: 'from-green-400 via-green-500 to-green-600'
-
     };
 
     useEffect(() => {
         isRenderAllSkills && fetchProfileSkills();
     }, [isRenderAllSkills]);
+
+    //add line break after every word in displayed skilll
+    function addLineBreak(str) {
+        return str.split(' ').map((word) => word + '\n').join(' ');
+    };
+
+    addLineBreak(displayedSkill)
 
     async function fetchProfileSkills() {
 
@@ -56,7 +56,10 @@ function CardDetails({
 
     //toggle between displaying a users details or associated skills
     return(
-        <div className='relative h-full w-2/3 flex flex-col justify-between'>
+        <div className='relative h-full w-2/3 flex flex-col justify-center'>
+            <div className={`${isRenderAllSkills ? 'hidden' : 'block'} ml-5 mt-2.5`}>
+                <h2 className='text-3xl font-extrabold'>{addLineBreak(displayedSkill)}</h2>
+            </div>
             {/* display users associated skills on card */}
             <div 
                 className={`${isRenderAllSkills ? 'block' : 'hidden'} h-full w-full flex flex-col gap-2.5 overflow-x-auto`}
@@ -74,9 +77,9 @@ function CardDetails({
                 />
             </div>
             {localStorage.getItem('user') && 
-                <div className='w-1/2 absolute bottom-2.5 left-1/2 transform -translate-x-1/2'>
+                <div className='flex flex-row-reverse w-full absolute bottom-2.5'>
                     <Button 
-                        styles={`${isMatchHovered ? 'block' : 'hidden'} ${isRenderAllSkills ? 'relative rounded-t-lg': 'rounded-b-lg'} w-full py-2.5 bg-gradient-to-r hover:${buttonBg.matchRequestHover} hover:text-white hover:font-bold rounded-lg rounded-b-none`}
+                        styles={`${isMatchHovered ? 'block' : 'hidden'} ${isRenderAllSkills ? 'relative rounded-t-lg': 'rounded-b-lg'} w-1/2 py-2.5 bg-gradient-to-r hover:${buttonBg.matchRequestHover} hover:text-white hover:font-bold rounded-lg rounded-b-none`}
                         handleOnClick={() => setIsRenderAllSkills(!isRenderAllSkills)}
                         handleOnMouseOver={() => setIsMatchHovered(true)}
                         handleOnMouseLeave={() => setIsMatchHovered(false)}
@@ -89,7 +92,7 @@ function CardDetails({
                         handleOnMouseOver={() => setIsMatchHovered(true)}
                         handleOnMouseLeave={() => setIsMatchHovered(false)}
                         isHandleHover={true}
-                        styles={`w-full py-2.5 bg-gradient-to-r hover:${buttonBg.matchRequestHover} hover:text-white hover:font-bold rounded-lg ${isMatchHovered && 'rounded-t-none'}`}
+                        styles={`w-1/2 py-2.5 bg-gradient-to-r hover:${buttonBg.matchRequestHover} hover:text-white hover:font-bold rounded-lg ${isMatchHovered && 'rounded-t-none'}`}
                     />
                 </div>
             }
