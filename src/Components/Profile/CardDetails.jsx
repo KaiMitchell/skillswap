@@ -77,9 +77,9 @@ function CardDetails({
                 />
             </div>
             {localStorage.getItem('user') && 
-                <div className='flex flex-row-reverse w-full absolute bottom-2.5'>
+                <div className='flex w-full absolute bottom-0'>
                     <Button 
-                        styles={`${isMatchHovered ? 'block' : 'hidden'} ${isRenderAllSkills ? 'relative rounded-t-lg': 'rounded-b-lg'} w-1/2 py-2.5 bg-gradient-to-r hover:${buttonBg.matchRequestHover} hover:text-white hover:font-bold rounded-lg rounded-b-none`}
+                        styles={`${isRenderAllSkills || isMatchHovered ? 'opacity-100' : 'opacity-0'} w-1/2 py-2.5 bg-gradient-to-r hover:${buttonBg.matchRequestHover} hover:text-white hover:font-bold`}
                         handleOnClick={() => setIsRenderAllSkills(!isRenderAllSkills)}
                         handleOnMouseOver={() => setIsMatchHovered(true)}
                         handleOnMouseLeave={() => setIsMatchHovered(false)}
@@ -92,7 +92,7 @@ function CardDetails({
                         handleOnMouseOver={() => setIsMatchHovered(true)}
                         handleOnMouseLeave={() => setIsMatchHovered(false)}
                         isHandleHover={true}
-                        styles={`w-1/2 py-2.5 bg-gradient-to-r hover:${buttonBg.matchRequestHover} hover:text-white hover:font-bold rounded-lg ${isMatchHovered && 'rounded-t-none'}`}
+                        styles={`w-1/2 py-2.5 bg-gradient-to-r hover:${buttonBg.matchRequestHover} hover:text-white hover:font-bold rounded-br`}
                     />
                 </div>
             }

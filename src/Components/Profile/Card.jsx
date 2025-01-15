@@ -40,15 +40,6 @@ function Card({
                 isRequested={isRequested}
                 fetchRequests={fetchRequests}
             />
-            <CardFooter 
-                city='city' 
-                skills={skills}
-                availability='availability' 
-                requests={requests}
-                sendMatchRequest={sendMatchRequest}
-                isRequested={isRequested}
-                fetchRequests={fetchRequests}
-            />
         </div>
     );
 };

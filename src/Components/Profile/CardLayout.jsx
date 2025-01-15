@@ -25,14 +25,14 @@ function CardLayout({
     };
     
     return(
-        <div className='relative bg-white bg-contain w-full rounded-t-lg bg-center'>
+        <div className='relative bg-white bg-contain w-full rounded bg-center'>
             <div className='relative w-full flex h-64'>
-                <div className=' relative w-1/3'>
+                <div className='relative w-1/3'>
                     <img 
-                        className='w-full h-full object-cover rounded-lg' 
+                        className='w-full h-full object-cover rounded-l' 
                         src={profileData?.profile_picture ? imgPath : defaultProfileImg} 
                     />
-                    <h3 className='absolute top-0 left-0'>{name}</h3>
+                    <h3 className='absolute top-0 left-0 px-5 py-1 w-full text-2xl rounded-tl bg-black bg-opacity-30'>{name}</h3>
                 </div>
                 <CardDetails 
                     username={name}
