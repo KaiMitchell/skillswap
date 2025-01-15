@@ -2,14 +2,28 @@ import { useState, useEffect } from 'react';
 import CardSkills from './CardSkills';
 import Button from '../../commonComponents/Button';
 
-function CardDetails({ username, description }) {
+function CardDetails({ 
+    username, 
+    description,
+    requests,
+    sendMatchRequest,
+    fetchRequests, 
+}) {
     const [isRenderAllSkills, setIsRenderAllSkills] = useState(false);
     const [toLearnProfileData, setToLearnProfileData] = useState();
     const [toTeachProfileData, setToTeachProfileData] = useState();
+    const [requested, setRequested] = useState(false);
+    const [isMatchHovered, setIsMatchHovered] = useState(false);
 
     const showSkillsToggleBg = {
         hover: 'hover:from-blue-600 hover:via-blue-800 hover:to-blue-800',
         initial: 'from-blue-400 via-blue-500 to-blue-600'
+    };
+
+    const buttonBg = {
+        matchRequestHover: 'bg-gradient-to-l from-blue-400 via-blue-500 to-blue-600',
+        matchRequest: 'from-green-400 via-green-500 to-green-600'
+
     };
 
     useEffect(() => {
@@ -31,23 +45,23 @@ function CardDetails({ username, description }) {
         setToTeachProfileData(data.toTeach);
     };
 
+    function handleClick() {
+        //Passed the match request function inside of the state because I can't figure out how to update the state immediately.
+        //Don't know if this is okay.
+        const newState = !requested;
+        setRequested(newState);
+        sendMatchRequest(newState);
+        fetchRequests(requested);       
+    };
+
     //toggle between displaying a users details or associated skills
     return(
-        <div className='relative h-full w-full flex flex-col justify-between'>
-            {/* display user details on card */}
-            <div className={`${isRenderAllSkills ? 'hidden' : 'block'} flex flex-col gap-2.5 mt-10 h-full w-full px-5`}>
-                <div className='flex gap-2.5 items-center'>
-                    <h3>Preferrence:</h3>
-                    <p className='text-xs'>In person</p>
-                </div>
-                <div className='h-16'>
-                    <div className='relative h-full overflow-y-auto no-scrollbar'>
-                        <p className=''>{description}</p>
-                    </div>
-                </div>
-            </div>
+        <div className='relative h-full w-2/3 flex flex-col justify-between'>
             {/* display users associated skills on card */}
-            <div className='h-full w-full flex flex-col justify-between'>
+            <div 
+                className={`${isRenderAllSkills ? 'block' : 'hidden'} h-full w-full flex flex-col gap-2.5 overflow-x-auto`}
+                // onMouseLeave={() => setIsRenderAllSkills(false)}
+            >
                 <CardSkills 
                     profileData={toLearnProfileData} 
                     isRenderAllSkills={isRenderAllSkills} 
@@ -58,12 +72,27 @@ function CardDetails({ username, description }) {
                     isRenderAllSkills={isRenderAllSkills} 
                     type={'To teach:'} 
                 />
-                <Button 
-                    styles={`${isRenderAllSkills ? 'relative rounded-t-lg': 'absolute top-0 rounded-b-lg'} bg-gradient-to-r ${showSkillsToggleBg.hover} ${showSkillsToggleBg.initial} w-1/2 self-center text-sm text-white cursor-pointer`}
-                    handleOnClick={() => setIsRenderAllSkills(!isRenderAllSkills)}
-                    text={isRenderAllSkills ? 'Hide all skills' : 'Show all skills'}
-                />
             </div>
+            {localStorage.getItem('user') && 
+                <div className='w-1/2 absolute bottom-2.5 left-1/2 transform -translate-x-1/2'>
+                    <Button 
+                        styles={`${isMatchHovered ? 'block' : 'hidden'} ${isRenderAllSkills ? 'relative rounded-t-lg': 'rounded-b-lg'} w-full py-2.5 bg-gradient-to-r hover:${buttonBg.matchRequestHover} hover:text-white hover:font-bold rounded-lg rounded-b-none`}
+                        handleOnClick={() => setIsRenderAllSkills(!isRenderAllSkills)}
+                        handleOnMouseOver={() => setIsMatchHovered(true)}
+                        handleOnMouseLeave={() => setIsMatchHovered(false)}
+                        isHandleHover={true}
+                        text={isRenderAllSkills ? 'Hide all skills' : 'Show all skills'}
+                    />
+                    <Button 
+                        text='Send a match request'
+                        handleOnClick={handleClick}
+                        handleOnMouseOver={() => setIsMatchHovered(true)}
+                        handleOnMouseLeave={() => setIsMatchHovered(false)}
+                        isHandleHover={true}
+                        styles={`w-full py-2.5 bg-gradient-to-r hover:${buttonBg.matchRequestHover} hover:text-white hover:font-bold rounded-lg ${isMatchHovered && 'rounded-t-none'}`}
+                    />
+                </div>
+            }
         </div>
     );
 };

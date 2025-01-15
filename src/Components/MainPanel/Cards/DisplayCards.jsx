@@ -4,7 +4,7 @@ function DisplayCards({
     mappedProfiles
 }) {
     return(        
-        <div className='w-1/2 flex flex-col gap-5 pt-5'>
+        <div className='w-1/2 h-full flex flex-col gap-5 pt-5'>
             <h2 className='text-center text-white text-2xl font-bold'>{searchingByStr}</h2>
             <h3 className='text-center text-white'>{`${filterInfo}`}</h3>
             {mappedProfiles}

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import Button from '../../../commonComponents/Button';
 import MapData from '../../../features/methods/MapData';
+import HorizontalListItems from '../../../commonComponents/HorizontalListItems';
 
 function Right({ 
     isHovered,
@@ -147,21 +148,11 @@ function Right({
             </div>
             <div className='flex flex-col gap-2.5'>      
                 <div className='flex items-center gap-2.5 text-nowrap'>
-                    <ul className='flex w-full bg-zinc-300 text-nowrap snap-mandatory snap-x overflow-x-auto no-scrollbar'>
-                        <MapData 
-                            data={displayedProfile?.skills_to_teach} 
-                            styles={`p-2.5 min-w-full text-center snap-center`}
-                        />
-                    </ul>
+                    <HorizontalListItems data={displayedProfile?.skills_to_teach} />
                     <p>Skills to offer</p>
                 </div>
                 <div className='flex items-center gap-2.5 text-nowrap'>
-                    <ul className='flex w-full bg-zinc-300 text-nowrap snap-mandatory snap-x overflow-x-auto no-scrollbar'>
-                        <MapData 
-                            data={displayedProfile?.skills_to_learn} 
-                            styles={`p-2.5 min-w-full text-center snap-center`}
-                        />
-                    </ul>
+                    <HorizontalListItems data={displayedProfile?.skills_to_learn} />
                     <p>Skills desired</p>
                 </div>
             </div>

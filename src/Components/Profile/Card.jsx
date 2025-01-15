@@ -35,6 +35,10 @@ function Card({
             <CardLayout 
                 skills={skills} 
                 profileData={profileData}
+                requests={requests}
+                sendMatchRequest={sendMatchRequest}
+                isRequested={isRequested}
+                fetchRequests={fetchRequests}
             />
             <CardFooter 
                 city='city' 

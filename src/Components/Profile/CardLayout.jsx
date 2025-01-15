@@ -5,7 +5,11 @@ const imgURL = 'http://localhost:3000/';
 
 function CardLayout({ 
     skills,
-    profileData
+    profileData,
+    fetchRequests, 
+    requests,
+    sendMatchRequest,
+    isRequested
 }) {
     
     //img url path to serve img file from my server
@@ -22,20 +26,19 @@ function CardLayout({
     
     return(
         <div className='relative bg-white bg-contain w-full rounded-t-lg bg-center'>
-            <div className='relative flex h-64'>
-                <div className='w-full h-full p-2.5'>
-                    {/* Just a placeholder image for development purposes */}
-                    <img 
-                        className='object-cover h-full rounded-lg' 
-                        src={profileData?.profile_picture ? imgPath : defaultProfileImg} />
-                    <h3 className="hidden sm:block absolute top-2.5 sm:left-2.5 font-bold text-xl px-2.5 rounded-tl-lg bg-black bg-opacity-30">
-                        {name}
-                    </h3>
-                </div>
+            <div className='relative w-full flex h-64'>
+                <img 
+                    className='w-1/3 h-full object-cover rounded-lg' 
+                    src={profileData?.profile_picture ? imgPath : defaultProfileImg} 
+                />
                 <CardDetails 
                     username={name} 
                     skills={skills} 
                     description={profileData?.description}
+                    requests={requests}
+                    sendMatchRequest={sendMatchRequest}
+                    isRequested={isRequested}
+                    fetchRequests={fetchRequests}
                 />
             </div>
         </div>

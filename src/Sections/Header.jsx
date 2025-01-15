@@ -15,7 +15,7 @@ function Header({
     displayProfile,
 }) {
     return(
-        <header className='h-full pt-10 border-b'>
+        <header className='h-fit pt-10 border-b'>
             <div className='fixed top-0 z-20 w-full bg-stone-900'>
                 <NavBar 
                     matches={matches}
