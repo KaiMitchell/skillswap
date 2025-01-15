@@ -244,10 +244,8 @@ app.post('/register', async(req, res) => {
 
         //insert new user into postgreSQL database
         await client.query(`
-
             INSERT INTO users(username, email, password)
             VALUES($1, $2, $3)
-
         `, [username, email, hashedPassword]);
 
         //generate access token to pass to client side

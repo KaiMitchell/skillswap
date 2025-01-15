@@ -246,7 +246,6 @@ function App() {
 
   //fetch sent match requests   
   async function fetchRequests() {
-    
     let sent = [];
     let recieved = [];
 
