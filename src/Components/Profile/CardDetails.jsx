@@ -22,16 +22,13 @@ function CardDetails({ username, description }) {
         const data = await response.json();
 
         if(data.status === 404) {
-
             console.log(data.error);
             setIsRenderAllSkills(false);
             return;
-
         };
 
         setToLearnProfileData(data.toLearn);
         setToTeachProfileData(data.toTeach);
-        
     };
 
     //toggle between displaying a users details or associated skills

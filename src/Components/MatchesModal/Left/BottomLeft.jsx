@@ -1,3 +1,5 @@
+import Button from "../../../commonComponents/Button";
+
 function BottomLeft({ 
     displayedProfile, 
     unMatch,
@@ -17,12 +19,11 @@ function BottomLeft({
                 <p className='my-5'>Email: {displayedProfile?.email}</p>
             }
             {isMatched && 
-                <button 
-                    onClick={() => unMatch(param, selectedUser)}
-                    className='h-8 w-20 flex justify-center items-center rounded-lg text-white hover:font-semibold bg-gradient-to-r from-rose-400 via-rose-500 to-rose-600 cursor-pointer'
-                >
-                    unMatch
-                </button>
+                <Button 
+                    handleOnClick={() => unMatch(param, selectedUser)}
+                    styles={`h-8 w-20 flex justify-center items-center rounded-lg text-white hover:font-semibold bg-gradient-to-r from-rose-400 via-rose-500 to-rose-600 cursor-pointer`}
+                    text={'Unmatch'}
+                />
             }
         </>
     );

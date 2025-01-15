@@ -27,7 +27,7 @@ function Card({
             })
         });
         
-        // const data = await response.json();
+        //send a unique value for state update to re render the page
         reMount(JSON.stringify(isRequested + profileData?.username));
     };
     return(

@@ -84,9 +84,10 @@ function SettingsModal({ isSettings, setIsSettings }) {
         data.newUsername && localStorage.setItem('user', data.newUsername);
 
         setNewUsername(localStorage.getItem('user'));
-        //clear input values and reset conflict prompt
-        setPlatformLink('');
+        //clear input values and reset conflict prompt                           
         setNewDescription('');
+        setPlatform('');
+        setPlatformLink('');
         setNewUserVal('');
         setConflictMessage('');
         fileRef.current.value = '';
@@ -131,27 +132,27 @@ function SettingsModal({ isSettings, setIsSettings }) {
                         <div className='flex gap-2.5 ml-2.5'>
                             <MapData
                                 data={platforms}
-                                render={(item) => {
+                                render={(platform) => {
                                     const [isHovered, setIsHovered] = useState(false);
 
                                     let svg;
 
                                     //assign appropriate svg to each platform icon
-                                    if(item === 'facebook') {
+                                    if(platform === 'facebook') {
                                         svg = <Facebook isHovered={isHovered} />;
-                                    } else if(item === 'twitter') {
+                                    } else if(platform === 'twitter') {
                                         svg = <Twitter isHovered={isHovered} />;
-                                    } else if(item === 'linkedIn') {
+                                    } else if(platform === 'linkedIn') {
                                         svg = <LinkedIn isHovered={isHovered} />;
                                     };
 
                                     return(
                                         <Button 
-                                            key={item}
+                                            key={platform}
                                             text={svg}
                                             handleOnMouseOver={() => setIsHovered(true)}
                                             handleOnMouseLeave={() => setIsHovered(false)}
-                                            handleOnClick={(e) => handleSetPlatform(e, item)}
+                                            handleOnClick={(e) => handleSetPlatform(e, platform)}
                                             isHandleHover={true}
                                         />
                                     );

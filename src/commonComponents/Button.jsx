@@ -7,7 +7,6 @@ function Button({
     styles
 }) {
 
-
     return(
         <button 
             {...(isHandleHover && { onMouseOver: () => handleOnMouseOver(), onMouseLeave: () => handleOnMouseLeave() })}

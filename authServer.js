@@ -361,9 +361,8 @@ app.get('/profile', authenticateToken, async(req, res) => {
                 u.phone_number,
                 u.description,
                 COALESCE(ARRAY_AGG(DISTINCT s.name) FILTER (WHERE us.is_learning = true), ARRAY['No skills to teach']) AS skills_to_learn,
-                COALESCE(ARRAY_AGG(DISTINCT s.name) FILTER (WHERE us.is_teaching = true), ARRAY['No skills to teach']) AS skills_to_teach,
+                COALESCE(ARRAY_AGG(DISTINCT s.name) FILTER (WHERE us.is_teaching = true), ARRAY['No skills to teach']) AS skills_to_teach
             FROM users u
-            LEFT JOIN social_links sl ON sl.user_id = (SELECT id FROM users WHERE username = $1)
             LEFT JOIN users_skills us ON us.user_id = (SELECT id FROM users WHERE username = $1)
             LEFT JOIN skills s ON s.id = us.skill_id
             WHERE username = $1
@@ -373,20 +372,17 @@ app.get('/profile', authenticateToken, async(req, res) => {
                 u.profile_picture,
                 u.phone_number, 
                 u.description, 
-                u.username,
-
+                u.username
         `, [selectedUser]);
 
-        // //return all platform links associated with the selected user
-        // const socials = await client.query(`
-        //     SELECT platform, text FROM social_links sl
-        //     INNER JOIN users u ON u.id = sl.user_id
-        //     WHERE 
-        //     `,
-        // );
+        //return all platform links associated with the selected user
+        const socials = await client.query(`
+            SELECT platform, url FROM social_links
+            WHERE user_id = (SELECT id FROM users WHERE username = $1)
+            `, [selectedUser]
+        );
 
         const profileData = result.rows[0];
-        console.log(profileData);
 
         //ensure arrays do not return null
         for(const prop in profileData) {
@@ -397,7 +393,8 @@ app.get('/profile', authenticateToken, async(req, res) => {
             };
         };
 
-        res.status(200).json({ profileData: profileData });
+        //append  socials results to response body inside the socials key
+        res.status(200).json({ profileData: { ...profileData, socials: socials.rows } });
     } catch(err) {
         console.error(err);
     };
@@ -507,9 +504,6 @@ app.post('/edit-profile', async(req, res) => {
         let uploadPath;
         //array to dynamically build update queries
         let usersUpdates = [];
-        let platformUpdates = [];
-        //bool to determine whether a platform link is existant
-        let existingPlatfom;
 
         //check if new username is already in use
         const existingUsername = await client.query(
@@ -524,15 +518,33 @@ app.post('/edit-profile', async(req, res) => {
             return;
         };
 
-        const exsistingLinkToPlatform = await client.query(`
-            SELECT * FROM social_links WHERE url = $1 AND platform = $2
-            `, [linkToPlatform, platform]
+        const exsistingPlatform = await client.query(`
+            SELECT * FROM social_links WHERE platform = $1 AND user_id = (SELECT id FROM users WHERE username = $2)
+            `, [platform, currentUsername]
         );
+
+        //make an insert if there is no link to platform
+        if(exsistingPlatform.rows.length === 0) {
+            console.log('inserting into social_links table: ', platform, linkToPlatform);
+            await client.query(`
+                INSERT INTO social_links(user_id, platform, url)
+                VALUES(
+                    (SELECT id FROM users WHERE username = $1),
+                    $2,
+                    $3 
+                );
+            `, [currentUsername, platform, linkToPlatform]);
+        };
     
-        //prevent conflicting social links
-        if(exsistingLinkToPlatform.rows.length > 0) {
-            res.status(409).json({ message: `link already exists`});
-            return;
+        //if the user has a link pointing to an existing platform then update the platforms link
+        if(exsistingPlatform.rows.length > 0) {
+            await client.query(
+                `UPDATE social_links
+                 SET url = $1
+                 WHERE user_id = (SELECT id FROM users WHERE username = $2)
+                 AND platform = $3
+                `, [linkToPlatform, currentUsername, platform]
+            );
         };
 
         //
@@ -558,18 +570,6 @@ app.post('/edit-profile', async(req, res) => {
         //updates for users table
         newUsername ? usersUpdates.push(`username = '${newUsername}'`) : usersUpdates.push(`username = $1`);
         newDescription && usersUpdates.push(`description = '${newDescription}'`);
-
-        if(platform && linkToPlatform) {
-            console.log('inserting into social_links table: ', platform, linkToPlatform);
-            await client.query(`
-                INSERT INTO social_links(user_id, platform, url)
-                VALUES(
-                    (SELECT id FROM users WHERE username = $1),
-                    $2,
-                    $3 
-                );
-            `, [currentUsername, platform, linkToPlatform]);
-        };
     
         //if no file is uploaded select the current profile picture to return.
         //to prevent no picture being displayed.
@@ -588,9 +588,15 @@ app.post('/edit-profile', async(req, res) => {
             WHERE username = $1
             `, [currentUsername]
         );
+
+        const newSocials = await client.query(
+            `SELECT * FROM social_links WHERE user_id = (SELECT id FROM users WHERE username = $1)`, [currentUsername]
+        );
+        console.log(newSocials.rows);
     
         res.json({ 
             img: `http://localhost:3000/${imgPath ? imgPath : currentProfilePicture}`,
+            newSocials: newSocials.rows,
             newUsername: newUsername || currentUsername          
         });
     } catch(err) {
