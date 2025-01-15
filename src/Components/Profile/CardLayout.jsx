@@ -9,7 +9,8 @@ function CardLayout({
     fetchRequests, 
     requests,
     sendMatchRequest,
-    isRequested
+    isRequested,
+    isToLearn,
 }) {
     
     //img url path to serve img file from my server
@@ -36,6 +37,7 @@ function CardLayout({
                 </div>
                 <CardDetails 
                     username={name}
+                    isToLearn={isToLearn}
                     displayedSkill={displayedSkill}
                     skills={skills} 
                     description={profileData?.description}

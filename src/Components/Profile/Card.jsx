@@ -7,7 +7,8 @@ function Card({
     fetchRequests, 
     requests, 
     skills, 
-    profileData
+    profileData,
+    isToLearn,
 }) {
     async function sendMatchRequest(isRequested) {
 
@@ -39,6 +40,7 @@ function Card({
                 sendMatchRequest={sendMatchRequest}
                 isRequested={isRequested}
                 fetchRequests={fetchRequests}
+                isToLearn={isToLearn}
             />
         </div>
     );

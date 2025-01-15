@@ -129,7 +129,7 @@ function CardPanel({
         />
 
     return(
-        <section id='profile-cards' className='relative h-full w-full flex gap-5'>
+        <section id='profile-cards' className='relative h-full max-w-full flex gap-5'>
             <DisplayCards 
                 filterInfo={learnFilterInfo}
                 searchingByStr={learnSearchingByStr}

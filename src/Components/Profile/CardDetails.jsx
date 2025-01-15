@@ -7,6 +7,7 @@ function CardDetails({
     displayedSkill,
     sendMatchRequest,
     fetchRequests, 
+    isToLearn,
 }) {
     const [isRenderAllSkills, setIsRenderAllSkills] = useState(false);
     const [toLearnProfileData, setToLearnProfileData] = useState();
@@ -56,28 +57,33 @@ function CardDetails({
 
     //toggle between displaying a users details or associated skills
     return(
-        <div className='relative h-full w-2/3 flex flex-col justify-center'>
-            <div className={`${isRenderAllSkills ? 'hidden' : 'block'} ml-5 mt-2.5`}>
-                <h2 className='text-3xl font-extrabold'>{addLineBreak(displayedSkill)}</h2>
+        <div className='relative h-full w-2/3 flex flex-col justify-between'>
+            <div className={`ml-5 mt-2.5`}>
+                <p className={`${isRenderAllSkills && 'text-xs'}`}>primary skill to {isToLearn ? 'learn' : 'teach'}:</p>
+                <h2 className={`${isRenderAllSkills ? 'text-xl' : 'text-3xl'} font-extrabold`}>{addLineBreak(displayedSkill)}</h2>
             </div>
             {/* display users associated skills on card */}
             <div 
-                className={`${isRenderAllSkills ? 'block' : 'hidden'} h-full w-full flex flex-col gap-2.5 overflow-x-auto`}
+                className={`${isRenderAllSkills ? 'block' : 'hidden'} h-content w-full flex flex-col overflow-x-auto`}
                 // onMouseLeave={() => setIsRenderAllSkills(false)}
             >
-                <CardSkills 
-                    profileData={toLearnProfileData} 
-                    isRenderAllSkills={isRenderAllSkills} 
-                    type={'To learn:'} 
-                />
-                <CardSkills 
-                    profileData={toTeachProfileData} 
-                    isRenderAllSkills={isRenderAllSkills} 
-                    type={'To teach:'} 
-                />
+                <div>
+                    <CardSkills 
+                        profileData={toLearnProfileData} 
+                        isRenderAllSkills={isRenderAllSkills} 
+                        type={'To learn:'} 
+                    />
+                </div>
+                <div>      
+                    <CardSkills 
+                        profileData={toTeachProfileData} 
+                        isRenderAllSkills={isRenderAllSkills} 
+                        type={'To teach:'} 
+                    />
+                </div>
             </div>
             {localStorage.getItem('user') && 
-                <div className='flex w-full absolute bottom-0'>
+                <div className='flex w-full bottom-0'>
                     <Button 
                         styles={`${isRenderAllSkills || isMatchHovered ? 'opacity-100' : 'opacity-0'} w-1/2 py-2.5 bg-gradient-to-r hover:${buttonBg.matchRequestHover} hover:text-white hover:font-bold`}
                         handleOnClick={() => setIsRenderAllSkills(!isRenderAllSkills)}

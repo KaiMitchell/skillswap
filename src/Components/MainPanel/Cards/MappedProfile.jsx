@@ -39,7 +39,7 @@ function MappedProfiles({
 
             } else if(!isToLearn) {
 
-                //apply filters to learn profiles
+                //apply filters to teach profiles
                 skills = obj.to_teach;
 
             };
@@ -53,6 +53,7 @@ function MappedProfiles({
         return(
             <Card 
                 key={obj?.username}
+                isToLearn={isToLearn}
                 profileData={obj}
                 fetchRequests={fetchRequests} 
                 isrequested={isRequested}
