@@ -60,35 +60,37 @@ function CardDetails({
     //toggle between displaying a users details or associated skills
     return(
         <div className='relative max-w-full h-full w-full flex flex-col justify-between lg:w-2/3'>
-            <div className='flex lg:flex-col'>
-                <div className='relative w-1/3 lg:hidden'>
-                    <img 
-                        className='w-full h-full object-cover rounded-l' 
-                        src={profileData?.profile_picture ? imgPath : defaultProfileImg} 
-                    />
-                    <h3 className='absolute top-0 left-0 px-5 py-1 w-full text-2xl rounded-tl bg-black bg-opacity-30'>{name}</h3>
-                </div>
-                <div className='w-full flex flex-col lg:gap-2.5'>
-                    <div className={`ml-5 mt-2.5`}>
-                        <p className={`${isRenderAllSkills && 'text-xs'}`}>primary skill to {isToLearn ? 'learn' : 'teach'}:</p>
-                        <h2 className={`${isRenderAllSkills ? 'text-large lg:text-xl' : 'text-xl lg:text-3xl '} font-extrabold`}>{addLineBreak(displayedSkill)}</h2>
-                    </div>
-                    {/* display users associated skills on card */}
-                    <div 
-                        className={`${isRenderAllSkills ? 'block' : 'hidden'} flex flex-col gap-2 w-full`}
-                        // onMouseLeave={() => setIsRenderAllSkills(false)}
-                    >
-                        <CardSkills 
-                            profileData={toLearnProfileData} 
-                            isRenderAllSkills={isRenderAllSkills} 
-                            type={'To learn:'} 
-                        />   
-                        <CardSkills 
-                            profileData={toTeachProfileData} 
-                            isRenderAllSkills={isRenderAllSkills} 
-                            type={'To teach:'} 
+            <div className='flex flex-col'>
+                <div className='flex lg:flex-col'>
+                    <div className='relative w-1/3 lg:hidden'>
+                        <img 
+                            className='w-full h-full object-cover rounded-l' 
+                            src={profileData?.profile_picture ? imgPath : defaultProfileImg} 
                         />
+                        <h3 className='absolute top-0 left-0 px-5 py-1 w-full text-2xl rounded-tl bg-black bg-opacity-30'>{name}</h3>
                     </div>
+                    <div className='w-full flex flex-col lg:gap-2.5'>
+                        <div className={`ml-5 mt-2.5`}>
+                            <p className={`${isRenderAllSkills && 'text-xs'}`}>primary skill to {isToLearn ? 'learn' : 'teach'}:</p>
+                            <h2 className={`${isRenderAllSkills ? 'text-large lg:text-xl' : 'text-xl lg:text-3xl '} font-extrabold`}>{addLineBreak(displayedSkill)}</h2>
+                        </div>
+                    </div>
+                </div>
+                {/* display users associated skills on card */}
+                <div 
+                    className={`${isRenderAllSkills ? 'block' : 'hidden'} flex flex-col gap-2 w-full`}
+                    // onMouseLeave={() => setIsRenderAllSkills(false)}
+                >
+                    <CardSkills 
+                        profileData={toLearnProfileData} 
+                        isRenderAllSkills={isRenderAllSkills} 
+                        type={'To learn:'} 
+                    />   
+                    <CardSkills 
+                        profileData={toTeachProfileData} 
+                        isRenderAllSkills={isRenderAllSkills} 
+                        type={'To teach:'} 
+                    />
                 </div>
             </div>
             {localStorage.getItem('user') && 
