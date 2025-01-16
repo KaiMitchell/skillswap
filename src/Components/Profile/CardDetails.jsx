@@ -100,7 +100,7 @@ function CardDetails({
             {localStorage.getItem('user') && 
                 <div className={`flex ${isMatchHovered || !isRenderAllSkills && 'flex-row-reverse'} w-full`}>
                     <Button 
-                        styles={`${isRenderAllSkills || isMatchHovered ? 'block' : 'hidden'} w-1/2 py-2.5 bg-gradient-to-r hover:${buttonBg.matchRequestHover} hover:text-white`}
+                        styles={`${isRenderAllSkills || isMatchHovered ? 'block' : 'hidden'} w-1/2 py-2 bg-gradient-to-r hover:${buttonBg.matchRequestHover} hover:text-white lg:py-2.5`}
                         handleOnClick={() => setIsRenderAllSkills(!isRenderAllSkills)}
                         handleOnMouseOver={() => setIsMatchHovered(true)}
                         handleOnMouseLeave={() => setIsMatchHovered(false)}
@@ -113,7 +113,7 @@ function CardDetails({
                         handleOnMouseOver={() => setIsMatchHovered(true)}
                         handleOnMouseLeave={() => setIsMatchHovered(false)}
                         isHandleHover={true}
-                        styles={`w-1/2 py-2.5 bg-gradient-to-r hover:${buttonBg.matchRequestHover} hover:text-white rounded-br`}
+                        styles={`w-1/2 py-2 text-sm bg-gradient-to-r hover:${buttonBg.matchRequestHover} hover:text-white rounded-br lg:text-base lg:py-2.5`}
                     />
                 </div>
             }
