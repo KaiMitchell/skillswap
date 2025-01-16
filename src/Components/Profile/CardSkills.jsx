@@ -6,7 +6,7 @@ function CardSkills({
     type,
 }) {
     return(
-        <div className={`${isRenderAllSkills ? 'block' : 'hidden'} flex w-full lg:flex-col`}>
+        <div className={`${isRenderAllSkills ? 'block' : 'hidden'} w-full`}>
             <p className='min-w-20 ml-2.5 text-xs font-bold lg:text-large'>{type}</p>
             <HorizontalListItems data={profileData?.skills} />
         </div>

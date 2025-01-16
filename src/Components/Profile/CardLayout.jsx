@@ -28,13 +28,10 @@ function CardLayout({
     return(
         <div className='relative bg-white bg-contain w-full rounded bg-center'>
             <div className='relative w-full flex h-64'>
-                <div className='hidden relative w-1/3 lg:block'>
-                    <img 
-                        className='w-full h-full object-cover rounded-l' 
-                        src={profileData?.profile_picture ? imgPath : defaultProfileImg} 
-                    />
-                    <h3 className='absolute top-0 left-0 px-5 py-1 w-full text-2xl rounded-tl bg-black bg-opacity-30'>{name}</h3>
-                </div>
+                <img 
+                    className='hidden object-cover w-1/4 rounded-l lg:block lg:w-1/3 lg:h-full' 
+                    src={profileData?.profile_picture ? imgPath : defaultProfileImg} 
+                />
                 <CardDetails 
                     username={name}
                     isToLearn={isToLearn}

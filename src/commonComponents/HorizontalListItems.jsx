@@ -21,7 +21,7 @@ const HorizontalListItems = ({ data }) => {
             />
             <MapData 
                 data={data} 
-                styles={`p-2.5 min-w-full text-center snap-center`}
+                styles={`text-xs p-2.5 min-w-full text-center snap-center lg:text-lg`}
             />
             <Button 
                 text='>'
