@@ -10,6 +10,7 @@ function CardDetails({
     defaultProfileImg,
     profileData, 
     isToLearn,
+    imgPath
 }) {
     const [isRenderAllSkills, setIsRenderAllSkills] = useState(false);
     const [toLearnProfileData, setToLearnProfileData] = useState();
