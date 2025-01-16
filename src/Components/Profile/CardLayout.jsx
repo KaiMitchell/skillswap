@@ -28,7 +28,7 @@ function CardLayout({
     return(
         <div className='relative bg-white bg-contain w-full rounded bg-center'>
             <div className='relative w-full flex h-64'>
-                <div className='relative w-1/3'>
+                <div className='hidden relative w-1/3 lg:block'>
                     <img 
                         className='w-full h-full object-cover rounded-l' 
                         src={profileData?.profile_picture ? imgPath : defaultProfileImg} 
@@ -40,7 +40,8 @@ function CardLayout({
                     isToLearn={isToLearn}
                     displayedSkill={displayedSkill}
                     skills={skills} 
-                    description={profileData?.description}
+                    profileData={profileData}
+                    defaultProfileImg={defaultProfileImg}
                     requests={requests}
                     sendMatchRequest={sendMatchRequest}
                     isRequested={isRequested}

@@ -5,24 +5,14 @@ import Button from "./Button";
 const HorizontalListItems = ({ data }) => {
     const listRef = useRef();
 
-    const scrollAnimation = [
-        { transform: "rotate(0) scale(1)" },
-        { transform: "rotate(360deg) scale(0)" },
-      ];
-      
-      const timing = {
-        duration: 2000,
-        iterations: 1,
-      };
-
     function handleScroll(direction) {
         direction === 'left' ? listRef.current.scrollLeft -= listRef.current.offsetWidth : listRef.current.scrollLeft += listRef.current.offsetWidth;
     };
 
     return(
         <ul 
-            className='relative flex justify-between w-full bg-zinc-300 text-nowrap snap-mandatory snap-x overflow-x-auto no-scrollbar'
-            ref={listRef}
+            className='relative flex justify-between bg-zinc-300 text-nowrap snap-mandatory grow snap-x overflow-x-auto no-scrollbar'
+            ref={listRef}   
         > 
             <Button 
                 text='<'
