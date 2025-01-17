@@ -60,11 +60,11 @@ function CardDetails({
 
     //toggle between displaying a users details or associated skills
     return(
-        <div className='relative max-w-full h-full w-full flex flex-col gap-1 lg:w-2/3'>
+        <div className='relative h-full w-full flex flex-col gap-1 lg:w-2/3'>
             <div className='flex flex-col h-full gap-2'>
                 <div className='flex'>
                     <img 
-                        className='size-20 rounded-full shadow-sm shadow-black object-scale-down bg-white lg:hidden' 
+                        className='hidden size-20 rounded-full shadow-sm shadow-black object-scale-down bg-white sm:block lg:hidden' 
                         src={profileData?.profile_picture ? imgPath : defaultProfileImg} 
                     />
                     <div className='ml-2.5 mt-2.5 grow'>
