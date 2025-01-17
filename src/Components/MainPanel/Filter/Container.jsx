@@ -48,7 +48,7 @@ function Container({
     //PASS PROP FOR A CONDITIONAL TO RENDER FILTERS ON MOBILE SIZE
 
     return(
-        <div className='w-full flex flex-col gap-2.5'>
+        <div className={`${!isMobileFilter && 'hidden'} sm:block w-full flex flex-col gap-2.5`}>
             <div className='flex flex-col sm:flex-row gap-2.5'>
                 <MapData
                     data={filterValueKeys}
