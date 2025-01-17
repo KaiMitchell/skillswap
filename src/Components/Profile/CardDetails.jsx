@@ -64,7 +64,7 @@ function CardDetails({
             <div className='flex flex-col h-full gap-2'>
                 <div className='flex'>
                     <img 
-                        className='w-1/4 object-cover rounded-l lg:hidden' 
+                        className='size-20 rounded-full shadow-sm shadow-black object-scale-down bg-white lg:hidden' 
                         src={profileData?.profile_picture ? imgPath : defaultProfileImg} 
                     />
                     <div className='ml-2.5 mt-2.5 grow'>
@@ -114,7 +114,7 @@ function CardDetails({
                         handleOnMouseOver={() => setIsMatchHovered(true)}
                         handleOnMouseLeave={() => setIsMatchHovered(false)}
                         isHandleHover={true}
-                        styles={`w-1/2 py-2 text-sm bg-gradient-to-r hover:${buttonBg.matchRequestHover} hover:text-white rounded-br lg:text-base lg:py-2.5`}
+                        styles={`w-1/2 py-2 text-sm bg-gradient-to-r hover:${buttonBg.matchRequestHover} hover:text-white lg:text-base lg:py-2.5`}
                     />
                 </div>
             }

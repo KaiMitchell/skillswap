@@ -26,10 +26,10 @@ function CardLayout({
     };
     
     return(
-        <div className='relative bg-white bg-contain w-full rounded bg-center'>
+        <div className='relative bg-white bg-contain w-full bg-center'>
             <div className='relative w-full flex h-64'>
                 <img 
-                    className='hidden object-cover size-1/4 rounded-l lg:block lg:w-1/3 lg:h-full' 
+                    className='hidden object-cover size-1/4 lg:block lg:w-1/3 lg:h-full' 
                     src={profileData?.profile_picture ? imgPath : defaultProfileImg} 
                 />
                 <CardDetails 
