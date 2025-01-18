@@ -12,6 +12,7 @@ function MainFilterDropDown({
     isSkillsDropDown, 
     dropDownTitle,
     setIsToLearnProfiles,
+    isToLearnProfiles,
 }) {    
 
     let mappedOptions;
@@ -73,13 +74,13 @@ function MainFilterDropDown({
 
                     //pass the skill assigned to the header filter to the main skill filter 
                     //to prevent unwelcome profile renderring issues
-                    if(filterValueKey === 'toTeachCategory' && whichFilter.headerFilter) {
+                    if(isToLearnProfiles && whichFilter.headerFilter) {
                         newObj['toLearnCategory'] = headerFilter?.category;
                         newObj['toLearn'] = [headerFilter?.skill];
                     };
 
                     //TODO: Fix issue with this code not working when selecting category from learning
-                    if(filterValueKey === 'toLearnCategory' && whichFilter.headerfilter) {
+                    if(!isToLearnProfiles && whichFilter.headerfilter) {
                         console.log('what is the filterValueKey?: ', filterValueKey);
                         newObj['toTeachCategory'] = headerFilter?.category;
                         newObj['toTeach'] = [headerFilter?.skill];

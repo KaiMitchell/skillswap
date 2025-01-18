@@ -13,6 +13,7 @@ function Container({
     setFilter, 
     isMobileFilter,
     setIsToLearnProfiles,
+    isToLearnProfiles,
 }) {
     const [isToLearnSkillsDropDown, setIsToLearnSkillsDropDown] = useState(false);
     const [isToTeachSkillsDropDown, setIsToTeachSkillsDropDown] = useState(false);
@@ -72,6 +73,7 @@ function Container({
                                     filterValueKey={key} 
                                     dropDownTitle={dropDownTitles[index]} 
                                     setIsToLearnProfiles={setIsToLearnProfiles}
+                                    isToLearnProfiles={isToLearnProfiles}
                                 />
                                 {isLearningCategory && 
                                     <div className='sm:hidden'>

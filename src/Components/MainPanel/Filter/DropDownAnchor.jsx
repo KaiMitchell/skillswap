@@ -12,6 +12,7 @@ function MainFilterDropDownComponent({
     filterValueKey, 
     isSkillsDropDown,
     setIsToLearnProfiles, 
+    isToLearnProfiles
 }) {
     const [isShown, setIsShown] = useState(false);
 
@@ -76,6 +77,7 @@ function MainFilterDropDownComponent({
                 isSkillsDropDown={isSkillsDropDown} 
                 dropDownTitle={dropDownTitle} 
                 setIsToLearnProfiles={setIsToLearnProfiles}
+                isToLearnProfiles={isToLearnProfiles}
             />
         </div>
     );
