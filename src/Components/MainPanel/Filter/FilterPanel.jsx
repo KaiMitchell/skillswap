@@ -10,6 +10,7 @@ function FilterPanel({
     setFilter, 
     filter,
     setIsToLearnProfiles,
+    isToLearnProfiles,
 }) {
     const [isMobileFilter, setIsMobileFilter] = useState(false);
 
@@ -40,12 +41,12 @@ function FilterPanel({
             <div className='flex gap-2.5 ml-5'>
                 <Button 
                     text={`learning`}
-                    styles={`bg-white`}
+                    styles={`${isToLearnProfiles && 'font-bold'} bg-white`}
                     handleOnClick={() => setIsToLearnProfiles(true)}
                 />
                 <Button 
                     text={`teaching`}
-                    styles={`bg-white`}
+                    styles={`${!isToLearnProfiles && 'font-bold'} bg-white`}
                     handleOnClick={() => setIsToLearnProfiles(false)}
                 />
             </div>

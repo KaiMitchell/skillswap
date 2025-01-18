@@ -27,13 +27,6 @@ function CardDetails({
         isRenderAllSkills && fetchProfileSkills();
     }, [isRenderAllSkills]);
 
-    //add line break after every word in displayed skilll
-    function addLineBreak(str) {
-        return str.split(' ').map((word) => word + '\n').join(' ');
-    };
-
-    addLineBreak(displayedSkill)
-
     async function fetchProfileSkills() {
 
         const response = await fetch(`http://localhost:3000/fetch-profile-skills?username=${username}`);
@@ -92,7 +85,7 @@ function CardDetails({
                     <div className='w-full grow flex items-center lg:gap-2.5'>
                         <div className={`ml-5 mt-2.5`}>
                             <p className={`${isRenderAllSkills && 'text-xs'}`}>primary skill to {isToLearn ? 'learn' : 'teach'}:</p>
-                            <h2 className={`${isRenderAllSkills ? 'text-large lg:text-xl' : 'text-xl lg:text-3xl '} font-extrabold`}>{addLineBreak(displayedSkill)}</h2>
+                            <h2 className={`${isRenderAllSkills ? 'text-large lg:text-xl' : 'text-xl lg:text-3xl '} font-extrabold`}>{displayedSkill}</h2>
                         </div>
                     </div>
                 }

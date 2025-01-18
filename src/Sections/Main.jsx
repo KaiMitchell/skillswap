@@ -28,6 +28,7 @@ function Main({
                 filter={filter} 
                 skills={skills} 
                 setIsToLearnProfiles={setIsToLearnProfiles}
+                isToLearnProfiles={isToLearnProfiles}
             />
             <CardPanel 
                 user={user}
