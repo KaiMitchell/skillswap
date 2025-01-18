@@ -2,7 +2,15 @@ import { useState } from "react";
 import Button from "../../../commonComponents/Button";
 import MainFilterDropDownContainer from "./Container";
 
-function FilterPanel({ headerFilter, whichFilter, setWhichFilter, skills, setFilter, filter }) {
+function FilterPanel({ 
+    headerFilter, 
+    whichFilter, 
+    setWhichFilter, 
+    skills, 
+    setFilter, 
+    filter,
+    setIsToLearnProfiles,
+}) {
     const [isMobileFilter, setIsMobileFilter] = useState(false);
 
     // function toggleMobileFilters() {
@@ -10,7 +18,7 @@ function FilterPanel({ headerFilter, whichFilter, setWhichFilter, skills, setFil
     // };
 
     return(
-        <div className='sm:h-full -mx-5 flex flex-col'>
+        <div className='relative sm:h-full -mx-5 flex flex-col'>
             <div className='relative p-5 md:px-10'>
                 <h1 className='text-4xl pb-2.5 font-bold underline'>Skill Swap</h1>
                 <Button 
@@ -26,6 +34,18 @@ function FilterPanel({ headerFilter, whichFilter, setWhichFilter, skills, setFil
                     filter={filter} 
                     skills={skills}
                     isMobileFilter={isMobileFilter} 
+                />
+            </div>
+            <div className='flex gap-2.5 ml-5'>
+                <Button 
+                    text={`learning`}
+                    styles={`bg-white`}
+                    handleOnClick={() => setIsToLearnProfiles(true)}
+                />
+                <Button 
+                    text={`teaching`}
+                    styles={`bg-white`}
+                    handleOnClick={() => setIsToLearnProfiles(false)}
                 />
             </div>
         </div>

@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import FilterPanel from '../Components/MainPanel/Filter/FilterPanel';
 import CardPanel from '../Components/MainPanel/Cards/CardPanel';
 
@@ -14,6 +15,9 @@ function Main({
     user,
     setWhichFilter 
 }) {   
+
+    const [isToLearnProfiles, setIsToLearnProfiles] = useState(false);
+
     return(
         <main className='px-5 h-full sm:h-72'>
             <FilterPanel 
@@ -23,6 +27,7 @@ function Main({
                 setFilter={setFilter} 
                 filter={filter} 
                 skills={skills} 
+                setIsToLearnProfiles={setIsToLearnProfiles}
             />
             <CardPanel 
                 user={user}
@@ -33,6 +38,7 @@ function Main({
                 teachProfiles={teachProfiles} 
                 whichFilter={whichFilter}
                 headerFilter={headerFilter}
+                isToLearnProfiles={isToLearnProfiles}
             />
         </main>
     );

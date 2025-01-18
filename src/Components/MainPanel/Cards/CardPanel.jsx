@@ -10,7 +10,8 @@ function CardPanel({
     filter, 
     user,
     whichFilter,
-    headerFilter
+    headerFilter,
+    isToLearnProfiles,
 }) {
     const [filterType, setFilterType] = useState({learn: '', teach: ''});
     const [param, setParam] = useState(false);//Trigger useEffect to re render page with updated requests.
@@ -129,17 +130,12 @@ function CardPanel({
         />
 
     return(
-        <section id='profile-cards' className='relative grid grid-cols-1 sm:grid-cols-2 gap-2.5 h-full max-w-full'>
-            <DisplayCards 
-                filterInfo={learnFilterInfo}
-                searchingByStr={learnSearchingByStr}
-                mappedProfiles={mappedLearnProfiles}
-            />
-            {/* <DisplayCards 
-                filterInfo={teachFilterInfo}
-                searchingByStr={teachSearchingByStr}
-                mappedProfiles={mappedTeachProfiles} 
-            /> */}
+        <section id='profile-cards' className='flex flex-col gap-2.5 h-full w-full'>
+            <h2 className='text-center text-white text-2xl font-bold'>{learnSearchingByStr}</h2>
+            <h3 className='text-center text-white'>{`${learnFilterInfo}`}</h3>
+            <div className='relative grid grid-cols-1 sm:grid-cols-2 gap-2.5 h-full max-w-full'>
+                {isToLearnProfiles ? mappedLearnProfiles : mappedTeachProfiles}   
+            </div>
         </section>
     );
 };
