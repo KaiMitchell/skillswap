@@ -131,8 +131,8 @@ function CardPanel({
 
     return(
         <section id='profile-cards' className='flex flex-col gap-2.5 h-full w-full'>
-            <h2 className='text-center text-white text-2xl font-bold'>{learnSearchingByStr}</h2>
-            <h3 className='text-center text-white'>{`${learnFilterInfo}`}</h3>
+            <h2 className='text-center text-white text-2xl font-bold'>{isToLearnProfiles ? learnSearchingByStr : teachSearchingByStr}</h2>
+            <h3 className='text-center text-white'>{`${isToLearnProfiles ? learnFilterInfo : teachFilterInfo}`}</h3>
             <div className='relative grid grid-cols-1 sm:grid-cols-2 gap-2.5 h-full max-w-full'>
                 {isToLearnProfiles ? mappedLearnProfiles : mappedTeachProfiles}   
             </div>

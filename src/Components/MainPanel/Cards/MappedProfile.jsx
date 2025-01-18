@@ -58,7 +58,7 @@ function MappedProfiles({
                 fetchRequests={fetchRequests} 
                 isrequested={isRequested}
                 requests={requests} 
-                skills={skills} 
+                skills={skills}
                 reMount={reMount}
             />
         );
