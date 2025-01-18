@@ -490,7 +490,7 @@ app.post('/edit-profile', async(req, res) => {
         newUsername,
         newDescription,
         linkToPlatform,
-        platform
+        platform,
     } = req.body;
 
     console.log(req.body);

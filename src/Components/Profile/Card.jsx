@@ -1,3 +1,4 @@
+import { useState } from "react";
 import CardFooter from "./CardFooter";
 import CardLayout from "./CardLayout";
 
@@ -10,8 +11,9 @@ function Card({
     profileData,
     isToLearn,
 }) {
-    async function sendMatchRequest(isRequested) {
+    const [isSendingRequest, setIsSendingRequest] = useState(false);
 
+    async function sendMatchRequest(isRequested) {
         const currentUser = localStorage.getItem('user');
 
         //Send the isRequested arg to be able to tell if the fetch should delete or insert a record
@@ -41,6 +43,8 @@ function Card({
                 isRequested={isRequested}
                 fetchRequests={fetchRequests}
                 isToLearn={isToLearn}
+                isSendingRequest={isSendingRequest}
+                setIsSendingRequest={setIsSendingRequest}
             />
         </div>
     );

@@ -7,7 +7,8 @@ function MappedProfiles({
     fetchRequests,
     mappedProfiles,
     reMount,
-    isToLearn
+    isToLearn,
+    isToLearnProfiles,
 }) {
     mappedProfiles = profiles?.map((obj) => {
 
@@ -60,6 +61,7 @@ function MappedProfiles({
                 requests={requests} 
                 skills={skills}
                 reMount={reMount}
+                isToLearnProfiles={isToLearnProfiles}
             />
         );
     });

@@ -1,6 +1,6 @@
-import { useContext } from "react";
 import PopOutOptions from "./PopOutOptions";
 import { TokenContext } from "../../../App";
+import { useState } from "react";
 
 function ProfileDropDownSidePopOut({ 
     displayProfile,
@@ -8,11 +8,14 @@ function ProfileDropDownSidePopOut({
     fetchData, 
     text,
 }) {
+    const [isHandleRequestFeedback, setIsHandleRequestFeedback] = useState(false);
+
     //extract token from Context property
     const accessToken = TokenContext.accessToken;
     
     //remove a pending match request you sent
     async function removeMatchRequests(selectedUser) {
+        setIsHandleRequestFeedback(true);
 
         const username = localStorage.getItem('user');
 
@@ -29,11 +32,12 @@ function ProfileDropDownSidePopOut({
 
         console.log(data);
         fetchData();
-
+        setIsHandleRequestFeedback(false);
     };
 
     //accept a match request sent to user
     async function acceptMatchRequest(selectedUser) {
+        setIsHandleRequestFeedback(true);
 
         const username = localStorage.getItem('user');
 
@@ -53,6 +57,7 @@ function ProfileDropDownSidePopOut({
         const data = await response.json();
         
         fetchData(selectedUser);
+        setIsHandleRequestFeedback(false);
     };
 
     return(
@@ -64,6 +69,7 @@ function ProfileDropDownSidePopOut({
                     displayProfile={displayProfile}
                     removeMatchRequests={removeMatchRequests}   
                     type='Pending requests'
+                    isHandleRequestFeedback={isHandleRequestFeedback}
                 />
             }
             {/* pop out feature for recieved match requests */}
@@ -74,6 +80,7 @@ function ProfileDropDownSidePopOut({
                     removeMatchRequests={removeMatchRequests}
                     acceptMatchRequest={acceptMatchRequest}
                     type='Match requests'
+                    isHandleRequestFeedback={isHandleRequestFeedback}
                 />
             }
             {/* pop out feature for viewing current matches */}
@@ -82,6 +89,7 @@ function ProfileDropDownSidePopOut({
                     array={data}
                     displayProfile={displayProfile}
                     type='Matches'
+                    isHandleRequestFeedback={isHandleRequestFeedback}
                 />
             }
         </div>

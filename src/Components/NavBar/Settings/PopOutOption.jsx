@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import Button from "../../../commonComponents/Button";
 
 function PopOutOption({
@@ -5,8 +6,17 @@ function PopOutOption({
     removeMatchRequests,
     acceptMatchRequest,
     type,
-    item
+    item,
+    isHandleRequestFeedback,
 }) {
+    const [feedBackCount, setFeedbackCount] = useState('.');
+
+    useEffect(() => {
+        if(isHandleRequestFeedback) {
+            setInterval(() => setFeedbackCount(prev => prev += '.'), 500);
+        };
+    }, [isHandleRequestFeedback]);
+
     return(
         <li 
             key={item}
@@ -17,7 +27,7 @@ function PopOutOption({
             {displayProfile && 
                 <Button 
                     handleOnClick={() => displayProfile(item, type)}
-                    text={item}
+                    text={`${isHandleRequestFeedback ? `${item} ${feedBackCount}` : item}`}
                 />
             }
             <div className="flex items-center gap-2">

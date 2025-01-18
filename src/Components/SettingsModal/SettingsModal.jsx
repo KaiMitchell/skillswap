@@ -53,7 +53,7 @@ function SettingsModal({ isSettings, setIsSettings }) {
         formData.append('newUsername', newUserVal);
         formData.append('newDescription', newDescription);
         formData.append('linkToPlatform', platformLink);
-        formData.append('platform', platform);
+        formData.append('platform', platform.toLowerCase());
 
         const response = await fetch(`http://localhost:4000/edit-profile`, {
             method: 'POST',

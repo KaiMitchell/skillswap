@@ -11,6 +11,8 @@ function CardLayout({
     sendMatchRequest,
     isRequested,
     isToLearn,
+    isSendingRequest,
+    setIsSendingRequest,
 }) {
     
     //img url path to serve img file from my server
@@ -44,6 +46,8 @@ function CardLayout({
                     isRequested={isRequested}
                     fetchRequests={fetchRequests}
                     imgPath={imgPath}
+                    isSendingRequest={isSendingRequest}
+                    setIsSendingRequest={setIsSendingRequest}
                 />
             </div>
         </div>

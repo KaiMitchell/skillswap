@@ -10,7 +10,9 @@ function CardDetails({
     defaultProfileImg,
     profileData, 
     isToLearn,
-    imgPath
+    imgPath,
+    isSendingRequest,
+    setIsSendingRequest,
 }) {
     const [isRenderAllSkills, setIsRenderAllSkills] = useState(false);
     const [toLearnProfileData, setToLearnProfileData] = useState();
@@ -45,6 +47,7 @@ function CardDetails({
     function handleClick() {
         //Passed the match request function inside of the state because I can't figure out how to update the state immediately.
         //Don't know if this is okay.
+        setIsSendingRequest(true);
         const newState = !requested;
         setRequested(newState);
         sendMatchRequest(newState);
@@ -102,7 +105,7 @@ function CardDetails({
                         text={isRenderAllSkills ? 'Hide all skills' : 'Show all skills'}
                     />
                     <Button 
-                        text='Send a match request'
+                        text={`${!isSendingRequest ? 'Send a match request' : 'sending request'}`}
                         handleOnClick={handleClick}
                         handleOnMouseOver={() => setIsMatchHovered(true)}
                         handleOnMouseLeave={() => setIsMatchHovered(false)}

@@ -6,7 +6,8 @@ function PopOutOptions({
     removeMatchRequests, 
     acceptMatchRequest, 
     displayProfile,
-    type
+    type,
+    isHandleRequestFeedback,
 }) {
     
     return(
@@ -23,6 +24,7 @@ function PopOutOptions({
                             removeMatchRequests={removeMatchRequests}
                             acceptMatchRequest={acceptMatchRequest}
                             type={type}
+                            isHandleRequestFeedback={isHandleRequestFeedback}
                         />
                     )}
                 />

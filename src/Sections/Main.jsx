@@ -13,13 +13,14 @@ function Main({
     filter, 
     whichFilter, 
     user,
-    setWhichFilter 
+    setWhichFilter,
+    isLoading,
 }) {   
 
     const [isToLearnProfiles, setIsToLearnProfiles] = useState(false);
 
     return(
-        <main className='px-5 h-full sm:h-72'>
+        <main className='px-5 h-full w-screen sm:h-72'>
             <FilterPanel 
                 whichFilter={whichFilter} 
                 headerFilter={headerFilter} 
@@ -40,6 +41,7 @@ function Main({
                 whichFilter={whichFilter}
                 headerFilter={headerFilter}
                 isToLearnProfiles={isToLearnProfiles}
+                isLoading={isLoading}
             />
         </main>
     );

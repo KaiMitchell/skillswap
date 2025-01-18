@@ -8,6 +8,7 @@ import InitialPickMatchesPage from './Pages/InitialPickMatchesPage';
 import SettingsModal from './Components/SettingsModal/SettingsModal.jsx';
 import Main from './Sections/Main.jsx';
 import MatchesModal from './Components/MatchesModal/Modal.jsx';
+import IsLoading from './commonComponents/LoadingComponents/IsLoading.jsx';
 
 export const TokenContext = createContext();
 
@@ -53,6 +54,7 @@ function App() {
   //remount on accepting a request
   const [param, setParam] = useState();
   const [accessToken, setAccessToken] = useState(sessionStorage.getItem('access token') || '');
+  const [isLoading, setIsLoading] = useState(false);
   
   //trigger re-render to immediately view new matches when accepting
   useEffect(() => {
@@ -78,6 +80,8 @@ function App() {
   }, [user]);
 
   useEffect(() => {
+    //Only set is Loading on initial render
+    setIsLoading(true);
     fetchSkills();
   }, []);
 
@@ -85,12 +89,12 @@ function App() {
   useEffect(() => {
     if(user) {
       fetchProfiles();
+      console.log(requests);
     };
   }, [requests]);
 
   //filter profile result using filters
   useEffect(() => {
-    console.log(mainFilter);
 
     if(whichFilter.headerFilter) {
 
@@ -134,12 +138,14 @@ function App() {
   // fetch all unfilterred profiles
   async function fetchProfiles() {
 
+
     const response = await fetch(`http://${backendURL}?username=${user}`);
 
     const data = await response.json();
 
     setLearnProfiles(data.data.learnProfiles);
     setTeachProfiles(data.data.teachProfiles);
+    setIsLoading(false);
   };
   
   //fetch skills for skill/category selections
@@ -263,7 +269,7 @@ function App() {
       //prevent populating requests state with an undefined value
       data.sentRequests.length > 0 ? sent = data.sentRequests : sent = [];
       data.recievedRequests.length > 0 ? recieved = data.recievedRequests : recieved = []; 
-      setRequests({ sent: sent, recieved: recieved });
+      setRequests(prev => ({ sent: sent || prev.sent, recieved: recieved || prev.recieved }));
     }; 
   };
 
@@ -386,19 +392,22 @@ function App() {
           />
         <Routes>  
           <Route path='/' element={<Main />} />
-          <Route index element={<Main 
-                                  requests={requests}
-                                  fetchRequests={fetchRequests}
-                                  learnProfiles={learnProfiles} 
-                                  teachProfiles={teachProfiles} 
-                                  filter={mainFilter} 
-                                  skills={skills} 
-                                  setFilter={setMainFilter} 
-                                  headerFilter={headerFilter} 
-                                  whichFilter={whichFilter} 
-                                  setWhichFilter={setWhichFilter} 
-                                  user={user || ''}
-                                />} 
+          <Route index element={
+              <Main 
+                requests={requests}
+                fetchRequests={fetchRequests}
+                learnProfiles={learnProfiles} 
+                teachProfiles={teachProfiles} 
+                filter={mainFilter} 
+                skills={skills} 
+                setFilter={setMainFilter} 
+                headerFilter={headerFilter} 
+                whichFilter={whichFilter} 
+                setWhichFilter={setWhichFilter} 
+                user={user || ''}
+                isLoading={isLoading}
+              />
+            }
           />
           <Route path='pick-skills' element={<InitialPickSkillsPage 
                                                 skills={skills} 
