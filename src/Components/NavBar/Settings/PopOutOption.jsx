@@ -8,12 +8,13 @@ function PopOutOption({
     type,
     item,
     isHandleRequestFeedback,
+    setIsHandleRequestFeedback,
 }) {
-    const [feedBackCount, setFeedbackCount] = useState('.');
+    const [feedBackCount, setFeedbackCount] = useState('');
 
     useEffect(() => {
-        if(isHandleRequestFeedback) {
-            setInterval(() => setFeedbackCount(prev => prev += '.'), 500);
+        if(isHandleRequestFeedback === item) {
+            setInterval(() => setFeedbackCount(prev => prev += '.'), 250);
         };
     }, [isHandleRequestFeedback]);
 

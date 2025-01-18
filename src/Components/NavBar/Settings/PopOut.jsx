@@ -8,14 +8,14 @@ function ProfileDropDownSidePopOut({
     fetchData, 
     text,
 }) {
-    const [isHandleRequestFeedback, setIsHandleRequestFeedback] = useState(false);
+    const [isHandleRequestFeedback, setIsHandleRequestFeedback] = useState('');
 
     //extract token from Context property
     const accessToken = TokenContext.accessToken;
     
     //remove a pending match request you sent
     async function removeMatchRequests(selectedUser) {
-        setIsHandleRequestFeedback(true);
+        setIsHandleRequestFeedback(selectedUser);
 
         const username = localStorage.getItem('user');
 
@@ -28,16 +28,13 @@ function ProfileDropDownSidePopOut({
             body: JSON.stringify({  currentUser: username, selectedUser: selectedUser, isRequested: false })
         });
 
-        const data = await response.json();
-
-        console.log(data);
         fetchData();
-        setIsHandleRequestFeedback(false);
+        setIsHandleRequestFeedback(selectedUser);
     };
 
     //accept a match request sent to user
     async function acceptMatchRequest(selectedUser) {
-        setIsHandleRequestFeedback(true);
+        setIsHandleRequestFeedback(selectedUser);
 
         const username = localStorage.getItem('user');
 
@@ -57,7 +54,7 @@ function ProfileDropDownSidePopOut({
         const data = await response.json();
         
         fetchData(selectedUser);
-        setIsHandleRequestFeedback(false);
+        setIsHandleRequestFeedback(selectedUser);
     };
 
     return(

@@ -45,9 +45,10 @@ function CardDetails({
     };
 
     function handleClick() {
+        //user feedback
+        setIsSendingRequest(true);
         //Passed the match request function inside of the state because I can't figure out how to update the state immediately.
         //Don't know if this is okay.
-        setIsSendingRequest(true);
         const newState = !requested;
         setRequested(newState);
         sendMatchRequest(newState);

@@ -1,3 +1,4 @@
+import { useState } from "react";
 import MapData from "../../../features/methods/MapData";
 import PopOutOption from "./PopOutOption";
 
@@ -16,17 +17,19 @@ function PopOutOptions({
             {Array.isArray(array) && array?.length ? 
                 <MapData 
                     data={array}
-                    render={(item, index) => (
-                        <PopOutOption 
-                            key={item}
-                            item={item}
-                            displayProfile={displayProfile}
-                            removeMatchRequests={removeMatchRequests}
-                            acceptMatchRequest={acceptMatchRequest}
-                            type={type}
-                            isHandleRequestFeedback={isHandleRequestFeedback}
-                        />
-                    )}
+                    render={(item, index) => {
+                        return(
+                            <PopOutOption 
+                                key={item}
+                                item={item}
+                                displayProfile={displayProfile}
+                                removeMatchRequests={removeMatchRequests}
+                                acceptMatchRequest={acceptMatchRequest}
+                                type={type}
+                                isHandleRequestFeedback={isHandleRequestFeedback}
+                            />
+                        )
+                    }}
                 />
             : 
                 <p className='p-2.5 text-sm text-stone-500'>No pending requests</p>
