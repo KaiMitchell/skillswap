@@ -62,11 +62,11 @@ function CardDetails({
     return(
         <div className='relative h-full w-full flex flex-col gap-1 lg:w-2/3'>
             <div className='flex flex-col h-full gap-2'>
-                <div className='flex'>
+                <div className='flex'>  
                     <img 
                         className='hidden size-20 rounded-full shadow-sm shadow-black object-scale-down bg-white sm:block lg:hidden' 
                         src={profileData?.profile_picture ? imgPath : defaultProfileImg} 
-                    />
+                    />      
                     <div className='ml-2.5 mt-2.5 grow'>
                         <h1 className={`text-xl font-extrabold`}>{username}</h1>
                         <p className='text-xs'>preference: in person</p>

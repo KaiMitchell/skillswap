@@ -135,11 +135,11 @@ function CardPanel({
                 searchingByStr={learnSearchingByStr}
                 mappedProfiles={mappedLearnProfiles}
             />
-            <DisplayCards 
+            {/* <DisplayCards 
                 filterInfo={teachFilterInfo}
                 searchingByStr={teachSearchingByStr}
                 mappedProfiles={mappedTeachProfiles} 
-            />
+            /> */}
         </section>
     );
 };
