@@ -34,6 +34,7 @@ function FilterPanel({
                     filter={filter} 
                     skills={skills}
                     isMobileFilter={isMobileFilter} 
+                    setIsToLearnProfiles={setIsToLearnProfiles}
                 />
             </div>
             <div className='flex gap-2.5 ml-5'>

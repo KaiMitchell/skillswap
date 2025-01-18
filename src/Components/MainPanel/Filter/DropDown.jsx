@@ -10,7 +10,8 @@ function MainFilterDropDown({
     filterValueKey, 
     options, 
     isSkillsDropDown, 
-    dropDownTitle 
+    dropDownTitle,
+    setIsToLearnProfiles,
 }) {    
 
     let mappedOptions;
@@ -56,10 +57,18 @@ function MainFilterDropDown({
                     //clear skill filter when selecting a new category
                     if(key === 'toLearn' && filterValueKey === 'toLearnCategory') {
                         newObj[key] = '';
+                        //display the main skill a profile wants to learn
+                        setIsToLearnProfiles(true);
+                        //clear the dropdown for filtering the main skills profiles want to teach
+                        newObj['toTeachCategory'] = '';
                     };
 
                     if(key === 'toTeach' && filterValueKey === 'toTeachCategory') {
                         newObj[key] = '';
+                        //display the main skill a profile wants to learn
+                        setIsToLearnProfiles(false);
+                        //clear the dropdown for filtering the main skills profiles want to learn
+                        newObj['toLearnCategory'] = '';
                     };
 
                     //pass the skill assigned to the header filter to the main skill filter 

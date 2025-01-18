@@ -11,7 +11,8 @@ function Container({
     skills, 
     filter, 
     setFilter, 
-    isMobileFilter 
+    isMobileFilter,
+    setIsToLearnProfiles,
 }) {
     const [isToLearnSkillsDropDown, setIsToLearnSkillsDropDown] = useState(false);
     const [isToTeachSkillsDropDown, setIsToTeachSkillsDropDown] = useState(false);
@@ -43,9 +44,11 @@ function Container({
         } else {
             setIsToTeachSkillsDropDown(false);
         };
+
+        console.log('main filter: ', filter);
+        //remove drop down of the filter for the opposite type of displayed profiles
     }, [filter]);
 
-    //PASS PROP FOR A CONDITIONAL TO RENDER FILTERS ON MOBILE SIZE
 
     return(
         <div className={`${!isMobileFilter && 'hidden'} sm:block w-full flex flex-col gap-2.5`}>
@@ -68,6 +71,7 @@ function Container({
                                     setFilter={setFilter} 
                                     filterValueKey={key} 
                                     dropDownTitle={dropDownTitles[index]} 
+                                    setIsToLearnProfiles={setIsToLearnProfiles}
                                 />
                                 {isLearningCategory && 
                                     <div className='sm:hidden'>
