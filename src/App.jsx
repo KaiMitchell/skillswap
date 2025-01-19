@@ -79,6 +79,8 @@ function App() {
     });
   }, [user]);
 
+  useEffect(() => {user && fetchMatches()}, [matches]);
+
   useEffect(() => {
     //Only set is Loading on initial render
     setIsLoading(true);

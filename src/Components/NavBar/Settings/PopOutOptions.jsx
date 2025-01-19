@@ -10,6 +10,8 @@ function PopOutOptions({
     type,
     isHandleRequestFeedback,
 }) {
+
+    // useEffect(() => {}, displayProfile);
     
     return(
         <ul className="text-nowrap">

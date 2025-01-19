@@ -8,10 +8,10 @@ function PopOutOption({
     type,
     item,
     isHandleRequestFeedback,
-    setIsHandleRequestFeedback,
 }) {
     const [feedBackCount, setFeedbackCount] = useState('');
 
+    //ellips the dots in a sequence for now
     useEffect(() => {
         if(isHandleRequestFeedback === item) {
             setInterval(() => setFeedbackCount(prev => prev += '.'), 250);

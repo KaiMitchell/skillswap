@@ -19,7 +19,7 @@ function ProfileDropDownSidePopOut({
 
         const username = localStorage.getItem('user');
 
-        const response = await fetch(`http://localhost:3000/handle-match-request`, {
+        await fetch(`http://localhost:3000/handle-match-request`, {
             method: 'POST',
             headers: { 
                 "Content-Type": "application/json",
@@ -38,20 +38,17 @@ function ProfileDropDownSidePopOut({
 
         const username = localStorage.getItem('user');
 
-        const response = await fetch(`http://localhost:3000/accept-match-request`, {
+        await fetch(`http://localhost:3000/accept-match-request`, {
             method: 'POST',
             headers: { 
                 "Content-Type": "application/json",
                 "authorization": `Bearer ${accessToken}`
             },
-
             body: JSON.stringify({  
                 currentUser: username, 
                 selectedUser: selectedUser, 
             })
         });
-
-        const data = await response.json();
         
         fetchData(selectedUser);
         setIsHandleRequestFeedback(selectedUser);
