@@ -602,6 +602,33 @@ app.post('/edit-profile', async(req, res) => {
     };
 });
 
+app.put('/handle-priority-skill', async(req, res) => {
+    const {
+        user,
+        skill,
+        isToLearn, //determines if setting a priority skill to learn or teach
+    } = req.body;
+
+    try {
+        const priorityType = isToLearn ? 'skill_to_learn_priority_id' : 'skill_to_teach_priority_id';
+
+        await client.query(
+            `IF users_skills.$1 IS NULL WHERE user_id = (SELECT id FROM users WHERE username = $1 THEN
+                INSERT INTO users_skills ($2)
+                VALUES ((SELECT id FROM skills WHERE name = $3))
+             ELSE
+                UPDATE users_skills
+                SET $2 = (SELECT id FROM skills WHERE name = $3)
+                WHERE user_id = (SELECT id FROM users WHERE username = $1)
+             END IF`, [user, priorityType, skill]
+        );
+
+        res.status(200).json({ skill, user, isToLearn });
+    } catch(err) {
+        console.error(err);
+    };
+});
+
 app.listen(4000, () => {
     console.log('listening on port 4000');
 });
