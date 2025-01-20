@@ -21,7 +21,7 @@ function PopOutOption({
     return(
         <li 
             key={item}
-            className={`flex items-center justify-between p-2.5 border-b border-stone-900 text-sm text-stone-500 hover:text-stone-400 hadow-xl shadow-black`}
+            className={`flex items-center justify-between p-2.5 border-b border-stone-900 text-sm text-stone-500 hover:text-stone-400 shadow-xl shadow-black`}
         >
             {/* text renderring for sent & recieved requests */}
             {/* {removeMatchRequests && <p>{!acceptMatchRequest && 'pending'}</p>} */}

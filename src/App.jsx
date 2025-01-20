@@ -139,13 +139,10 @@ function App() {
 
   // fetch all unfilterred profiles
   async function fetchProfiles() {
-
-
     const response = await fetch(`http://${backendURL}?username=${user}`);
 
     const data = await response.json();
 
-    console.log(data.data.teachProfiles); 
     setLearnProfiles(data.data.learnProfiles);
     setTeachProfiles(data.data.teachProfiles);
     setIsLoading(false);
@@ -165,12 +162,8 @@ function App() {
     //only apply properties from main filter to the query
     //value object if the value is not null
     for(const prop in mainFilter) {
-
         //if the current prop is not null then populate the query values object
         if (mainFilter[prop]) {
-
-          //database enum column for certain values is set to lowercase, do this 
-          //instead of changing dta base enum values
           if(prop === 'yourGender' || prop === 'preferredGender' || prop === 'meetUp') {
             queryValues[prop] = mainFilter[prop].toLowerCase();
           } else {

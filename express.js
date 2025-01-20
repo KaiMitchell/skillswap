@@ -39,11 +39,10 @@ app.use(cors());
 app.use(fileUpload());
 
 // Home page
-app.get('/', async(req, res) => {  
+app.get('/', async(req, res) => {     
     const { username } = req.query;
 
     try {
-
         const learnProfiles = [];
         const teachProfiles = [];
         const safeUsername = username || 'safeUsername';
@@ -54,29 +53,57 @@ app.get('/', async(req, res) => {
         // the user is not currently matched with them
         const toLearn = await client.query(
             `
-            SELECT 
-                u.username, 
-                u.description, 
-                u.profile_picture, 
-                u.gender,
-                ARRAY_AGG(s.name) as 
-            to_learn 
-            FROM users u
-            JOIN users_skills us ON u.id = us.user_id
-            JOIN skills s ON s.id = us.skill_id
-            LEFT JOIN match_requests mr_sent ON u.id = mr_sent.u_id2 AND mr_sent.u_id1 = (SELECT id FROM users WHERE username = $1)
-            LEFT JOIN match_requests mr_recieved ON u.id = mr_recieved.u_id1 AND mr_recieved.u_id2 = (SELECT id FROM users WHERE username = $1)
-            LEFT JOIN matches m 
-                ON (m.user_id = (SELECT id FROM users WHERE username = $1) AND m.match_id = u.id)
-                OR (m.match_id = (SELECT id FROM users WHERE username = $1) AND m.user_id = u.id)
-            WHERE us.is_learning = true 
-            AND mr_sent.u_id2 IS NULL
-            AND mr_recieved.u_id1 IS NULL
-            AND m.match_id IS NULL
-            AND u.username != $1
-            GROUP BY u.id
-            ORDER BY u.id
+            WITH cte_user_skills AS (
+                SELECT 
+                    u.username, 
+                    u.description, 
+                    u.profile_picture, 
+                    u.gender, 
+                    ARRAY_AGG(s.name) AS to_learn
+                FROM users u
+                JOIN users_skills us ON u.id = us.user_id
+                JOIN skills s ON s.id = us.skill_id
+                WHERE us.is_learning = true
+                GROUP BY u.id
+            ),
+            cte_filtered_users AS (
+                SELECT 
+                    cte.username, 
+                    cte.description, 
+                    cte.profile_picture, 
+                    cte.gender, 
+                    cte.to_learn
+                FROM cte_user_skills cte
+                LEFT JOIN match_requests mr_sent 
+                    ON cte.username = (SELECT username FROM users WHERE id = mr_sent.u_id2) 
+                    AND mr_sent.u_id1 = (SELECT id FROM users WHERE username = $1)
+                LEFT JOIN match_requests mr_recieved 
+                    ON cte.username = (SELECT username FROM users WHERE id = mr_recieved.u_id1) 
+                    AND mr_recieved.u_id2 = (SELECT id FROM users WHERE username = $1)
+                LEFT JOIN matches m 
+                    ON (m.user_id = (SELECT id FROM users WHERE username = $1) AND m.match_id = (SELECT id FROM users WHERE username = cte.username))
+                    OR (m.match_id = (SELECT id FROM users WHERE username = $1) AND m.user_id = (SELECT id FROM users WHERE username = cte.username))
+                WHERE mr_sent.u_id2 IS NULL
+                    AND mr_recieved.u_id1 IS NULL
+                    AND m.match_id IS NULL
+                    AND cte.username != $1
+            )
+            SELECT * 
+            FROM cte_filtered_users
+            ORDER BY username
             `, [safeUsername]
+        );
+
+        //acquire priority skills to learn for each user
+        const toLearnPriority = await client.query(
+            `
+            SELECT us.skill_to_learn_priority_id, u.username, s.name AS skill FROM users_skills us
+            JOIN users u ON us.user_id = u.id
+            JOIN skills s ON us.skill_id = s.id
+            WHERE us.skill_to_learn_priority_id IS NOT NULL
+            AND us.skill_to_learn_priority_id = s.id
+            GROUP BY u.username, us.skill_to_learn_priority_id, s.name
+            `
         );
 
         //Use 'and mr.u_id2 IS NULL to return all records that are NULL 
@@ -109,11 +136,45 @@ app.get('/', async(req, res) => {
             `, [safeUsername]
         );
 
+        //acquire priority skills to teach for each user
+        const toTeachPriority = await client.query(
+            `
+            SELECT us.skill_to_teach_priority_id, u.username, s.name AS skill FROM users_skills us
+            JOIN users u ON us.user_id = u.id
+            JOIN skills s ON us.skill_id = s.id
+            WHERE us.skill_to_teach_priority_id IS NOT NULL
+            AND us.skill_to_teach_priority_id = s.id
+            GROUP BY u.username, us.skill_to_teach_priority_id, s.name
+            `
+        );
+
         toTeach.rows.forEach((row) => teachProfiles.push(row));
         toLearn.rows.forEach((row) => learnProfiles.push(row));
 
-        res.status(200).send({ data: {learnProfiles: learnProfiles, teachProfiles: teachProfiles} });
+        //add priority skills assigned to each user to each profile array
+        learnProfiles.map(profile => {
+            const newArr = [];
+            toLearnPriority.rows.map(obj => {
+                if(obj.username === profile.username) {
+                    profile.toLearnPriority = obj.skill;
+                };
+            });
+            newArr.push(profile);
+            return newArr;
+        });
 
+        teachProfiles.map(profile => {
+            const newArr = [];
+            toTeachPriority.rows.map(obj => {
+                if(obj.username === profile.username) {
+                    profile.toTeachPriority = obj.skill;
+                };
+            });
+            newArr.push(profile);
+            return newArr;
+        });
+
+        res.status(200).send({ data: { learnProfiles: learnProfiles, teachProfiles: teachProfiles } });
     } catch(err) {
         console.error(err);
     };

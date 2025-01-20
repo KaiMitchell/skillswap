@@ -13,8 +13,8 @@ function CardLayout({
     isToLearn,
     isSendingRequest,
     setIsSendingRequest,
+    prioritySkill,
 }) {
-    
     //img url path to serve img file from my server
     const imgPath = imgURL + profileData?.profile_picture;
     const name = profileData?.username;
@@ -22,7 +22,7 @@ function CardLayout({
     let displayedSkill;
     
     if(Array.isArray(skills) && skills.length > 0) {
-        displayedSkill = skills[0];
+        displayedSkill = prioritySkill || skills[0];
     } else {
         displayedSkill = skills;
     };

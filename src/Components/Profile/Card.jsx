@@ -13,6 +13,14 @@ function Card({
 }) {
     const [isSendingRequest, setIsSendingRequest] = useState(false);
 
+    //dynamically display a priority skill
+    let prioritySkill;
+    if(isToLearn) {
+        if(profileData.toLearnPriority) prioritySkill = profileData.toLearnPriority;
+    } else {
+        if(profileData.toTeachPriority) prioritySkill = profileData.toTeachPriority;
+    };
+
     async function sendMatchRequest(isRequested) {
         const currentUser = localStorage.getItem('user');
 
@@ -33,6 +41,7 @@ function Card({
         //send a unique value for state update to re render the page
         reMount(JSON.stringify(isRequested + profileData?.username));
     };
+
     return(
         <div>
             <CardLayout 
@@ -45,6 +54,7 @@ function Card({
                 isToLearn={isToLearn}
                 isSendingRequest={isSendingRequest}
                 setIsSendingRequest={setIsSendingRequest}
+                prioritySkill={prioritySkill || 'no primary skill'}
             />
         </div>
     );
