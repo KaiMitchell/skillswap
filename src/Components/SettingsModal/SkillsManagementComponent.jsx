@@ -7,6 +7,7 @@ function SkillsManagementComponent() {
     const [updateSkillsToTeach, setUpdateSkillsToTeach] = useState();
     const [skillsToLearn, setSkillsToLearn] = useState();
     const [skillsToTeach, setSkillsToTeach] = useState();
+    const [prioritizedSkill, setPrioritizedSkill] = useState(false);
     const [selectedSkill, setSelectedSkill] = useState(''); // a trigger to update ui with fresh data
 
     //fetch required skills and re render when updated
@@ -60,7 +61,6 @@ function SkillsManagementComponent() {
 
     //add a new skill into skill list
     async function addSkill(skill, toLearn) {
-
         //using a post method because the query inserts not updates
         const response = await fetch(`http://localhost:4000/add-skill`, {
             method: 'POST',
@@ -78,12 +78,24 @@ function SkillsManagementComponent() {
         const data = await response.json();
         
         if(response.status === 200) {
-
             setSelectedSkill(() => `${skill}${data.rowCount}`);
             console.log(skill + data);
-        
         };
-    
+    };
+
+    async function handleSkillPrioritization(skill) {
+        const response = await fetch(`http://localhost:4000/update-priority-skill`, {
+            method: 'PUT',
+            headers: {
+                "Content-Type": "application/json",
+                "authorization": `bearer ${sessionStorage.getItem('access token')}`
+            },
+            body: JSON.stringify({ skill, user: localStorage.getItem('user') })
+        });
+        
+        if(response.status === 200) {
+            setPrioritizedSkill();
+        };
     };
 
     return(
