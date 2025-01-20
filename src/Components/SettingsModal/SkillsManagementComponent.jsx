@@ -46,10 +46,12 @@ function SkillsManagementComponent() {
     };
 
     //delete a skill from skills list
-    async function removeSkill(skill) {
+    async function removeSkill(skill, isToLearn) {
         await fetch(`http://localhost:4000/remove-skill?skill=${skill}&username=${localStorage.getItem('user')}`, {
             method: 'DELETE'
         });
+        //ensure priority is also unset if the skill was a priority
+        removeSkillPrioritization(skill, isToLearn);
         setRemount(prev => prev + 1);
     };
 
@@ -71,6 +73,7 @@ function SkillsManagementComponent() {
         setRemount(prev => prev + 1);
     };
 
+    //make a skill a priority
     async function addSkillPrioritization(skill, isToLearn) {
         console.log('adding');
         await fetch(`http://localhost:4000/update-priority-skill`, {
@@ -95,6 +98,7 @@ function SkillsManagementComponent() {
         setRemount(prev => prev + 1);
     };
 
+    //undo prioritization
     async function removeSkillPrioritization(skill, isToLearn) {
         console.log('removing');
         await fetch(`http://localhost:4000/unprioritize-skill`, {

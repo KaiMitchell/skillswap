@@ -78,7 +78,7 @@ function SMList({
                         text={removeSkillSvg}
                         handleOnMouseLeave={() => setIsButtonHover(false)}
                         handleOnMouseOver={() => setIsButtonHover(true)}
-                        handleOnClick={() => handleSkill(skill)}
+                        handleOnClick={() => handleSkill(skill, text === 'Skills you want to learn')}
                         isHandleHover={true}
                     />
                 }
