@@ -618,7 +618,7 @@ app.put('/update-priority-skill', async(req, res) => {
              WHERE user_id = (SELECT id FROM users WHERE username = $1)`, [user, skill]
         );
 
-        res.status(200).json({ prioritizedSkill: skill });
+        res.status(200).json({ message: 'successfully updated' });
     } catch(err) {
         console.error(err);
     };

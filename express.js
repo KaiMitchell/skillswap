@@ -146,6 +146,7 @@ app.get('/fetch-skills', async(req, res) => {
 app.get('/users-skills', async(req, res) => {
     const username = req.query.username;
 
+    console.log(username);
     try{
         if(!username) {
             res.status(500).json({ message: 'missing username' });
@@ -212,11 +213,36 @@ app.get('/users-skills', async(req, res) => {
             `, [username]
         );
 
+        //get priority skill to learn for the user
+        const toLearnPriority = await client.query(
+            `
+            SELECT
+                name 
+            FROM skills s
+            JOIN users_skills us ON us.skill_to_learn_priority_id = s.id
+            WHERE us.user_id = (SELECT id FROM users WHERE username = $1)
+            `, [username]
+        );
+
+        const toTeachPriority = await client.query(
+            `
+            SELECT
+                name 
+            FROM skills s
+            JOIN users_skills us ON us.skill_to_teach_priority_id = s.id
+            WHERE us.user_id = (SELECT id FROM users WHERE username = $1)
+            `, [username]   
+        );  
+        console.log('ToLearnPriority:', toLearnPriority.rows);
+        console.log('ToTeachPriority:', toTeachPriority.rows);
+        
         //ensure the categories prop is existant for the map method
         res.status(200).json({ 
             message: 'skills',
             toLearn: toLearn.rows[0] || { categories: [] },
-            toTeach: toTeach.rows[0] || { categories: [] }
+            toTeach: toTeach.rows[0] || { categories: [] },
+            toLearnPriority: toLearnPriority.rows[0]?.name || null,
+            toTeachPriority: toTeachPriority.rows[0]?.name || null
         });
     } catch(err) {
         console.error('fetch-users-skill error!: ', err);

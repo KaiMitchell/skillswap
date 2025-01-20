@@ -6,13 +6,13 @@ function SMList({
     handleSkill, 
     text,
     prioritize,
-    prioritizedSkill,
+    priority,
 }) {
     //alter the stroke width of the delete button within the current skill list
     const [isButtonHover, setIsButtonHover] = useState(false);
     const [isTextHover, setIsTextHover] = useState(false)
     
-    const isPrioritized = prioritizedSkill === skill ? true : false;
+    const isPrioritized = priority === skill ? true : false;
 
     //svg elements for to pass to the button components
     const addSkillSvg =                     
@@ -62,7 +62,7 @@ function SMList({
                 <Button 
                     text={`prioritize`}
                     styles={`${isTextHover ? 'block' : 'hidden'} hover:font-bold`}
-                    handleOnClick={() => prioritize(skill)}
+                    handleOnClick={() => prioritize(skill, text === 'Skills you want to learn')}
                 />
                 {!isAddSkill &&
                     <Button 

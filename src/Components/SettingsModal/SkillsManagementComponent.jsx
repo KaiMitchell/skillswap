@@ -7,62 +7,57 @@ function SkillsManagementComponent() {
     const [updateSkillsToTeach, setUpdateSkillsToTeach] = useState();
     const [skillsToLearn, setSkillsToLearn] = useState();
     const [skillsToTeach, setSkillsToTeach] = useState();
-    const [prioritizedSkill, setPrioritizedSkill] = useState('');
-    const [selectedSkill, setSelectedSkill] = useState(''); // a trigger to update ui with fresh data
+    const [toLearnPriority, setToLearnPriority] = useState();
+    const [toTeachPriority, setToTeachPriority] = useState();
+    const [remount, setRemount] = useState(0); // a trigger to update ui with fresh data
 
     //fetch required skills and re render when updated
     useEffect(() => {
-
         fetchCurrentSkills();
         fetchUnselectedSkills();
-        
-    }, [selectedSkill]);
+    }, [remount]);
 
     //all skills a user is teaching or learning
     async function fetchCurrentSkills() {
-
         const response = await fetch(`http://localhost:3000/users-skills?username=${localStorage.getItem('user')}`);
-        
+
         const data = await response.json();
 
-        setSkillsToLearn(data?.toLearn.categories);
-        setSkillsToTeach(data?.toTeach.categories);
-    
+        console.log(data);
+        if (JSON.stringify(data?.toLearn.categories) !== JSON.stringify(skillsToLearn)) {
+            setSkillsToLearn(data?.toLearn.categories);
+        };
+        if (JSON.stringify(data?.toTeach.categories) !== JSON.stringify(skillsToTeach)) {
+            setSkillsToTeach(data?.toTeach.categories);
+        };
+        if (data?.toLearnPriority !== toLearnPriority) {
+            setToLearnPriority(data?.toLearnPriority);
+        };
+        if (data?.toTeachPriority !== toTeachPriority) {
+            setToTeachPriority(data?.toTeachPriority);
+        };
     };
 
     //render a list of skills not assigned to the current user
     async function fetchUnselectedSkills() {
-
-        const response = await fetch(`http://localhost:4000/unselected-skills?username=${localStorage.getItem('user')}`);
-        
+        const response = await fetch(`http://localhost:4000/unselected-skills?username=${localStorage.getItem('user')}`); 
         const data = await response.json();
-
         setUpdateSkillsToLearn(data.data);
         setUpdateSkillsToTeach(data.data);
-    
     };
 
     //delete a skill from skills list
     async function removeSkill(skill) {
-
-        const response = await fetch(`http://localhost:4000/remove-skill?skill=${skill}&username=${localStorage.getItem('user')}`, {
+        await fetch(`http://localhost:4000/remove-skill?skill=${skill}&username=${localStorage.getItem('user')}`, {
             method: 'DELETE'
         });
-        
-        const data = await response.json();
-
-        if(response.status === 200) {
-
-            setSelectedSkill(() => `${skill}${data.rowCount}`);
-        
-        };
-    
+        setRemount(prev => prev + 1);
     };
 
     //add a new skill into skill list
     async function addSkill(skill, toLearn) {
         //using a post method because the query inserts not updates
-        const response = await fetch(`http://localhost:4000/add-skill`, {
+        await fetch(`http://localhost:4000/add-skill`, {
             method: 'POST',
             headers: {
                 "Content-Type": "application/json",
@@ -74,30 +69,29 @@ function SkillsManagementComponent() {
                 toLearn: toLearn
             })
         });
-
-        const data = await response.json();
-        
-        if(response.status === 200) {
-            setSelectedSkill(() => `${skill}${data.rowCount}`);
-            console.log(skill + data);
-        };
+        setRemount(prev => prev + 1);
     };
 
-    async function handleSkillPrioritization(skill) {
-        const response = await fetch(`http://localhost:4000/update-priority-skill`, {
+    async function handleSkillPrioritization(skill, isToLearn) {
+        await fetch(`http://localhost:4000/update-priority-skill`, {
             method: 'PUT',
             headers: {
                 "Content-Type": "application/json",
                 "authorization": `bearer ${sessionStorage.getItem('access token')}`
             },
-            body: JSON.stringify({ skill, user: localStorage.getItem('user') })
+            body: JSON.stringify({ 
+                skill, 
+                isToLearn,
+                user: localStorage.getItem('user') })
         });
         
-        if(response.status === 200) {
-            const data = await response.json();
-            setPrioritizedSkill(data.prioritizedSkill);
-            console.log(data);
+        if(isToLearn) {
+            setToLearnPriority(skill);
+        } else {
+            setToTeachPriority(skill);
         };
+
+        setRemount(prev => prev + 1);
     };
 
     return(
@@ -110,14 +104,14 @@ function SkillsManagementComponent() {
                         skills={skillsToTeach}
                         handleSkill={removeSkill}  
                         prioritize={handleSkillPrioritization} 
-                        prioritizedSkill={prioritizedSkill}                     
+                        priority={toTeachPriority}                     
                     />
                     <SelectSkills
                         text='Skills you want to learn' 
                         skills={skillsToLearn}
                         handleSkill={removeSkill}     
                         prioritize={handleSkillPrioritization}  
-                        prioritizedSkill={prioritizedSkill}                 
+                        priority={toLearnPriority}                 
                     />
                 </div>
             </div>
