@@ -87,6 +87,7 @@ app.get('/', async(req, res) => {
                 u.description, 
                 u.profile_picture,
                 u.gender,
+                us.skill_to_teach_priority_id,
                 ARRAY_AGG(s.name) to_teach 
             FROM users u
              JOIN users_skills us ON u.id = us.user_id
@@ -101,7 +102,9 @@ app.get('/', async(req, res) => {
              AND mr_sent.u_id2 IS NULL
              AND mr_recieved.u_id2 IS NULL
              AND m.match_id IS NULL
-             GROUP BY u.id
+             GROUP BY 
+                u.id,
+                us.skill_to_teach_priority_id
              ORDER BY u.id
             `, [safeUsername]
         );
@@ -145,8 +148,6 @@ app.get('/fetch-skills', async(req, res) => {
 
 app.get('/users-skills', async(req, res) => {
     const username = req.query.username;
-
-    console.log(username);
     try{
         if(!username) {
             res.status(500).json({ message: 'missing username' });
@@ -232,9 +233,7 @@ app.get('/users-skills', async(req, res) => {
             JOIN users_skills us ON us.skill_to_teach_priority_id = s.id
             WHERE us.user_id = (SELECT id FROM users WHERE username = $1)
             `, [username]   
-        );  
-        console.log('ToLearnPriority:', toLearnPriority.rows);
-        console.log('ToTeachPriority:', toTeachPriority.rows);
+        ); 
         
         //ensure the categories prop is existant for the map method
         res.status(200).json({ 

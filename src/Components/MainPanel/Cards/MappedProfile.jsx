@@ -23,32 +23,20 @@ function MappedProfiles({
         };
 
         if(whichfilter.headerFilter) {
-
             skills = obj.name; //skill name
-
         } else if(whichfilter.mainFilter) {
-
             if(obj.skills){
-
                 //appliy category filters to profiles
                 skills = obj.skills;
-
             } else if(isToLearn) {
-
                 //apply filters to learn profiles
                 skills = obj.to_learn;
-
             } else if(!isToLearn) {
-
                 //apply filters to teach profiles
                 skills = obj.to_teach;
-
-            };
-            
+            };       
         } else {
-
             skills = obj.to_teach || obj.to_learn;
-
         };
         
         return(

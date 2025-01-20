@@ -20,7 +20,7 @@ function CardLayout({
     const name = profileData?.username;
 
     let displayedSkill;
-
+    
     if(Array.isArray(skills) && skills.length > 0) {
         displayedSkill = skills[0];
     } else {

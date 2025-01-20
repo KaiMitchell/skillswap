@@ -23,7 +23,6 @@ function SkillsManagementComponent() {
 
         const data = await response.json();
 
-        console.log(data);
         if (JSON.stringify(data?.toLearn.categories) !== JSON.stringify(skillsToLearn)) {
             setSkillsToLearn(data?.toLearn.categories);
         };

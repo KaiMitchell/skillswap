@@ -30,31 +30,19 @@ function CardPanel({
 
         //label the filter type while filtering profiles
         if(filter.toTeachCategory && !filter.toTeach) {
-
             toTeachFilterHeader = 'CATEGORY';
-
         } else if(filter.toTeach) {
-
-            toTeachFilterHeader = 'SKILL';
-            
+            toTeachFilterHeader = 'SKILL';    
         } else {
-
             toTeachFilterHeader = 'ALL';
-
         };
         
         if(filter.toLearnCategory && !filter.toLearn) {
-
             toLearnFilterHeader = 'CATEGORY';
-
         } else if(filter.toLearn) {
-
             toLearnFilterHeader = 'SKILL';
-
         } else {
-
             toLearnFilterHeader = 'ALL';
-
         };
         setFilterType({ learn: toLearnFilterHeader, teach: toTeachFilterHeader });
     }, [filter]);

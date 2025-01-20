@@ -145,6 +145,7 @@ function App() {
 
     const data = await response.json();
 
+    console.log(data.data.teachProfiles); 
     setLearnProfiles(data.data.learnProfiles);
     setTeachProfiles(data.data.teachProfiles);
     setIsLoading(false);
