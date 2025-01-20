@@ -1,10 +1,18 @@
 import { useState } from "react";
 import Button from "../../commonComponents/Button";
 
-function SMList({ skill, handleSkill, text }) {
-
+function SMList({ 
+    skill, 
+    handleSkill, 
+    text,
+    prioritize,
+    prioritizedSkill,
+}) {
     //alter the stroke width of the delete button within the current skill list
     const [isButtonHover, setIsButtonHover] = useState(false);
+    const [isTextHover, setIsTextHover] = useState(false)
+    
+    const isPrioritized = prioritizedSkill === skill ? true : false;
 
     //svg elements for to pass to the button components
     const addSkillSvg =                     
@@ -44,26 +52,37 @@ function SMList({ skill, handleSkill, text }) {
     const isAddSkillToLearn = text.includes('skills to learn');
 
     return(
-        <li className='group flex justify-between items-center w-full px-1 py-2 text-sm hover:cursor-pointer'>
+        <li 
+            className={`${isPrioritized && 'bg-green-500'} group flex justify-between items-center max-w-full px-1 py-2 text-sm hover:cursor-pointer`}
+            onMouseOver={() => setIsTextHover(true)}
+            onMouseLeave={() => setIsTextHover(false)}
+        >
             <p className='group-hover:font-bold'>{skill}</p>
-            {!isAddSkill &&
+            <div className='flex gap-1.5'>
                 <Button 
-                    text={removeSkillSvg}
-                    handleOnMouseLeave={() => setIsButtonHover(false)}
-                    handleOnMouseOver={() => setIsButtonHover(true)}
-                    handleOnClick={() => handleSkill(skill)}
-                    isHandleHover={true}
+                    text={`prioritize`}
+                    styles={`${isTextHover ? 'block' : 'hidden'} hover:font-bold`}
+                    handleOnClick={() => prioritize(skill)}
                 />
-            }
-            {isAddSkill &&
-                <Button 
-                    text={addSkillSvg}
-                    handleOnMouseLeave={() => setIsButtonHover(false)}
-                    handleOnMouseOver={() => setIsButtonHover(true)}
-                    handleOnClick={() => handleSkill(skill, isAddSkillToLearn)}
-                    isHandleHover={true}
-                />
-            }
+                {!isAddSkill &&
+                    <Button 
+                        text={removeSkillSvg}
+                        handleOnMouseLeave={() => setIsButtonHover(false)}
+                        handleOnMouseOver={() => setIsButtonHover(true)}
+                        handleOnClick={() => handleSkill(skill)}
+                        isHandleHover={true}
+                    />
+                }
+                {isAddSkill &&
+                    <Button 
+                        text={addSkillSvg}
+                        handleOnMouseLeave={() => setIsButtonHover(false)}
+                        handleOnMouseOver={() => setIsButtonHover(true)}
+                        handleOnClick={() => handleSkill(skill, isAddSkillToLearn)}
+                        isHandleHover={true}
+                    />
+                }
+            </div>
         </li>
     );
 };

@@ -34,9 +34,8 @@ function SettingsModal({ isSettings, setIsSettings }) {
         return () => document.removeEventListener('mousedown', closeModal);
     }, []);
 
-    useEffect(() => {
-
-    }, []);
+    // useEffect(() => {
+    // }, []);
 
     //submit updated profile pic, description or username
     async function handleSubmit(e) {

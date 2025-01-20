@@ -6,6 +6,8 @@ function SelectSkills({
     text, 
     skills, 
     handleSkill,
+    prioritize,
+    prioritizedSkill,
  }) {
     return(
         <div className='min-h-1/2 w-full'>
@@ -27,6 +29,8 @@ function SelectSkills({
                                                     skill={skill}
                                                     handleSkill={handleSkill}
                                                     text={text}
+                                                    prioritize={prioritize}
+                                                    prioritizedSkill={prioritizedSkill}
                                                 />
                                             )
                                         }}

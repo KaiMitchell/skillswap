@@ -7,7 +7,7 @@ function SkillsManagementComponent() {
     const [updateSkillsToTeach, setUpdateSkillsToTeach] = useState();
     const [skillsToLearn, setSkillsToLearn] = useState();
     const [skillsToTeach, setSkillsToTeach] = useState();
-    const [prioritizedSkill, setPrioritizedSkill] = useState(false);
+    const [prioritizedSkill, setPrioritizedSkill] = useState('');
     const [selectedSkill, setSelectedSkill] = useState(''); // a trigger to update ui with fresh data
 
     //fetch required skills and re render when updated
@@ -94,7 +94,9 @@ function SkillsManagementComponent() {
         });
         
         if(response.status === 200) {
-            setPrioritizedSkill();
+            const data = await response.json();
+            setPrioritizedSkill(data.prioritizedSkill);
+            console.log(data);
         };
     };
 
@@ -106,12 +108,16 @@ function SkillsManagementComponent() {
                     <SelectSkills
                         text='Skills you can teach' 
                         skills={skillsToTeach}
-                        handleSkill={removeSkill}                        
+                        handleSkill={removeSkill}  
+                        prioritize={handleSkillPrioritization} 
+                        prioritizedSkill={prioritizedSkill}                     
                     />
                     <SelectSkills
                         text='Skills you want to learn' 
                         skills={skillsToLearn}
-                        handleSkill={removeSkill}                        
+                        handleSkill={removeSkill}     
+                        prioritize={handleSkillPrioritization}  
+                        prioritizedSkill={prioritizedSkill}                 
                     />
                 </div>
             </div>
@@ -126,7 +132,6 @@ function SkillsManagementComponent() {
                     <SelectSkills 
                         text='Pick skills to learn'
                         skills={updateSkillsToTeach}
-                        handleSkill={addSkill} 
                     />
                 </div>
             </div>
