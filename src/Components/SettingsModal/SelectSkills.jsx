@@ -7,6 +7,7 @@ function SelectSkills({
     skills, 
     handleSkill,
     prioritize,
+    unprioritize,
     priority,
  }) {
     return(
@@ -30,6 +31,7 @@ function SelectSkills({
                                                     handleSkill={handleSkill}
                                                     text={text}
                                                     prioritize={prioritize}
+                                                    unprioritize={unprioritize}
                                                     priority={priority}
                                                 />
                                             )

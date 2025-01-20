@@ -6,6 +6,7 @@ function SMList({
     handleSkill, 
     text,
     prioritize,
+    unprioritize,
     priority,
 }) {
     //alter the stroke width of the delete button within the current skill list
@@ -51,6 +52,14 @@ function SMList({
     //set the boolean to determine if a user wants to learn or teach the selected skill
     const isAddSkillToLearn = text.includes('skills to learn');
 
+    function handlePrioritization(skill, isToLearn) {
+        if(isPrioritized) {
+            unprioritize(skill, isToLearn);
+        } else {
+            prioritize(skill, isToLearn);
+        };
+    };
+
     return(
         <li 
             className={`${isPrioritized && 'bg-green-500'} group flex justify-between items-center max-w-full px-1 py-2 text-sm hover:cursor-pointer`}
@@ -60,9 +69,9 @@ function SMList({
             <p className='group-hover:font-bold'>{skill}</p>
             <div className='flex gap-1.5'>
                 <Button 
-                    text={`prioritize`}
+                    text={isPrioritized ? 'unprioritize' : 'prioritize'}
                     styles={`${isTextHover ? 'block' : 'hidden'} hover:font-bold`}
-                    handleOnClick={() => prioritize(skill, text === 'Skills you want to learn')}
+                    handleOnClick={() => handlePrioritization(skill, text === 'Skills you want to learn')}
                 />
                 {!isAddSkill &&
                     <Button 

@@ -624,6 +624,21 @@ app.put('/update-priority-skill', async(req, res) => {
     };
 });
 
+app.delete('/unprioritize-skill', async(req, res) => {
+    const { user, skill, isToLearn } = req.body;
+    try {
+        const priorityType = isToLearn ? 'skill_to_learn_priority_id' : 'skill_to_teach_priority_id';
+        await client.query(
+            `UPDATE users_skills
+             SET ${priorityType} = NULL
+             WHERE user_id = (SELECT id FROM users WHERE username = $1)`, [user]
+        );
+        res.status(200).json({ message: skill + 'unprioritized' })
+    } catch(err) {
+        console.error(err);
+    };
+});
+
 app.listen(4000, () => {
     console.log('listening on port 4000');
 });

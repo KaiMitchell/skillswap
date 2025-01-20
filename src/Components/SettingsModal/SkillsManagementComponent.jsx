@@ -71,7 +71,8 @@ function SkillsManagementComponent() {
         setRemount(prev => prev + 1);
     };
 
-    async function handleSkillPrioritization(skill, isToLearn) {
+    async function addSkillPrioritization(skill, isToLearn) {
+        console.log('adding');
         await fetch(`http://localhost:4000/update-priority-skill`, {
             method: 'PUT',
             headers: {
@@ -81,7 +82,8 @@ function SkillsManagementComponent() {
             body: JSON.stringify({ 
                 skill, 
                 isToLearn,
-                user: localStorage.getItem('user') })
+                user: localStorage.getItem('user') 
+            })
         });
         
         if(isToLearn) {
@@ -90,6 +92,29 @@ function SkillsManagementComponent() {
             setToTeachPriority(skill);
         };
 
+        setRemount(prev => prev + 1);
+    };
+
+    async function removeSkillPrioritization(skill, isToLearn) {
+        console.log('removing');
+        await fetch(`http://localhost:4000/unprioritize-skill`, {
+            method: 'DELETE',
+            headers: {
+                "Content-Type": "application/json",
+                "authorization": `bearer ${sessionStorage.getItem('access token')}`
+            },
+            body: JSON.stringify({
+                skill,
+                isToLearn,
+                user: localStorage.getItem('user')
+            })
+        });
+        if(isToLearn) {
+            setToLearnPriority();
+        } else {
+            setToTeachPriority();
+        };
+        //update ui
         setRemount(prev => prev + 1);
     };
 
@@ -102,14 +127,16 @@ function SkillsManagementComponent() {
                         text='Skills you can teach' 
                         skills={skillsToTeach}
                         handleSkill={removeSkill}  
-                        prioritize={handleSkillPrioritization} 
+                        prioritize={addSkillPrioritization} 
+                        unprioritize={removeSkillPrioritization}
                         priority={toTeachPriority}                     
                     />
                     <SelectSkills
                         text='Skills you want to learn' 
                         skills={skillsToLearn}
                         handleSkill={removeSkill}     
-                        prioritize={handleSkillPrioritization}  
+                        prioritize={addSkillPrioritization} 
+                        unprioritize={removeSkillPrioritization} 
                         priority={toLearnPriority}                 
                     />
                 </div>
@@ -125,6 +152,7 @@ function SkillsManagementComponent() {
                     <SelectSkills 
                         text='Pick skills to learn'
                         skills={updateSkillsToTeach}
+                        handleSkill={addSkill}
                     />
                 </div>
             </div>
