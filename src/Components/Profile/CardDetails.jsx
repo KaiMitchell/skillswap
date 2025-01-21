@@ -14,6 +14,8 @@ function CardDetails({
     isSendingRequest,
     setIsSendingRequest,
     setIsSignInPrompt,
+    setIsDisabled,
+    isDisabled,
 }) {
     const [isRenderAllSkills, setIsRenderAllSkills] = useState(false);
     const [toLearnProfileData, setToLearnProfileData] = useState();
@@ -114,6 +116,7 @@ function CardDetails({
                     handleOnMouseOver={() => setIsMatchHovered(true)}
                     handleOnMouseLeave={() => setIsMatchHovered(false)}
                     isHandleHover={true}
+                    isDisabled={isDisabled}
                     styles={`w-1/2 py-2 text-sm bg-gradient-to-r hover:${buttonBg.matchRequestHover} hover:text-white lg:text-base lg:py-2.5`}
                 />
             </div>

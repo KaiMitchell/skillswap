@@ -10,6 +10,8 @@ function MappedProfiles({
     isToLearn,
     setIsSignInPrompt,
     isToLearnProfiles,
+    setIsDisabled,
+    isDisabled,
 }) {
     mappedProfiles = profiles?.map((obj) => {
 
@@ -52,6 +54,8 @@ function MappedProfiles({
                 reMount={reMount}
                 isToLearnProfiles={isToLearnProfiles}
                 setIsSignInPrompt={setIsSignInPrompt}
+                setIsDisabled={setIsDisabled}
+                isDisabled={isDisabled}
             />
         );
     });

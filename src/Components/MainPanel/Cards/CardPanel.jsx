@@ -14,6 +14,8 @@ function CardPanel({
     isToLearnProfiles,
     isLoading,
     setIsSignInPrompt,
+    setIsDisabled,
+    isDisabled
 }) {
     const [filterType, setFilterType] = useState({learn: '', teach: ''});
     const [param, setParam] = useState(false);//Trigger useEffect to re render page with updated requests.
@@ -25,7 +27,6 @@ function CardPanel({
     }, [param]);
 
     useEffect(() => {
-
         let toLearnFilterHeader;
         let toTeachFilterHeader;
 
@@ -51,9 +52,7 @@ function CardPanel({
     //Grab a unique value from the request matches click handler and set it as param state
     //to trigger a re render to update the UI
     function reMount(param) {
-
         setParam(() => param);
-
     };
 
     const learnCount = learnProfiles?.length;
@@ -62,17 +61,13 @@ function CardPanel({
     let teachSearchFor = '';
     
     if(whichFilter.headerFilter) {
-
         //render in text the current header filter that is applied to the search
         learnSearchFor = headerFilter.skill && headerFilter.skill;
         teachSearchFor = headerFilter.skill && headerFilter.skill;
-
     } else if(whichFilter.mainFilter) {
-
         //render in text the skill or categories that are currently filtered in
         learnSearchFor = filter.toLearnCategory ? filter.toLearn :  filter.toLearnCategory;
         teachSearchFor = filter.toTeach ? filter.toTeach :  filter.toTeachCategory;
-
     };
 
     //ensure string does not render 'undefined profiles want to learn'
@@ -110,6 +105,8 @@ function CardPanel({
             reMount={reMount}
             isToLearnProfiles={isToLearnProfiles}
             setIsSignInPrompt={setIsSignInPrompt}
+            setIsDisabled={setIsDisabled}
+            isDisabled={isDisabled}
         />
 
     let mappedTeachProfiles = 
@@ -121,6 +118,8 @@ function CardPanel({
             reMount={reMount}
             isToLearnProfiles={isToLearnProfiles}
             setIsSignInPrompt={setIsSignInPrompt}
+            setIsDisabled={setIsDisabled}
+            isDisabled={isDisabled}
         />
 
     return(

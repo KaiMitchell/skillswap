@@ -10,6 +10,8 @@ function Card({
     profileData,
     isToLearn,
     setIsSignInPrompt,
+    setIsDisabled,
+    isDisabled,
 }) {
     const [isSendingRequest, setIsSendingRequest] = useState(false);
 
@@ -22,6 +24,7 @@ function Card({
     };
 
     async function sendMatchRequest(isRequested) {
+        setIsDisabled(true);
         const currentUser = localStorage.getItem('user');
 
         //Send the isRequested arg to be able to tell if the fetch should delete or insert a record
@@ -38,6 +41,7 @@ function Card({
             })
         });
         
+        setIsDisabled(false);
         //send a unique value for state update to re render the page
         reMount(JSON.stringify(isRequested + profileData?.username));
     };
@@ -55,6 +59,8 @@ function Card({
                 setIsSendingRequest={setIsSendingRequest}
                 prioritySkill={prioritySkill}
                 setIsSignInPrompt={setIsSignInPrompt}
+                setIsDisabled={setIsDisabled}
+                isDisabled={isDisabled}
             />
     );
 };

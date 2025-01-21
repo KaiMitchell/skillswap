@@ -56,11 +56,14 @@ function App() {
   const [accessToken, setAccessToken] = useState(sessionStorage.getItem('access token') || '');
   const [isLoading, setIsLoading] = useState(false);
   const [isSignInPrompt, setIsSignInPrompt] = useState(false);
+  const [isDisabled, setIsDisabled] = useState(false);
   
   //trigger re-render to immediately view new matches when accepting
   useEffect(() => {
     fetchMatches();
   }, [param]);
+
+  // useEffect(() => {setIsDisabled(isLoading), console.log(isLoading)}, [isLoading]);
 
   //fetch requests and matches on initial render, logout and signin
   useEffect(() => {
@@ -98,7 +101,6 @@ function App() {
 
   //filter profile result using filters
   useEffect(() => {
-
     if(whichFilter.headerFilter) {
 
       //clear main sec filters to prevent conflicts
@@ -405,6 +407,7 @@ function App() {
                 user={user || ''}
                 isLoading={isLoading}
                 setIsSignInPrompt={setIsSignInPrompt}
+                isDisabled={isDisabled}
               />
             }
           />

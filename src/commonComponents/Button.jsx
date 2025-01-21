@@ -4,7 +4,8 @@ function Button({
     handleOnMouseOver,
     handleOnClick,
     isHandleHover,
-    styles
+    styles,
+    isDisabled,
 }) {
 
     return(
@@ -12,6 +13,7 @@ function Button({
             {...(isHandleHover && { onMouseOver: () => handleOnMouseOver(), onMouseLeave: () => handleOnMouseLeave() })}
             onClick={handleOnClick}
             className={styles}
+            disabled={isDisabled}
         >
             {text}
         </button>

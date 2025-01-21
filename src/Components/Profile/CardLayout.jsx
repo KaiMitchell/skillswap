@@ -15,6 +15,8 @@ function CardLayout({
     setIsSendingRequest,
     prioritySkill,
     setIsSignInPrompt,
+    setIsDisabled,
+    isDisabled,
 }) {
     //img url path to serve img file from my server
     const imgPath = imgURL + profileData?.profile_picture;
@@ -50,6 +52,8 @@ function CardLayout({
                     isSendingRequest={isSendingRequest}
                     setIsSendingRequest={setIsSendingRequest}
                     setIsSignInPrompt={setIsSignInPrompt}
+                    setIsDisabled={setIsDisabled}
+                    isDisabled={isDisabled}
                 />
             </div>
         </div>
