@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
 import SelectSkills from "./SelectSkills";
-import Loading from "../../commonComponents/LoadingComponents/Loading";
 
-function SkillsManagementComponent({ setIsUpdating, isUpdating }) {
+function SkillsManagementComponent({ setIsUpdating }) {
     const [updateSkillsToLearn, setUpdateSkillsToLearn] = useState();
     const [updateSkillsToTeach, setUpdateSkillsToTeach] = useState();
     const [skillsToLearn, setSkillsToLearn] = useState();

@@ -10,6 +10,7 @@ function Card({
     skills, 
     profileData,
     isToLearn,
+    setIsSignInPrompt,
 }) {
     const [isSendingRequest, setIsSendingRequest] = useState(false);
 
@@ -55,6 +56,7 @@ function Card({
                 isSendingRequest={isSendingRequest}
                 setIsSendingRequest={setIsSendingRequest}
                 prioritySkill={prioritySkill}
+                setIsSignInPrompt={setIsSignInPrompt}
             />
         </div>
     );

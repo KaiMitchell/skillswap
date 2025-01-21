@@ -13,6 +13,7 @@ function CardDetails({
     imgPath,
     isSendingRequest,
     setIsSendingRequest,
+    setIsSignInPrompt,
 }) {
     const [isRenderAllSkills, setIsRenderAllSkills] = useState(false);
     const [toLearnProfileData, setToLearnProfileData] = useState();
@@ -30,7 +31,6 @@ function CardDetails({
     }, [isRenderAllSkills]);
 
     async function fetchProfileSkills() {
-
         const response = await fetch(`http://localhost:3000/fetch-profile-skills?username=${username}`);
         const data = await response.json();
 
@@ -45,14 +45,18 @@ function CardDetails({
     };
 
     function handleClick() {
-        //user feedback
-        setIsSendingRequest(true);
-        //Passed the match request function inside of the state because I can't figure out how to update the state immediately.
-        //Don't know if this is okay.
-        const newState = !requested;
-        setRequested(newState);
-        sendMatchRequest(newState);
-        fetchRequests(requested);       
+        if(localStorage.getItem('user')) {
+            //user feedback
+            setIsSendingRequest(true);
+            //Passed the match request function inside of the state because I can't figure out how to update the state immediately.
+            //Don't know if this is okay.
+            const newState = !requested;
+            setRequested(newState);
+            sendMatchRequest(newState);
+            fetchRequests(requested);       
+        } else {
+            setIsSignInPrompt(true);
+        };
     };
 
     //toggle between displaying a users details or associated skills
@@ -95,26 +99,24 @@ function CardDetails({
                 }
                 {/* display users associated skills on card */}
             </div>
-            {localStorage.getItem('user') && 
-                <div className={`flex ${isMatchHovered || !isRenderAllSkills && 'flex-row-reverse'} w-full`}>
-                    <Button 
-                        styles={`${isRenderAllSkills || isMatchHovered ? 'block' : 'hidden'} w-1/2 py-2 bg-gradient-to-r text-sm hover:${buttonBg.matchRequestHover} hover:text-white lg:text-base lg:py-2.5`}
-                        handleOnClick={() => setIsRenderAllSkills(!isRenderAllSkills)}
-                        handleOnMouseOver={() => setIsMatchHovered(true)}
-                        handleOnMouseLeave={() => setIsMatchHovered(false)}
-                        isHandleHover={true}
-                        text={isRenderAllSkills ? 'Hide all skills' : 'Show all skills'}
-                    />
-                    <Button 
-                        text={`${!isSendingRequest ? 'Send a match request' : 'sending request'}`}
-                        handleOnClick={handleClick}
-                        handleOnMouseOver={() => setIsMatchHovered(true)}
-                        handleOnMouseLeave={() => setIsMatchHovered(false)}
-                        isHandleHover={true}
-                        styles={`w-1/2 py-2 text-sm bg-gradient-to-r hover:${buttonBg.matchRequestHover} hover:text-white lg:text-base lg:py-2.5`}
-                    />
-                </div>
-            }
+            <div className={`flex ${isMatchHovered || !isRenderAllSkills && 'flex-row-reverse'} w-full`}>
+                <Button 
+                    styles={`${isRenderAllSkills || isMatchHovered ? 'block' : 'hidden'} w-1/2 py-2 bg-gradient-to-r text-sm hover:${buttonBg.matchRequestHover} hover:text-white lg:text-base lg:py-2.5`}
+                    handleOnClick={() => setIsRenderAllSkills(!isRenderAllSkills)}
+                    handleOnMouseOver={() => setIsMatchHovered(true)}
+                    handleOnMouseLeave={() => setIsMatchHovered(false)}
+                    isHandleHover={true}
+                    text={isRenderAllSkills ? 'Hide all skills' : 'Show all skills'}
+                />
+                <Button 
+                    text={`${!isSendingRequest ? 'Send a match request' : 'sending request'}`}
+                    handleOnClick={handleClick}
+                    handleOnMouseOver={() => setIsMatchHovered(true)}
+                    handleOnMouseLeave={() => setIsMatchHovered(false)}
+                    isHandleHover={true}
+                    styles={`w-1/2 py-2 text-sm bg-gradient-to-r hover:${buttonBg.matchRequestHover} hover:text-white lg:text-base lg:py-2.5`}
+                />
+            </div>
         </div>
     );
 };

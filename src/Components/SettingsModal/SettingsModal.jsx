@@ -4,7 +4,7 @@ import Button from '../../commonComponents/Button.jsx';
 import Input from '../../commonComponents/form/Input.jsx';
 import MapData from '../../features/methods/MapData.jsx';
 import { Facebook, LinkedIn, Twitter } from '../../commonComponents/SVGs.jsx';
-import Loading from '../../commonComponents/LoadingComponents/Loading.jsx';
+import Loading from '../../commonComponents/Loading.jsx';
 
 function SettingsModal({ isSettings, setIsSettings }) {    
     const [isUpdating, setIsUpdating] = useState(false);

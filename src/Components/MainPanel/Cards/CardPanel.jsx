@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import MappedProfile from './MappedProfile';
-import IsLoading from '../../../commonComponents/LoadingComponents/IsLoading.jsx';
+import Loading from '../../../commonComponents/Loading.jsx';
 
 function CardPanel({ 
     requests, 
@@ -13,6 +13,7 @@ function CardPanel({
     headerFilter,
     isToLearnProfiles,
     isLoading,
+    setIsSignInPrompt,
 }) {
     const [filterType, setFilterType] = useState({learn: '', teach: ''});
     const [param, setParam] = useState(false);//Trigger useEffect to re render page with updated requests.
@@ -108,6 +109,7 @@ function CardPanel({
             whichfilter={whichFilter} 
             reMount={reMount}
             isToLearnProfiles={isToLearnProfiles}
+            setIsSignInPrompt={setIsSignInPrompt}
         />
 
     let mappedTeachProfiles = 
@@ -118,13 +120,14 @@ function CardPanel({
             whichfilter={whichFilter} 
             reMount={reMount}
             isToLearnProfiles={isToLearnProfiles}
+            setIsSignInPrompt={setIsSignInPrompt}
         />
 
     return(
         <section id='profile-cards' className='flex flex-col gap-2.5 h-full w-full'>
             <h2 className='text-center text-white text-2xl font-bold'>{isToLearnProfiles ? learnSearchingByStr : teachSearchingByStr}</h2>
             <h3 className='text-center text-white'>{`${isToLearnProfiles ? learnFilterInfo : teachFilterInfo}`}</h3>
-            {isLoading && <IsLoading isLoading={isLoading} />}
+            {isLoading && <Loading feedBack={'Loading'} />}
             <div className='relative grid grid-cols-1 sm:grid-cols-2 gap-2.5 h-full max-w-full'>
                 {isToLearnProfiles ? mappedLearnProfiles : mappedTeachProfiles}   
             </div>

@@ -8,7 +8,7 @@ import InitialPickMatchesPage from './Pages/InitialPickMatchesPage';
 import SettingsModal from './Components/SettingsModal/SettingsModal.jsx';
 import Main from './Sections/Main.jsx';
 import MatchesModal from './Components/MatchesModal/Modal.jsx';
-import IsLoading from './commonComponents/LoadingComponents/IsLoading.jsx';
+import SignInPrompt from './commonComponents/SignInPrompt.jsx';
 
 export const TokenContext = createContext();
 
@@ -55,6 +55,7 @@ function App() {
   const [param, setParam] = useState();
   const [accessToken, setAccessToken] = useState(sessionStorage.getItem('access token') || '');
   const [isLoading, setIsLoading] = useState(false);
+  const [isSignInPrompt, setIsSignInPrompt] = useState(false);
   
   //trigger re-render to immediately view new matches when accepting
   useEffect(() => {
@@ -359,6 +360,7 @@ function App() {
   return(
     <TokenContext.Provider value={{ accessToken, setAccessToken }}>
       <BrowserRouter>
+          {isSignInPrompt && <SignInPrompt setIsSignInPrompt={setIsSignInPrompt} />}
           <Header 
             setWhichFilter={setWhichFilter} 
             skills={skills} 
@@ -402,6 +404,7 @@ function App() {
                 setWhichFilter={setWhichFilter} 
                 user={user || ''}
                 isLoading={isLoading}
+                setIsSignInPrompt={setIsSignInPrompt}
               />
             }
           />
