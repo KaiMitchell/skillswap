@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import SelectSkills from "./SelectSkills";
+import Loading from "../../commonComponents/LoadingComponents/Loading";
 
-function SkillsManagementComponent() {
-
+function SkillsManagementComponent({ setIsUpdating, isUpdating }) {
     const [updateSkillsToLearn, setUpdateSkillsToLearn] = useState();
     const [updateSkillsToTeach, setUpdateSkillsToTeach] = useState();
     const [skillsToLearn, setSkillsToLearn] = useState();
@@ -47,12 +47,14 @@ function SkillsManagementComponent() {
 
     //delete a skill from skills list
     async function removeSkill(skill, isToLearn) {
+        setIsUpdating(true);
         await fetch(`http://localhost:4000/remove-skill?skill=${skill}&username=${localStorage.getItem('user')}`, {
             method: 'DELETE'
         });
         //ensure priority is also unset if the skill was a priority
         removeSkillPrioritization(skill, isToLearn);
         setRemount(prev => prev + 1);
+        setIsUpdating(false);
     };
 
     //add a new skill into skill list
@@ -123,7 +125,7 @@ function SkillsManagementComponent() {
     };
 
     return(
-        <div className='flex flex-col gap-10 h-fit w-full'>
+        <div className='relative flex flex-col gap-10 h-fit w-full'>
             <div>
                 <h2 className='text-left text-3xl font-bold'>Current skills</h2>
                 <div className='w-full min-h-44 flex flex-col lg:flex-row gap-2.5'>

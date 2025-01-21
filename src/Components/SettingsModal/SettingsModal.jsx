@@ -4,8 +4,10 @@ import Button from '../../commonComponents/Button.jsx';
 import Input from '../../commonComponents/form/Input.jsx';
 import MapData from '../../features/methods/MapData.jsx';
 import { Facebook, LinkedIn, Twitter } from '../../commonComponents/SVGs.jsx';
+import Loading from '../../commonComponents/LoadingComponents/Loading.jsx';
 
 function SettingsModal({ isSettings, setIsSettings }) {    
+    const [isUpdating, setIsUpdating] = useState(false);
     //although username and profile pic are locally stored. 
     //use state to update the ui efficiently
     const [newUserVal, setNewUserVal] = useState('');
@@ -103,86 +105,95 @@ function SettingsModal({ isSettings, setIsSettings }) {
     };
 
     return(
-        <div ref={node} className={`${isSettings ? 'block' : 'hidden'} fixed size-10/12 m-auto z-20 top-0 bottom-0 left-0 right-0 px-10 py-5 rounded bg-stone-100 shadow-xl shadow-black overflow-y-scroll no-scrollbar`}>
-            <div className='w-full min-h-1/4 flex flex-col lg:flex-row gap-5 justify-between mb-5 text-center lg:text-left'>   
-                <form className='flex flex-col gap-5 w-full lg:w-1/2'>
-                    <Input 
-                        label='Update profile picture'
-                        fileRef={fileRef}
-                        name='fileInput'
-                        type='file'
-                    />
-                    <Input 
-                        label='Change your username'
-                        onChangeHandler={handlenewUserOnChange}
-                        value={newUserVal}
-                        type='text'
-                    />
-                    {conflictMessage && <p className='text-xs text-red-500'>{conflictMessage}</p>}   
-                    {/* ADD linkes to users social platforms */}
-                    <div className='flex items-end'>
-                        <Input
-                            label='Add social links'
-                            onChangeHandler={setPlatformLink}
-                            placeholder={`enter you ${platform} link`}
-                            value={platformLink}
+        <div 
+            ref={node} 
+            className={`${isSettings ? 'block' : 'hidden'} fixed size-10/12 m-auto z-20 top-0 bottom-0 left-0 right-0 px-10 py-5 rounded bg-stone-100 shadow-xl shadow-black overflow-y-scroll no-scrollbar`}
+        >
+            <div className={` relative w-full min-h-full`}>
+                {isUpdating && <Loading />}
+                <div className='w-full min-h-1/4 flex flex-col lg:flex-row gap-5 justify-between mb-5 text-center lg:text-left'>   
+                    <form className='flex flex-col gap-5 w-full lg:w-1/2'>
+                        <Input 
+                            label='Update profile picture'
+                            fileRef={fileRef}
+                            name='fileInput'
+                            type='file'
+                        />
+                        <Input 
+                            label='Change your username'
+                            onChangeHandler={handlenewUserOnChange}
+                            value={newUserVal}
                             type='text'
                         />
-                        <div className='flex gap-2.5 ml-2.5'>
-                            <MapData
-                                data={platforms}
-                                render={(platform) => {
-                                    const [isHovered, setIsHovered] = useState(false);
-
-                                    let svg;
-
-                                    //assign appropriate svg to each platform icon
-                                    if(platform === 'facebook') {
-                                        svg = <Facebook isHovered={isHovered} />;
-                                    } else if(platform === 'twitter') {
-                                        svg = <Twitter isHovered={isHovered} />;
-                                    } else if(platform === 'linkedIn') {
-                                        svg = <LinkedIn isHovered={isHovered} />;
-                                    };
-
-                                    return(
-                                        <Button 
-                                            key={platform}
-                                            text={svg}
-                                            handleOnMouseOver={() => setIsHovered(true)}
-                                            handleOnMouseLeave={() => setIsHovered(false)}
-                                            handleOnClick={(e) => handleSetPlatform(e, platform)}
-                                            isHandleHover={true}
-                                        />
-                                    );
-                                }}
+                        {conflictMessage && <p className='text-xs text-red-500'>{conflictMessage}</p>}   
+                        {/* ADD linkes to users social platforms */}
+                        <div className='flex items-end'>
+                            <Input
+                                label='Add social links'
+                                onChangeHandler={setPlatformLink}
+                                placeholder={`enter you ${platform} link`}
+                                value={platformLink}
+                                type='text'
                             />
+                            <div className='flex gap-2.5 ml-2.5'>
+                                <MapData
+                                    data={platforms}
+                                    render={(platform) => {
+                                        const [isHovered, setIsHovered] = useState(false);
+
+                                        let svg;
+
+                                        //assign appropriate svg to each platform icon
+                                        if(platform === 'facebook') {
+                                            svg = <Facebook isHovered={isHovered} />;
+                                        } else if(platform === 'twitter') {
+                                            svg = <Twitter isHovered={isHovered} />;
+                                        } else if(platform === 'linkedIn') {
+                                            svg = <LinkedIn isHovered={isHovered} />;
+                                        };
+
+                                        return(
+                                            <Button 
+                                                key={platform}
+                                                text={svg}
+                                                handleOnMouseOver={() => setIsHovered(true)}
+                                                handleOnMouseLeave={() => setIsHovered(false)}
+                                                handleOnClick={(e) => handleSetPlatform(e, platform)}
+                                                isHandleHover={true}
+                                            />
+                                        );
+                                    }}
+                                />
+                            </div>
                         </div>
+                        <Input
+                            label='Update Description'
+                            onChangeHandler={setNewDescription}
+                            value={newDescription}
+                            isTxtArea={true}
+                        />  
+                        <Button 
+                            handleOnClick={handleSubmit}
+                            text={'Submit'}
+                            styles={`w-1/3 px-2.5 py-1 border border-black rounded cursor-pointer`}
+                        />
+                    </form>
+                    {/* image */}
+                    <div className='flex flex-col gap-2.5 items-center'>
+                        <img 
+                            src={img}
+                            alt='profile'
+                            className="rounded-full size-80 border-solid border border-slate-500"
+                        />
+                        <h3 className='text-xl font-bold'>{newUsername || localStorage.getItem('user')}</h3>
                     </div>
-                    <Input
-                        label='Update Description'
-                        onChangeHandler={setNewDescription}
-                        value={newDescription}
-                        isTxtArea={true}
-                    />  
-                    <Button 
-                        handleOnClick={handleSubmit}
-                        text={'Submit'}
-                        styles={`w-1/3 px-2.5 py-1 border border-black rounded cursor-pointer`}
-                    />
-                </form>
-                {/* image */}
-                <div className='flex flex-col gap-2.5 items-center'>
-                    <img 
-                        src={img}
-                        alt='profile'
-                        className="rounded-full size-80 border-solid border border-slate-500"
-                    />
-                    <h3 className='text-xl font-bold'>{newUsername || localStorage.getItem('user')}</h3>
                 </div>
-            </div>
-            <div className='flex flex-col gap-10 h-fit w-full'>
-                <SkillsManagementComponent />
+                <div className='flex flex-col gap-10 h-fit w-full'>
+                    <SkillsManagementComponent 
+                        setIsUpdating={setIsUpdating}
+                        isUpdating={isUpdating}
+                    />
+                </div>
             </div>
         </div>
     );
