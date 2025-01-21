@@ -55,7 +55,18 @@ function ProfileDropDownSidePopOut({
         });
         
         fetchData(selectedUser);
+        //user feedback to let them know there request is being processed
         setIsHandleRequestFeedback(selectedUser);
+        setIsDisabled(false);
+    };
+
+    async function removeAllMatchRequests() {
+        setIsDisabled(true);
+        await fetch(`http://localhost:4000/remove-all-match-requests?username=${localStorage.getItem('user')}`, {
+            method: 'DELETE',
+            headers: { 'authorization': `bearer: ${sessionStorage.getItem('access token')}` }
+        });
+        fetchData();
         setIsDisabled(false);
     };
 
@@ -70,6 +81,7 @@ function ProfileDropDownSidePopOut({
                     type='Pending requests'
                     isHandleRequestFeedback={isHandleRequestFeedback}
                     isDisabled={isDisabled}
+                    removeAllMatchRequests={removeAllMatchRequests}
                 />
             }
             {/* pop out feature for recieved match requests */}

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import MapData from "../../../features/methods/MapData";
 import PopOutOption from "./PopOutOption";
+import Button from "../../../commonComponents/Button";
 
 function PopOutOptions({ 
     array, 
@@ -10,13 +11,18 @@ function PopOutOptions({
     type,
     isHandleRequestFeedback,
     isDisabled,
+    removeAllMatchRequests, 
 }) {
-
-    // useEffect(() => {}, displayProfile);
-    
     return(
         <ul className="text-nowrap">
             <h3 className={`p-2.5 text-stone-500`}>{type}</h3>
+            {type === 'Pending requests' && array.length > 0 &&
+                <Button
+                    text={`delete all`}
+                    handleOnClick={removeAllMatchRequests}
+                    styles={`text-sm text-red-500`}
+                />
+            }
             {Array.isArray(array) && array?.length ? 
                 <MapData 
                     data={array}

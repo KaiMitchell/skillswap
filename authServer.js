@@ -495,8 +495,7 @@ app.post('/edit-profile', async(req, res) => {
 
     console.log(req.body);
 
-    try {
-        
+    try { 
         let imgFile;
         let imgPath;
         let uploadPath;
@@ -516,36 +515,37 @@ app.post('/edit-profile', async(req, res) => {
             return;
         };
 
-        const exsistingPlatform = await client.query(`
-            SELECT * FROM social_links WHERE platform = $1 AND user_id = (SELECT id FROM users WHERE username = $2)
-            `, [platform, currentUsername]
-        );
-
-        //make an insert if there is no link to platform
-        if(exsistingPlatform.rows.length === 0) {
-            console.log('inserting into social_links table: ', platform, linkToPlatform);
-            await client.query(`
-                INSERT INTO social_links(user_id, platform, url)
-                VALUES(
-                    (SELECT id FROM users WHERE username = $1),
-                    $2,
-                    $3 
-                );
-            `, [currentUsername, platform, linkToPlatform]);
-        };
-    
-        //if the user has a link pointing to an existing platform then update the platforms link
-        if(exsistingPlatform.rows.length > 0) {
-            await client.query(
-                `UPDATE social_links
-                 SET url = $1
-                 WHERE user_id = (SELECT id FROM users WHERE username = $2)
-                 AND platform = $3
-                `, [linkToPlatform, currentUsername, platform]
+        if(platform) {
+            const exsistingPlatform = await client.query(`
+                SELECT * FROM social_links WHERE platform = $1 AND user_id = (SELECT id FROM users WHERE username = $2)
+                `, [platform, currentUsername]
             );
+    
+            //make an insert if there is no link to platform
+            if(exsistingPlatform.rows.length === 0) {
+                console.log('inserting into social_links table: ', platform, linkToPlatform);
+                await client.query(`
+                    INSERT INTO social_links(user_id, platform, url)
+                    VALUES(
+                        (SELECT id FROM users WHERE username = $1),
+                        $2,
+                        $3 
+                    );
+                `, [currentUsername, platform, linkToPlatform]);
+            };
+        
+            //if the user has a link pointing to an existing platform then update the platforms link
+            if(exsistingPlatform.rows.length > 0) {
+                await client.query(
+                    `UPDATE social_links
+                     SET url = $1
+                     WHERE user_id = (SELECT id FROM users WHERE username = $2)
+                     AND platform = $3
+                    `, [linkToPlatform, currentUsername, platform]
+                );
+            };
         };
 
-        //
         if(req.files && req.files.imgFile) {
             imgFile = req.files.imgFile;
             imgPath = Date.now() + imgFile.name;
@@ -634,6 +634,21 @@ app.delete('/unprioritize-skill', async(req, res) => {
              WHERE user_id = (SELECT id FROM users WHERE username = $1)`, [user]
         );
         res.status(200).json({ message: skill + 'unprioritized' })
+    } catch(err) {
+        console.error(err);
+    };
+});
+
+app.delete('/remove-all-match-requests', async(req, res) => {
+    const username = req.query.username;
+    try {
+        await client.query(
+            `
+            DELETE FROM match_requests 
+            WHERE u_id1 = (SELECT id FROM users WHERE username = $1)
+            `, [username]
+        );
+        res.status(200).json({ message: 'removed all sent requests' });
     } catch(err) {
         console.error(err);
     };
