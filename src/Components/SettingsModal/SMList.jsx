@@ -14,6 +14,13 @@ function SMList({
     const [isTextHover, setIsTextHover] = useState(false)
     
     const isPrioritized = priority === skill ? true : false;
+    let prioritizedText;
+
+    if(isPrioritized && prioritize) {
+        prioritizedText = 'unprioritize';
+    } else if(!isPrioritized && prioritize) {
+        prioritizedText = 'prioritized';
+    };
 
     //svg elements for to pass to the button components
     const addSkillSvg =                     
@@ -69,7 +76,7 @@ function SMList({
             <p className='group-hover:font-bold'>{skill}</p>
             <div className='flex gap-1.5'>
                 <Button 
-                    text={isPrioritized ? 'unprioritize' : 'prioritize'}
+                    text={prioritizedText}
                     styles={`${isTextHover ? 'block' : 'hidden'} hover:font-bold`}
                     handleOnClick={() => handlePrioritization(skill, text === 'Skills you want to learn')}
                 />

@@ -54,7 +54,7 @@ function Card({
                 isToLearn={isToLearn}
                 isSendingRequest={isSendingRequest}
                 setIsSendingRequest={setIsSendingRequest}
-                prioritySkill={prioritySkill || 'no primary skill'}
+                prioritySkill={prioritySkill}
             />
         </div>
     );
