@@ -45,9 +45,6 @@ function Container({
         } else {
             setIsToTeachSkillsDropDown(false);
         };
-
-        console.log('main filter: ', filter);
-        //remove drop down of the filter for the opposite type of displayed profiles
     }, [filter]);
 
 
