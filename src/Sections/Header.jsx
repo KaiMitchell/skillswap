@@ -32,24 +32,26 @@ function Header({
                         isNavDropDown={isNavDropDown} 
                         setIsNavDropDown={setIsNavDropDown}
                     />
-                    <div className={`${isNavDropDown ? 'block' : 'hidden'} absolute sm:contents w-full sm:right-2.5 top-full flex flex-col gap-5 sm:flex-row sm:justify-between items-center bg-black sm:bg-transparent text-white sm:text-black p-0`}>
+                    <div className={`${isNavDropDown ? 'block' : 'hidden'} absolute sm:contents w-full sm:right-2.5 top-full flex flex-col gap-5 sm:flex-row sm:justify-between items-center bg-black sm:bg-transparent text-white sm:text-black p-0 overflow-y-scroll`}>
                         {/* Render all categories in nav bar with skill options as a drop down */}
-                        <MapData 
-                            data={skills}
-                            render={(obj, index) => (
-                                <Selection 
-                                    setWhichFilter={setWhichFilter} 
-                                    key={obj.category} 
-                                    category={obj.category} 
-                                    text={obj.category} 
-                                    canHover={true} 
-                                    isLink={false} 
-                                    setFilter={setFilter} 
-                                    showRight={index > 1 ? true : false} 
-                                    obj={obj}
-                                />
-                            )}
-                        />
+                        {!isNavDropDown && 
+                            <MapData 
+                                data={skills}
+                                render={(obj, index) => (
+                                    <Selection 
+                                        setWhichFilter={setWhichFilter} 
+                                        key={obj.category} 
+                                        category={obj.category} 
+                                        text={obj.category} 
+                                        canHover={true} 
+                                        isLink={false} 
+                                        setFilter={setFilter} 
+                                        showRight={index > 1 ? true : false} 
+                                        obj={obj}
+                                    />
+                                )}
+                            />
+                        }
                         <SignInSignUp username={username} />
                         {/* drop down for profile / settings button (top-right) */}
                         {username && 
