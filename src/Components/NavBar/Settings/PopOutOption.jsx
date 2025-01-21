@@ -8,6 +8,7 @@ function PopOutOption({
     type,
     item,
     isHandleRequestFeedback,
+    isDisabled,
 }) {
     const [feedBackCount, setFeedbackCount] = useState('');
 
@@ -37,6 +38,7 @@ function PopOutOption({
                         handleOnClick={() => removeMatchRequests(item)} 
                         styles={`text-xl text-red-400 hover:font-bold cursor-pointer`}
                         text='❌'
+                        isDisabled={isDisabled}
                     />
                 }
                 {acceptMatchRequest && 
@@ -44,6 +46,7 @@ function PopOutOption({
                         handleOnClick={() => acceptMatchRequest(item)}
                         styles={`text-xl text-red-400 hover:font-bold cursor-pointer`}
                         text='✅'
+                        isDisabled={isDisabled}
                     />
                 }
             </div>

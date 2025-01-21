@@ -9,6 +9,7 @@ function PopOutOptions({
     displayProfile,
     type,
     isHandleRequestFeedback,
+    isDisabled,
 }) {
 
     // useEffect(() => {}, displayProfile);
@@ -29,6 +30,7 @@ function PopOutOptions({
                                 acceptMatchRequest={acceptMatchRequest}
                                 type={type}
                                 isHandleRequestFeedback={isHandleRequestFeedback}
+                                isDisabled={isDisabled}
                             />
                         )
                     }}

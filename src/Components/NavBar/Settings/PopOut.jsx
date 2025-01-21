@@ -9,12 +9,14 @@ function ProfileDropDownSidePopOut({
     text,
 }) {
     const [isHandleRequestFeedback, setIsHandleRequestFeedback] = useState('');
+    const [isDisabled, setIsDisabled] = useState(false);
 
     //extract token from Context property
     const accessToken = TokenContext.accessToken;
     
     //remove a pending match request you sent
     async function removeMatchRequests(selectedUser) {
+        setIsDisabled(true);
         setIsHandleRequestFeedback(selectedUser);
 
         const username = localStorage.getItem('user');
@@ -30,10 +32,12 @@ function ProfileDropDownSidePopOut({
 
         fetchData();
         setIsHandleRequestFeedback(selectedUser);
+        setIsDisabled(false);
     };
 
     //accept a match request sent to user
     async function acceptMatchRequest(selectedUser) {
+        setIsDisabled(true);
         setIsHandleRequestFeedback(selectedUser);
 
         const username = localStorage.getItem('user');
@@ -52,6 +56,7 @@ function ProfileDropDownSidePopOut({
         
         fetchData(selectedUser);
         setIsHandleRequestFeedback(selectedUser);
+        setIsDisabled(false);
     };
 
     return(
@@ -64,6 +69,7 @@ function ProfileDropDownSidePopOut({
                     removeMatchRequests={removeMatchRequests}   
                     type='Pending requests'
                     isHandleRequestFeedback={isHandleRequestFeedback}
+                    isDisabled={isDisabled}
                 />
             }
             {/* pop out feature for recieved match requests */}
@@ -75,6 +81,7 @@ function ProfileDropDownSidePopOut({
                     acceptMatchRequest={acceptMatchRequest}
                     type='Match requests'
                     isHandleRequestFeedback={isHandleRequestFeedback}
+                    isDisabled={isDisabled}
                 />
             }
             {/* pop out feature for viewing current matches */}
