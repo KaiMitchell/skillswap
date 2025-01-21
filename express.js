@@ -109,7 +109,7 @@ app.get('/', async(req, res) => {
         //Use 'and mr.u_id2 IS NULL to return all records that are NULL 
         const toTeach = await client.query(
             `
-             SELECT 
+            SELECT 
                 u.username, 
                 u.description, 
                 u.profile_picture,
@@ -117,22 +117,22 @@ app.get('/', async(req, res) => {
                 us.skill_to_teach_priority_id,
                 ARRAY_AGG(s.name) to_teach 
             FROM users u
-             JOIN users_skills us ON u.id = us.user_id
-             JOIN skills s ON s.id = us.skill_id
-             LEFT JOIN match_requests mr_sent ON mr_sent.u_id2 = u.id AND mr_sent.u_id1 = (SELECT id FROM users WHERE username = $1)
-             LEFT JOIN match_requests mr_recieved ON mr_recieved.u_id1 = u.id AND mr_recieved.u_id2 = (SELECT id FROM users WHERE username = $1)
-             LEFT JOIN matches m 
-                ON (m.user_id = (SELECT id FROM users WHERE username = $1) AND m.match_id = u.id)
-                OR (m.match_id = (SELECT id FROM users WHERE username = $1) AND m.user_id = u.id)
-             WHERE us.is_teaching = true 
-             AND u.username != $1   
-             AND mr_sent.u_id2 IS NULL
-             AND mr_recieved.u_id2 IS NULL
-             AND m.match_id IS NULL
-             GROUP BY 
-                u.id,
-                us.skill_to_teach_priority_id
-             ORDER BY u.id
+            JOIN users_skills us ON u.id = us.user_id
+            JOIN skills s ON s.id = us.skill_id
+            LEFT JOIN match_requests mr_sent ON mr_sent.u_id2 = u.id AND mr_sent.u_id1 = (SELECT id FROM users WHERE username = $1)
+            LEFT JOIN match_requests mr_recieved ON mr_recieved.u_id1 = u.id AND mr_recieved.u_id2 = (SELECT id FROM users WHERE username = $1)
+            LEFT JOIN matches m 
+            ON (m.user_id = (SELECT id FROM users WHERE username = $1) AND m.match_id = u.id)
+            OR (m.match_id = (SELECT id FROM users WHERE username = $1) AND m.user_id = u.id)
+            WHERE us.is_teaching = true 
+            AND u.username != $1   
+            AND mr_sent.u_id2 IS NULL
+            AND mr_recieved.u_id2 IS NULL
+            AND m.match_id IS NULL
+            GROUP BY 
+            u.id,
+            us.skill_to_teach_priority_id
+            ORDER BY u.id
             `, [safeUsername]
         );
 
