@@ -65,7 +65,7 @@ function CardDetails({
             <div className='flex flex-col h-full gap-2'>
                 <div className='flex'>  
                     <img 
-                        className='hidden size-20 rounded-full shadow-sm shadow-black object-scale-down bg-white sm:block lg:hidden' 
+                        className='size-20 rounded-full shadow-sm shadow-black object-scale-down bg-white sm:block lg:hidden' 
                         src={profileData?.profile_picture ? imgPath : defaultProfileImg} 
                     />      
                     <div className='ml-2.5 mt-2.5 grow'>
@@ -90,7 +90,7 @@ function CardDetails({
                         />
                     </div>
                 :
-                    <div className='w-full grow flex items-center lg:gap-2.5'>
+                    <div className='w-full grow flex justify-center items-center sm:justify-start lg:gap-2.5'>
                         <div className={`ml-5 mt-2.5`}>
                             <p className={`${isRenderAllSkills && 'text-xs'}`}>primary skill to {isToLearn ? 'learn' : 'teach'}:</p>
                             <h2 className={`${isRenderAllSkills ? 'text-large lg:text-xl' : 'text-xl lg:text-3xl '} font-extrabold`}>{displayedSkill}</h2>

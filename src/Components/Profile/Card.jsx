@@ -1,5 +1,4 @@
 import { useState } from "react";
-import CardFooter from "./CardFooter";
 import CardLayout from "./CardLayout";
 
 function Card({ 
@@ -44,7 +43,6 @@ function Card({
     };
 
     return(
-        <div>
             <CardLayout 
                 skills={skills} 
                 profileData={profileData}
@@ -58,7 +56,6 @@ function Card({
                 prioritySkill={prioritySkill}
                 setIsSignInPrompt={setIsSignInPrompt}
             />
-        </div>
     );
 };
 
