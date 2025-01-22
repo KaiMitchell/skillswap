@@ -22,7 +22,7 @@ function PopOutOption({
     return(
         <li 
             key={item}
-            className={`flex items-center justify-between p-2.5 border-b border-stone-900 text-sm text-stone-500 hover:text-stone-400 shadow-xl shadow-black`}
+            className={`flex items-center justify-between p-2.5 border-b border-stone-900 text-sm text-stone-500 sm:hover:text-stone-400 shadow-xl shadow-black`}
         >
             {/* text renderring for sent & recieved requests */}
             {/* {removeMatchRequests && <p>{!acceptMatchRequest && 'pending'}</p>} */}
@@ -30,6 +30,7 @@ function PopOutOption({
                 <Button 
                     handleOnClick={() => displayProfile(item, type)}
                     text={`${isHandleRequestFeedback ? `${item} ${feedBackCount}` : item}`}
+                    styles={`hover:text-stone-400`}
                 />
             }
             <div className="flex items-center gap-2">
