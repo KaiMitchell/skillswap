@@ -8,7 +8,7 @@ const backendURL = 'localhost:4000';
 
 function SignIn({ 
     setUser, 
-    username,
+    setIsHideHeader,
 }) {
     const { accessToken, setAccessToken } = useContext(TokenContext);
 
@@ -19,6 +19,8 @@ function SignIn({
     });
 
     const navigate = new useNavigate();
+
+    useEffect(() => setIsHideHeader(true), []);
 
     //update state based on each input fields value
     function handleChangeInput(e, type) {

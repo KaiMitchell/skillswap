@@ -14,6 +14,7 @@ function Selection({
     category, 
     showRight, 
     setFilter,
+    setIsNavDropdown,
 }) {
     const [isShown, setIsShown] = useState(false);
 
@@ -48,7 +49,7 @@ function Selection({
                 <Button 
                     styles='sm:mb-0 sm:px-10 w-full text-center text-white flex justify-between items-center hover:bg-stone-700 sm:w-1/2' 
                     text={text}
-                    handleOnClick={() => navigate(path)}  
+                    handleOnClick={() => {setIsNavDropdown(false), navigate(path)}}  
                 />
             :
                 //Category item in navbar options

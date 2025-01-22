@@ -23,9 +23,9 @@ function Container({
     const dropDownTitles = [
         'Learning category', 
         'Teaching category', 
-        'Your gender', 
-        'Gender preference', 
-        'Online / In Person'
+        // 'Your gender', 
+        // 'Gender preference', 
+        // 'Online / In Person'
     ];
 
     //return the keys of toTeach and toLearn from the mainFilter state to use for mapping.
@@ -49,7 +49,7 @@ function Container({
 
 
     return(
-        <div className={`${!isMobileFilter && 'hidden'} sm:block w-full flex flex-col gap-2.5`}>
+        <div className={`${!isMobileFilter && 'hidden'} sm:block flex flex-col gap-2.5`}>
             <div className='flex flex-col sm:flex-row gap-2.5'>
                 <MapData
                     data={filterValueKeys}

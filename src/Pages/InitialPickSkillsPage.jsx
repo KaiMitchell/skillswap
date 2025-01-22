@@ -55,7 +55,7 @@ function InitialPickSkillsPage({ username, setUser, skills }) {
         });
     };
     return(
-        <div className='mt-10 p-5 bg-slate-100'>
+        <div className='mt-10 sm:p-5 bg-slate-100'>
             <main className='flex flex-col gap-5'>
                 <h1 className='text-3xl font-bold'>Let's get you started</h1>
                     <Container 

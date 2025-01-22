@@ -14,14 +14,10 @@ function FilterPanel({
 }) {
     const [isMobileFilter, setIsMobileFilter] = useState(false);
 
-    // function toggleMobileFilters() {
-
-    // };
-
     return(
         <div className='relative sm:h-full -mx-5 flex flex-col'>
-            <div className='relative p-5 md:px-10'>
-                <h1 className='text-4xl pb-2.5 font-bold underline'>Skill Swap</h1>
+            <div className='relative flex flex-row-reverse justify-between p-5 md:px-10'>
+                <h1 className='hidden text-5xl self-center text-center w-full pb-2.5 font-bold underline sm:block'>Skill Swap</h1>
                 <Button 
                     styles='absolute right-5 top-5 sm:hidden text-xl'
                     handleOnClick={() => setIsMobileFilter(!isMobileFilter)}  

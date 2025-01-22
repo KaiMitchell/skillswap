@@ -18,23 +18,25 @@ function Header({
     setIsSettings, 
     fetchProfiles,
     displayProfile,
+    isHideHeader,
 }) {
-    const [isNavDropDown, setIsNavDropDown] = useState(false);
+    const [isNavDropdown, setIsNavDropdown] = useState(false);
 
     return(
-        <header className='fixed top-0 z-20 w-full bg-stone-900 h-10 pt-10 border-b'>
-            <div className='fixed top-0 z-20 w-full bg-stone-900'>
+        <header className='fixed top-0 z-20 w-full h-10 pt-10 border-b'>
+            <div className='fixed top-0 z-20 w-full bg-stone-950 sm:bg-stone-900'>
                 <nav className='w-full flex justify-between shadow-xl'>
                     {/* Burger and home icon */}
                     <MobileOptions 
                         username={username} 
                         fetchProfiles={fetchProfiles} 
-                        isNavDropDown={isNavDropDown} 
-                        setIsNavDropDown={setIsNavDropDown}
+                        isNavDropdown={isNavDropdown} 
+                        setIsNavDropdown={setIsNavDropdown}
+                        isHideHeader={isHideHeader}
                     />
-                    <div className={`${isNavDropDown ? 'block' : 'hidden'} absolute sm:p-2.5 top-full w-full flex flex-col gap-5 items-start bg-black text-white overflow-y-scroll no-scrollbar sm:contents sm:items-center sm:right-2.5 sm:flex-row sm:justify-between sm:p-0 sm:bg-transparent sm:text-black`}>
+                    <div className={`${isNavDropdown ? 'block' : 'hidden'} absolute sm:p-2.5 top-full w-full flex flex-col gap-5 items-start bg-black text-white overflow-y-scroll no-scrollbar sm:contents sm:items-center sm:right-2.5 sm:flex-row sm:justify-between sm:p-0 sm:bg-transparent sm:text-black`}>
                         {/* Render all categories in nav bar with skill options as a drop down */}
-                        {!isNavDropDown && 
+                        {!isNavDropdown && 
                             <MapData 
                                 data={skills}
                                 render={(obj, index) => (
@@ -52,7 +54,7 @@ function Header({
                                 )}
                             />
                         }
-                        <SignInSignUp username={username} />
+                        <SignInSignUp setIsNavDropdown={setIsNavDropdown} username={username} />
                         {/* drop down for profile / settings button (top-right) */}
                         {username && 
                             <DropDownContainer 
@@ -65,7 +67,8 @@ function Header({
                                 matches={matches}
                                 skills={skills}
                                 displayProfile={displayProfile}
-                                isNavDropDown={isNavDropDown}
+                                isNavDropdown={isNavDropdown}
+                                setIsNavDropdown={setIsNavDropdown}
                             />
                         }
                     </div>

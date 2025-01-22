@@ -28,9 +28,9 @@ function App() {
       toTeachCategory: '',
       toLearn: '',
       toTeach: '',
-      yourGender: '',
-      preferredGender: '',
-      meetUp: '',
+      // yourGender: '',
+      // preferredGender: '',
+      // meetUp: '',
     }
   );
   const [newUserData, setNewUserData] = useState({
@@ -56,6 +56,9 @@ function App() {
   const [accessToken, setAccessToken] = useState(sessionStorage.getItem('access token') || '');
   const [isLoading, setIsLoading] = useState(false);
   const [isSignInPrompt, setIsSignInPrompt] = useState(false);
+  //pass this prop to the pages where I need the header options to be hidden
+  const [isHideHeader, setIsHideHeader] = useState(false);
+  // const [remount, setRemount] = useState(0);
   
   //trigger re-render to immediately view new matches when accepting
   useEffect(() => {
@@ -86,6 +89,7 @@ function App() {
     //Only set is Loading on initial render
     setIsLoading(true);
     fetchSkills();
+    setIsHideHeader(false);
   }, []);
 
   //update the ui as requests data changes
@@ -373,6 +377,7 @@ function App() {
             matches={matches}
             fetchMatches={fetchMatches}
             displayProfile={displayProfile}
+            isHideHeader={isHideHeader}
           />
           {user && <SettingsModal 
             isSettings={isSettings} 
@@ -407,28 +412,36 @@ function App() {
               />
             }
           />
-          <Route path='pick-skills' element={<InitialPickSkillsPage 
-                                                skills={skills} 
-                                                username={newUserData.username} 
-                                                setUser={setUser} 
-                                              />} 
+          <Route path='pick-skills' element={
+            <InitialPickSkillsPage 
+              skills={skills} 
+              username={newUserData.username} 
+              setUser={setUser} 
+            />
+          } 
           />
-          <Route path='pick-matches' element={<InitialPickMatchesPage 
-                                                setNewUserData={setNewUserData} 
-                                                newUserData={newUserData} 
-                                              />} 
+          <Route path='pick-matches' element={
+            <InitialPickMatchesPage 
+                  setNewUserData={setNewUserData} 
+                  newUserData={newUserData} 
+            />
+          } 
           />
-          <Route path="register" element={<Register 
-                                            setUser={setUser}
-                                            setNewUserData={setNewUserData} 
-                                            newUserData={newUserData} 
-                                        />} 
+          <Route path="register" element={
+            <Register 
+              setUser={setUser}
+              setNewUserData={setNewUserData} 
+              newUserData={newUserData} 
+            />
+          } 
           />
-          <Route path="sign-in" element={<SignIn 
-                                            setUser={setUser} 
-                                            //pass username to check if not null. If it is then redirect to home page.
-                                            username={user} 
-                                          />}
+          <Route path="sign-in" element={
+            <SignIn 
+              setUser={setUser} 
+              //pass username to check if not null. If it is then redirect to home page.
+              setIsHideHeader={setIsHideHeader}
+            />
+          }
           />
         </Routes>
       </BrowserRouter>

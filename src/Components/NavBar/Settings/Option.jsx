@@ -13,6 +13,7 @@ function Option({
     setIsShown,
     displayProfile,
     isNavDropDown,
+    setIsNavDropdown,
 }) { 
     const [mobileDropdown, setMobileDropdown] = useState(null);
     let clickHandler = () => {
@@ -20,9 +21,9 @@ function Option({
         console.log(text);
     }; 
 
+    //hide the pop up option for mobile when selectig an option
     useEffect(() => {
         setMobileDropdown(null);
-        console.log('setting');
     }, [isNavDropDown]);
 
     async function signOut() {
