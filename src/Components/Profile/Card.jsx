@@ -28,7 +28,7 @@ function Card({
         const currentUser = localStorage.getItem('user');
 
         //Send the isRequested arg to be able to tell if the fetch should delete or insert a record
-        await fetch(`http://localhost:3000/handle-match-request`, {
+        await fetch(`http://localhost:3000/api/handle-match-request`, {
             method: 'POST',
             headers: {
                 "Content-Type": "application/json"

@@ -53,7 +53,7 @@ function SignUp({ setNewUserData, newUserData, setUser}) {
             return;
         };
 
-        const response = await fetch(`http://localhost:${PORT}/register`, {
+        const response = await fetch(`http://localhost:${PORT}/api/register`, {
             method : "POST",
             headers: {
                 "Content-Type" : "application/json",

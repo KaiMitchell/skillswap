@@ -33,7 +33,7 @@ function CardDetails({
     }, [isRenderAllSkills]);
 
     async function fetchProfileSkills() {
-        const response = await fetch(`http://localhost:3000/fetch-profile-skills?username=${username}`);
+        const response = await fetch(`http://localhost:3000/api/fetch-profile-skills?username=${username}`);
         const data = await response.json();
 
         if(data.status === 404) {

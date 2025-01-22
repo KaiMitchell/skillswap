@@ -59,7 +59,7 @@ function authenticateToken(req, res, next) {
 };
 
 //fetch all skills that current user has not already selected
-app.get('/unselected-skills', async(req, res) => {
+app.get('/api/unselected-skills', async(req, res) => {
     const { username } = req.query;
 
     try {
@@ -98,7 +98,7 @@ app.get('/unselected-skills', async(req, res) => {
 //delete a skill from skills list
 //whether the skill is to learn or teach does not matter
 //their can only be one instance of a skill assign to a user
-app.delete('/remove-skill', async(req, res) => {
+app.delete('/api/remove-skill', async(req, res) => {
     const { username, skill} = req.query;
 
     try{
@@ -150,7 +150,7 @@ app.delete('/remove-skill', async(req, res) => {
 });
 
 //add a new skill to the users skill list
-app.post('/add-skill', async(req, res) => {
+app.post('/api/add-skill', async(req, res) => {
 
     const { skill, username, toLearn } = req.body;
 
@@ -203,7 +203,7 @@ app.post('/add-skill', async(req, res) => {
 });
 
 //create a new user
-app.post('/register', async(req, res) => {
+app.post('/api/register', async(req, res) => {
 
     const data = req.body;
 
@@ -269,7 +269,7 @@ app.post('/register', async(req, res) => {
 });
 
 //login
-app.post('/signin', async(req, res) => {
+app.post('/api/signin', async(req, res) => {
 
     const { username, password } = req.body;
 
@@ -332,7 +332,7 @@ app.post('/signin', async(req, res) => {
 });
 
 //logout
-app.post('/signout', async(req, res) => {
+app.post('/api/signout', async(req, res) => {
     //BLOCKED
     // const token = req.cookies.refreshToken;
     try{
@@ -350,7 +350,7 @@ app.post('/signout', async(req, res) => {
 });
 
 //get matched profile data
-app.get('/profile', authenticateToken, async(req, res) => {
+app.get('/api/profile', authenticateToken, async(req, res) => {
     const selectedUser = req.query.selectedUser;
 
     try {
@@ -405,7 +405,7 @@ app.get('/profile', authenticateToken, async(req, res) => {
 });
 
 //fetch all requests associated with a user. Pitched and Recieved
-app.get('/fetch-requests', authenticateToken, async(req, res) => {
+app.get('/api/fetch-requests', authenticateToken, async(req, res) => {
     const username = req.query.user;
     try{
         const sentRequests = []; 
@@ -445,7 +445,7 @@ app.get('/fetch-requests', authenticateToken, async(req, res) => {
     };
 });
 
-app.post('/unmatch', authenticateToken, async(req, res) => {
+app.post('/api/unmatch', authenticateToken, async(req, res) => {
     const { selectedUser, user } = req.body;
     console.log(selectedUser + ' ' + user);
     try {
@@ -490,7 +490,7 @@ app.post('/unmatch', authenticateToken, async(req, res) => {
     };
 });
 
-app.post('/edit-profile', async(req, res) => {
+app.post('/api/edit-profile', async(req, res) => {
     const {
         currentUsername,
         newUsername,
@@ -608,7 +608,7 @@ app.post('/edit-profile', async(req, res) => {
     };
 });
 
-app.put('/update-priority-skill', async(req, res) => {
+app.put('/api/update-priority-skill', async(req, res) => {
     const {
         user,
         skill,
@@ -630,7 +630,7 @@ app.put('/update-priority-skill', async(req, res) => {
     };
 });
 
-app.delete('/unprioritize-skill', async(req, res) => {
+app.delete('/api/unprioritize-skill', async(req, res) => {
     const { user, skill, isToLearn } = req.body;
     try {
         const priorityType = isToLearn ? 'skill_to_learn_priority_id' : 'skill_to_teach_priority_id';
@@ -645,7 +645,7 @@ app.delete('/unprioritize-skill', async(req, res) => {
     };
 });
 
-app.delete('/remove-all-match-requests', async(req, res) => {
+app.delete('/api/remove-all-match-requests', async(req, res) => {
     const username = req.query.username;
     try {
         await client.query(

@@ -12,7 +12,7 @@ function InitialPickMatchesPage({ newUserData, setNewUserData }) {
     }, []);
 
     async function fetchUsers() {
-        const response = await fetch(`http://${backendURL}/fetch-matches`, {
+        const response = await fetch(`http://${backendURL}/api/fetch-matches`, {
             method: 'POST',
             headers: {
                 "Content-Type": "application/json"

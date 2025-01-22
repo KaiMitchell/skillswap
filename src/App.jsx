@@ -143,7 +143,7 @@ function App() {
 
   // fetch all unfilterred profiles
   async function fetchProfiles() {
-    const response = await fetch(`http://${backendURL}?username=${user}`);
+    const response = await fetch(`http://${backendURL}/api?username=${user}`);
 
     const data = await response.json();
 
@@ -154,7 +154,7 @@ function App() {
   
   //fetch skills for skill/category selections
   async function fetchSkills() {
-    const response = await fetch(`http://localhost:3000/fetch-skills`);
+    const response = await fetch(`http://localhost:3000/api/fetch-skills`);
     const data = await response.json();
     setSkills(data.data);
   };
@@ -180,7 +180,7 @@ function App() {
     const searchParams = new URLSearchParams(queryValues);
 
     try{
-      const response = await fetch(`http://${backendURL}/main-filter-learn-profiles?${searchParams}`);
+      const response = await fetch(`http://${backendURL}/api/main-filter-learn-profiles?${searchParams}`);
       const data = await response.json();
 
       if(!data.profiles) {
@@ -215,7 +215,7 @@ function App() {
     const searchParams = new URLSearchParams(queryValues);
 
     try{
-      const response = await fetch(`http://${backendURL}/main-filter-teach-profiles?${searchParams}`);
+      const response = await fetch(`http://${backendURL}/api/main-filter-teach-profiles?${searchParams}`);
       const data = await response.json();
 
       if(!data.profiles) {
@@ -235,7 +235,7 @@ function App() {
   //fetch profiles that want to learn and teach the skills selected from the nav bar options
   async function headerFilterProfiles() {
     try {
-      const response = await fetch(`http://${backendURL}/fetch-quick-filtered-profiles`, {
+      const response = await fetch(`http://${backendURL}/api/fetch-quick-filtered-profiles`, {
         method: 'POST',
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(headerFilter)
@@ -255,7 +255,7 @@ function App() {
     let sent = [];
     let recieved = [];
 
-    const response = await fetch(`http://localhost:4000/fetch-requests?user=${user}`, {
+    const response = await fetch(`http://localhost:4000/api/fetch-requests?user=${user}`, {
       headers: { 'authorization': `Bearer ${sessionStorage.getItem('access token')}` }
     });
 
@@ -275,7 +275,7 @@ function App() {
 
   //fetch accepted matches
   async function fetchMatches(param) {
-    const response = await fetch(`http://${backendURL}/matches?user=${user}`);
+    const response = await fetch(`http://${backendURL}/api/matches?user=${user}`);
 
     const data = await response.json();
 
@@ -297,7 +297,7 @@ function App() {
     setDisplayedProfileType(type);
 
     try {
-      const response = await fetch(`http://localhost:4000/profile?selectedUser=${selectedUser}`, {
+      const response = await fetch(`http://localhost:4000/api/profile?selectedUser=${selectedUser}`, {
         headers: { 'authorization': `Bearer ${accessToken}` }
       });
 
@@ -317,7 +317,7 @@ function App() {
   };
 
   async function unMatch(param, selectedUser) {
-    const response = await fetch(`http://localhost:4000/unmatch`, {
+    const response = await fetch(`http://localhost:4000/api/unmatch`, {
       method: 'POST',
       headers: { 
         "Content-Type": "application/json",
@@ -348,7 +348,7 @@ function App() {
   async function signOut() {
     console.log('signing out');
 
-    await fetch(`http://localhost:4000/signout`, {
+    await fetch(`http://localhost:4000/api/signout`, {
       method: 'POST',
       headers: { "Content-Type": "application/json" }
     });

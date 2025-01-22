@@ -15,7 +15,7 @@ function InitialPickSkillsPage({ username, setUser, skills }) {
 
         try {
 
-            await fetch(`http://localhost:${PORT}/pick-skills`, {
+            await fetch(`http://localhost:${PORT}/api/pick-skills`, {
                 method: 'POST',
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ ...selectedSkills, username: username })

@@ -67,7 +67,7 @@ function SignIn({
         
         console.log('before fetch: ', userDetails);
 
-        const response = await fetch(`http://${backendURL}/signin`, {
+        const response = await fetch(`http://${backendURL}/api/signin`, {
             method: "POST",
             headers: {"Content-Type": "application/json"},
             // credentials: 'include',

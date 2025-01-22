@@ -59,7 +59,7 @@ function Right({
     async function removeMatchRequests() {
         const username = localStorage.getItem('user');
 
-        const response = await fetch(`http://localhost:3000/handle-match-request`, {
+        const response = await fetch(`http://localhost:3000/api/handle-match-request`, {
             method: 'POST',
             headers: { 
                 "Content-Type": "application/json",
@@ -83,7 +83,7 @@ function Right({
 
         const username = localStorage.getItem('user');
 
-        const response = await fetch(`http://localhost:3000/accept-match-request`, {
+        const response = await fetch(`http://localhost:3000/api/accept-match-request`, {
             method: 'POST',
             headers: { 
                 "Content-Type": "application/json",

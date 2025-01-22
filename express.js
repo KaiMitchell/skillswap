@@ -49,7 +49,7 @@ app.use(cors());
 app.use(fileUpload());
 
 // Home page
-app.get('/', async(req, res) => {     
+app.get('/api', async(req, res) => {     
     const { username } = req.query;
 
     try {
@@ -191,7 +191,7 @@ app.get('/', async(req, res) => {
 });
 
 //fetch all available skills
-app.get('/fetch-skills', async(req, res) => {
+app.get('/api/fetch-skills', async(req, res) => {
 
     try {
 
@@ -217,7 +217,7 @@ app.get('/fetch-skills', async(req, res) => {
         };
 });
 
-app.get('/users-skills', async(req, res) => {
+app.get('/api/users-skills', async(req, res) => {
     const username = req.query.username;
     try{
         if(!username) {
@@ -320,7 +320,7 @@ app.get('/users-skills', async(req, res) => {
 });
 
 //fetch all matches
-app.get('/matches', async(req, res) => {
+app.get('/api/matches', async(req, res) => {
     const currentUser = req.query.user;
     try {
         const matches = await client.query(
@@ -341,7 +341,7 @@ app.get('/matches', async(req, res) => {
     };
 });
 
-app.post('/pick-skills', async(req, res) => {
+app.post('/api/pick-skills', async(req, res) => {
     const data = req.body;
     try {
         const toTeach = data['toTeach'] ? data['toTeach'] : [];
@@ -387,7 +387,7 @@ app.post('/pick-skills', async(req, res) => {
     };
 });
 
-app.get('/main-filter-teach-profiles', async(req, res) => {
+app.get('/api/main-filter-teach-profiles', async(req, res) => {
 
     const { 
         meetUp,
@@ -443,7 +443,7 @@ app.get('/main-filter-teach-profiles', async(req, res) => {
     };
 });
 
-app.get('/main-filter-learn-profiles', async(req, res) => {
+app.get('/api/main-filter-learn-profiles', async(req, res) => {
 
     const { 
         meetUp,
@@ -517,7 +517,7 @@ app.get('/main-filter-learn-profiles', async(req, res) => {
     };
 });
 
-app.post('/fetch-quick-filtered-profiles', async(req, res) => {
+app.post('/api/fetch-quick-filtered-profiles', async(req, res) => {
     const body = req.body;
     try {
         const { category, skill } = body;
@@ -565,7 +565,7 @@ app.post('/fetch-quick-filtered-profiles', async(req, res) => {
     };
 });
 
-app.get('/fetch-profile-skills', async(req, res) => {
+app.get('/api/fetch-profile-skills', async(req, res) => {
     const username = req.query.username;
     const toLearnData = {};
     const toTeachData = {};
@@ -601,7 +601,7 @@ app.get('/fetch-profile-skills', async(req, res) => {
     }
 });
 
-app.post('/handle-match-request', async(req, res) => {
+app.post('/api/handle-match-request', async(req, res) => {
     const { currentUser, selectedUser, isRequested } = req.body;
     try{
 
@@ -647,7 +647,7 @@ app.post('/handle-match-request', async(req, res) => {
     };
 });
 
-app.post('/accept-match-request', async(req, res) => {
+app.post('/api/accept-match-request', async(req, res) => {
     const { currentUser, selectedUser } = req.body;
     //Use transactions to handle multiple queries
     try {
@@ -681,7 +681,7 @@ app.post('/accept-match-request', async(req, res) => {
     }
 });
 
-app.post('/submit-description', async(req, res) => {
+app.post('/api/submit-description', async(req, res) => {
     const { description, username } = req.body;
     await client.query(
         `
@@ -693,7 +693,7 @@ app.post('/submit-description', async(req, res) => {
 });
 
 //Test token middleware
-// app.get('/test-token', authenticateToken, (req, res) => {
+// app.get('/api/test-token', authenticateToken, (req, res) => {
 //     res.json(users.filter(user => user === req.user));
 // });
 

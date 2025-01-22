@@ -27,7 +27,7 @@ function Option({
     }, [isNavDropDown]);
 
     async function signOut() {
-        await fetch(`http://localhost:4000/signout`, {
+        await fetch(`http://localhost:4000/api/signout`, {
             method: 'POST',
             headers: { "Content-Type": "application/json" },
             // credentials: 'include'

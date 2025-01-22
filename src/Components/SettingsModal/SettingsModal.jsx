@@ -57,7 +57,7 @@ function SettingsModal({ isSettings, setIsSettings }) {
         formData.append('linkToPlatform', platformLink);
         formData.append('platform', platform.toLowerCase());
 
-        const response = await fetch(`http://localhost:4000/edit-profile`, {
+        const response = await fetch(`http://localhost:4000/api/edit-profile`, {
             method: 'POST',
             headers: {
                 "Accept": "application/json",

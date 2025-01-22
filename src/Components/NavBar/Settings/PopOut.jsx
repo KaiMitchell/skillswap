@@ -21,7 +21,7 @@ function ProfileDropDownSidePopOut({
 
         const username = localStorage.getItem('user');
 
-        await fetch(`http://localhost:3000/handle-match-request`, {
+        await fetch(`http://localhost:3000/api/handle-match-request`, {
             method: 'POST',
             headers: { 
                 "Content-Type": "application/json",
@@ -42,7 +42,7 @@ function ProfileDropDownSidePopOut({
 
         const username = localStorage.getItem('user');
 
-        await fetch(`http://localhost:3000/accept-match-request`, {
+        await fetch(`http://localhost:3000/api/accept-match-request`, {
             method: 'POST',
             headers: { 
                 "Content-Type": "application/json",
@@ -62,7 +62,7 @@ function ProfileDropDownSidePopOut({
 
     async function removeAllMatchRequests() {
         setIsDisabled(true);
-        await fetch(`http://localhost:4000/remove-all-match-requests?username=${localStorage.getItem('user')}`, {
+        await fetch(`http://localhost:4000/api/remove-all-match-requests?username=${localStorage.getItem('user')}`, {
             method: 'DELETE',
             headers: { 'authorization': `bearer: ${sessionStorage.getItem('access token')}` }
         });
