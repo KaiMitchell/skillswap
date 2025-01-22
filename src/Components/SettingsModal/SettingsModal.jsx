@@ -3,7 +3,7 @@ import SkillsManagementComponent from './SkillsManagementComponent.jsx';
 import Button from '../../commonComponents/Button.jsx';
 import Input from '../../commonComponents/form/Input.jsx';
 import MapData from '../../features/methods/MapData.jsx';
-import { Facebook, LinkedIn, Twitter } from '../../commonComponents/SVGs.jsx';
+import { Facebook, LinkedIn, Revert, Twitter } from '../../commonComponents/SVGs.jsx';
 import Loading from '../../commonComponents/Loading.jsx';
 
 function SettingsModal({ isSettings, setIsSettings }) {    
@@ -17,6 +17,7 @@ function SettingsModal({ isSettings, setIsSettings }) {
     const [conflictMessage, setConflictMessage] = useState('');
     const [platform, setPlatform] = useState('');
     const [platformLink, setPlatformLink] = useState('');
+    const [isHovered, setIsHovered] = useState(false);
 
     const node = useRef();
     const fileRef = useRef();
@@ -107,9 +108,18 @@ function SettingsModal({ isSettings, setIsSettings }) {
     return(
         <div 
             ref={node} 
-            className={`${isSettings ? 'block' : 'hidden'} fixed size-10/12 m-auto z-20 top-0 bottom-0 left-0 right-0 px-10 py-5 rounded bg-stone-100 shadow-xl shadow-black overflow-y-scroll no-scrollbar`}
+            className={`${isSettings ? 'block' : 'hidden'} fixed m-auto z-20 top-0 bottom-0 left-0 right-0 size-full px-5 py-5 rounded bg-stone-100 shadow-xl shadow-black sm:size-10/12 sm:px-10 overflow-y-scroll no-scrollbar`}
         >
-            <div className={` relative w-full min-h-full`}>
+            <div>
+                <Button 
+                    text={<Revert isHovered={isHovered} />}
+                    handleOnClick={() => setIsSettings(false)}
+                    handleOnMouseOver={() => setIsHovered(true)}
+                    handleOnMouseLeave={() => setIsHovered(false)}
+                    styles={`fixed top-0 right-0 z-20 p-2.5 backdrop-blur-sm bg-black/30 rounded-bl sm:hidden`}
+                />
+            </div>
+            <div className={`relative w-full min-h-full`}>
                 {isUpdating && <Loading />}
                 <div className='w-full min-h-1/4 flex flex-col lg:flex-row gap-5 justify-between mb-5 text-center lg:text-left'>   
                     <form className='flex flex-col gap-5 w-full lg:w-1/2'>
@@ -127,7 +137,7 @@ function SettingsModal({ isSettings, setIsSettings }) {
                         />
                         {conflictMessage && <p className='text-xs text-red-500'>{conflictMessage}</p>}   
                         {/* ADD linkes to users social platforms */}
-                        <div className='flex items-end'>
+                        <div className='flex flex-col gap-2.5 items-center sm:flex-row sm:items-end'>
                             <Input
                                 label='Add social links'
                                 onChangeHandler={setPlatformLink}
@@ -135,7 +145,7 @@ function SettingsModal({ isSettings, setIsSettings }) {
                                 value={platformLink}
                                 type='text'
                             />
-                            <div className='flex gap-2.5 ml-2.5'>
+                            <div className='flex gap-2.5 flex-row sm:ml-2.5'>
                                 <MapData
                                     data={platforms}
                                     render={(platform) => {
@@ -175,7 +185,7 @@ function SettingsModal({ isSettings, setIsSettings }) {
                         <Button 
                             handleOnClick={handleSubmit}
                             text={'Submit'}
-                            styles={`w-1/3 px-2.5 py-1 border border-black rounded cursor-pointer`}
+                            styles={`px-2.5 py-1 w-full self-center border border-black rounded cursor-pointer sm:w-1/3`}
                         />
                     </form>
                     {/* image */}

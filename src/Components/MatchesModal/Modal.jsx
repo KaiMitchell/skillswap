@@ -1,6 +1,5 @@
 import { useRef, useEffect, useState } from "react";
 import Details from "./Details";
-import Footer from "./Footer";
 
 function Modal({ 
     displayedProfile,

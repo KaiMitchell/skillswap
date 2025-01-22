@@ -15,9 +15,8 @@ function Input({
 }) {
 
     return(
-        <div className='relative'>
+        <div className='relative flex flex-col'>
             {label && <label htmlFor={id} className='font-bold'>{label}</label>}
-            {type !== 'file' && <br />}
             {isTxtArea ? 
                 <textarea 
                     value={value} 

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import BottomLeft from "./Left/BottomLeft";
+import { Revert } from "../../commonComponents/SVGs";
 import Left from "./Left/Left";
 import Right from "./Right/Right";
 import MapData from "../../features/methods/MapData";
@@ -16,6 +17,7 @@ function Details({
     displayedProfileType,
     matches
 }) {
+    const [isRevertHovered, setIsRevertHovered] = useState(false);
 
     //determine whether profile shows private details or not based on matched status
     const isMatched = matches.includes(displayedProfile?.username);
@@ -34,9 +36,11 @@ function Details({
     return(
         <div className='relative flex gap-5 h-full'>
             <Button 
+                text={<Revert isHovered={isRevertHovered} />}
                 handleOnClick={() => setIsDisplayedProfile(false)}
-                text={'X'}
-                styles={`absolute z-20 top-2.5 right-2.5 sm:hidden`}
+                handleOnMouseOver={() => setIsRevertHovered(true)}
+                handleOnMouseLeave={() => setIsRevertHovered(false)}
+                styles={`fixed top-0 right-0 z-20 p-2.5 backdrop-blur-sm bg-black/30 rounded-bl sm:hidden`}
             />
             <div className='w-full min-h-1/4 h-full flex flex-col lg:flex-row gap-5 justify-between mb-5 text-center lg:text-left'>   
                 {/* image */}
