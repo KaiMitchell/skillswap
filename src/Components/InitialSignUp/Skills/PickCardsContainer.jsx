@@ -9,7 +9,7 @@ function PickContainer({
 }) {  
 
   return(
-    <div className='relative grid grid-cols-6 gap-5 h-96 p-5 bg-black max-w-full rounded-md'>
+    <div className='relative grid grid-cols-1 sm:grid-cols-3 gap-5 h-fit p-5 bg-black max-w-full rounded-md'>
       {skills?.map((obj, index) => {   
           return(
               <PickSkillsCard  
