@@ -28,7 +28,6 @@ app.use(express.static('assets'));
 app.use(express.static(path.join(__dirname + staticFilePath)));
 
 if(process.env.NODE_ENV === 'production') {
-
     clientConfig = { connectionString: process.env.DATABASE_URI };
 } else {
     clientConfig = {

@@ -12,8 +12,6 @@ import SignInPrompt from './commonComponents/SignInPrompt.jsx';
 
 export const TokenContext = createContext();
 
-const backendURL = 'localhost:3000';
-
 function App() {
   const [requests, setRequests] = useState({
     sent: [],

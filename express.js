@@ -30,8 +30,6 @@ if(process.env.NODE_ENV === 'production') {
         database: process.env.PGDATABASE,
         ssl: true
     };
-
-
 };
 
 const client = new Client(clientConfig);

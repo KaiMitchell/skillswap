@@ -7,7 +7,7 @@
     "dev": "vite",
     "build": "vite build",
     "start": "concurrently \"node express.js\" \"node authServer.js\"",
-    "renderBuild": "concurrently \"install\" \"npm run build\"",
+    "renderBuild": "npm install && npm run build",
     "lint": "eslint .",
     "preview": "vite preview"
   },
