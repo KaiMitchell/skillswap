@@ -76,7 +76,7 @@ function MobileDropdownModal({
 
     return(
         <div 
-            className={`sm:hidden absolute top-0 left-1/2 transform -translate-x-1/2 h-5/6 w-full z-20 p2.5 rounded bg-stone-950 shadow-black overflow-y-scroll no-scrollbar`}
+            className={`absolute top-0 left-1/2 transform -translate-x-1/2 h-5/6 w-full z-20 p2.5 rounded bg-stone-950 overflow-y-scroll no-scrollbar sm:hidden`}
         >
             <div className={``}>
                 {/* pop out feature for sent match requests */}

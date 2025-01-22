@@ -11,6 +11,7 @@ function DropDownContainer({
     setUser, 
     setIsSettings,
     displayProfile,
+    isNavDropDown,
 }) {
     const [isShown, setIsShown] = useState();
     return(
@@ -34,6 +35,7 @@ function DropDownContainer({
                 setIsSettings={setIsSettings} 
                 skills={skills}
                 displayProfile={displayProfile}
+                isNavDropDown={isNavDropDown}
             />
         </div>
     );

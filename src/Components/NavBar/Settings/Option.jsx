@@ -12,12 +12,18 @@ function Option({
     setIsSettings, 
     setIsShown,
     displayProfile,
+    isNavDropDown,
 }) { 
     const [mobileDropdown, setMobileDropdown] = useState(null);
     let clickHandler = () => {
         setMobileDropdown(text);
         console.log(text);
     }; 
+
+    useEffect(() => {
+        setMobileDropdown(null);
+        console.log('setting');
+    }, [isNavDropDown]);
 
     async function signOut() {
         await fetch(`http://localhost:4000/signout`, {

@@ -65,6 +65,7 @@ function Header({
                                 matches={matches}
                                 skills={skills}
                                 displayProfile={displayProfile}
+                                isNavDropDown={isNavDropDown}
                             />
                         }
                     </div>
