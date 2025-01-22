@@ -38,7 +38,7 @@ function Card({
                 selectedUser: 
                 profileData?.username, 
                 isRequested: isRequested 
-            })
+            })          
         });
         
         setIsDisabled(false);

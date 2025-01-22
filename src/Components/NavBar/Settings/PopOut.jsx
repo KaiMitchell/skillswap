@@ -71,7 +71,7 @@ function ProfileDropDownSidePopOut({
     };
 
     return(
-        <div className={`group-hover:block hidden absolute right-full w-fit top-0 min-h-full h-max border-r border-stone-900 bg-stone-950`}>
+        <div className={`hidden absolute right-full sm:w-fit top-0 min-h-full h-max border-r border-stone-900 bg-stone-950 sm:group-hover:block`}>
             {/* pop out feature for sent match requests */}
             {text === 'Sent Requests' && 
                 <PopOutOptions 

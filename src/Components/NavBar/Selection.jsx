@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Button from '../../commonComponents/Button';
 import MapData from '../../features/methods/MapData';
 import Option from './SkillFilters/Option';
@@ -13,9 +13,11 @@ function Selection({
     canHover, 
     category, 
     showRight, 
-    setFilter 
+    setFilter,
 }) {
     const [isShown, setIsShown] = useState(false);
+
+    const navigate = new useNavigate();
 
     //fetch all users associated with the selected skill.
     async function handleSkillOnClick(skill) {
@@ -43,9 +45,11 @@ function Selection({
     return(
         isLink ?
                 //Home page button / icon
-                <Link className='sm:mb-0 sm:px-10 w-1/2 text-center text-white flex justify-between items-center hover:bg-stone-700' to={path}>
-                    <Button styles='w-full text-nowrap text-xs' text={text} />
-                </Link>
+                <Button 
+                    styles='sm:mb-0 sm:px-10 w-full text-center text-white flex justify-between items-center hover:bg-stone-700 sm:w-1/2' 
+                    text={text}
+                    handleOnClick={() => navigate(path)}  
+                />
             :
                 //Category item in navbar options
                 <div 
