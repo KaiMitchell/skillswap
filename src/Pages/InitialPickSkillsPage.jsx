@@ -15,7 +15,7 @@ function InitialPickSkillsPage({ username, setUser, skills }) {
 
         try {
 
-            const response = await fetch(`http://localhost:${PORT}/pick-skills`, {
+            await fetch(`http://localhost:${PORT}/pick-skills`, {
                 method: 'POST',
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ ...selectedSkills, username: username })
@@ -29,6 +29,7 @@ function InitialPickSkillsPage({ username, setUser, skills }) {
         };
     };
 
+    //select desired skills
     function handleLearnSkillAdd(skillName) {
         setSelectedSkills(prev => {
             const isSelected = prev.toLearn.includes(skillName);
@@ -41,9 +42,10 @@ function InitialPickSkillsPage({ username, setUser, skills }) {
         });
     };
 
+    //select skills to offer
     function handleTeachSkillAdd(skillName) {
         setSelectedSkills(prev => {
-            const isSelected = prev.toTeach.includes(skillName);
+            const isSelected = prev.toTeach.includes(skillName) || prev.toLearn.includes(skillName);
             const updatedToTeach = isSelected ? prev.toTeach.filter((skill) => skill !== skillName)
                                               : [...prev.toTeach, skillName];
             return {
@@ -53,11 +55,23 @@ function InitialPickSkillsPage({ username, setUser, skills }) {
         });
     };
     return(
-        <div className='p-5 bg-slate-100'>
+        <div className='mt-10 p-5 bg-slate-100'>
             <main className='flex flex-col gap-5'>
                 <h1 className='text-3xl font-bold'>Let's get you started</h1>
-                    <Container skills={skills} isPickMatches={false} handleSkillAdd={handleLearnSkillAdd} selectedSkills={selectedSkills.toLearn} contentHeader='Pick the skills you would like to learn' />     
-                    <Container skills={skills} isPickMatches={false} handleSkillAdd={handleTeachSkillAdd} selectedSkills={selectedSkills.toTeach} contentHeader='Pick the skills you would like to teach' />
+                    <Container 
+                        skills={skills} 
+                        isPickMatches={false} 
+                        handleSkillAdd={handleLearnSkillAdd} 
+                        selectedSkills={selectedSkills.toLearn} 
+                        contentHeader='Pick the skills you would like to learn' 
+                    />     
+                    <Container 
+                        skills={skills} 
+                        isPickMatches={false} 
+                        handleSkillAdd={handleTeachSkillAdd} 
+                        selectedSkills={selectedSkills.toTeach} 
+                        contentHeader='Pick the skills you would like to teach' 
+                    />
                 <div className='self-end flex w-1/4'>
                     <button className='w-1/2 mr-5 p-2.5 border'>Skip</button>
                     <Link to='/' onClick={() => submitSkills()}>

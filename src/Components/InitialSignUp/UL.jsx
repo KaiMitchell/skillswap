@@ -9,7 +9,13 @@ function UL({ isSelected, index, handleSkillAdd, selectedSkills, isPickMatches, 
             :
                 obj.skills?.map(skill => {
                    return(
-                        <PickSkillList key={skill} skill={skill} index={index} handleSkillAdd={handleSkillAdd} selectedSkills={selectedSkills} />
+                        <PickSkillList 
+                            key={skill} 
+                            skill={skill} 
+                            index={index} 
+                            handleSkillAdd={handleSkillAdd} 
+                            selectedSkills={selectedSkills} 
+                        />
                    );
                 })
             }
