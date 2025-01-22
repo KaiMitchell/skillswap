@@ -1,7 +1,15 @@
 import PickMatchesContainer from "./Matches/PickMatchesContainer";
 import PickSkillsContainer from "./Skills/PickCardsContainer";
 
-function Container({ matches, skills, isPickMatches, handleSkillAdd, selectedSkills, contentHeader }) {
+function Container({ 
+    matches, 
+    skills, 
+    isPickMatches, 
+    handleSkillAdd, 
+    selectedSkills, 
+    contentHeader,
+    selectedOpposite,
+}) {
     return(
         <div className='h-1/2'>
         <h2 className='text-2xl'>{contentHeader}</h2>
@@ -13,6 +21,7 @@ function Container({ matches, skills, isPickMatches, handleSkillAdd, selectedSki
                     handleSkillAdd={handleSkillAdd} 
                     selectedSkills={selectedSkills} 
                     skills={skills} 
+                    selectedOpposite={selectedOpposite}
                 />
             } 
         </div>

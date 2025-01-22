@@ -45,7 +45,7 @@ function InitialPickSkillsPage({ username, setUser, skills }) {
     //select skills to offer
     function handleTeachSkillAdd(skillName) {
         setSelectedSkills(prev => {
-            const isSelected = prev.toTeach.includes(skillName) || prev.toLearn.includes(skillName);
+            const isSelected = prev.toTeach.includes(skillName);
             const updatedToTeach = isSelected ? prev.toTeach.filter((skill) => skill !== skillName)
                                               : [...prev.toTeach, skillName];
             return {
@@ -63,6 +63,7 @@ function InitialPickSkillsPage({ username, setUser, skills }) {
                         isPickMatches={false} 
                         handleSkillAdd={handleLearnSkillAdd} 
                         selectedSkills={selectedSkills.toLearn} 
+                        selectedOpposite={selectedSkills.toTeach}
                         contentHeader='Pick the skills you would like to learn' 
                     />     
                     <Container 
@@ -70,6 +71,7 @@ function InitialPickSkillsPage({ username, setUser, skills }) {
                         isPickMatches={false} 
                         handleSkillAdd={handleTeachSkillAdd} 
                         selectedSkills={selectedSkills.toTeach} 
+                        selectedOpposite={selectedSkills.toLearn}
                         contentHeader='Pick the skills you would like to teach' 
                     />
                 <div className='self-end flex w-1/4'>

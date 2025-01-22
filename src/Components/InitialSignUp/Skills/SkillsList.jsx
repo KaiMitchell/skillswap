@@ -1,4 +1,9 @@
-function SkillsList({ handleSkillAdd, skill, selectedSkills }) {
+function SkillsList({ 
+    handleSkillAdd, 
+    skill, 
+    selectedSkills,
+    selectedOpposite,
+}) {
 
     return(
         <li 
@@ -7,7 +12,8 @@ function SkillsList({ handleSkillAdd, skill, selectedSkills }) {
                 ${selectedSkills.includes(skill) ? 'bg-green-500' : ''} 
                 ${selectedSkills.includes(skill) ? 'hover:bg-green-500' : 'hover:bg-stone-950'} 
                 ${selectedSkills.includes(skill) ? 'bg-green-600' : ''} 
-                ${selectedSkills.includes(skill) ? 'text-stone-900' : 'stone-300'} 
+                ${selectedSkills.includes(skill) ? 'text-stone-900' : 'text-stone-300'} 
+                ${selectedOpposite.includes(skill) && 'line-through bg-stone-950'}
                 cursor-pointer`
             }
         >

@@ -1,6 +1,14 @@
 import PickSkillList from "./Skills/SkillsList";
 
-function UL({ isSelected, index, handleSkillAdd, selectedSkills, isPickMatches, obj }) {
+function UL({ 
+    isSelected, 
+    index, 
+    handleSkillAdd, 
+    selectedSkills, 
+    isPickMatches, 
+    obj,
+    selectedOpposite,
+}) {
     return(
         <ul className={`hidden group-hover:block w-full h-48 border-t ${isSelected ? 'bg-green-500' : ''} text-xs bg-stone-900 shadow-inner overflow-y-auto no-scrollbar`}>
             {isPickMatches ?
@@ -14,7 +22,8 @@ function UL({ isSelected, index, handleSkillAdd, selectedSkills, isPickMatches, 
                             skill={skill} 
                             index={index} 
                             handleSkillAdd={handleSkillAdd} 
-                            selectedSkills={selectedSkills} 
+                            selectedSkills={selectedSkills}
+                            selectedOpposite={selectedOpposite} 
                         />
                    );
                 })

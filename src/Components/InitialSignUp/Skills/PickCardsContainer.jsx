@@ -1,6 +1,12 @@
 import PickSkillsCard from './Card';
 
-function PickContainer({ handleSkillAdd, selectedSkills, isPickMatches, skills }) {  
+function PickContainer({ 
+  handleSkillAdd, 
+  selectedSkills, 
+  isPickMatches, 
+  skills,
+  selectedOpposite, 
+}) {  
 
   return(
     <div className='relative grid grid-cols-6 gap-5 h-96 p-5 bg-black max-w-full rounded-md'>
@@ -13,6 +19,7 @@ function PickContainer({ handleSkillAdd, selectedSkills, isPickMatches, skills }
                 obj={obj}
                 selectedSkills={selectedSkills}
                 handleSkillAdd={handleSkillAdd}
+                selectedOpposite={selectedOpposite}
               />
           );
       })};
