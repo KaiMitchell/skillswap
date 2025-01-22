@@ -14,16 +14,26 @@ dotenv.config();
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);  
+const staticFilePath = process.env.DATABASE_URI === 'production' ? './dist' : '/src';
 const { Client } = pkg;
-//config PostgreSQL database
-const clientConfig = {
-    user: process.env.PGUSER,
-    password: process.env.PGPASSWORD,
-    host: process.env.PGHOST,
-    port: 5432,
-    database: process.env.PGDATABASE,
-    ssl: true
+let clientConfig = {};
+
+if(process.env.NODE_ENV === 'production') {
+    clientConfig = new Client({ connectionString: process.env.DATABASE_URI });
+} else {
+    //config PostgreSQL database
+    clientConfig = {
+        user: process.env.PGUSER,
+        password: process.env.PGPASSWORD,
+        host: process.env.PGHOST,
+        port: 5432,
+        database: process.env.PGDATABASE,
+        ssl: true
+    };
+
+
 };
+
 const client = new Client(clientConfig);
 
 client
@@ -34,7 +44,7 @@ client
 //serve file relative to the static directory
 app.use(express.json());
 app.use(express.static('assets'));
-app.use(express.static(path.join(__dirname + './src')));
+app.use(express.static(path.join(__dirname + staticFilePath)));
 app.use(cors());
 app.use(fileUpload());
 
