@@ -10,7 +10,7 @@ function Right({
     fetchRequests,
     setIsDisplayedProfile,
     displayedProfileType,
-    isMatched
+    isMatched,
 }) {
 
     //set a boolean to determine whether accept button should be rendered... if displaying a pending profile
@@ -104,16 +104,16 @@ function Right({
     };
 
     return(
-        <div className="w-1/2 h-full flex flex-col justify-between">
-            <div className='flex flex-col gap-5 h-full w-full'>
-                <div className='relative group self-end'>
+        <div className="w-1/2 h-full flex flex-col gap-5 mt-2.5 sm:justify-between sm:mt-0">
+            <div className='flex flex-col gap-5 items-center sm:h-full w-full sm:items-end'>
+                <div className='relative group sm:self-end'>
                     <Button
                         text={mainBtnText}
                         handleOnClick={mainBtnClickHandler}
                         styles={`h-10 w-28 flex justify-center items-center rounded-lg text-white ${isMatched ? 'group-hover:font-semibold' : 'hover:font-semibold'} bg-gradient-to-r ${displayRequestSentTo ? buttonColor.pendingProfile : buttonColor.matchedOrRecievedProfile} cursor-pointer`}
                     />
                     <div className="hidden group-hover:flex items-center absolute right-full top-1/2 transform -translate-y-1/2">
-                        {/* Message icon */}
+                        {/* Message icon
                         {isMatched && 
                             <Button 
                                 text={btnSvg} 
@@ -122,7 +122,7 @@ function Right({
                                 handleOnClick={() => alert('clicked')}
                                 isHandleHover={true}
                             />
-                        }   
+                        }    */}
                         {!isMatched && !displayRequestSentTo && 
                             //decline a match request that has been sent to user
                             <Button 
@@ -139,21 +139,21 @@ function Right({
                         }
                     </div>
                 </div>
-                <article className='text-right'>
+                <div className='hidden text-right sm:block'>
                     <h3 className='text-xl font-bold underline'>About</h3>
                     <p>
                         {displayedProfile?.description || 'No Description'}
                     </p>
-                </article>
+                </div>
             </div>
             <div className='flex flex-col gap-2.5'>      
-                <div className='flex items-center gap-2.5 text-nowrap'>
-                    <HorizontalListItems data={displayedProfile?.skills_to_teach} />
+            <div className='flex items-center gap-2.5 flex-wrap'>
                     <p>Skills to offer</p>
+                    <HorizontalListItems data={displayedProfile?.skills_to_teach} />
                 </div>
-                <div className='flex items-center gap-2.5 text-nowrap'>
-                    <HorizontalListItems data={displayedProfile?.skills_to_learn} />
+                <div className='flex items-center gap-2.5 flex-wrap'>
                     <p>Skills desired</p>
+                    <HorizontalListItems data={displayedProfile?.skills_to_learn} />
                 </div>
             </div>
         </div>

@@ -32,11 +32,16 @@ function Details({
     };
 
     return(
-        <div className='flex gap-5 h-full'>
+        <div className='relative flex gap-5 h-full'>
+            <Button 
+                handleOnClick={() => setIsDisplayedProfile(false)}
+                text={'X'}
+                styles={`absolute z-20 top-2.5 right-2.5 sm:hidden`}
+            />
             <div className='w-full min-h-1/4 h-full flex flex-col lg:flex-row gap-5 justify-between mb-5 text-center lg:text-left'>   
                 {/* image */}
                 <div className='w-full h-full'>
-                    <div className="w-full h-full flex justify-between">
+                    <div className="w-full h-full flex flex-col justify-between items-center sm:items-start sm:flex-row">
                         <div className="relative text-left">
                             <Left 
                                 displayedProfile={displayedProfile}
@@ -49,7 +54,7 @@ function Details({
                                 isMatched={isMatched}
                             />
                             {isPlatformLinks && 
-                                <div className='absolute bottom-0'>
+                                <div className='absolute top-0 right-full flex flex-col sm:top-auto sm:right-auto sm:flex-row sm:mt-2.5'>
                                     <MapData 
                                         data={displayedProfile?.socials}
                                         render={(obj) => {
