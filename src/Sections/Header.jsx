@@ -32,7 +32,7 @@ function Header({
                         isNavDropDown={isNavDropDown} 
                         setIsNavDropDown={setIsNavDropDown}
                     />
-                    <div className={`${isNavDropDown ? 'block' : 'hidden'} absolute p-2.5 top-full w-full flex flex-col gap-5 items-start bg-black text-white overflow-y-scroll sm:contents sm:items-center sm:right-2.5 sm:flex-row sm:justify-between sm:p-0 sm:bg-transparent sm:text-black`}>
+                    <div className={`${isNavDropDown ? 'block' : 'hidden'} absolute sm:p-2.5 top-full w-full flex flex-col gap-5 items-start bg-black text-white overflow-y-scroll sm:contents sm:items-center sm:right-2.5 sm:flex-row sm:justify-between sm:p-0 sm:bg-transparent sm:text-black`}>
                         {/* Render all categories in nav bar with skill options as a drop down */}
                         {!isNavDropDown && 
                             <MapData 
