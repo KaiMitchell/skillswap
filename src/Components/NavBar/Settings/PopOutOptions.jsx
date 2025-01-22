@@ -12,15 +12,26 @@ function PopOutOptions({
     isHandleRequestFeedback,
     isDisabled,
     removeAllMatchRequests, 
+    isMobile,
+    setMobileDropdown,
 }) {
     return(
         <ul className="text-nowrap">
-            <h3 className={`p-2.5 text-stone-500`}>{type}</h3>
+            <div className={`${isMobile && 'flex'} justify-between`}>
+                <h3 className={`p-2.5 text-stone-500`}>{type}</h3>
+                {isMobile &&
+                    <Button 
+                        handleOnClick={() => setMobileDropdown(null)}
+                        text={'X'}
+                        styles={`text-black`}
+                    />
+                }
+            </div>
             {type === 'Pending requests' && array.length > 0 &&
                 <Button
                     text={`delete all`}
                     handleOnClick={removeAllMatchRequests}
-                    styles={`text-sm text-red-500`}
+                    styles={`px-2.5 text-sm text-red-500`}
                 />
             }
             {Array.isArray(array) && array?.length ? 

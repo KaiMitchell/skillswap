@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import PopOut from "./PopOut.jsx";
 import Button from "../../../commonComponents/Button.jsx";
+import MobileDropdownModal from "../../../commonComponents/MobileDropdownModal.jsx";
 
 function Option({ 
     skills, 
@@ -12,12 +13,11 @@ function Option({
     setIsShown,
     displayProfile,
 }) { 
-    let clickHandler = () => {};
-    
-    //fetch data effect for individual pop outs due to re-rendering.
-    useEffect(() => {
-        // text === 'Requests' && fetchData();
-    }, []); 
+    const [mobileDropdown, setMobileDropdown] = useState(null);
+    let clickHandler = () => {
+        setMobileDropdown(text);
+        console.log(text);
+    }; 
 
     async function signOut() {
         await fetch(`http://localhost:4000/signout`, {
@@ -47,21 +47,35 @@ function Option({
     const isNotSignOutOrSettings = text !== 'Sign out' && text !== 'Settings';
 
     return(
-            <div className='relative group h-fit'>
-                <Button 
-                    handleOnClick={clickHandler} 
-                    styles={`flex w-full py-5 px-2.5 sm:px-10 items-center sm:justify-center my-0 text-sm text-stone-500 hover:text-stone-400 hover:bg-stone-700 hover:cursor-pointer`}
-                    text={text}
-                />
-                {isNotSignOutOrSettings && 
-                    <PopOut 
+            <div>
+                {mobileDropdown && 
+                    <MobileDropdownModal 
                         fetchData={fetchData}
                         data={data}
                         text={text}
                         skills={skills}
                         displayProfile={displayProfile}
+                        setMobileDropdown={setMobileDropdown}
+                        mobileDropDown={mobileDropdown}
                     />
                 }
+                <div className='relative group h-fit'>
+                    <Button 
+                        handleOnClick={clickHandler} 
+                        styles={`flex w-full py-5 px-2.5 sm:px-10 items-center sm:justify-center my-0 text-sm text-stone-500 hover:text-stone-400 hover:bg-stone-700 hover:cursor-pointer`}
+                        text={text}
+                    />
+                    {isNotSignOutOrSettings && 
+                        <PopOut 
+                            fetchData={fetchData}
+                            data={data}
+                            text={text}
+                            skills={skills}
+                            displayProfile={displayProfile}
+                            mobileDropDown={mobileDropdown}
+                        />
+                    }
+                </div>
             </div>
     );
 };
