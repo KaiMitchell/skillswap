@@ -1,3 +1,4 @@
+import { useState } from "react";
 import InitialUl from "../UL";
 
 function Card({ 
@@ -8,6 +9,8 @@ function Card({
     handleSkillAdd,
     selectedOpposite,
 }) {
+    const [isShowSkills, setIsShowSkills] = useState(false);
+
     //identify the categories that have a skill selected within them
     const isCategorySelected = obj.skills.some((skill) => selectedSkills.includes(skill));   
     //identify the skills selected within the opposite type and disable them to prevent duplicates
@@ -17,8 +20,10 @@ function Card({
         <button 
             className={`relative flex group justify-center items-center p-2.5 text-xs ${isCategorySelected ? 'bg-stone-900' : 'bg-stone-950'} hover:bg-stone-900 text-stone-300 hover:text-stone-400`}
             disabled={isOppositeSelected}
+            onClick={() => setIsShowSkills(!isShowSkills)}
+            onMouseLeave={() => setIsShowSkills(false)}
         >
-            <div className='hidden w-full group-hover:block absolute top-full z-20'>
+            <div className={`${isShowSkills ? 'block' : 'hidden'} w-full absolute top-full z-20`}>
                 <InitialUl 
                     isPickMatches={isPickMatches} 
                     obj={obj} 
