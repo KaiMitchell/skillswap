@@ -19,7 +19,7 @@ const { Client } = pkg;
 let clientConfig = {};
 
 if(process.env.NODE_ENV === 'production') {
-    clientConfig = new Client({ connectionString: process.env.DATABASE_URI });
+    clientConfig = { connectionString: process.env.DATABASE_URI };
 } else {
     //config PostgreSQL database
     clientConfig = {
