@@ -16,6 +16,26 @@ const apiUrl = import.meta.env.VITE_API_URL;
 const authUrl = import.meta.env.VITE_AUTH_URL;
 
 function App() {
+  const [headerFilter, setHeaderFilter] = useState({category: '', skill: ''});
+  const [skills, setSkills] = useState();
+  const [user, setUser] = useState(localStorage.getItem('user') || null);
+  const [learnProfiles, setLearnProfiles] = useState();
+  const [teachProfiles, setTeachProfiles] = useState();
+  //renderring the settings modal
+  const [isSettings, setIsSettings] = useState(false);
+  const [isDisplayedProfile, setIsDisplayedProfile] = useState(false);
+  const [displayedProfile, setDisplayedProfile] = useState();
+  //determine the type of call to display profile (recieved, or sent request or matched)
+  const [displayedProfileType, setDisplayedProfileType] = useState('');
+  const [matches, setMatches] = useState([]);
+  //remount on accepting a request
+  const [param, setParam] = useState();
+  const [accessToken, setAccessToken] = useState(sessionStorage.getItem('access token') || '');
+  const [isLoading, setIsLoading] = useState(false);
+  const [isSignInPrompt, setIsSignInPrompt] = useState(false);
+  //pass this prop to the pages where I need the header options to be hidden
+  const [isHideHeader, setIsHideHeader] = useState(false);
+  // const [remount, setRemount] = useState(0);
   const [requests, setRequests] = useState({
     sent: [],
     recieved: []
@@ -40,26 +60,6 @@ function App() {
     password: '',
     confirmPassword: ''
   });
-  const [headerFilter, setHeaderFilter] = useState({category: '', skill: ''});
-  const [skills, setSkills] = useState();
-  const [user, setUser] = useState(localStorage.getItem('user') || null);
-  const [learnProfiles, setLearnProfiles] = useState();
-  const [teachProfiles, setTeachProfiles] = useState();
-  //renderring the settings modal
-  const [isSettings, setIsSettings] = useState(false);
-  const [isDisplayedProfile, setIsDisplayedProfile] = useState(false);
-  const [displayedProfile, setDisplayedProfile] = useState();
-  //determine the type of call to display profile (recieved, or sent request or matched)
-  const [displayedProfileType, setDisplayedProfileType] = useState('');
-  const [matches, setMatches] = useState([]);
-  //remount on accepting a request
-  const [param, setParam] = useState();
-  const [accessToken, setAccessToken] = useState(sessionStorage.getItem('access token') || '');
-  const [isLoading, setIsLoading] = useState(false);
-  const [isSignInPrompt, setIsSignInPrompt] = useState(false);
-  //pass this prop to the pages where I need the header options to be hidden
-  const [isHideHeader, setIsHideHeader] = useState(false);
-  // const [remount, setRemount] = useState(0);
   
   //trigger re-render to immediately view new matches when accepting
   useEffect(() => {
