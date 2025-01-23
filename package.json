@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "renderBuild": "npm install && npm run build",
+    "renderBuild": "npm install --legacy-peer-deps && npm run build",
     "start": "vite preview",
     "lint": "eslint .",
     "preview": "vite preview"
