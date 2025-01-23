@@ -6,8 +6,8 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "start": "concurrently \"node express.js\" \"node authServer.js\"",
-    "renderBuild": "npm install",
+    "renderBuild": "npm install && npm run build",
+    "start": "vite preview",
     "lint": "eslint .",
     "preview": "vite preview"
   },
