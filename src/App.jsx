@@ -15,9 +15,6 @@ export const TokenContext = createContext();
 const apiUrl = import.meta.env.VITE_API_URL;
 const authUrl = import.meta.env.VITE_AUTH_URL;
 
-console.log('API URL:', apiUrl);
-console.log('Auth URL:', authUrl);
-
 function App() {
   const [requests, setRequests] = useState({
     sent: [],
