@@ -12,7 +12,7 @@ dotenv.config();
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
-const staticFilePath = process.env.DATABASE_URI === 'production' ? './dist' : './assets';
+const staticFilePath = process.env.NODE_ENV === 'production' ? './dist' : './assets';
 
 const app = express();
 const { Client } = pkg;
@@ -39,6 +39,7 @@ if(process.env.NODE_ENV === 'production') {
         ssl: true
     };
 };
+
 const client = new Client(clientConfig);
 client.connect()
     .then(() => console.log('Connected to the database'))
@@ -498,8 +499,6 @@ app.post('/api/edit-profile', async(req, res) => {
         linkToPlatform,
         platform,
     } = req.body;
-
-    console.log(req.body);
 
     try { 
         let imgFile;
