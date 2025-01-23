@@ -3,6 +3,8 @@ import Button from '../../../commonComponents/Button';
 import MapData from '../../../features/methods/MapData';
 import HorizontalListItems from '../../../commonComponents/HorizontalListItems';
 
+const apiUrl = import.meta.env.VITE_API_URL;
+
 function Right({ 
     isHovered,
     setIsHovered,
@@ -59,7 +61,7 @@ function Right({
     async function removeMatchRequests() {
         const username = localStorage.getItem('user');
 
-        const response = await fetch(`http://localhost:3000/api/handle-match-request`, {
+        const response = await fetch(`${apiUrl}/api/handle-match-request`, {
             method: 'POST',
             headers: { 
                 "Content-Type": "application/json",
@@ -83,7 +85,7 @@ function Right({
 
         const username = localStorage.getItem('user');
 
-        const response = await fetch(`http://localhost:3000/api/accept-match-request`, {
+        const response = await fetch(`${apiUrl}/api/accept-match-request`, {
             method: 'POST',
             headers: { 
                 "Content-Type": "application/json",

@@ -2,11 +2,14 @@ import PopOutOptions from "./PopOutOptions";
 import { TokenContext } from "../../../App";
 import { useState } from "react";
 
+const apiUrl = import.meta.env.VITE_API_URL;
+const authUrl = import.meta.env.VITE_AUTH_URL;
+
 function ProfileDropDownSidePopOut({ 
     displayProfile,
     data, 
     fetchData, 
-    text,
+    text,                       
 }) {
     const [isHandleRequestFeedback, setIsHandleRequestFeedback] = useState('');
     const [isDisabled, setIsDisabled] = useState(false);
@@ -21,7 +24,7 @@ function ProfileDropDownSidePopOut({
 
         const username = localStorage.getItem('user');
 
-        await fetch(`http://localhost:3000/api/handle-match-request`, {
+        await fetch(`${apiUrl}/api/handle-match-request`, {
             method: 'POST',
             headers: { 
                 "Content-Type": "application/json",
@@ -42,7 +45,7 @@ function ProfileDropDownSidePopOut({
 
         const username = localStorage.getItem('user');
 
-        await fetch(`http://localhost:3000/api/accept-match-request`, {
+        await fetch(`${apiUrl}/api/accept-match-request`, {
             method: 'POST',
             headers: { 
                 "Content-Type": "application/json",
@@ -62,7 +65,7 @@ function ProfileDropDownSidePopOut({
 
     async function removeAllMatchRequests() {
         setIsDisabled(true);
-        await fetch(`http://localhost:4000/api/remove-all-match-requests?username=${localStorage.getItem('user')}`, {
+        await fetch(`${authUrl}/api/remove-all-match-requests?username=${localStorage.getItem('user')}`, {
             method: 'DELETE',
             headers: { 'authorization': `bearer: ${sessionStorage.getItem('access token')}` }
         });

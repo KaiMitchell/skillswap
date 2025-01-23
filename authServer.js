@@ -8,11 +8,11 @@ import bcrypt from 'bcrypt';
 import pkg from 'pg';
 import fileUpload from 'express-fileupload';
 
-dotenv.config();
+dotenv.config();            
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
-const staticFilePath = process.env.DATABASE_URI === 'production' ? './dist' : '/src';
+const staticFilePath = process.env.DATABASE_URI === 'production' ? './dist' : './assets';
 
 const app = express();
 const { Client } = pkg;
@@ -599,7 +599,7 @@ app.post('/api/edit-profile', async(req, res) => {
         console.log(newSocials.rows);
     
         res.json({ 
-            img: `http://localhost:3000/${imgPath ? imgPath : currentProfilePicture}`,
+            img: `http://localhost:4000/${imgPath ? imgPath : currentProfilePicture}`,
             newSocials: newSocials.rows,
             newUsername: newUsername || currentUsername          
         });

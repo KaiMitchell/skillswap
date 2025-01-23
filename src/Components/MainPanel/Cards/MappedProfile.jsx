@@ -14,7 +14,6 @@ function MappedProfiles({
     isDisabled,
 }) {
     mappedProfiles = profiles?.map((obj) => {
-
         //render skills based on whether user is filtering from nav or main options
         let skills; 
         let isRequested = false;

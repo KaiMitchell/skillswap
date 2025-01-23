@@ -15,7 +15,7 @@ function Details({
     fetchRequests,
     setIsDisplayedProfile,
     displayedProfileType,
-    matches
+    matches,
 }) {
     const [isRevertHovered, setIsRevertHovered] = useState(false);
 
@@ -24,8 +24,8 @@ function Details({
     //display links to platforms if they are set
     const isPlatformLinks = displayedProfile?.socials.length > 0;
     const defaultProfileImg = 'https://static.vecteezy.com/system/resources/thumbnails/009/292/244/small/default-avatar-icon-of-social-media-user-vector.jpg';
-    const imgURL = 'http://localhost:3000/';
-    const imgPath = imgURL + displayedProfile?.profile_picture;
+    const imgURL = import.meta.env.VITE_AUTH_URL;
+    const imgPath = imgURL + '/' + displayedProfile?.profile_picture;
 
     //vist a users social page when clicking on their socials icon
     function goToSocialsPlatform(link) {

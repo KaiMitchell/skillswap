@@ -14,7 +14,7 @@ dotenv.config();
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);  
-const staticFilePath = process.env.DATABASE_URI === 'production' ? './dist' : '/src';
+const staticFilePath = process.env.NODE_ENV === 'production' ? './dist' : './assets';
 const { Client } = pkg;
 let clientConfig = {};
 
@@ -28,7 +28,7 @@ if(process.env.NODE_ENV === 'production') {
         host: process.env.PGHOST,
         port: 5432,
         database: process.env.PGDATABASE,
-        ssl: true
+        ssl: true,
     };
 };
 

@@ -18,7 +18,7 @@ function SkillsManagementComponent({ setIsUpdating }) {
 
     //all skills a user is teaching or learning
     async function fetchCurrentSkills() {
-        const response = await fetch(`http://localhost:3000/api/users-skills?username=${localStorage.getItem('user')}`);
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/api/users-skills?username=${localStorage.getItem('user')}`);
 
         const data = await response.json();
 
@@ -38,7 +38,7 @@ function SkillsManagementComponent({ setIsUpdating }) {
 
     //render a list of skills not assigned to the current user
     async function fetchUnselectedSkills() {
-        const response = await fetch(`http://localhost:4000/api/unselected-skills?username=${localStorage.getItem('user')}`); 
+        const response = await fetch(`${import.meta.env.VITE_AUTH_URL}/api/unselected-skills?username=${localStorage.getItem('user')}`); 
         const data = await response.json();
         setUpdateSkillsToLearn(data.data);
         setUpdateSkillsToTeach(data.data);
@@ -47,7 +47,7 @@ function SkillsManagementComponent({ setIsUpdating }) {
     //delete a skill from skills list
     async function removeSkill(skill, isToLearn) {
         setIsUpdating(true);
-        await fetch(`http://localhost:4000/api/remove-skill?skill=${skill}&username=${localStorage.getItem('user')}`, {
+        await fetch(`${import.meta.env.VITE_API_URL}/api/remove-skill?skill=${skill}&username=${localStorage.getItem('user')}`, {
             method: 'DELETE'
         });
         //ensure priority is also unset if the skill was a priority
@@ -59,7 +59,7 @@ function SkillsManagementComponent({ setIsUpdating }) {
     //add a new skill into skill list
     async function addSkill(skill, toLearn) {
         //using a post method because the query inserts not updates
-        await fetch(`http://localhost:4000/api/add-skill`, {
+        await fetch(`${import.meta.env.VITE_API_URL}/api/add-skill`, {
             method: 'POST',
             headers: {
                 "Content-Type": "application/json",
@@ -77,7 +77,7 @@ function SkillsManagementComponent({ setIsUpdating }) {
     //make a skill a priority
     async function addSkillPrioritization(skill, isToLearn) {
         console.log('adding');
-        await fetch(`http://localhost:4000/api/update-priority-skill`, {
+        await fetch(`${import.meta.env.VITE_API_URL}/api/update-priority-skill`, {
             method: 'PUT',
             headers: {
                 "Content-Type": "application/json",
@@ -102,7 +102,7 @@ function SkillsManagementComponent({ setIsUpdating }) {
     //undo prioritization
     async function removeSkillPrioritization(skill, isToLearn) {
         console.log('removing');
-        await fetch(`http://localhost:4000/api/unprioritize-skill`, {
+        await fetch(`${import.meta.env.VITE_API_URL}/api/unprioritize-skill`, {
             method: 'DELETE',
             headers: {
                 "Content-Type": "application/json",

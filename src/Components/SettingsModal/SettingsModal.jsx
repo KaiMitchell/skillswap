@@ -57,7 +57,7 @@ function SettingsModal({ isSettings, setIsSettings }) {
         formData.append('linkToPlatform', platformLink);
         formData.append('platform', platform.toLowerCase());
 
-        const response = await fetch(`http://localhost:4000/api/edit-profile`, {
+        const response = await fetch(`${import.meta.env.VITE_AUTH_URL}/api/edit-profile`, {
             method: 'POST',
             headers: {
                 "Accept": "application/json",
@@ -76,12 +76,10 @@ function SettingsModal({ isSettings, setIsSettings }) {
 
         //ensure old image is not removed with no new image to replace it
         if(data.img) {
-
             setImg(data.img);
             localStorage.setItem('profile picture', data.img);
-
         };
-
+            
         //if response sends a valid username then store it in local storage
         data.newUsername && localStorage.setItem('user', data.newUsername);
 
@@ -105,6 +103,8 @@ function SettingsModal({ isSettings, setIsSettings }) {
         setPlatform(platform);
     };
 
+    console.log(img);
+    
     return(
         <div 
             ref={node} 

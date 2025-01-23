@@ -6,8 +6,6 @@ import Input from '../commonComponents/form/Input';
 import handleClientSideValidation from '../jsFunctions/handleClientSideValidation';
 import Button from '../commonComponents/Button';
 
-const PORT = 4000;
-
 function SignUp({ setNewUserData, newUserData, setUser}) {
 
     const [errors, setErrors] = useState({});
@@ -53,7 +51,7 @@ function SignUp({ setNewUserData, newUserData, setUser}) {
             return;
         };
 
-        const response = await fetch(`http://localhost:${PORT}/api/register`, {
+        const response = await fetch(`${import.meta.env.VITE_AUTH_URL}/api/register`, {
             method : "POST",
             headers: {
                 "Content-Type" : "application/json",

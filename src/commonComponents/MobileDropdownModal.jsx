@@ -1,7 +1,9 @@
 import { useState } from "react";
 import { TokenContext } from "../App.jsx";
 import PopOutOptions from "../Components/NavBar/Settings/PopOutOptions.jsx";
-import Button from "./Button.jsx";
+
+const apiUrl = import.meta.env.VITE_API_URL;
+const authUrl = import.meta.env.VITE_AUTH_URL;
 
 function MobileDropdownModal({ 
     mobileDropDown, 
@@ -25,7 +27,7 @@ function MobileDropdownModal({
 
         const username = localStorage.getItem('user');
 
-        await fetch(`http://localhost:3000/api/handle-match-request`, {
+        await fetch(`${apiUrl}/api/handle-match-request`, {
             method: 'POST',
             headers: { 
                 "Content-Type": "application/json",
@@ -46,7 +48,7 @@ function MobileDropdownModal({
 
         const username = localStorage.getItem('user');
 
-        await fetch(`http://localhost:3000/api/accept-match-request`, {
+        await fetch(`${apiUrl}/api/accept-match-request`, {
             method: 'POST',
             headers: { 
                 "Content-Type": "application/json",
@@ -66,7 +68,7 @@ function MobileDropdownModal({
 
     async function removeAllMatchRequests() {
         setIsDisabled(true);
-        await fetch(`http://localhost:4000/api/remove-all-match-requests?username=${localStorage.getItem('user')}`, {
+        await fetch(`${authUrl}/api/remove-all-match-requests?username=${localStorage.getItem('user')}`, {
             method: 'DELETE',
             headers: { 'authorization': `bearer: ${sessionStorage.getItem('access token')}` }
         });

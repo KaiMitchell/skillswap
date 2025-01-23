@@ -2,8 +2,6 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Container from '../Components/InitialSignUp/Container';
 
-const backendURL = 'localhost:3000';
-
 function InitialPickMatchesPage({ newUserData, setNewUserData }) {
     const [matches, setMatches] = useState({});
 
@@ -12,7 +10,7 @@ function InitialPickMatchesPage({ newUserData, setNewUserData }) {
     }, []);
 
     async function fetchUsers() {
-        const response = await fetch(`http://${backendURL}/api/fetch-matches`, {
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/api/fetch-matches`, {
             method: 'POST',
             headers: {
                 "Content-Type": "application/json"

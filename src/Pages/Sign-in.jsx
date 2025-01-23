@@ -4,8 +4,6 @@ import { Link, useNavigate } from 'react-router-dom';
 import handleClientSideValidation from '../jsFunctions/handleClientSideValidation.js';
 import Input from '../commonComponents/form/Input.jsx';
 
-const backendURL = 'localhost:4000';
-
 function SignIn({ 
     setUser, 
     setIsHideHeader,
@@ -67,7 +65,7 @@ function SignIn({
         
         console.log('before fetch: ', userDetails);
 
-        const response = await fetch(`http://${backendURL}/api/signin`, {
+        const response = await fetch(`${import.meta.env.VITE_AUTH_URL}/api/signin`, {
             method: "POST",
             headers: {"Content-Type": "application/json"},
             // credentials: 'include',
@@ -90,7 +88,7 @@ function SignIn({
             localStorage.setItem("user", userDetails.username);
             setUser(() => localStorage.getItem('user'));
             console.log(data);
-            localStorage.setItem('profile picture', 'http://localhost:3000/' + data.profile_picture);
+            localStorage.setItem('profile picture', import.meta.env.VITE_AUTH_URL + '/' + data.profile_picture);
             sessionStorage.setItem('access token', data.accessToken);
             setAccessToken(() => sessionStorage.getItem('access token'));
 

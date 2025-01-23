@@ -1,7 +1,7 @@
 import CardDetails from "./CardDetails";
 
 const defaultProfileImg = 'https://static.vecteezy.com/system/resources/thumbnails/009/292/244/small/default-avatar-icon-of-social-media-user-vector.jpg';
-const imgURL = 'http://localhost:3000/';
+const imgURL = import.meta.env.VITE_AUTH_URL;
 
 function CardLayout({ 
     skills,
@@ -19,7 +19,7 @@ function CardLayout({
     isDisabled,
 }) {
     //img url path to serve img file from my server
-    const imgPath = imgURL + profileData?.profile_picture;
+    const imgPath = imgURL + '/' + profileData?.profile_picture;
     const name = profileData?.username;
 
     let displayedSkill;

@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react';
 import CardSkills from './CardSkills';
 import Button from '../../commonComponents/Button';
 
+const apiUrl = import.meta.env.VITE_API_URL;
+
 function CardDetails({ 
     username, 
     displayedSkill,
@@ -33,7 +35,7 @@ function CardDetails({
     }, [isRenderAllSkills]);
 
     async function fetchProfileSkills() {
-        const response = await fetch(`http://localhost:3000/api/fetch-profile-skills?username=${username}`);
+        const response = await fetch(`${apiUrl}/api/fetch-profile-skills?username=${username}`);
         const data = await response.json();
 
         if(data.status === 404) {

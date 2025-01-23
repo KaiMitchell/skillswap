@@ -2,8 +2,6 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Container from '../Components/InitialSignUp/Container';
 
-const PORT = 3000;
-
 function InitialPickSkillsPage({ username, setUser, skills }) {
 
     const [selectedSkills, setSelectedSkills] = useState({
@@ -15,7 +13,7 @@ function InitialPickSkillsPage({ username, setUser, skills }) {
 
         try {
 
-            await fetch(`http://localhost:${PORT}/api/pick-skills`, {
+            await fetch(`${import.meta.env.VITE_API_URL}/api/pick-skills`, {
                 method: 'POST',
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ ...selectedSkills, username: username })
