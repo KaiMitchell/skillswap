@@ -25,6 +25,7 @@ function CardDetails({
     const [requested, setRequested] = useState(false);
     const [isMatchHovered, setIsMatchHovered] = useState(false);
 
+
     const buttonBg = {
         matchRequestHover: 'bg-gradient-to-l from-blue-400 via-blue-500 to-blue-600',
         matchRequest: 'from-green-400 via-green-500 to-green-600'
@@ -105,7 +106,7 @@ function CardDetails({
             </div>
             <div className={`flex ${isMatchHovered || !isRenderAllSkills && 'flex-row-reverse'} w-full`}>
                 <Button 
-                    styles={`${isRenderAllSkills || isMatchHovered ? 'block' : 'hidden'} w-1/2 py-2 bg-gradient-to-r text-sm hover:${buttonBg.matchRequestHover} hover:text-white lg:text-base lg:py-2.5`}
+                    styles={`w-1/2 py-2 bg-gradient-to-r text-sm hover:${buttonBg.matchRequestHover} hover:text-white lg:text-base lg:py-2.5`}
                     handleOnClick={() => setIsRenderAllSkills(!isRenderAllSkills)}
                     handleOnMouseOver={() => setIsMatchHovered(true)}
                     handleOnMouseLeave={() => setIsMatchHovered(false)}
