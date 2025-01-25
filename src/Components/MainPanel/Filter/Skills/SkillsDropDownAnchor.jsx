@@ -20,10 +20,8 @@ function SkillsDropDownAnchor({
         isOpacity = false;
     };
 
-    const mobileStyles = '';
-
     return(
-        <div className={`${isSkillsDropDown || isMobile ? 'opacity-100' : 'opacity-0'} sm:block`}>
+        <div className={`${isSkillsDropDown || isMobile ? 'opacity-100' : 'opacity-0'} w-full sm:block`}>
             <h2 className='text-center'>{!isMobile && type}</h2>
             <DropDownAnchor 
                 setWhichFilter={setWhichFilter} 

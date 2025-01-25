@@ -47,10 +47,9 @@ function Container({
         };
     }, [filter]);
 
-
     return(
-        <div className={`${!isMobileFilter && 'hidden'} sm:block flex flex-col gap-2.5`}>
-            <div className='flex flex-col sm:flex-row gap-2.5'>
+        <div className={`${!isMobileFilter && 'hidden'} flex flex-col gap-2.5 w-2/3 sm:block`}>
+            <div className='flex flex-col w-full sm:flex-row gap-2.5'>
                 <MapData
                     data={filterValueKeys}
                     render={(key, index) => {
@@ -59,7 +58,7 @@ function Container({
                         const isTeachingCategory = key === 'toTeachCategory';
 
                         return(
-                            <div key={key}>
+                            <div key={key} className='w-full'>
                                 <DropDownAnchor 
                                     skills={skills} 
                                     whichFilter={whichFilter} 

@@ -16,10 +16,10 @@ function FilterPanel({
 
     return(
         <div className='relative sm:h-full -mx-5 flex flex-col'>
-            <div className='relative flex flex-row-reverse justify-between p-5 md:px-10'>
-                <h1 className='hidden text-5xl self-center text-center w-full pb-2.5 font-bold underline sm:block'>Skill Swap</h1>
+            <div className='relative flex flex-row-reverse justify-between w-full p-5 md:px-10'>
+                <h1 className='hidden text-5xl self-center text-center pb-2.5 font-bold underline sm:block'>Skill Swap</h1>
                 <Button 
-                    styles='absolute right-5 top-5 sm:hidden text-xl'
+                    styles='absolute right-5 top-5 text-xl sm:hidden'
                     handleOnClick={() => setIsMobileFilter(!isMobileFilter)}  
                     text='filter'             
                 />
