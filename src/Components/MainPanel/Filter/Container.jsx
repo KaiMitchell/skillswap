@@ -57,8 +57,11 @@ function Container({
                         const isLearningCategory = key === 'toLearnCategory';
                         const isTeachingCategory = key === 'toTeachCategory';
 
+                        const filterType = isLearningCategory ? 'Filter by learning' : 'Filter by teaching'
+
                         return(
                             <div key={key} className='w-full'>
+                                <h2 className='hidden mb-1 text-center sm:block'>{filterType}</h2>
                                 <DropDownAnchor 
                                     skills={skills} 
                                     whichFilter={whichFilter} 

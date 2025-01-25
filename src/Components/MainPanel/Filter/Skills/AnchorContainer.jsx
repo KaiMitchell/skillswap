@@ -10,7 +10,7 @@ function AnchorContainer({
     setFilter,
 }) {
     return(
-        <div className='flex gap-2.5'>
+        <div className='flex gap-2.5 mt-2.5'>
             <MainSkillDropDown 
                 type={'to Learn'} 
                 dropDownTitle={`${filter?.toLearnCategory}`}
