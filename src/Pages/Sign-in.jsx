@@ -79,11 +79,11 @@ function SignIn({
 
         if(response.status === 200) {
             localStorage.setItem("user", userDetails.username);
-            setUser(() => localStorage.getItem('user'));
+            setUser(() => userDetails.username);
             console.log(data);
             localStorage.setItem('profile picture', import.meta.env.VITE_AUTH_URL + '/' + data.profile_picture);
             sessionStorage.setItem('access token', data.accessToken);
-            setAccessToken(() => sessionStorage.getItem('access token'));
+            setAccessToken(() => data.accessToken);
         };
 
         navigate('/');

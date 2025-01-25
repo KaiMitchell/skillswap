@@ -10,17 +10,12 @@ function InitialPickSkillsPage({ username, setUser, skills }) {
     });
     
     async function submitSkills() {
-
         try {
-
             await fetch(`${import.meta.env.VITE_API_URL}/api/pick-skills`, {
                 method: 'POST',
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ ...selectedSkills, username: username })
             });
-            
-            localStorage.setItem('user', username);
-            setUser({ username: localStorage.getItem('user') });
             
         } catch(err) {
             console.error(err);

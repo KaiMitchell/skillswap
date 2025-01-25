@@ -14,12 +14,12 @@ function Card({
     //identify the categories that have a skill selected within them
     const isCategorySelected = obj.skills.some((skill) => selectedSkills.includes(skill));   
     //identify the skills selected within the opposite type and disable them to prevent duplicates
-    const isOppositeSelected = obj.skills.some((skill) => selectedOpposite.includes(skill));    
+    // const isOppositeSelected = obj.skills.some((skill) => selectedOpposite.includes(skill));    
 
     return(
-        <button 
+        <div
             className={`relative flex group justify-center items-center p-2.5 text-xs ${isCategorySelected ? 'bg-stone-900' : 'bg-stone-950'} hover:bg-stone-900 text-stone-300 hover:text-stone-400`}
-            disabled={isOppositeSelected}
+            // disabled={isOppositeSelected}
             onClick={() => setIsShowSkills(!isShowSkills)}
             onMouseLeave={() => setIsShowSkills(false)}
         >
@@ -34,7 +34,7 @@ function Card({
                 />
             </div>
             <h3 className='text-wrap'>{obj.category}</h3>
-        </button>
+        </div>
     )
 };
 

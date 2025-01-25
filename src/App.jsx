@@ -62,9 +62,9 @@ function App() {
   });
   
   //trigger re-render to immediately view new matches when accepting
-  useEffect(() => {
-    fetchMatches();
-  }, [param]);
+  // useEffect(() => {
+  //   fetchMatches();
+  // }, [param]);
 
   //fetch requests and matches on initial render, logout and signin
   useEffect(() => {
@@ -84,7 +84,7 @@ function App() {
     });
   }, [user]);
 
-  useEffect(() => {user && fetchMatches()}, [matches]);
+  useEffect(() => {user && fetchMatches()}, []);
 
   useEffect(() => {
     //Only set is Loading on initial render
@@ -287,8 +287,6 @@ function App() {
       };
 
       setMatches(usernames);
-      //trigger useEffect to update UI
-      setParam(param);
     };
   };
 

@@ -31,7 +31,6 @@ function SignUp({ setNewUserData, newUserData, setUser}) {
 
     //submit registration form
     async function handleRegister(e) {
-
         e.preventDefault();
 
         //initialize object to store invalid input values
@@ -69,6 +68,7 @@ function SignUp({ setNewUserData, newUserData, setUser}) {
 
         localStorage.setItem('user', data.username);
         sessionStorage.setItem('access token', data.accessToken);
+        setUser(localStorage.getItem('user'));
         //apply access token
         setAccessToken(() => sessionStorage.getItem('access token'));
 
