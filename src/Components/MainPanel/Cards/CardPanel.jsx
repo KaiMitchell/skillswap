@@ -127,7 +127,7 @@ function CardPanel({
             <h2 className='text-center text-white text-2xl font-bold'>{isToLearnProfiles ? learnSearchingByStr : teachSearchingByStr}</h2>
             <h3 className='text-center text-white'>{`${isToLearnProfiles ? learnFilterInfo : teachFilterInfo}`}</h3>
             {isLoading && <Loading feedBack={'Loading'} />}
-            <div className='relative grid grid-cols-1 sm:grid-cols-2 gap-2.5 h-full max-w-full'>
+            <div className='relative grid grid-cols-1 sm:grid-cols-2 gap-2.5 max-w-full'>
                 {isToLearnProfiles ? mappedLearnProfiles : mappedTeachProfiles}   
             </div>
         </section>
