@@ -48,7 +48,7 @@ function Container({
     }, [filter]);
 
     return(
-        <div className={`${!isMobileFilter && 'hidden'} flex flex-col gap-2.5 w-2/3 sm:block`}>
+        <div className={`${!isMobileFilter && 'hidden'} flex flex-col gap-2.5 w-full sm:w-2/3 sm:block`}>
             <div className='flex flex-col w-full sm:flex-row gap-2.5'>
                 <MapData
                     data={filterValueKeys}

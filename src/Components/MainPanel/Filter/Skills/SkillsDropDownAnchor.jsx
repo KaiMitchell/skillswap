@@ -21,7 +21,7 @@ function SkillsDropDownAnchor({
     };
 
     return(
-        <div className={`${isSkillsDropDown || isMobile ? 'opacity-100' : 'opacity-0'} w-full sm:w-1/2`}>
+        <div className={`${isSkillsDropDown ? 'opacity-100' : 'opacity-0'} ${isMobile && isSkillsDropDown ? 'block' : 'hidden'} w-full sm:w-1/2 sm:block`}>
             <DropDownAnchor 
                 setWhichFilter={setWhichFilter} 
                 filter={filter} 

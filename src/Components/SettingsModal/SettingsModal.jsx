@@ -103,8 +103,6 @@ function SettingsModal({ isSettings, setIsSettings }) {
         setPlatform(platform);
     };
 
-    console.log(img);
-    
     return(
         <div 
             ref={node} 

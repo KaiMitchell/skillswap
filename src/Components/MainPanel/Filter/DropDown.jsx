@@ -54,7 +54,6 @@ function MainFilterDropDown({
 
                 //Clear the skills drop down value if new category is selected
                 if(isSelectCategory) {
-
                     //clear skill filter when selecting a new category
                     if(key === 'toLearn' && filterValueKey === 'toLearnCategory') {
                         newObj[key] = '';
@@ -81,7 +80,6 @@ function MainFilterDropDown({
 
                     //TODO: Fix issue with this code not working when selecting category from learning
                     if(!isToLearnProfiles && whichFilter.headerfilter) {
-                        console.log('what is the filterValueKey?: ', filterValueKey);
                         newObj['toTeachCategory'] = headerFilter?.category;
                         newObj['toTeach'] = [headerFilter?.skill];
                     };

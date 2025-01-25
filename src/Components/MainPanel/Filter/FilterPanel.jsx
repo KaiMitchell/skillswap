@@ -15,14 +15,14 @@ function FilterPanel({
     const [isMobileFilter, setIsMobileFilter] = useState(false);
 
     return(
-        <div className='relative sm:h-full sm:-mx-5 flex flex-col'>
+        <div className='relative sm:h-full w-full flex flex-col'>
             <Button 
                 styles={`${isMobileFilter ? 'bg-white' : 'bg-white/30'} flex justify-center text-xl w-20 py-2 self-end rounded-bl sm:hidden`}
                 handleOnClick={() => setIsMobileFilter(!isMobileFilter)}  
                 text='filter'             
             />
-            <div className=' relative flex flex-row-reverse justify-between gap-2.5 w-full p-2.5 md:px-10'>
-                <h1 className='hidden text-5xl self-center text-center pb-2.5 font-bold underline sm:block'>Skill Swap</h1>
+            <div className='relative flex flex-row-reverse justify-between py-2.5 gap-2.5 w-full'>
+                <h1 className='hidden text-5xl self-center text-right pb-2.5 font-bold underline sm:block'>Skill Swap</h1>
                 <MainFilterDropDownContainer 
                     whichFilter={whichFilter} 
                     headerFilter={headerFilter} 
@@ -35,7 +35,7 @@ function FilterPanel({
                     isToLearnProfiles={isToLearnProfiles}
                 />
             </div>
-            <div className='flex self-end w-fit rounded-l sm:rounded-r sm:mr-5 bg-white/20'>
+            <div className='flex self-end w-fit rounded-l sm:rounded-r bg-white/20'>
                 <Button 
                     text={`learning`}
                     styles={`${isToLearnProfiles && 'font-bold bg-white'} rounded-l px-2 py-1`}

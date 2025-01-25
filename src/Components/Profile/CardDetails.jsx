@@ -104,7 +104,7 @@ function CardDetails({
                 }
                 {/* display users associated skills on card */}
             </div>
-            <div className={`flex ${isMatchHovered || !isRenderAllSkills && 'flex-row-reverse'} w-full`}>
+            <div className={`flex  w-full`}>
                 <Button 
                     styles={`w-1/2 py-2 bg-gradient-to-r text-sm hover:${buttonBg.matchRequestHover} hover:text-white lg:text-base lg:py-2.5`}
                     handleOnClick={() => setIsRenderAllSkills(!isRenderAllSkills)}
