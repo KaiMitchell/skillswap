@@ -37,7 +37,6 @@ function SignIn({
     };
 
     async function signIn(e) {
-
         e.preventDefault();
 
         //trim each input value
@@ -62,8 +61,6 @@ function SignIn({
             setErrors(newErrors);
             return;
         };
-        
-        console.log('before fetch: ', userDetails);
 
         const response = await fetch(`${import.meta.env.VITE_AUTH_URL}/api/signin`, {
             method: "POST",
@@ -72,26 +69,21 @@ function SignIn({
             body: JSON.stringify(userDetails)
         });
 
-        const data = await response.json(); 
-
-        
+        const data = await response.json();
 
         if(response.status === 401) {
-
             setErrors(data.newErrors);
             console.log(data.newErrors);
             return;
         };
 
         if(response.status === 200) {
-
             localStorage.setItem("user", userDetails.username);
             setUser(() => localStorage.getItem('user'));
             console.log(data);
             localStorage.setItem('profile picture', import.meta.env.VITE_AUTH_URL + '/' + data.profile_picture);
             sessionStorage.setItem('access token', data.accessToken);
             setAccessToken(() => sessionStorage.getItem('access token'));
-
         };
 
         navigate('/');
