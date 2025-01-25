@@ -35,15 +35,15 @@ function FilterPanel({
                     isToLearnProfiles={isToLearnProfiles}
                 />
             </div>
-            <div className='flex gap-2.5 ml-5'>
+            <div className='flex w-fit ml-5 bg-white/20'>
                 <Button 
                     text={`learning`}
-                    styles={`${isToLearnProfiles && 'font-bold'} bg-white`}
+                    styles={`${isToLearnProfiles && 'font-bold bg-white'} px-2 py-1`}
                     handleOnClick={() => setIsToLearnProfiles(true)}
                 />
                 <Button 
                     text={`teaching`}
-                    styles={`${!isToLearnProfiles && 'font-bold'} bg-white`}
+                    styles={`${!isToLearnProfiles && 'font-bold bg-white'} px-2 py-1`}
                     handleOnClick={() => setIsToLearnProfiles(false)}
                 />
             </div>
