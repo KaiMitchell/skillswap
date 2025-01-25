@@ -15,9 +15,9 @@ function FilterPanel({
     const [isMobileFilter, setIsMobileFilter] = useState(false);
 
     return(
-        <div className='relative sm:h-full -mx-5 flex flex-col'>
+        <div className='relative sm:h-full sm:-mx-5 flex flex-col'>
             <Button 
-                styles={`${isMobileFilter ? 'bg-white' : 'bg-white/30'} flex justify-center items-center text-xl w-fit self-end p-2.5 m-2.5 sm:hidden`}
+                styles={`${isMobileFilter ? 'bg-white' : 'bg-white/30'} flex justify-center text-xl w-20 py-2 self-end rounded-bl sm:hidden`}
                 handleOnClick={() => setIsMobileFilter(!isMobileFilter)}  
                 text='filter'             
             />
@@ -35,15 +35,15 @@ function FilterPanel({
                     isToLearnProfiles={isToLearnProfiles}
                 />
             </div>
-            <div className='flex self-end w-fit mr-5 bg-white/20'>
+            <div className='flex self-end w-fit rounded-l sm:rounded-r sm:mr-5 bg-white/20'>
                 <Button 
                     text={`learning`}
-                    styles={`${isToLearnProfiles && 'font-bold bg-white'} px-2 py-1`}
+                    styles={`${isToLearnProfiles && 'font-bold bg-white'} rounded-l px-2 py-1`}
                     handleOnClick={() => setIsToLearnProfiles(true)}
                 />
                 <Button 
                     text={`teaching`}
-                    styles={`${!isToLearnProfiles && 'font-bold bg-white'} px-2 py-1`}
+                    styles={`${!isToLearnProfiles && 'font-bold bg-white'} sm:rounded-r px-2 py-1`}
                     handleOnClick={() => setIsToLearnProfiles(false)}
                 />
             </div>
