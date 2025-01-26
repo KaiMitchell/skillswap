@@ -1,13 +1,16 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import Container from '../Components/InitialSignUp/Container';
+import Button from '../commonComponents/Button';
 
 function InitialPickSkillsPage({ username, setUser, skills }) {
-
     const [selectedSkills, setSelectedSkills] = useState({
         toTeach: [],
         toLearn: []
     });
+
+    const navigate = new useNavigate();
     
     async function submitSkills() {
         try {
@@ -17,6 +20,7 @@ function InitialPickSkillsPage({ username, setUser, skills }) {
                 body: JSON.stringify({ ...selectedSkills, username: username })
             });
             
+            navigate('/');
         } catch(err) {
             console.error(err);
         };
@@ -67,11 +71,17 @@ function InitialPickSkillsPage({ username, setUser, skills }) {
                         selectedOpposite={selectedSkills.toLearn}
                         contentHeader='Pick the skills you would like to teach' 
                     />
-                <div className='self-end flex w-1/4'>
-                    <button className='w-1/2 mr-5 p-2.5 border'>Skip</button>
-                    <Link to='/' onClick={() => submitSkills()}>
-                        <button className='w-1/2 p-2.5 border'>Submit</button>
-                    </Link>
+                <div className='self-end flex gap-2.5 w-2/3'>
+                    <Button 
+                        styles='w-1/2 p-2.5 border bg-stone-950 text-white hover:bg-stone-900'
+                        text='Skip'
+                        handleOnClick={submitSkills}
+                    />
+                    <Button 
+                        handleOnClick={submitSkills}
+                        styles='w-1/2 p-2.5 border bg-stone-950 text-white hover:bg-stone-900'
+                        text='Submit'
+                    />
                 </div>
             </main>
         </div>
