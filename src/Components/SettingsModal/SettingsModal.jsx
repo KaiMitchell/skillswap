@@ -202,6 +202,7 @@ function SettingsModal({ isSettings, setIsSettings }) {
                     <SkillsManagementComponent 
                         setIsUpdating={setIsUpdating}
                         isUpdating={isUpdating}
+                        isSettings={isSettings}
                     />
                 </div>
             </div>

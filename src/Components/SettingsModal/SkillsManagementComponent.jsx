@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import SelectSkills from "./SelectSkills";
 
-function SkillsManagementComponent({ setIsUpdating }) {
+function SkillsManagementComponent({ setIsUpdating, isSettings }) {
     const [updateSkillsToLearn, setUpdateSkillsToLearn] = useState();
     const [updateSkillsToTeach, setUpdateSkillsToTeach] = useState();
     const [skillsToLearn, setSkillsToLearn] = useState();
@@ -12,15 +12,19 @@ function SkillsManagementComponent({ setIsUpdating }) {
 
     //fetch required skills and re render when updated
     useEffect(() => {
-        fetchCurrentSkills();
-        fetchUnselectedSkills();
-    }, [remount]);
+        if(localStorage.getItem('user') !== '') {
+            fetchCurrentSkills();
+            fetchUnselectedSkills();
+        };
+    }, [remount, isSettings]);
 
     //all skills a user is teaching or learning
     async function fetchCurrentSkills() {
         const response = await fetch(`${import.meta.env.VITE_API_URL}/api/users-skills?username=${localStorage.getItem('user')}`);
 
         const data = await response.json();
+
+        console.log(data);
 
         if (JSON.stringify(data?.toLearn.categories) !== JSON.stringify(skillsToLearn)) {
             setSkillsToLearn(data?.toLearn.categories);

@@ -75,10 +75,10 @@ function InitialPickSkillsPage({ username, setUser, skills }) {
                     <Button 
                         styles='w-1/2 p-2.5 border bg-stone-950 text-white hover:bg-stone-900'
                         text='Skip'
-                        handleOnClick={submitSkills}
+                        handleOnClick={() => navigate('/')}
                     />
                     <Button 
-                        handleOnClick={submitSkills}
+                        handleOnClick={() => submitSkills()}
                         styles='w-1/2 p-2.5 border bg-stone-950 text-white hover:bg-stone-900'
                         text='Submit'
                     />
