@@ -37,6 +37,8 @@ function SettingsModal({ isSettings, setIsSettings }) {
         return () => document.removeEventListener('mousedown', closeModal);
     }, []);
 
+    console.log(import.meta.VITE_AUTH_URL);
+
     // useEffect(() => {
     // }, []);
 

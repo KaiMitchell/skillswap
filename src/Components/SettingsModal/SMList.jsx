@@ -19,7 +19,7 @@ function SMList({
     if(isPrioritized && prioritize) {
         prioritizedText = 'unprioritize';
     } else if(!isPrioritized && prioritize) {
-        prioritizedText = 'prioritized';
+        prioritizedText = 'prioritize';
     };
 
     //svg elements for to pass to the button components
@@ -103,4 +103,4 @@ function SMList({
     );
 };
 
-export default SMList;
+export default SMList;      
