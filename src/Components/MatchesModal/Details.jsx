@@ -7,6 +7,8 @@ import MapData from "../../features/methods/MapData";
 import Button from "../../commonComponents/Button";
 import { Facebook, LinkedIn, Twitter } from "../../commonComponents/SVGs";
 
+const url = NODE_ENV === 'production' ? AUTH_URL : VITE_AUTH_URL;
+
 function Details({
     displayedProfile,
     isHovered,
@@ -24,8 +26,7 @@ function Details({
     //display links to platforms if they are set
     const isPlatformLinks = displayedProfile?.socials.length > 0;
     const defaultProfileImg = 'https://static.vecteezy.com/system/resources/thumbnails/009/292/244/small/default-avatar-icon-of-social-media-user-vector.jpg';
-    const imgURL = import.meta.env.VITE_AUTH_URL;
-    const imgPath = imgURL + '/' + displayedProfile?.profile_picture;
+    const imgPath = url + '/' + displayedProfile?.profile_picture;
 
     //vist a users social page when clicking on their socials icon
     function goToSocialsPlatform(link) {
