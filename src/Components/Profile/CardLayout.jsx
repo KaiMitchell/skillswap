@@ -34,7 +34,7 @@ function CardLayout({
         <div className='relative bg-white bg-contain h-64 w-full bg-center'>
             <div className='relative w-full flex h-full'>
                 <img 
-                    className='hidden object-scale-down w-1/3 h-full sm:size-1/4 lg:block lg:w-1/3 lg:h-full' 
+                    className='hidden object-scale-down w-1/3 m-2 h-full sm:size-1/4 lg:block lg:w-1/3 lg:h-full' 
                     src={profileData?.profile_picture ? imgPath : defaultProfileImg} 
                 />
                 <CardDetails 
