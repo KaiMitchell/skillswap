@@ -70,7 +70,7 @@ function CardDetails({
             <div className='flex flex-col h-full gap-2'>
                 <div className='flex'>  
                     <img 
-                        className='size-20 rounded-full shadow-sm shadow-black object-scale-down bg-white sm:block lg:hidden' 
+                        className='size-20 mt-2 ml-2 rounded-full shadow-sm shadow-black object-scale-down bg-white sm:block lg:hidden' 
                         src={profileData?.profile_picture ? imgPath : defaultProfileImg} 
                     />      
                     <div className='ml-2.5 mt-2.5 grow'>
