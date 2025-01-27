@@ -5,9 +5,14 @@ import { TokenContext } from '../App';
 import Input from '../commonComponents/form/Input';
 import handleClientSideValidation from '../jsFunctions/handleClientSideValidation';
 import Button from '../commonComponents/Button';
+import Loading from '../commonComponents/Loading';
 
-function SignUp({ setNewUserData, newUserData, setUser}) {
-
+function SignUp({ 
+    setNewUserData, 
+    newUserData, 
+    setUser
+}) {
+    const [isLoading, setIsLoading] = useState(false);
     const [errors, setErrors] = useState({});
     const { setAccessToken } = useContext(TokenContext);
 
@@ -33,6 +38,8 @@ function SignUp({ setNewUserData, newUserData, setUser}) {
     async function handleRegister(e) {
         e.preventDefault();
 
+        setIsLoading(true);
+
         //initialize object to store invalid input values
         const newErrors = {};
 
@@ -47,6 +54,7 @@ function SignUp({ setNewUserData, newUserData, setUser}) {
         //client-side validation check
         if(Object.keys(newErrors).length) {
             setErrors(newErrors);
+            setIsLoading(false);
             return;
         };
 
@@ -63,6 +71,7 @@ function SignUp({ setNewUserData, newUserData, setUser}) {
         //server side validation / confliction check
         if(response.status === 409) {
             setErrors(data.newErrors);
+            setIsLoading(false);
             return;
         };
 
@@ -72,14 +81,16 @@ function SignUp({ setNewUserData, newUserData, setUser}) {
         //apply access token
         setAccessToken(() => sessionStorage.getItem('access token'));
 
+        setIsLoading(false);
+
         //navigate to initial skill pick page
         navigate('/pick-skills');
-
     };
 
     return(
-        <div className='h-screen flex items-center'>
-            <form className='flex flex-col gap-5 w-fit mx-auto p-5 border'>
+        <div className='relative h-screen flex justify-center items-center'>
+            {isLoading && <Loading feedBack='Please wait' />}
+            <form className='flex flex-col gap-5 p-5 bg-black/30 backdrop-blue-md rounded'>
                 <h1 className='text-xl font-bold'>Sign up</h1>
                 <Input 
                     label='Enter your email'
@@ -123,6 +134,7 @@ function SignUp({ setNewUserData, newUserData, setUser}) {
                 />
                 <p>Already have an account? <Link to="/sign-in" className="text-blue-400">click here</Link></p>
                 <Button 
+                    isDisabled={isLoading}
                     text='Create'
                     handleOnClick={handleRegister}
                     styles={`px-5 py-2.5 border border-black`}
