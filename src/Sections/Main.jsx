@@ -21,7 +21,7 @@ function Main({
     const [isDisabled, setIsDisabled] = useState(false);
 
     return(
-        <main className='sm:px-2.5 h-full w-screen sm:h-72 mt-10'>
+        <main className='flex flex-col sm:px-2.5 h-full w-screen sm:h-72 mt-10'>
             <FilterPanel 
                 whichFilter={whichFilter} 
                 headerFilter={headerFilter} 
@@ -45,6 +45,7 @@ function Main({
                 isLoading={isLoading}
                 setIsSignInPrompt={setIsSignInPrompt}
                 setIsDisabled={setIsDisabled}
+                setIsToLearnProfiles={setIsToLearnProfiles}
                 isDisabled={isDisabled}
             />
         </main>

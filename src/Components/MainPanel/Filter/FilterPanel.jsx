@@ -15,7 +15,7 @@ function FilterPanel({
     const [isMobileFilter, setIsMobileFilter] = useState(false);
 
     return(
-        <div className='relative sm:h-full w-full flex flex-col'>
+        <div className={`${isMobileFilter ? 'w-full' : 'w-fit'} relative flex flex-col self-end sm:w-full sm:h-full`}>
             <Button 
                 styles={`${isMobileFilter ? 'bg-white' : 'bg-white/30'} flex justify-center text-xl w-20 py-2 self-end rounded-bl sm:hidden`}
                 handleOnClick={() => setIsMobileFilter(!isMobileFilter)}  
@@ -33,18 +33,6 @@ function FilterPanel({
                     isMobileFilter={isMobileFilter} 
                     setIsToLearnProfiles={setIsToLearnProfiles}
                     isToLearnProfiles={isToLearnProfiles}
-                />
-            </div>
-            <div className='flex self-end w-fit rounded-l sm:rounded-r bg-white/20'>
-                <Button 
-                    text={`learning`}
-                    styles={`${isToLearnProfiles && 'font-bold bg-white'} rounded-l px-2 py-1`}
-                    handleOnClick={() => setIsToLearnProfiles(true)}
-                />
-                <Button 
-                    text={`teaching`}
-                    styles={`${!isToLearnProfiles && 'font-bold bg-white'} sm:rounded-r px-2 py-1`}
-                    handleOnClick={() => setIsToLearnProfiles(false)}
                 />
             </div>
         </div>

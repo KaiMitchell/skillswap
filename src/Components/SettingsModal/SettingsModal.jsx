@@ -39,9 +39,6 @@ function SettingsModal({ isSettings, setIsSettings }) {
 
     console.log(import.meta.VITE_AUTH_URL);
 
-    // useEffect(() => {
-    // }, []);
-
     //submit updated profile pic, description or username
     async function handleSubmit(e) {
 

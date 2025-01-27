@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import MappedProfile from './MappedProfile';
+import Button from '../../../commonComponents/Button.jsx';
 import Loading from '../../../commonComponents/Loading.jsx';
 
 function CardPanel({ 
@@ -15,7 +16,8 @@ function CardPanel({
     isLoading,
     setIsSignInPrompt,
     setIsDisabled,
-    isDisabled
+    isDisabled,
+    setIsToLearnProfiles,
 }) {
     const [filterType, setFilterType] = useState({learn: '', teach: ''});
     const [param, setParam] = useState(false);//Trigger useEffect to re render page with updated requests.
@@ -70,20 +72,27 @@ function CardPanel({
         teachSearchFor = filter.toTeach ? filter.toTeach :  filter.toTeachCategory;
     };
 
+    //display the cat or skill user is searching for
+    let searchingFor = '';
+
     //ensure string does not render 'undefined profiles want to learn'
     const learnFilterInfo = 
         `
         ${learnCount === 0 ? 'No' : learnCount || 'No'} 
-        profile${learnCount === 1 ? ' wants' : "'s want"} 
-        to learn... ${learnSearchFor || ''}
-        `;
+        profile${learnCount === 1 ? ' wants' : "'s want"}
+        to `;
 
     const teachFilterInfo =     
         `
         ${teachCount === 0 ? 'No' : teachCount || 'No'} 
-        profile${teachCount === 1 ? ' wants' : "'s want"} 
-        to teach... ${teachSearchFor || ''}
-        `;
+        profile${teachCount === 1 ? ' wants' : "'s want"}
+        to `;
+
+    if(isToLearnProfiles) {
+        searchingFor = learnSearchFor;
+    } else {
+        searchingFor = teachSearchFor;
+    };
 
     const learnSearchingByStr = 
         `
@@ -124,8 +133,23 @@ function CardPanel({
 
     return(
         <section id='profile-cards' className='flex flex-col gap-2.5 h-full w-full'>
-            <h2 className='text-center text-white text-2xl font-bold'>{isToLearnProfiles ? learnSearchingByStr : teachSearchingByStr}</h2>
-            <h3 className='text-center text-white'>{`${isToLearnProfiles ? learnFilterInfo : teachFilterInfo}`}</h3>
+            <h2 className='text-center text-white text-2xl font-bold sm:text-left'>{isToLearnProfiles ? learnSearchingByStr : teachSearchingByStr}</h2>
+            <div className='flex flex-col gap-1 items-center sm:flex-row sm:gap-0'>
+                <h3 className='text-center text-white text-xl'>{`${isToLearnProfiles ? learnFilterInfo : teachFilterInfo}`}</h3>
+                <div className='flex w-fit mx-2 rounded-l rounded-r bg-white/20'>
+                    <Button 
+                        text={`learn`}
+                        styles={`${isToLearnProfiles && 'font-bold bg-white'} rounded-l px-4 py-2`}
+                        handleOnClick={() => setIsToLearnProfiles(true)}
+                    />
+                    <Button 
+                        text={`teach`}
+                        styles={`${!isToLearnProfiles && 'font-bold bg-white'} rounded-r px-4 py-2`}
+                        handleOnClick={() => setIsToLearnProfiles(false)}
+                    />
+                </div>
+                <h3 className='text-center text-white text-xl'>{searchingFor}</h3>
+            </div>
             {isLoading && <Loading feedBack={'Loading'} />}
             <div className='relative grid grid-cols-1 sm:grid-cols-2 gap-2.5 max-w-full'>
                 {isToLearnProfiles ? mappedLearnProfiles : mappedTeachProfiles}   
