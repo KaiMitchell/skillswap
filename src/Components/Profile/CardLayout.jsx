@@ -1,7 +1,7 @@
 import CardDetails from "./CardDetails";
 
 const defaultProfileImg = 'https://static.vecteezy.com/system/resources/thumbnails/009/292/244/small/default-avatar-icon-of-social-media-user-vector.jpg';
-const imgURL = import.meta.env.VITE_API_URL;
+const imgURL = import.meta.env.VITE_AUTH_URL;
 
 function CardLayout({ 
     skills,
