@@ -60,11 +60,6 @@ function App() {
     password: '',
     confirmPassword: ''
   });
-  
-  //trigger re-render to immediately view new matches when accepting
-  // useEffect(() => {
-  //   fetchMatches();
-  // }, [param]);
 
   //fetch requests and matches on initial render, logout and signin
   useEffect(() => {
@@ -84,8 +79,6 @@ function App() {
     });
   }, [user]);
 
-  useEffect(() => {user && fetchMatches()}, []);
-
   useEffect(() => {
     //Only set is Loading on initial render
     setIsLoading(true);
@@ -97,7 +90,6 @@ function App() {
   useEffect(() => {
     if(user) {
       fetchProfiles();
-      console.log(requests);
     };
   }, [requests]);
 
@@ -253,6 +245,7 @@ function App() {
 
   //fetch sent match requests   
   async function fetchRequests() {
+    setIsLoading(true);
     let sent = [];
     let recieved = [];
 
@@ -263,6 +256,7 @@ function App() {
     const data = await response.json();
 
     if(response.status === 401 || response.status === 403) {
+      setIsLoading(false);
       signOut();
     };
 
