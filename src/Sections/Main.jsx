@@ -20,6 +20,10 @@ function Main({
     const [isToLearnProfiles, setIsToLearnProfiles] = useState(false);
     const [isDisabled, setIsDisabled] = useState(false);
 
+    function reMount(param) {
+        setParam(() => param);
+    };
+
     return(
         <main className='flex flex-col h-full w-screen sm:h-72'>
             <FilterPanel 
@@ -31,14 +35,14 @@ function Main({
                 skills={skills} 
                 setIsToLearnProfiles={setIsToLearnProfiles}
                 isToLearnProfiles={isToLearnProfiles}
+                learnProfiles={learnProfiles} 
+                teachProfiles={teachProfiles} 
             />
             <CardPanel 
                 user={user}
                 requests={requests} 
                 fetchRequests={fetchRequests}
                 filter={filter} 
-                learnProfiles={learnProfiles} 
-                teachProfiles={teachProfiles} 
                 whichFilter={whichFilter}
                 headerFilter={headerFilter}
                 isToLearnProfiles={isToLearnProfiles}
@@ -47,6 +51,7 @@ function Main({
                 setIsDisabled={setIsDisabled}
                 setIsToLearnProfiles={setIsToLearnProfiles}
                 isDisabled={isDisabled}
+                reMount={reMount}
             />
         </main>
     );

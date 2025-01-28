@@ -54,7 +54,7 @@ function Selection({
             :
                 //Category item in navbar options
                 <div 
-                    className='relative hidden w-full flex items-center justify-center my-0 hover:bg-stone-700' 
+                    className='relative w-full flex items-center justify-center my-0 hover:bg-stone-700' 
                     {...(canHover && { 
                             onMouseOver: () => handleHover('in'), 
                             onMouseLeave: () => handleHover('out') 

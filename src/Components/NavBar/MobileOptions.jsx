@@ -27,7 +27,7 @@ function MobileOptions({
             <Button 
                 text={`Skill Swap`}
                 handleOnClick={handleClick}
-                styles={`text-3xl text-stone-200`}
+                styles={`min-w-fit pr-5 text-3xl text-stone-200`}
             />
             <Button
                 handleOnClick={() => setIsNavDropdown(!isNavDropdown)}
