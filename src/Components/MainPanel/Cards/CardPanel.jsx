@@ -55,7 +55,7 @@ function CardPanel({
         />
 
     return(
-        <section id='profile-cards' className='flex flex-col gap-2.5 pt-2.5 min-h-full w-full'>
+        <section id='profile-cards' className='flex flex-col gap-2.5 pt-2.5 min-h-screen grow w-full bg-stone-100'>
             {isLoading && <Loading feedBack={'Loading'} />}
             <div className='relative grid grid-cols-1 sm:grid-cols-2 gap-2.5 max-w-full'>
                 {isToLearnProfiles ? mappedLearnProfiles : mappedTeachProfiles}   
