@@ -7,6 +7,7 @@ import Input from '../commonComponents/form/Input.jsx';
 function SignIn({ 
     setUser, 
     setIsHideHeader,
+    setIsLandingPage,
 }) {
     const { accessToken, setAccessToken } = useContext(TokenContext);
 
@@ -18,7 +19,10 @@ function SignIn({
 
     const navigate = new useNavigate();
 
-    useEffect(() => setIsHideHeader(true), []);
+    useEffect(() => {
+        setIsHideHeader(true)
+        setIsLandingPage(false);
+    }, []);
 
     //update state based on each input fields value
     function handleChangeInput(e, type) {

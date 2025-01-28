@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import Button from "../../commonComponents/Button";
 import StandardSVG from "../../commonComponents/StandardSVG";
 
+const username = localStorage.getItem('user');
+
 function MobileOptions({ 
     isNavDropdown, 
     setIsNavDropdown, 
@@ -27,11 +29,11 @@ function MobileOptions({
             <Button 
                 text={`Skill Swap`}
                 handleOnClick={handleClick}
-                styles={`min-w-fit pr-5 text-3xl text-stone-200`}
+                styles={`${!username && 'py-2.5'} min-w-fit pr-5 text-4xl text-white`}
             />
             <Button
                 handleOnClick={() => setIsNavDropdown(!isNavDropdown)}
-                styles={`${rotate} sm:hidden text-white py-2.5 px-5 bg-stone-950`}
+                styles={`${rotate} ${username && 'bg-stone-950'} text-white py-2.5 px-5 sm:hidden`}
                 text={
                     <StandardSVG 
                         size='size-6'

@@ -36,6 +36,7 @@ function App() {
   const [isSignInPrompt, setIsSignInPrompt] = useState(false);
   //pass this prop to the pages where I need the header options to be hidden
   const [isHideHeader, setIsHideHeader] = useState(false);
+  const [isLandingPage, setIsLandingPage] = useState(false);
   // const [remount, setRemount] = useState(0);
   const [requests, setRequests] = useState({
     sent: [],
@@ -61,6 +62,8 @@ function App() {
     password: '',
     confirmPassword: ''
   });
+
+  useEffect(() => {console.log('logging landing page: ', isLandingPage)}, [isLandingPage]);
 
   //fetch requests and matches on initial render, logout and signin
   useEffect(() => {
@@ -372,6 +375,7 @@ function App() {
             fetchMatches={fetchMatches}
             displayProfile={displayProfile}
             isHideHeader={isHideHeader}
+            isLandingPage={isLandingPage}
           />
           {user && <SettingsModal 
             isSettings={isSettings} 
@@ -405,7 +409,10 @@ function App() {
                 setIsSignInPrompt={setIsSignInPrompt}
               />
             :
-              <LandingPage />
+              <LandingPage 
+                setIsLandingPage={setIsLandingPage}
+                isLandingPage={isLandingPage}
+              />
             }
           />
           <Route path='pick-skills' element={
@@ -428,6 +435,7 @@ function App() {
               setUser={setUser}
               setNewUserData={setNewUserData} 
               newUserData={newUserData} 
+              setIsLandingPage={setIsLandingPage}
             />
           } 
           />
@@ -436,6 +444,7 @@ function App() {
               setUser={setUser} 
               //pass username to check if not null. If it is then redirect to home page.
               setIsHideHeader={setIsHideHeader}
+              setIsLandingPage={setIsLandingPage}
             />
           }
           />

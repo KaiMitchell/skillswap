@@ -10,13 +10,16 @@ import Loading from '../commonComponents/Loading';
 function SignUp({ 
     setNewUserData, 
     newUserData, 
-    setUser
+    setUser,
+    setIsLandingPage,
 }) {
     const [isLoading, setIsLoading] = useState(false);
     const [errors, setErrors] = useState({});
     const { setAccessToken } = useContext(TokenContext);
 
     const navigate = useNavigate();
+
+    useEffect(() => {setIsLandingPage(false)}, []);
 
     //handle input values
     function handleChangeInput(e, type) {

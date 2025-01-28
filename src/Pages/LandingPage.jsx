@@ -1,18 +1,37 @@
-function LandingPage() {
+import { useEffect } from 'react';
+import bricks from '../assets/bricks.jpg';
+
+function LandingPage({
+    setIsLandingPage,
+    isLandingPage,
+}) {
+    useEffect(() => {
+        setIsLandingPage(true);
+    });
     return(
-        <main className='flex flex-col gap-10 h-full w-screen'>
-            {/* About */}
-            <div className='font-bold px-5 py-10 text-white bg-gradient-to-r from-emerald-600 via-emerald-700 to-emerald-800 sm:p-5'>
-                <div>
-                    <h1 className="text-4xl">Trade your skills</h1>
-                    <h1 className="text-4xl">With other people</h1>
+        <main className='flex flex-col h-full w-screen'>
+            <div 
+                style={{ backgroundImage: `url(${bricks})`}}
+                className={`flex flex-col justify-center min-h-48 px-5 text-white sm:h-full`}>
+                {/* About */}
+                <div className='hidden sm:block'>
+                    <h1 className="text-6xl">Trade your skills</h1>
+                    <h1 className="text-6xl">With other people</h1>
                 </div>
-                <p className='font-bold mt-5'>
+                <p className='hidden font-bold mt-5 sm:block'>
                     Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias fugiat, magnam porro voluptates exercitationem dicta aut tenetur.                
                 </p>
             </div>
             {/* purpose */}
-            <div className='flex flex-col gap-10 p-5'>
+            <div className='flex flex-col gap-5 p-5'>
+                {/* About */}
+                <div className='sm:hidden'>
+                    <h1 className="text-4xl">Trade your skills</h1>
+                    <h1 className="text-4xl">With other people</h1>
+                </div>
+                <p className='font-bold mt-5 sm:hidden'>
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias fugiat, magnam porro voluptates exercitationem dicta aut tenetur.                
+                </p>
                 <h3 className='font-bold'>
                     Lorem, ipsum dolor sit amet consectetur adipisicing elit. Et, perspiciatis. Dicta aut fuga inventore! Architecto!
                 </h3>
