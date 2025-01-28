@@ -3,6 +3,7 @@ import { TokenContext } from '../App.jsx';
 import { Link, useNavigate } from 'react-router-dom';
 import handleClientSideValidation from '../jsFunctions/handleClientSideValidation.js';
 import Input from '../commonComponents/form/Input.jsx';
+import bricks from '../assets/bricks.jpg';
 
 function SignIn({ 
     setUser, 
@@ -101,8 +102,11 @@ function SignIn({
     };
 
     return(
-        <div className='h-screen flex items-center'>
-            <form className='flex flex-col gap-5 w-fit mx-auto px-5 py-10 rounded bg-gradient-to-r from-emerald-500 via-emerald-600 to-emerald-700'>
+        <div 
+            style={{ backgroundImage: `url(${bricks})`}}
+            className='h-screen flex justify-center items-center'
+        >
+            <form className='flex flex-col gap-5 w-fit p-5 rounded bg-gradient-to-r from-emerald-500/40 via-emerald-600/40 to-emerald-700/40 backdrop-blur-sm'>
                 <h1 className='text-xl font-bold'>Sign in</h1>
                 <Input 
                     label='Enter your username'
