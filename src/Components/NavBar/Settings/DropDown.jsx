@@ -16,7 +16,7 @@ function DropDown({
     return(
 
         <>
-            <div className={`${isShown ? 'sm:block' : 'sm:hidden'} h-screen text-xl sm:shadow-xl shadow-black sm:absolute sm:top-full sm:right-0 sm:w-max sm:h-fit sm:py-5 sm:bg-stone-950`}>
+            <div className={`${isShown ? 'sm:block' : 'sm:hidden'} h-screen text-xl border-t shadow-black sm:absolute sm:top-full sm:right-0 sm:shadow-xl sm:w-max sm:h-fit sm:bg-stone-950`}>
                 <Option 
                     setIsShown={setIsShown}
                     setIsNavDropdown={setIsNavDropdown}
