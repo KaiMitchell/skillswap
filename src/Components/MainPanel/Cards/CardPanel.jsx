@@ -10,22 +10,22 @@ function CardPanel({
     teachProfiles, 
     user,
     whichFilter,
-    headerFilter,
     isToLearnProfiles,
     isLoading,
     setIsSignInPrompt,
     setIsDisabled,
     isDisabled,
-    setIsToLearnProfiles,
-    reMount
+    reMount,
+    param,
 }) {
-    const [param, setParam] = useState(false);//Trigger useEffect to re render page with updated requests.
 
     useEffect(() => {
         if(user) {
             fetchRequests();
         };
     }, [param]);
+
+    console.log(learnProfiles);
 
     let mappedLearnProfiles =
         <MappedProfile
@@ -55,7 +55,7 @@ function CardPanel({
         />
 
     return(
-        <section id='profile-cards' className='flex flex-col gap-2.5 h-full w-full'>
+        <section id='profile-cards' className='flex flex-col gap-2.5 pt-2.5 min-h-full w-full'>
             {isLoading && <Loading feedBack={'Loading'} />}
             <div className='relative grid grid-cols-1 sm:grid-cols-2 gap-2.5 max-w-full'>
                 {isToLearnProfiles ? mappedLearnProfiles : mappedTeachProfiles}   

@@ -112,8 +112,8 @@ function FilterPanel({
                     isToLearnProfiles={isToLearnProfiles}
                 />
             </div>
-                        {/* mobile description */}
-                        <div className='self-center text-3xl font-bold text-center sm:hidden'>
+            {/* mobile description */}
+            <div className='self-center text-3xl font-bold text-center sm:hidden'>
                 <h1>Swap Skills</h1>
                 <h1>Grow Together</h1>
             </div>

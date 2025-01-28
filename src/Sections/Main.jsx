@@ -19,6 +19,8 @@ function Main({
 }) {   
     const [isToLearnProfiles, setIsToLearnProfiles] = useState(false);
     const [isDisabled, setIsDisabled] = useState(false);
+    const [param, setParam] = useState(false);//Trigger useEffect to re render page with updated requests.
+
 
     function reMount(param) {
         setParam(() => param);
@@ -52,6 +54,9 @@ function Main({
                 setIsToLearnProfiles={setIsToLearnProfiles}
                 isDisabled={isDisabled}
                 reMount={reMount}
+                learnProfiles={learnProfiles} 
+                teachProfiles={teachProfiles} 
+                param={param}
             />
         </main>
     );
