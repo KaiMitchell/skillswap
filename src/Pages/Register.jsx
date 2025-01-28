@@ -90,7 +90,7 @@ function SignUp({
     return(
         <div className='relative h-screen flex justify-center items-center'>
             {isLoading && <Loading feedBack='Please wait' />}
-            <form className='flex flex-col gap-5 p-5 bg-black/30 backdrop-blue-md rounded'>
+            <form className='flex flex-col gap-5 p-5 rounded bg-gradient-to-r from-emerald-500 via-emerald-600 to-emerald-700'>
                 <h1 className='text-xl font-bold'>Sign up</h1>
                 <Input 
                     label='Enter your email'
@@ -137,7 +137,7 @@ function SignUp({
                     isDisabled={isLoading}
                     text='Create'
                     handleOnClick={handleRegister}
-                    styles={`px-5 py-2.5 border border-black`}
+                    styles={`px-5 py-2.5 bg-white hover:bg-white/90 rounded`}
                 />
             </form>
         </div>

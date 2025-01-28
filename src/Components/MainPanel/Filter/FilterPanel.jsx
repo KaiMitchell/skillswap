@@ -15,7 +15,7 @@ function FilterPanel({
     const [isMobileFilter, setIsMobileFilter] = useState(false);
 
     return(
-        <div className={`${isMobileFilter ? 'w-full' : 'w-fit'} relative flex flex-col self-end sm:w-full sm:h-full`}>
+        <div className={`${isMobileFilter ? 'w-full' : 'w-fit'} relative flex flex-col self-end bg-gradient-to-r from-emerald-600 via-emerald-700 to-emerald-800 sm:p-2.5 sm:w-full sm:h-full`}>
             <Button 
                 styles={`${isMobileFilter ? 'bg-white' : 'bg-white/30'} flex justify-center text-xl w-20 py-2 self-end rounded-bl sm:hidden`}
                 handleOnClick={() => setIsMobileFilter(!isMobileFilter)}  

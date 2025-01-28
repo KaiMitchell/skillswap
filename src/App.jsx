@@ -9,6 +9,7 @@ import SettingsModal from './Components/SettingsModal/SettingsModal.jsx';
 import Main from './Sections/Main.jsx';
 import MatchesModal from './Components/MatchesModal/Modal.jsx';
 import SignInPrompt from './commonComponents/SignInPrompt.jsx';
+import LandingPage from './Pages/LandingPage.jsx';
 
 export const TokenContext = createContext();
 
@@ -387,7 +388,7 @@ function App() {
           />
         <Routes>  
           <Route path='/' element={<Main />} />
-          <Route index element={
+          <Route index element={user ? 
               <Main 
                 requests={requests}
                 fetchRequests={fetchRequests}
@@ -403,6 +404,8 @@ function App() {
                 isLoading={isLoading}
                 setIsSignInPrompt={setIsSignInPrompt}
               />
+            :
+              <LandingPage />
             }
           />
           <Route path='pick-skills' element={

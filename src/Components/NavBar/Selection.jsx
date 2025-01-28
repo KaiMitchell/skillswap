@@ -47,14 +47,14 @@ function Selection({
         isLink ?
                 //Home page button / icon
                 <Button 
-                    styles='sm:mb-0 sm:px-10 w-full text-center text-white flex justify-between items-center hover:bg-stone-700 sm:w-1/2' 
+                    styles='p-2.5 sm:mb-0 sm:px-10 sm:py-0 w-full text-center text-white flex justify-between items-center hover:bg-stone-700 sm:w-1/2' 
                     text={text}
                     handleOnClick={() => {setIsNavDropdown(false), navigate(path)}}  
                 />
             :
                 //Category item in navbar options
                 <div 
-                    className='relative w-full flex items-center justify-center my-0 hover:bg-stone-700' 
+                    className='relative hidden w-full flex items-center justify-center my-0 hover:bg-stone-700' 
                     {...(canHover && { 
                             onMouseOver: () => handleHover('in'), 
                             onMouseLeave: () => handleHover('out') 

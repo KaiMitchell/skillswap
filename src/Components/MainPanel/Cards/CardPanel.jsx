@@ -133,8 +133,13 @@ function CardPanel({
 
     return(
         <section id='profile-cards' className='flex flex-col gap-2.5 h-full w-full'>
-            <h2 className='text-center text-white text-2xl font-bold sm:text-left'>{isToLearnProfiles ? learnSearchingByStr : teachSearchingByStr}</h2>
-            <div className='flex flex-col gap-1 items-center sm:flex-row sm:gap-0'>
+            {/* mobile description */}
+            <div className='self-center text-3xl font-bold text-center sm:hidden'>
+                <h1>Swap Skills</h1>
+                <h1>Grow Together</h1>
+            </div>
+            {/* <h2 className='text-center text-white text-2xl font-bold sm:text-left'>{isToLearnProfiles ? learnSearchingByStr : teachSearchingByStr}</h2> */}
+            <div className='relative flex flex-col gap-1 items-center sm:flex-row sm:gap-0'>
                 <h3 className='text-center text-white text-xl'>{`${isToLearnProfiles ? learnFilterInfo : teachFilterInfo}`}</h3>
                 <div className='flex w-fit mx-2 rounded-l rounded-r bg-white/20'>
                     <Button 
@@ -149,6 +154,10 @@ function CardPanel({
                     />
                 </div>
                 <h3 className='text-center text-white text-xl'>{searchingFor}</h3>
+                <Button 
+                    text='What is SkillSwap?'
+                    styles={`absolute bottom-1 right-0 px-2.5 py-2 rounded-l text-xs bg-white/50 sm:rounded-none hover:bg-white/60`}
+                />
             </div>
             {isLoading && <Loading feedBack={'Loading'} />}
             <div className='relative grid grid-cols-1 sm:grid-cols-2 gap-2.5 max-w-full'>
