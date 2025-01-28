@@ -6,7 +6,7 @@ import Input from '../commonComponents/form/Input';
 import handleClientSideValidation from '../jsFunctions/handleClientSideValidation';
 import Button from '../commonComponents/Button';
 import Loading from '../commonComponents/Loading';
-import bricks from '../assets/bricks.jpg';
+import broke from '../assets/broke.jpg';
 
 function SignUp({ 
     setNewUserData, 
@@ -93,11 +93,14 @@ function SignUp({
 
     return(
         <div 
-            style={{ backgroundImage: `url(${bricks})`}}
+            style={{ 
+                backgroundImage: `url(${broke})`,
+                backgroundSize: 'cover',
+            }}
             className={`relative h-screen w-full flex justify-center items-center`}
         >
             {isLoading && <Loading feedBack='Please wait' />}
-            <form className='flex flex-col gap-5 w-fit p-5 rounded bg-gradient-to-r from-emerald-500/40 via-emerald-600/40 to-emerald-700/40 backdrop-blur-sm'>
+            <form className='flex flex-col gap-5 w-fit p-5 rounded bg-white/10 backdrop-blur-sm'>
                 <h1 className='text-xl font-bold'>Sign up</h1>
                 <Input 
                     label='Enter your email'

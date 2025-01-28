@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import bricks from '../assets/bricks.jpg';
+import broke from '../assets/broke.jpg';
 
 function LandingPage({
     setIsLandingPage,
@@ -11,7 +11,10 @@ function LandingPage({
     return(
         <main className='flex flex-col h-full w-screen'>
             <div 
-                style={{ backgroundImage: `url(${bricks})`}}
+                style={{ 
+                    backgroundImage: `url(${broke})`,
+                    backgroundSize: 'cover',
+                }}
                 className={`flex flex-col justify-center min-h-48 px-5 text-white sm:h-full`}>
                 {/* About */}
                 <div className='hidden sm:block'>
