@@ -16,6 +16,7 @@ function Details({
     setIsDisplayedProfile,
     displayedProfileType,
     matches,
+    isSent,
 }) {
     const [isRevertHovered, setIsRevertHovered] = useState(false);
 
@@ -28,9 +29,8 @@ function Details({
     const imgPath = imgURL + '/' + displayedProfile?.profile_picture;
 
     //vist a users social page when clicking on their socials icon
-    function goToSocialsPlatform(link) {
+    function goToSocialsPlatform(link) {    
         window.location = (`//${link}`);
-        console.log(window.location);
     };
 
     return(
@@ -102,6 +102,7 @@ function Details({
                             setIsHovered={setIsHovered}
                             isMatched={isMatched}
                             fetchRequests={fetchRequests}
+                            isSent={isSent}
                         />
                     </div>
                 </div>

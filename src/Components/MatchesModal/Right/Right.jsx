@@ -13,6 +13,7 @@ function Right({
     setIsDisplayedProfile,
     displayedProfileType,
     isMatched,
+    isSent,
 }) {
 
     //set a boolean to determine whether accept button should be rendered... if displaying a pending profile
@@ -51,11 +52,11 @@ function Right({
     //text
     if(isMatched) mainBtnText = 'Connect';
     if(!isMatched && !displayRequestSentTo) mainBtnText = 'Accept';
-    if(displayRequestSentTo) mainBtnText = 'Unsend';
+    if(isSent) mainBtnText = 'Unsend';
 
     //handlers
     if(!isMatched) mainBtnClickHandler = acceptMatchRequest;
-    if(displayRequestSentTo) mainBtnClickHandler = removeMatchRequests;
+    if(isSent) mainBtnClickHandler = removeMatchRequests;
 
     //remove a pending match request you sent
     async function removeMatchRequests() {
@@ -108,38 +109,30 @@ function Right({
     return(
         <div className="w-1/2 h-full flex flex-col gap-5 mt-2.5 sm:justify-between sm:mt-0">
             <div className='flex flex-col gap-5 items-center sm:h-full w-full sm:items-end'>
-                <div className='relative group sm:self-end'>
+                <div className='relative group flex justify-between gap-2.5 sm:self-end'>
                     <Button
                         text={mainBtnText}
                         handleOnClick={mainBtnClickHandler}
-                        styles={`h-10 w-28 flex justify-center items-center rounded-lg text-white ${isMatched ? 'group-hover:font-semibold' : 'hover:font-semibold'} bg-gradient-to-r ${displayRequestSentTo ? buttonColor.pendingProfile : buttonColor.matchedOrRecievedProfile} cursor-pointer`}
+                        styles={`h-10 w-28 flex justify-center items-center rounded-lg text-white bg-gradient-to-r ${displayRequestSentTo || isSent ? buttonColor.pendingProfile : buttonColor.matchedOrRecievedProfile} cursor-pointer`}
                     />
-                    <div className="hidden group-hover:flex items-center absolute right-full top-1/2 transform -translate-y-1/2">
-                        {/* Message icon
-                        {isMatched && 
-                            <Button 
-                                text={btnSvg} 
-                                handleOnMouseLeave={() => setIsHovered(false)}
-                                handleOnMouseOver={() => setIsHovered(true)}
-                                handleOnClick={() => alert('clicked')}
-                                isHandleHover={true}
-                            />
-                        }    */}
-                        {!isMatched && !displayRequestSentTo && 
-                            //decline a match request that has been sent to user
-                            <Button 
-                                text={'Decline'}
-                                handleOnClick={removeMatchRequests}
-                                styles={`h-10 w-28 flex justify-center items-center rounded-lg text-white hover:font-semibold bg-gradient-to-r from-rose-400 via-rose-500 to-rose-600 cursor-pointer`}
-                            />
-                        }
-                        {/* arrow */}
-                        {!displayRequestSentTo && 
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
-                                <path strokeLinecap="round" strokeLinejoin="round" d="M6.75 15.75 3 12m0 0 3.75-3.75M3 12h18" />
-                            </svg>
-                        }
-                    </div>
+                    {/* Message icon
+                    {isMatched && 
+                        <Button 
+                            text={btnSvg} 
+                            handleOnMouseLeave={() => setIsHovered(false)}
+                            handleOnMouseOver={() => setIsHovered(true)}
+                            handleOnClick={() => alert('clicked')}
+                            isHandleHover={true}
+                        />
+                    }    */}
+                    {!isSent && 
+                        //decline a match request that has been sent to user
+                        <Button 
+                            text={'Decline'}
+                            handleOnClick={removeMatchRequests}
+                            styles={`h-10 w-28 flex justify-center items-center rounded-lg text-white hover:font-semibold bg-gradient-to-r from-rose-400 via-rose-500 to-rose-600 cursor-pointer`}
+                        />
+                    }
                 </div>
                 <div className='hidden text-right sm:block'>
                     <h3 className='text-xl font-bold underline'>About</h3>

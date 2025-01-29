@@ -8,7 +8,8 @@ function Modal({
     unMatch,
     fetchRequests,
     displayedProfileType,
-    matches
+    matches,
+    isSent,
  }) {
     const [isHovered, setIsHovered] = useState(false);
     const node = useRef();
@@ -38,6 +39,7 @@ function Modal({
                 displayedProfile={displayedProfile}
                 unMatch={unMatch}
                 matches={matches}
+                isSent={isSent}
             />
             {/* <Footer /> */}
         </div>

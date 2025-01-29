@@ -9,6 +9,7 @@ function PopOutOption({
     item,
     isHandleRequestFeedback,
     isDisabled,
+    isSentRequest,
 }) {
     const [feedBackCount, setFeedbackCount] = useState('');
 
@@ -21,14 +22,13 @@ function PopOutOption({
 
     return(
         <li 
-            key={item}
             className={`flex items-center justify-between p-2.5 border-b sm:text-sm`}
         >
             {/* text renderring for sent & recieved requests */}
             {/* {removeMatchRequests && <p>{!acceptMatchRequest && 'pending'}</p>} */}
             {displayProfile && 
                 <Button 
-                    handleOnClick={() => displayProfile(item, type)}
+                    handleOnClick={() => displayProfile(item, type, isSentRequest)}
                     text={`${isHandleRequestFeedback ? `${item} ${feedBackCount}` : item}`}
                     styles={`hover:font-bold`}
                 />

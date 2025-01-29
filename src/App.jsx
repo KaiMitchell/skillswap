@@ -37,6 +37,7 @@ function App() {
   //pass this prop to the pages where I need the header options to be hidden
   const [isHideHeader, setIsHideHeader] = useState(false);
   const [isLandingPage, setIsLandingPage] = useState(false);
+  const [isSent, setIsSent] = useState(false);
   // const [remount, setRemount] = useState(0);
   const [requests, setRequests] = useState({
     sent: [],
@@ -284,13 +285,15 @@ function App() {
         usernames.push(obj.username);
       };
 
+      console.log(usernames);
       setMatches(usernames);
     };
   };
 
-  async function displayProfile(selectedUser, type) {
+  async function displayProfile(selectedUser, type, isSent) {
     //show the profile modal
     setIsDisplayedProfile(true);
+    setIsSent(isSent);
     setDisplayedProfileType(type);
 
     try {
@@ -389,6 +392,7 @@ function App() {
             matches={matches}
             unMatch={unMatch}
             fetchRequests={fetchRequests}
+            isSent={isSent}
           />
         <Routes>  
           <Route path='/' element={<Main />} />
