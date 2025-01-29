@@ -22,7 +22,7 @@ function LandingPage({
                     <h1 className="text-6xl">With other people</h1>
                 </div>
                 <p className='hidden font-bold mt-5 sm:block'>
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias fugiat, magnam porro voluptates exercitationem dicta aut tenetur.                
+                    "Empower your growth through skill sharing—no money involved, just expertise."                
                 </p>
             </div>
             {/* purpose */}
@@ -32,17 +32,17 @@ function LandingPage({
                     <h1 className="text-4xl">Trade your skills</h1>
                     <h1 className="text-4xl">With other people</h1>
                 </div>
-                <p className='font-bold mt-5 sm:hidden'>
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias fugiat, magnam porro voluptates exercitationem dicta aut tenetur.                
+                <p className='italic font-light sm:hidden'>
+                    "Empower your growth through skill sharing—no money involved, just expertise."              
                 </p>
                 <h3 className='font-bold'>
-                    Lorem, ipsum dolor sit amet consectetur adipisicing elit. Et, perspiciatis. Dicta aut fuga inventore! Architecto!
+                    Unlock New Possibilities Through Collaboration
                 </h3>
                 <p>
-                    Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ducimus, odio. Qui facere et harum, praesentium est eum ut nisi quis quam. Amet, quia ex! Cum sint laboriosam nisi vero dolorem.
+                    SkillSwap is a community-driven platform where your unique abilities become valuable assets. By exchanging skills with others, you can learn new talents, expand your network, and grow personally and professionally—all without spending a dime.
                 </p>
                 <p>
-                    Lorem ipsum dolor sit amet consectetur, adipisicing elit. Fugit eaque ratione nam temporibus aliquam minima nihil assumenda sunt corrupti, ea quis! Sed delectus quia quas quis mollitia voluptate expedita explicabo laudantium quasi perspiciatis, nesciunt suscipit facilis fuga quaerat placeat dolorum tenetur hic numquam repellat quod! Magni tenetur illum minima nemo?
+                    Whether you're picking up a new language, honing your design skills, or helping someone learn to code, SkillSwap thrives on mutual exchange. It’s about sharing knowledge, fostering connections, and creating opportunities through collaboration.
                 </p>
             </div>
         </main>
