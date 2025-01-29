@@ -2,7 +2,7 @@ import { useRef } from "react";
 import MapData from "../features/methods/MapData";
 import Button from "./Button";
 
-const HorizontalListItems = ({ data }) => {
+const HorizontalListItems = ({ data, isMatchesModal }) => {
     const listRef = useRef();
 
     function handleScroll(direction) {
@@ -11,7 +11,7 @@ const HorizontalListItems = ({ data }) => {
 
     return(
         <ul 
-            className='relative flex justify-between bg-zinc-300 text-nowrap snap-mandatory grow snap-x overflow-x-auto no-scrollbar'
+            className={`${isMatchesModal && 'w-full'} relative flex justify-between bg-zinc-300 text-nowrap snap-mandatory grow snap-x overflow-x-auto no-scrollbar`}
             ref={listRef}   
         > 
             <Button 

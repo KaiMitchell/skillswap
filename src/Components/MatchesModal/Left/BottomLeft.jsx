@@ -10,7 +10,7 @@ function BottomLeft({
     const selectedUser = displayedProfile?.username;
 
     return(
-        <div className='flex flex-col gap-1.5 items-center sm:items-start sm:gap-0'>
+        <div className='flex flex-col justify-between items-center h-full sm:items-start sm:gap-0'>
             <p>member since: {displayedProfile?.created_at}</p>
             {isMatched && displayedProfile?.phone_number && 
                 <p></p>
@@ -18,7 +18,7 @@ function BottomLeft({
             {isMatched && displayedProfile?.email && 
                 <p>{displayedProfile?.email}</p>
             }
-            <div className='text-center sm:hidden'>
+            <div className='h-1/2 text-center sm:hidden'>
                 <h3 className='text-xl font-bold underline'>About</h3>
                 <p>
                     {displayedProfile?.description || 'No Description'}

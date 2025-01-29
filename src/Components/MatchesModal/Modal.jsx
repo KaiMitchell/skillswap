@@ -28,7 +28,7 @@ function Modal({
     return(
         <div 
             ref={node} 
-            className={`${isDisplayedProfile ? 'block' : 'hidden'} fixed flex flex-col pt-10 gap-5 size-full m-auto z-20 top-0 bottom-0 left-0 right-0 p-2.5 bg-stone-100 sm:size-4/5 sm:pt-2.5 sm:shadow-xl sm:shadow-black sm:rounded overflow-y-scroll no-scrollbar`}
+            className={`${isDisplayedProfile ? 'block' : 'hidden'} fixed flex flex-col py-5 px-10 gap-5 size-full m-auto z-20 top-0 bottom-0 left-0 right-0 bg-stone-100 sm:size-4/5 sm:p-10 sm:shadow-xl sm:shadow-black sm:rounded overflow-y-scroll no-scrollbar`}
         >
             <Details 
                 displayedProfileType={displayedProfileType}

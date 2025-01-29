@@ -42,11 +42,11 @@ function Details({
                 handleOnMouseLeave={() => setIsRevertHovered(false)}
                 styles={`fixed top-0 right-0 z-20 p-2.5 backdrop-blur-sm bg-black/30 rounded-bl sm:hidden`}
             />
-            <div className='w-full min-h-1/4 h-full flex flex-col lg:flex-row gap-5 justify-between mb-5 text-center lg:text-left'>   
+            <div className='w-full min-h-full flex flex-col lg:flex-row gap-5 justify-between mb-5 text-center lg:text-left'>   
                 {/* image */}
-                <div className='w-full h-full'>
+                <div className='flex flex-col justify-center w-full h-full'>
                     <div className="w-full h-full flex flex-col justify-between items-center sm:items-start sm:flex-row">
-                        <div className="relative flex flex-col gap-5 justify-center items-center text-left">
+                        <div className="relative h-full flex flex-col gap-5 justify-between items-center text-left">
                             <Left 
                                 displayedProfile={displayedProfile}
                                 img={displayedProfile?.profile_picture ? imgPath : defaultProfileImg}
