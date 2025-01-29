@@ -93,12 +93,18 @@ function FilterPanel({
 
     return(
         <div className={`w-full relative flex flex-col self-end pt-[60px] bg-gradient-to-r from-orange-200 via-orange-300 to-orange-400`}>
-            <Button 
-                styles={`${isMobileFilter ? 'bg-white' : 'bg-white/30'} flex justify-center text-xl w-20 py-2 self-end rounded-bl sm:hidden`}
-                handleOnClick={() => setIsMobileFilter(!isMobileFilter)}  
-                text='filter'             
-            />
-            <div className='relative flex flex-row-reverse justify-between py-2.5 gap-2.5 w-full'>
+            <div className='flex justify-between'>
+                <Button 
+                    text='What is SkillSwap?'
+                    styles={`px-2.5 py-2 w-fit rounded-br text-xs bg-white/30 sm:rounded-none hover:bg-white/60`}
+                />
+                <Button 
+                    styles={`${isMobileFilter ? 'bg-white' : 'bg-white/30'} flex justify-center text-xl w-20 py-2 rounded-bl hover:bg-white/60 sm:hidden`}
+                    handleOnClick={() => setIsMobileFilter(!isMobileFilter)}  
+                    text='filter'             
+                />
+            </div>
+            <div className='relative flex flex-row-reverse justify-between p-2.5 gap-2.5 w-full'>
                 <h1 className='hidden text-5xl self-center text-right pb-2.5 font-bold underline sm:block'>Skill Swap</h1>
                 <MainFilterDropDownContainer 
                     whichFilter={whichFilter} 
@@ -118,25 +124,21 @@ function FilterPanel({
                 <h1>Grow Together</h1>
             </div>
             {/* <h2 className='text-center text-white text-2xl font-bold sm:text-left'>{isToLearnProfiles ? learnSearchingByStr : teachSearchingByStr}</h2> */}
-            <div className='relative flex flex-col gap-1 items-center sm:flex-row sm:gap-0'>
+            <div className='relative flex flex-col items-center ml-2.5 sm:flex-row sm:gap-0'>
                 <h3 className='text-center text-white text-xl'>{`${isToLearnProfiles ? learnFilterInfo : teachFilterInfo}`}</h3>
-                <div className='flex w-fit mx-2 rounded-l rounded-r bg-white/20'>
+                <div className='flex w-fit mx-2 mt-1 rounded-t rounded-b-none bg-white/20 sm:mt-0'>
                     <Button 
                         text={`learn`}
-                        styles={`${isToLearnProfiles && 'font-bold bg-white'} rounded-l px-4 py-2`}
+                        styles={`${isToLearnProfiles && 'font-bold bg-white'} rounded-tl px-4 py-2`}
                         handleOnClick={() => setIsToLearnProfiles(true)}
                     />
                     <Button 
                         text={`teach`}
-                        styles={`${!isToLearnProfiles && 'font-bold bg-white'} rounded-r px-4 py-2`}
+                        styles={`${!isToLearnProfiles && 'font-bold bg-white'} rounded-tr px-4 py-2`}
                         handleOnClick={() => setIsToLearnProfiles(false)}
                     />
                 </div>
                 <h3 className='text-center text-white text-xl'>{searchingFor}</h3>
-                <Button 
-                    text='What is SkillSwap?'
-                    styles={`absolute bottom-1 right-0 px-2.5 py-2 rounded-l text-xs bg-white/50 sm:rounded-none hover:bg-white/60`}
-                />
             </div>
         </div>
     );

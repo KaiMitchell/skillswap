@@ -10,7 +10,7 @@ function AnchorContainer({
     setFilter,
 }) {
     return(
-        <div className='hidden mt-2.5 w-full sm:block sm:flex'>
+        <div className='hidden mt-2.5 w-full sm:block sm:flex sm:gap-2.5'>
             <MainSkillDropDown 
                 dropDownTitle={`${filter?.toLearnCategory}`}
                 isSkillsDropDown={isToLearnSkillsDropDown}

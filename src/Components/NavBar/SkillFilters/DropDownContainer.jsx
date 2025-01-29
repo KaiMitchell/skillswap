@@ -16,7 +16,7 @@ function DropDownContainer({
 }) {
     const [isShown, setIsShown] = useState();
     return(
-        <div className={`flex flex-col py-2.5 w-fit sm:px-5 bg-white shadow-[-7px_0px_10px_0px_black;] sm:sticky sm:right-0 sm:z-20 sm:items-center sm:justify-center cursor-pointer`} 
+        <div className={`flex flex-col py-2.5 w-fit sm:px-7 bg-white shadow-[-7px_0px_10px_0px_black;] sm:sticky sm:right-0 sm:z-20 sm:items-center sm:justify-center cursor-pointer`} 
              onMouseEnter={() => setIsShown(true)}
              onMouseLeave={() => setIsShown(false)}
         >
