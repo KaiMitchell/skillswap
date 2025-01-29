@@ -1,6 +1,6 @@
 import Option from "./Option";
 
-function DropDown({ 
+function    DropDown({ 
     fetchMatches,
     matches,
     fetchRequests, 
@@ -14,7 +14,7 @@ function DropDown({
     setIsNavDropdown,
 }) {  
     return(
-        <div className={`${isShown ? 'sm:block' : 'sm:hidden'} h-screen text-xl border-t shadow-black sm:absolute sm:top-full sm:right-0 sm:shadow-xl sm:w-max sm:h-fit sm:bg-stone-950`}>
+        <div className={`${isShown ? 'sm:block' : 'sm:hidden'} absolute h-screen top-0 w-full text-xl bg-white border-t shadow-black sm:top-full sm:right-0 sm:shadow-xl sm:w-max sm:h-fit`}>
             <Option 
                 setIsShown={setIsShown}
                 setIsNavDropdown={setIsNavDropdown}

@@ -66,10 +66,10 @@ function Option({
                         mobileDropDown={mobileDropdown}
                     />
                 }
-                <div className='relative group h-fit'>
+                <div className='relative group h-fit cursor-pointer'>
                     <Button 
                         handleOnClick={clickHandler} 
-                        styles={`flex w-full py-5 px-2.5 sm:px-10 items-center sm:justify-center my-0 text-sm text-stone-500 hover:text-stone-400 hover:bg-stone-700 hover:cursor-pointer`}
+                        styles={`flex w-full py-5 px-2.5 sm:px-10 items-center sm:justify-center my-0 text-sm hover:bg-zinc-100 hover:cursor-pointer`}
                         text={text}
                     />
                     {isNotSignOutOrSettings && 

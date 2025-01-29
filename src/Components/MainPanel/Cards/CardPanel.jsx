@@ -25,8 +25,6 @@ function CardPanel({
         };
     }, [param]);
 
-    console.log(learnProfiles);
-
     let mappedLearnProfiles =
         <MappedProfile
             isToLearn={true}

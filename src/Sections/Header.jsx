@@ -24,7 +24,7 @@ function Header({
     const [isNavDropdown, setIsNavDropdown] = useState(false);
 
     return(
-            <div className={`${username ? 'bg-stone-950' : 'bg-opacity-0'} fixed top-0 z-20 w-full border-b`}>
+            <div className={`fixed top-0 z-20 w-full backdrop-blur-lg`}>
                 <nav className='w-full flex justify-between shadow-xl'>
                     {/* Burger and home icon */}
                     <MobileOptions 
@@ -34,7 +34,7 @@ function Header({
                         setIsNavDropdown={setIsNavDropdown}
                         isHideHeader={isHideHeader}
                     />
-                    <div className={`${isNavDropdown ? 'block' : 'hidden'} ${username && 'bg-black'} absolute right-0 top-full w-full flex flex-col items-start text-white overflow-y-scroll no-scrollbar sm:contents sm:items-center sm:flex-row sm:justify-between sm:bg-transparent sm:text-black`}>
+                    <div className={`${isNavDropdown ? 'block' : 'hidden'} absolute right-0 top-full h-screen w-full flex flex-col items-start overflow-y-scroll no-scrollbar sm:contents sm:items-center sm:flex-row sm:justify-between sm:bg-transparent`}>
                         {/* Render all categories in nav bar with skill options as a drop down */}
                         {!isNavDropdown && username &&
                             <MapData 

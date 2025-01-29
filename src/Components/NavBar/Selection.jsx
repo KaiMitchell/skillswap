@@ -56,7 +56,7 @@ function Selection({
             :
                 //Category item in navbar options
                 <div 
-                    className='relative w-full flex items-center justify-center my-0 hover:bg-stone-700' 
+                    className='relative w-full flex items-center justify-center my-0 hover:bg-white/20' 
                     {...(canHover && { 
                             onMouseOver: () => handleHover('in'), 
                             onMouseLeave: () => handleHover('out') 
@@ -68,7 +68,7 @@ function Selection({
                     {canHover && 
                         <ul 
                             id='dropDown' 
-                            className={`${isShown ? 'block' : 'hidden'} absolute top-full ${showRight ? 'sm:right-0' : 'sm:left-0'} w-full w-max h-72 py-5 grid grid-cols-2 sm:gap-x-5 bg-stone-950 sm:px-50 shadow-xl overflow-y-auto no-scrollbar`}
+                            className={`${isShown ? 'block' : 'hidden'} absolute top-full ${showRight ? 'sm:right-0' : 'sm:left-0'} w-full w-max h-72 grid grid-cols-2 bg-white shadow-xl border-t overflow-y-auto no-scrollbar`}
                         >
                             <MapData 
                                 data={obj?.skills}

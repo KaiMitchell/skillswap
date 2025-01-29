@@ -3,7 +3,7 @@ function Option({ skill, handleClick,  }) {
         <p 
             key={skill} 
             onClick={() => handleClick(skill)} 
-            className='p-5 text-stone-500 hover:text-stone-400 hover:bg-stone-700 text-xs sm:text-nowrap cursor-pointer'
+            className='p-5 hover:bg-zinc-100 text-xs sm:text-nowrap cursor-pointer'
         >
             {skill}
         </p>

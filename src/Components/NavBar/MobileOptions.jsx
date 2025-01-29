@@ -33,7 +33,7 @@ function MobileOptions({
             />
             <Button
                 handleOnClick={() => setIsNavDropdown(!isNavDropdown)}
-                styles={`${rotate} ${username && 'bg-stone-950'} text-white py-2.5 px-5 sm:hidden`}
+                styles={`${rotate} text-white py-2.5 px-5 backdrop-blur-lg sm:hidden`}
                 text={
                     <StandardSVG 
                         size='size-6'

@@ -16,12 +16,12 @@ function DropDownContainer({
 }) {
     const [isShown, setIsShown] = useState();
     return(
-        <div className={`flex flex-col w-full py-2.5 sm:px-5 sm:bg-stone-950 shadow-[-7px_0px_10px_0px_black;] sm:sticky sm:right-0 sm:z-20 sm:items-center sm:justify-center sm:w-fit sm:hover:bg-stone-700`} 
-             onMouseEnter={() => setIsShown(true)} 
+        <div className={`flex flex-col py-2.5 w-fit sm:px-5 bg-white shadow-[-7px_0px_10px_0px_black;] sm:sticky sm:right-0 sm:z-20 sm:items-center sm:justify-center cursor-pointer`} 
+             onMouseEnter={() => setIsShown(true)}
              onMouseLeave={() => setIsShown(false)}
         >
             {/* display capitalized first letter of username on profile drop down button */}
-            <p className='hidden text-white self-center hover:bg-stone-700 sm:block'>
+            <p className='hidden self-center sm:block'>
                 {typeof username === 'string' ? username.slice(0, 1).toUpperCase() : ''}
             </p>
             <DropDown 

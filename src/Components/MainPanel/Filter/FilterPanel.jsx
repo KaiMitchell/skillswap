@@ -92,7 +92,7 @@ function FilterPanel({
 
 
     return(
-        <div className={`w-full relative flex flex-col self-end bg-gradient-to-r from-emerald-600 via-emerald-700 to-emerald-800 sm:p-2.5`}>
+        <div className={`w-full relative flex flex-col self-end pt-[60px] bg-gradient-to-r from-orange-200 via-orange-300 to-orange-400`}>
             <Button 
                 styles={`${isMobileFilter ? 'bg-white' : 'bg-white/30'} flex justify-center text-xl w-20 py-2 self-end rounded-bl sm:hidden`}
                 handleOnClick={() => setIsMobileFilter(!isMobileFilter)}  
