@@ -75,8 +75,6 @@ function Right({
             })
         });
 
-        const data = await response.json();
-
         setIsDisplayedProfile(false);
         fetchRequests(displayedProfile?.username);
     };
@@ -107,9 +105,9 @@ function Right({
     };
 
     return(
-        <div className="w-1/2 h-full flex flex-col gap-5 mt-2.5 sm:justify-between sm:mt-0">
+        <div className="relative w-1/2 h-full flex flex-col gap-5 mt-2.5 sm:justify-between sm:mt-0">
             <div className='flex flex-col gap-5 items-center sm:h-full w-full sm:items-end'>
-                <div className='relative group flex justify-between gap-2.5 sm:self-end'>
+                <div className={`${isMatched && 'hidden'} relative group flex justify-between gap-2.5 sm:absolute sm:self-end`}>
                     <Button
                         text={mainBtnText}
                         handleOnClick={mainBtnClickHandler}
@@ -134,7 +132,7 @@ function Right({
                         />
                     }
                 </div>
-                <div className='hidden text-right sm:block'>
+                <div className='hidden text-center w-full sm:mt-10 sm:block'>
                     <h3 className='text-xl font-bold underline'>About</h3>
                     <p>
                         {displayedProfile?.description || 'No Description'}
