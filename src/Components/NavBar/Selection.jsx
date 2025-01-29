@@ -49,7 +49,7 @@ function Selection({
         isLink ?
                 //Home page button / icon
                 <Button 
-                    styles={`${!username && 'h-1/2 hover:bg-white/30 border-b'} p-2.5 sm:mb-0 sm:px-10 sm:py-0 w-full text-center text-white flex justify-between items-center hover:bg-stone-700 sm:border-none sm:h-auto sm:w-1/2`}
+                    styles={`h-1/2 hover:bg-white/30 border-b p-2.5 sm:mb-0 sm:px-10 sm:py-0 w-full text-center text-white flex justify-between items-center hover:bg-stone-700 sm:border-none sm:h-auto sm:w-1/2`}
                     text={text}
                     handleOnClick={() => {setIsNavDropdown(false), navigate(path)}}  
                 />

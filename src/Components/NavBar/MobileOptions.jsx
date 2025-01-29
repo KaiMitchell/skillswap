@@ -29,7 +29,7 @@ function MobileOptions({
             <Button 
                 text={`Skill Swap`}
                 handleOnClick={handleClick}
-                styles={`${!username && 'py-2.5'} min-w-fit pr-5 text-4xl text-white`}
+                styles={`min-w-fit py-2.5 pr-5 text-4xl text-white`}
             />
             <Button
                 handleOnClick={() => setIsNavDropdown(!isNavDropdown)}
