@@ -107,7 +107,17 @@ function Right({
     return(
         <div className="relative w-full sm:h-full h-1/2 flex flex-col gap-5 mt-2.5 sm:justify-between sm:w-1/2 sm:mt-0">
             <div className='flex flex-col gap-5 items-center sm:h-full w-full sm:items-end'>
-                <div className={`${isMatched && 'hidden'} relative group flex justify-between gap-2.5 sm:absolute sm:self-end`}>
+                <div className='flex flex-col gap-2.5'>      
+                    <div className='flex flex-col items-center gap-2.5'>
+                        <p>Skills to offer</p>
+                        <HorizontalListItems isMatchesModal={true} data={displayedProfile?.skills_to_teach} />
+                    </div>
+                    <div className='flex flex-col items-center gap-2.5'>
+                        <p>Skills desired</p>
+                        <HorizontalListItems isMatchesModal={true} data={displayedProfile?.skills_to_learn} />
+                    </div>
+                </div>
+                <div className={`${isMatched && 'hidden'} relative group flex justify-between gap-2.5 sm:self-end`}>
                     <Button
                         text={mainBtnText}
                         handleOnClick={mainBtnClickHandler}
@@ -131,22 +141,6 @@ function Right({
                             styles={`h-10 w-28 flex justify-center items-center rounded-lg text-white hover:font-semibold bg-gradient-to-r from-rose-400 via-rose-500 to-rose-600 cursor-pointer`}
                         />
                     }
-                </div>
-                <div className='hidden text-center w-full sm:mt-24 sm:block'>
-                    <h3 className='text-xl font-bold underline'>About</h3>
-                    <p>
-                        {displayedProfile?.description || 'No Description'}
-                    </p>
-                </div>
-            </div>
-            <div className='flex flex-col gap-2.5'>      
-                <div className='flex flex-col items-center gap-2.5'>
-                    <p>Skills to offer</p>
-                    <HorizontalListItems isMatchesModal={true} data={displayedProfile?.skills_to_teach} />
-                </div>
-                <div className='flex flex-col items-center gap-2.5'>
-                    <p>Skills desired</p>
-                    <HorizontalListItems isMatchesModal={true} data={displayedProfile?.skills_to_learn} />
                 </div>
             </div>
         </div>
