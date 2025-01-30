@@ -1,5 +1,4 @@
 import PopOutOptions from "./PopOutOptions";
-import { TokenContext } from "../../../App";
 import { useState } from "react";
 
 const apiUrl = import.meta.env.VITE_API_URL;
@@ -15,7 +14,7 @@ function ProfileDropDownSidePopOut({
     const [isDisabled, setIsDisabled] = useState(false);
 
     //extract token from Context property
-    const accessToken = TokenContext.accessToken;
+    const accessToken = sessionStorage.getItem('access token');
     
     //remove a pending match request you sent
     async function removeMatchRequests(selectedUser) {

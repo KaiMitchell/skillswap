@@ -1,7 +1,6 @@
 import { useEffect, useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
-import { TokenContext } from '../App';
 import Input from '../commonComponents/form/Input';
 import handleClientSideValidation from '../jsFunctions/handleClientSideValidation';
 import Button from '../commonComponents/Button';
@@ -16,7 +15,6 @@ function SignUp({
 }) {
     const [isLoading, setIsLoading] = useState(false);
     const [errors, setErrors] = useState({});
-    const { setAccessToken } = useContext(TokenContext);
 
     const navigate = useNavigate();
 
@@ -41,12 +39,9 @@ function SignUp({
     //submit registration form
     async function handleRegister(e) {
         e.preventDefault();
-
         setIsLoading(true);
-
         //initialize object to store invalid input values
         const newErrors = {};
-
         handleClientSideValidation({
             username: newUserData.username || null,
             email: newUserData.email || null,
@@ -54,14 +49,12 @@ function SignUp({
             confirmPassword: newUserData.confirmPassword || null,
             newErrors
         });
-
         //client-side validation check
         if(Object.keys(newErrors).length) {
             setErrors(newErrors);
             setIsLoading(false);
             return;
         };
-
         const response = await fetch(`${import.meta.env.VITE_AUTH_URL}/api/register`, {
             method : "POST",
             headers: {
@@ -69,24 +62,18 @@ function SignUp({
             },
             body: JSON.stringify(newUserData)
         });
-
         const data = await response.json();
-
         //server side validation / confliction check
         if(response.status === 409) {
             setErrors(data.newErrors);
             setIsLoading(false);
             return;
         };
-
+        //set username and access token
         localStorage.setItem('user', data.username);
         sessionStorage.setItem('access token', data.accessToken);
         setUser(localStorage.getItem('user'));
-        //apply access token
-        setAccessToken(() => sessionStorage.getItem('access token'));
-
         setIsLoading(false);
-
         //navigate to initial skill pick page
         navigate('/pick-skills');
     };

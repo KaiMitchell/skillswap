@@ -11,18 +11,17 @@ import MatchesModal from './Components/MatchesModal/Modal.jsx';
 import SignInPrompt from './commonComponents/SignInPrompt.jsx';
 import LandingPage from './Pages/LandingPage.jsx';
 
-export const TokenContext = createContext();
-
 const apiUrl = import.meta.env.VITE_API_URL;
 const authUrl = import.meta.env.VITE_AUTH_URL;
 
 const user = localStorage.getItem('user');
+const accessToken = sessionStorage.getItem('access token');
 
 function App() {
   const [headerFilter, setHeaderFilter] = useState({category: '', skill: ''});
   const [skills, setSkills] = useState();
-  const [learnProfiles, setLearnProfiles] = useState();
-  const [teachProfiles, setTeachProfiles] = useState();
+  const [learnProfiles, setLearnProfiles] = useState([]);
+  const [teachProfiles, setTeachProfiles] = useState([]);
   //renderring the settings modal
   const [isSettings, setIsSettings] = useState(false);
   const [isDisplayedProfile, setIsDisplayedProfile] = useState(false);
@@ -32,7 +31,6 @@ function App() {
   const [matches, setMatches] = useState([]);
   //remount on accepting a request
   const [param, setParam] = useState();
-  const [accessToken, setAccessToken] = useState(sessionStorage.getItem('access token') || '');
   const [isLoading, setIsLoading] = useState(false);
   const [isSignInPrompt, setIsSignInPrompt] = useState(false);
   //pass this prop to the pages where I need the header options to be hidden
@@ -65,7 +63,7 @@ function App() {
     confirmPassword: ''
   });
 
-  useEffect(() => {console.log('logging landing page: ', isLandingPage)}, [isLandingPage]);
+  // useEffect(() => {console.log('logging landing page: ', isLandingPage)}, [isLandingPage]);
 
   //only execute this code if a user is signed in.
   if(user) {
@@ -75,7 +73,6 @@ function App() {
     useEffect(() => {
       fetchRequests();
       fetchMatches();
-      fetchProfiles();
       //Only set is Loading on initial render
       setIsLoading(true);
       fetchSkills();
@@ -90,7 +87,7 @@ function App() {
     }, []);
   
     //update the ui as requests data changes
-    useEffect(() => fetchProfiles(), [requests]);
+    useEffect(() => (async() => fetchProfiles()), [requests]);
   
     //filter profile result using filters
     useEffect(() => {
@@ -270,15 +267,12 @@ function App() {
   //fetch accepted matches
   async function fetchMatches(param) {
     const response = await fetch(`${apiUrl}/api/matches?user=${user}`);
-
     const data = await response.json();
-
     if(response.status === 200) {
       const usernames = [];
       for(const obj of data.matches) {
         usernames.push(obj.username);
       };
-
       console.log(usernames);
       setMatches(usernames);
     };
@@ -355,100 +349,94 @@ function App() {
   //FOR NOW USE MATCHES MODAL TO DISPLAY PROFILE DETAILS IF MATCHED SHOW ALL DETAILS
   //IF NOT ONLY SHOW WHAT IS NOT PRIVATE
   return(
-    <TokenContext.Provider value={{ accessToken, setAccessToken }}>
-      <BrowserRouter>
-          {isSignInPrompt && <SignInPrompt setIsSignInPrompt={setIsSignInPrompt} />}
-          <Header 
-            setWhichFilter={setWhichFilter} 
-            skills={skills} 
-            username={user} 
-            fetchProfiles={fetchProfiles} 
-            setUser={setUser} 
-            setFilter={setHeaderFilter} 
-            setIsSettings={setIsSettings} 
-            requests={requests}
-            fetchRequests={fetchRequests}
-            matches={matches}
-            fetchMatches={fetchMatches}
-            displayProfile={displayProfile}
-            isHideHeader={isHideHeader}
-            isLandingPage={isLandingPage}
-          />
-          {user && isSettings && <SettingsModal 
-            isSettings={isSettings} 
-            setIsSettings={setIsSettings} 
-          />}
-          <MatchesModal 
-            isDisplayedProfile={isDisplayedProfile}
-            setIsDisplayedProfile={setIsDisplayedProfile}
-            displayedProfile={displayedProfile}
-            displayedProfileType={displayedProfileType}
-            matches={matches}
-            unMatch={unMatch}
-            fetchRequests={fetchRequests}
-            isSent={isSent}
-          />
-        <Routes>  
-          <Route path='/' element={<Main />} />
-          <Route index element={user ? 
-              <Main 
-                requests={requests}
-                fetchRequests={fetchRequests}
-                learnProfiles={learnProfiles} 
-                teachProfiles={teachProfiles} 
-                filter={mainFilter} 
-                skills={skills} 
-                setFilter={setMainFilter} 
-                headerFilter={headerFilter} 
-                whichFilter={whichFilter} 
-                setWhichFilter={setWhichFilter} 
-                user={user || ''}
-                isLoading={isLoading}
-                setIsSignInPrompt={setIsSignInPrompt}
-              />
-            :
-              <LandingPage 
-                setIsLandingPage={setIsLandingPage}
-                isLandingPage={isLandingPage}
-              />
-            }
-          />
-          <Route path='pick-skills' element={
-            <InitialPickSkillsPage 
+    <BrowserRouter>
+        {isSignInPrompt && <SignInPrompt setIsSignInPrompt={setIsSignInPrompt} />}
+        <Header 
+          setWhichFilter={setWhichFilter} 
+          skills={skills} 
+          username={user} 
+          fetchProfiles={fetchProfiles}             
+          setFilter={setHeaderFilter} 
+          setIsSettings={setIsSettings} 
+          requests={requests}
+          fetchRequests={fetchRequests}
+          matches={matches}
+          fetchMatches={fetchMatches}
+          displayProfile={displayProfile}
+          isHideHeader={isHideHeader}
+          isLandingPage={isLandingPage}
+        />
+        {user && isSettings && <SettingsModal 
+          isSettings={isSettings} 
+          setIsSettings={setIsSettings} 
+        />}
+        <MatchesModal 
+          isDisplayedProfile={isDisplayedProfile}
+          setIsDisplayedProfile={setIsDisplayedProfile}
+          displayedProfile={displayedProfile}
+          displayedProfileType={displayedProfileType}
+          matches={matches}
+          unMatch={unMatch}
+          fetchRequests={fetchRequests}
+          isSent={isSent}
+        />
+      <Routes>  
+        <Route path='/' element={<Main />} />
+        <Route index element={user ? 
+            <Main 
+              requests={requests}
+              fetchRequests={fetchRequests}
+              learnProfiles={learnProfiles} 
+              teachProfiles={teachProfiles} 
+              filter={mainFilter} 
               skills={skills} 
-              username={newUserData.username} 
-              setUser={setUser} 
+              setFilter={setMainFilter} 
+              headerFilter={headerFilter} 
+              whichFilter={whichFilter} 
+              setWhichFilter={setWhichFilter} 
+              user={user || ''}
+              isLoading={isLoading}
+              setIsSignInPrompt={setIsSignInPrompt}
             />
-          } 
-          />
-          <Route path='pick-matches' element={
-            <InitialPickMatchesPage 
-                  setNewUserData={setNewUserData} 
-                  newUserData={newUserData} 
-            />
-          } 
-          />
-          <Route path="register" element={
-            <Register 
-              setUser={setUser}
-              setNewUserData={setNewUserData} 
-              newUserData={newUserData} 
+          :
+            <LandingPage 
               setIsLandingPage={setIsLandingPage}
-            />
-          } 
-          />
-          <Route path="sign-in" element={
-            <SignIn 
-              setUser={setUser} 
-              //pass username to check if not null. If it is then redirect to home page.
-              setIsHideHeader={setIsHideHeader}
-              setIsLandingPage={setIsLandingPage}
+              isLandingPage={isLandingPage}
             />
           }
+        />
+        <Route path='pick-skills' element={
+          <InitialPickSkillsPage 
+            skills={skills} 
+            username={newUserData.username}               
           />
-        </Routes>
-      </BrowserRouter>
-    </TokenContext.Provider>
+        } 
+        />
+        <Route path='pick-matches' element={
+          <InitialPickMatchesPage 
+                setNewUserData={setNewUserData} 
+                newUserData={newUserData} 
+          />
+        } 
+        />
+        <Route path="register" element={
+          <Register               
+            setNewUserData={setNewUserData} 
+            newUserData={newUserData} 
+            setIsLandingPage={setIsLandingPage}
+          />
+        } 
+        />
+        <Route path="sign-in" element={
+          <SignIn               
+            //pass username to check if not null. If it is then redirect to home page.
+            setIsHideHeader={setIsHideHeader}
+            setIsLandingPage={setIsLandingPage}
+          />
+        }
+        />
+      </Routes>
+    </BrowserRouter>
   );
 };
 

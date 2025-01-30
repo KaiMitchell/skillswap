@@ -1,5 +1,4 @@
 import { useEffect, useState, useContext } from 'react';
-import { TokenContext } from '../App.jsx';
 import { Link, useNavigate } from 'react-router-dom';
 import handleClientSideValidation from '../jsFunctions/handleClientSideValidation.js';
 import Input from '../commonComponents/form/Input.jsx';
@@ -10,8 +9,6 @@ function SignIn({
     setIsHideHeader,
     setIsLandingPage,
 }) {
-    const { accessToken, setAccessToken } = useContext(TokenContext);
-
     const [errors, setErrors] = useState({});
     const [userDetails, setUserDetails] = useState({
         username: '',
@@ -27,69 +24,56 @@ function SignIn({
 
     //update state based on each input fields value
     function handleChangeInput(e, type) {
-
         //only reset invalidation errors for the nput that has changed
         setErrors(prev => ({ 
             ...prev,
             [type]: ''
         }));
-
         setUserDetails(prev => ({
             ...prev,
             [type]: e.target.value
         }));
-        
     };
 
     async function signIn(e) {
         e.preventDefault();
-
         //trim each input value
         for(const key in userDetails) {
             if(key === 'username') {
                 userDetails[key] = userDetails[key].trim(); 
             };
         };
-
         //initialize object to store invalid error values
         let newErrors = {};
-
         handleClientSideValidation({
             username: userDetails.username || null,
             password: userDetails.password || null,
             isSignIn: true,
             newErrors
         });
-        
         //client-side validtion
         if(Object.keys(newErrors).length) {
             setErrors(newErrors);
             return;
         };
-
         const response = await fetch(`${import.meta.env.VITE_AUTH_URL}/api/signin`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             // credentials: 'include',
             body: JSON.stringify(userDetails)
         });
-
         const data = await response.json();
-
         if(response.status === 401) {
             setErrors(data.newErrors);
             console.log(data.newErrors);
             return;
         };
-
         if(response.status === 200) {
             localStorage.setItem("user", userDetails.username);
             setUser(() => userDetails.username);
             localStorage.setItem('profile picture', import.meta.env.VITE_AUTH_URL + '/' + data.profile_picture);
             sessionStorage.setItem('access token', data.accessToken);
-            setAccessToken(() => data.accessToken);
         };
-
         navigate('/');
     };
 

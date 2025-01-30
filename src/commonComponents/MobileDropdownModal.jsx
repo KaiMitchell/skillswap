@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { TokenContext } from "../App.jsx";
 import PopOutOptions from "../Components/NavBar/Settings/PopOutOptions.jsx";
 
 const apiUrl = import.meta.env.VITE_API_URL;
@@ -18,7 +17,7 @@ function MobileDropdownModal({
     const [isDisabled, setIsDisabled] = useState(false);
 
     //extract token from Context property
-    const accessToken = TokenContext.accessToken;
+    const accessToken = sessionStorage.getItem('access token');
     
     //remove a pending match request you sent
     async function removeMatchRequests(selectedUser) {
