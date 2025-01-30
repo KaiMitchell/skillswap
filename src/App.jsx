@@ -121,7 +121,6 @@ function App() {
 
   //apply appropriate filter types to search results
   useEffect(() => {
-
     //apply filters like 'gender', 'gender preference', or 'meet up preference'
     // if(mainFilter.preferredGender || mainFilter.yourGender || mainFilter.meetUp) {
     //   filterLearnProfiles();
@@ -380,7 +379,7 @@ function App() {
             isHideHeader={isHideHeader}
             isLandingPage={isLandingPage}
           />
-          {user && <SettingsModal 
+          {user && isSettings && <SettingsModal 
             isSettings={isSettings} 
             setIsSettings={setIsSettings} 
           />}
