@@ -16,10 +16,11 @@ export const TokenContext = createContext();
 const apiUrl = import.meta.env.VITE_API_URL;
 const authUrl = import.meta.env.VITE_AUTH_URL;
 
+const user = localStorage.getItem('user');
+
 function App() {
   const [headerFilter, setHeaderFilter] = useState({category: '', skill: ''});
   const [skills, setSkills] = useState();
-  const [user, setUser] = useState(localStorage.getItem('user') || null);
   const [learnProfiles, setLearnProfiles] = useState();
   const [teachProfiles, setTeachProfiles] = useState();
   //renderring the settings modal
@@ -66,77 +67,71 @@ function App() {
 
   useEffect(() => {console.log('logging landing page: ', isLandingPage)}, [isLandingPage]);
 
-  //fetch requests and matches on initial render, logout and signin
-  useEffect(() => {
-    if(user) {
+  //only execute this code if a user is signed in.
+  if(user) {
+    console.log('isUser: ', user);
+    
+    //fetch requests and matches on initial render, logout and signin
+    useEffect(() => {
       fetchRequests();
       fetchMatches();
-    };
-
-    fetchProfiles();
-
-    setMainFilter(prev => {
-      const newObj = {};
-      for(const key in prev) {
-        newObj[key] = '';
-      };
-      return newObj;
-    });
-  }, [user]);
-
-  useEffect(() => {
-    //Only set is Loading on initial render
-    setIsLoading(true);
-    fetchSkills();
-    setIsHideHeader(false);
-  }, []);
-
-  //update the ui as requests data changes
-  useEffect(() => {
-    if(user) {
       fetchProfiles();
-    };
-  }, [requests]);
-
-  //filter profile result using filters
-  useEffect(() => {
-    if(whichFilter.headerFilter) {
-
-      //clear main sec filters to prevent conflicts
+      //Only set is Loading on initial render
+      setIsLoading(true);
+      fetchSkills();
+      setIsHideHeader(false);
       setMainFilter(prev => {
-        const newValue = {...prev};
-
-        for(const key in newValue) {
-          newValue[key] = ''
+        const newObj = {};
+        for(const key in prev) {
+          newObj[key] = '';
         };
-
-        return newValue; 
+        return newObj;
       });
-
-      headerFilterProfiles();
-    } else if(!whichFilter.mainFilter) {
-      fetchProfiles();
-    };
-  }, [user, whichFilter]);
-
-  //apply appropriate filter types to search results
-  useEffect(() => {
-    //apply filters like 'gender', 'gender preference', or 'meet up preference'
-    // if(mainFilter.preferredGender || mainFilter.yourGender || mainFilter.meetUp) {
-    //   filterLearnProfiles();
-    //   filterTeachProfiles();
-    // };
-
-    //apply filters to return profiles that teach skills that pass a filter
-    if(mainFilter.toTeachCategory || mainFilter.toTeach) {
-      filterTeachProfiles();
-    };
-
-    //apply filters to return profiles that teach skills that pass a filter
-    if(mainFilter.toLearnCategory || mainFilter.toLearn) {
-      filterLearnProfiles();
-    };
-  }, [mainFilter]);
+    }, []);
+  
+    //update the ui as requests data changes
+    useEffect(() => fetchProfiles(), [requests]);
+  
+    //filter profile result using filters
+    useEffect(() => {
+      if(whichFilter.headerFilter) {
+  
+        //clear main sec filters to prevent conflicts
+        setMainFilter(prev => {
+          const newValue = {...prev};
+  
+          for(const key in newValue) {
+            newValue[key] = ''
+          };
+  
+          return newValue; 
+        });
+  
+        headerFilterProfiles();
+      } else if(!whichFilter.mainFilter) {
+        fetchProfiles();
+      };
+    }, [whichFilter]);
+  
+    //apply appropriate filter types to search results
+    useEffect(() => {
+      //apply filters like 'gender', 'gender preference', or 'meet up preference'
+      // if(mainFilter.preferredGender || mainFilter.yourGender || mainFilter.meetUp) {
+      //   filterLearnProfiles();
+      //   filterTeachProfiles();
+      // };
+  
+      //apply filters to return profiles that teach skills that pass a filter
+      if(mainFilter.toTeachCategory || mainFilter.toTeach) {
+        filterTeachProfiles();
+      };
+  
+      //apply filters to return profiles that teach skills that pass a filter
+      if(mainFilter.toLearnCategory || mainFilter.toLearn) {
+        filterLearnProfiles();
+      };
+    }, [mainFilter]);
+  }
 
   // fetch all unfilterred profiles
   async function fetchProfiles() {
