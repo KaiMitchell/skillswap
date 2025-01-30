@@ -65,13 +65,13 @@ function FilterPanel({
     const learnFilterInfo = 
         `
         ${learnCount === 0 ? 'No' : learnCount || 'No'} 
-        profile${learnCount === 1 ? ' wants' : "'s want"}
+        Profile${learnCount === 1 ? ' Wants' : "s Want"}
         to `;
 
     const teachFilterInfo =     
         `
         ${teachCount === 0 ? 'No' : teachCount || 'No'} 
-        profile${teachCount === 1 ? ' wants' : "'s want"}
+        Profile${teachCount === 1 ? ' Wants' : "s Want"}
         to `;
 
     if(isToLearnProfiles) {
@@ -80,15 +80,16 @@ function FilterPanel({
         searchingFor = teachSearchFor;
     };
 
-    const learnSearchingByStr = 
-        `
-        Searching by ${whichFilter.headerFilter ? 'SKILL' : filterType.learn}
-        `;
+    //not sure if i want to implement
+    // const learnSearchingByStr = 
+    //     `
+    //     Searching by ${whichFilter.headerFilter ? 'SKILL' : filterType.learn}
+    //     `;
 
-    const teachSearchingByStr = 
-        `
-        Searching by ${whichFilter.headerFilter ? 'SKILL' : filterType.teach}
-        `;
+    // const teachSearchingByStr = 
+    //     `
+    //     Searching by ${whichFilter.headerFilter ? 'SKILL' : filterType.teach}
+    //     `;
 
 
     return(
@@ -128,12 +129,12 @@ function FilterPanel({
                 <h3 className='text-center text-white text-xl'>{`${isToLearnProfiles ? learnFilterInfo : teachFilterInfo}`}</h3>
                 <div className='flex w-fit mx-2 mt-1 rounded-t rounded-b-none bg-white/20 sm:mt-0'>
                     <Button 
-                        text={`learn`}
+                        text={`Learn`}
                         styles={`${isToLearnProfiles && 'font-bold bg-white'} rounded-tl px-4 py-2`}
                         handleOnClick={() => setIsToLearnProfiles(true)}
                     />
                     <Button 
-                        text={`teach`}
+                        text={`Teach`}
                         styles={`${!isToLearnProfiles && 'font-bold bg-white'} rounded-tr px-4 py-2`}
                         handleOnClick={() => setIsToLearnProfiles(false)}
                     />
