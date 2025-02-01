@@ -6,7 +6,6 @@ import broke from '../assets/broke.jpg';
 
 function SignIn({ 
     setUser, 
-    setIsHideHeader,
     setIsLandingPage,
 }) {
     const [errors, setErrors] = useState({});
@@ -18,7 +17,6 @@ function SignIn({
     const navigate = new useNavigate();
 
     useEffect(() => {
-        setIsHideHeader(true)
         setIsLandingPage(false);
     }, []);
 

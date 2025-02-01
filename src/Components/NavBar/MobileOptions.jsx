@@ -3,13 +3,10 @@ import { useNavigate } from "react-router-dom";
 import Button from "../../commonComponents/Button";
 import StandardSVG from "../../commonComponents/StandardSVG";
 
-const username = localStorage.getItem('user');
-
 function MobileOptions({ 
     isNavDropdown, 
     setIsNavDropdown, 
-    fetchProfiles,
-    isHideHeader, 
+    fetchProfiles, 
 }) {
     const navigate = new useNavigate();
 

@@ -13,12 +13,10 @@ function Option({
     setIsShown,
     displayProfile,
     isNavDropDown,
-    setIsNavDropdown,
 }) { 
     const [mobileDropdown, setMobileDropdown] = useState(null);
     let clickHandler = () => {
         setMobileDropdown(text);
-        console.log(text);
     }; 
 
     //hide the pop up option for mobile when selectig an option
@@ -34,7 +32,7 @@ function Option({
         });
         localStorage.removeItem('user');
         sessionStorage.removeItem('access token');
-        setUser();
+        setUser('');
     };
 
     //dynamically apply a handler to certain button

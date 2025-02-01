@@ -18,8 +18,6 @@ function Header({
     setIsSettings, 
     fetchProfiles,
     displayProfile,
-    isHideHeader,
-    isLandingPage,
 }) {
     const [isNavDropdown, setIsNavDropdown] = useState(false);
 
@@ -32,7 +30,6 @@ function Header({
                         fetchProfiles={fetchProfiles} 
                         isNavDropdown={isNavDropdown} 
                         setIsNavDropdown={setIsNavDropdown}
-                        isHideHeader={isHideHeader}
                     />
                     <div className={`${isNavDropdown ? 'block' : 'hidden'} absolute right-0 top-full h-screen w-full flex flex-col items-start overflow-y-scroll no-scrollbar sm:contents sm:items-center sm:flex-row sm:justify-between sm:bg-transparent`}>
                         {/* Render all categories in nav bar with skill options as a drop down */}

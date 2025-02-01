@@ -28,12 +28,8 @@ function App() {
   //determine the type of call to display profile (recieved, or sent request or matched)
   const [displayedProfileType, setDisplayedProfileType] = useState('');
   const [matches, setMatches] = useState([]);
-  //remount on accepting a request
-  const [param, setParam] = useState();
   const [isLoading, setIsLoading] = useState(false);
   const [isSignInPrompt, setIsSignInPrompt] = useState(false);
-  //pass this prop to the pages where I need the header options to be hidden
-  const [isHideHeader, setIsHideHeader] = useState(false);
   const [isLandingPage, setIsLandingPage] = useState(false);
   const [isSent, setIsSent] = useState(false);
   const [user, setUser] = useState(localStorage.getItem('user') || '');
@@ -63,18 +59,17 @@ function App() {
     confirmPassword: ''
   });
 
-  // useEffect(() => {console.log('logging landing page: ', isLandingPage)}, [isLandingPage]);
+  useEffect(() => {console.log('logging user: ', user)}, [user]);
 
   //only execute this code if a user is signed in.
   //fetch requests and matches on initial render, logout and signin
   useEffect(() => {
+    fetchSkills();
     if(user) {
       setIsLoading(true);
-      setIsHideHeader(false);
       fetchRequests();
       fetchMatches();
       //Only set is Loading on initial render
-      fetchSkills();
       setMainFilter(prev => {
         const newObj = {};
         for(const key in prev) {
@@ -83,37 +78,32 @@ function App() {
         return newObj;
       });
     };
-  }, [user]);
+  }, []);
 
   //update the ui as requests data changes
   useEffect(() => {
     if(user) {
-      fetchProfiles();
-    };
-  }, [requests, user]);
-
-  //filter profile result using filters
-  useEffect(() => {
-    if(user) {
       if(whichFilter.headerFilter) {
-  
         //clear main sec filters to prevent conflicts
         setMainFilter(prev => {
           const newValue = {...prev};
-  
           for(const key in newValue) {
             newValue[key] = ''
           };
-  
           return newValue; 
         });
-  
         headerFilterProfiles();
-      } else if(!whichFilter.mainFilter) {
+        //only render profiles if main filter is not applied
+        fetchProfiles();
+      } else if(whichFilter.mainFilter) {
+        //only render profiles if main filter is applied
+        fetchProfiles();
+      };
+      if(!whichFilter.mainFilter && !whichFilter.headerFilter) {
         fetchProfiles();
       };
     };
-  }, [whichFilter]);
+  }, [requests, whichFilter]);
 
   //apply appropriate filter types to search results
   useEffect(() => {
@@ -139,9 +129,7 @@ function App() {
   // fetch all unfilterred profiles
   async function fetchProfiles() {
     const response = await fetch(`${apiUrl}/api?username=${user}`);
-
     const data = await response.json();
-
     setLearnProfiles(data.data.learnProfiles);
     setTeachProfiles(data.data.teachProfiles);
     setIsLoading(false);
@@ -235,9 +223,7 @@ function App() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(headerFilter)
       });
-
       const data = await response.json();
-
       setTeachProfiles(data.teachProfiles);
       setLearnProfiles(data.learnProfiles);
     } catch(err) {
@@ -247,21 +233,18 @@ function App() {
 
   //fetch sent match requests   
   async function fetchRequests() {
+    console.log('being called');
     setIsLoading(true);
     let sent = [];
     let recieved = [];
-
     const response = await fetch(`${authUrl}/api/fetch-requests?user=${user}`, {
       headers: { 'authorization': `Bearer ${sessionStorage.getItem('access token')}` }
     });
-
     const data = await response.json();
-
     if(response.status === 401 || response.status === 403) {
       setIsLoading(false);
       signOut();
     };
-
     if(response.status === 200) {
       //prevent populating requests state with an undefined value
       data.sentRequests.length > 0 ? sent = data.sentRequests : sent = [];
@@ -363,7 +346,6 @@ function App() {
           matches={matches}
           fetchMatches={fetchMatches}
           displayProfile={displayProfile}
-          isHideHeader={isHideHeader}
           isLandingPage={isLandingPage}
           setUser={setUser}
         />
@@ -430,8 +412,6 @@ function App() {
         />
         <Route path="sign-in" element={
           <SignIn               
-            //pass username to check if not null. If it is then redirect to home page.
-            setIsHideHeader={setIsHideHeader}
             setIsLandingPage={setIsLandingPage}
             setUser={setUser}
           />

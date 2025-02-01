@@ -5,12 +5,10 @@ const apiUrl = import.meta.env.VITE_API_URL;
 const authUrl = import.meta.env.VITE_AUTH_URL;
 
 function MobileDropdownModal({ 
-    mobileDropDown, 
     setMobileDropdown,
     fetchData,
     data,
     text,
-    skills,
     displayProfile,
 }) {
     const [isHandleRequestFeedback, setIsHandleRequestFeedback] = useState('');
