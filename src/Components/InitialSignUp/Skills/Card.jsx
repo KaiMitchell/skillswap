@@ -20,7 +20,7 @@ function Card({
         <div
             className={`relative flex group justify-center items-center p-2.5 text-xs ${isCategorySelected ? 'bg-stone-900' : 'bg-stone-950'} hover:bg-stone-900 text-stone-300 hover:text-stone-400`}
             // disabled={isOppositeSelected}
-            onClick={() => setIsShowSkills(!isShowSkills)}
+            onClick={() => setIsShowSkills(true)}
             onMouseLeave={() => setIsShowSkills(false)}
         >
             <div className={`${isShowSkills ? 'block' : 'hidden'} w-full absolute top-full z-20`}>
