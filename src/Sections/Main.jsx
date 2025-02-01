@@ -12,19 +12,12 @@ function Main({
     setFilter, 
     filter, 
     whichFilter, 
-    user,
     setWhichFilter,
     setIsSignInPrompt,
     isLoading,
 }) {   
     const [isToLearnProfiles, setIsToLearnProfiles] = useState(false);
     const [isDisabled, setIsDisabled] = useState(false);
-    const [param, setParam] = useState(false);//Trigger useEffect to re render page with updated requests.
-
-
-    function reMount(param) {
-        setParam(() => param);
-    };
 
     return(
         <main className='flex flex-col h-full w-screen sm:h-72'>
@@ -52,7 +45,6 @@ function Main({
                 setIsDisabled={setIsDisabled}
                 setIsToLearnProfiles={setIsToLearnProfiles}
                 isDisabled={isDisabled}
-                reMount={reMount}
                 learnProfiles={learnProfiles} 
                 teachProfiles={teachProfiles} 
             />
