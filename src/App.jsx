@@ -239,7 +239,7 @@ function App() {
       headers: { 'authorization': `Bearer ${sessionStorage.getItem('access token')}` }
     });
     const data = await response.json();
-    if(response.status === 401 || response.status === 403) {
+    if(response.status === 401 || response.status === 403 || response.status === 404) {
       setIsLoading(false);
       signOut();
     };
