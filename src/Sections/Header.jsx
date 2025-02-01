@@ -18,11 +18,23 @@ function Header({
     setIsSettings, 
     fetchProfiles,
     displayProfile,
+    currentPage,
+    setCurrentPage,
 }) {
     const [isNavDropdown, setIsNavDropdown] = useState(false);
 
+    const isInitialSkillsPickPage = currentPage === 'initial skills pick';
+
+    let bgColor = '';
+    //declare bg color for header
+    if(isInitialSkillsPickPage) {
+        bgColor = 'bg-gradient-to-r from-orange-200 via-orange-300 to-orange-400';
+    } else {
+        bgColor = '';
+    };
+
     return(
-            <div className={`fixed top-0 z-20 w-full backdrop-blur-lg`}>
+            <div className={`${bgColor} fixed top-0 z-20 w-full backdrop-blur-lg`}>
                 <nav className='w-full flex justify-between shadow-xl'>
                     {/* Burger and home icon */}
                     <MobileOptions 
@@ -30,10 +42,11 @@ function Header({
                         fetchProfiles={fetchProfiles} 
                         isNavDropdown={isNavDropdown} 
                         setIsNavDropdown={setIsNavDropdown}
+                        setCurrentPage={setCurrentPage}
                     />
                     <div className={`${isNavDropdown ? 'block' : 'hidden'} absolute right-0 top-full h-screen w-full flex flex-col items-start overflow-y-scroll no-scrollbar sm:contents sm:items-center sm:flex-row sm:justify-between sm:bg-transparent`}>
                         {/* Render all categories in nav bar with skill options as a drop down */}
-                        {!isNavDropdown && username &&
+                        {!isNavDropdown && username && !isInitialSkillsPickPage && 
                             <MapData 
                                 data={skills}
                                 render={(obj, index) => (
@@ -51,9 +64,9 @@ function Header({
                                 )}
                             />
                         }
-                        <SignInSignUp setIsNavDropdown={setIsNavDropdown} username={username} />
+                        {!username && <SignInSignUp setIsNavDropdown={setIsNavDropdown} username={username} />}
                         {/* drop down for profile / settings button (top-right) */}
-                        {username && 
+                        {username && !isInitialSkillsPickPage &&
                             <DropDownContainer 
                                 setUser={setUser} 
                                 username={username} 

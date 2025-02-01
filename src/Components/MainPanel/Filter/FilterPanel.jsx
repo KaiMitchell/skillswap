@@ -15,7 +15,8 @@ function FilterPanel({
     teachProfiles,
 }) {
     const [isMobileFilter, setIsMobileFilter] = useState(false);
-    const [filterType, setFilterType] = useState({learn: '', teach: ''});
+    //state to dynaically render text indicating the currently applied filter
+    // const [filterType, setFilterType] = useState({learn: '', teach: ''});
 
     useEffect(() => {
         let toLearnFilterHeader;
@@ -37,12 +38,10 @@ function FilterPanel({
         } else {
             toLearnFilterHeader = 'ALL';
         };
-        setFilterType({ learn: toLearnFilterHeader, teach: toTeachFilterHeader });
+        // setFilterType({ learn: toLearnFilterHeader, teach: toTeachFilterHeader });
     }, [filter]);
 
-    //Grab a unique value from the request matches click handler and set it as param state
-    //to trigger a re render to update the UI
-
+    //indicator to the ammount of profiles that want to learn or teach the filtered skill
     const learnCount = learnProfiles?.length;
     const teachCount = teachProfiles?.length;
     let learnSearchFor = '';

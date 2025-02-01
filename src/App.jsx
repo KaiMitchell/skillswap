@@ -33,6 +33,7 @@ function App() {
   const [isLandingPage, setIsLandingPage] = useState(false);
   const [isSent, setIsSent] = useState(false);
   const [user, setUser] = useState(localStorage.getItem('user') || '');
+  const [currentPage, setCurrentPage] = useState('');
   // const [remount, setRemount] = useState(0);
   const [requests, setRequests] = useState({
     sent: [],
@@ -346,6 +347,8 @@ function App() {
           displayProfile={displayProfile}
           isLandingPage={isLandingPage}
           setUser={setUser}
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
         />
         {user && isSettings && <SettingsModal 
           isSettings={isSettings} 
@@ -389,7 +392,8 @@ function App() {
         <Route path='pick-skills' element={
           <InitialPickSkillsPage 
             skills={skills} 
-            username={newUserData.username}               
+            username={newUserData.username}  
+            setCurrentPage={setCurrentPage}             
           />
         } 
         />

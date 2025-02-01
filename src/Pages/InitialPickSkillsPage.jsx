@@ -1,14 +1,18 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Link } from 'react-router-dom';
 import Container from '../Components/InitialSignUp/Container';
 import Button from '../commonComponents/Button';
 
-function InitialPickSkillsPage({ username, setUser, skills }) {
+function InitialPickSkillsPage({ username, setCurrentPage, skills }) {
     const [selectedSkills, setSelectedSkills] = useState({
         toTeach: [],
         toLearn: []
     });
+
+    //set let the header component know it is on the initial skills pick page to change it's color
+    useEffect(() => {
+        setCurrentPage('initial skills pick');
+    }, []);
 
     const navigate = new useNavigate();
     
@@ -19,7 +23,7 @@ function InitialPickSkillsPage({ username, setUser, skills }) {
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ ...selectedSkills, username: username })
             });
-            
+            setCurrentPage('');
             navigate('/');
         } catch(err) {
             console.error(err);
@@ -43,8 +47,11 @@ function InitialPickSkillsPage({ username, setUser, skills }) {
     function handleTeachSkillAdd(skillName) {
         setSelectedSkills(prev => {
             const isSelected = prev.toTeach.includes(skillName);
-            const updatedToTeach = isSelected ? prev.toTeach.filter((skill) => skill !== skillName)
-                                              : [...prev.toTeach, skillName];
+            const updatedToTeach = (isSelected ? 
+                prev.toTeach.filter((skill) => skill !== skillName)
+            : 
+                [...prev.toTeach, skillName]
+            );
             return {
                 ...prev,
                 toTeach: updatedToTeach
@@ -75,7 +82,7 @@ function InitialPickSkillsPage({ username, setUser, skills }) {
                     <Button 
                         styles='w-1/2 p-2.5 border bg-stone-950 text-white hover:bg-stone-900'
                         text='Skip'
-                        handleOnClick={() => navigate('/')}
+                        handleOnClick={() => {navigate('/'), setCurrentPage('')}}
                     />
                     <Button 
                         handleOnClick={() => submitSkills()}

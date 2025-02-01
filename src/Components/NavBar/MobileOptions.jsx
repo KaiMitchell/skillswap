@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import Button from "../../commonComponents/Button";
 import StandardSVG from "../../commonComponents/StandardSVG";
@@ -7,6 +6,7 @@ function MobileOptions({
     isNavDropdown, 
     setIsNavDropdown, 
     fetchProfiles, 
+    setCurrentPage,
 }) {
     const navigate = new useNavigate();
 
@@ -17,6 +17,7 @@ function MobileOptions({
         if(localStorage.getItem('user')) {
             fetchProfiles();
         };
+        setCurrentPage('');
         navigate('/');
     };
 
