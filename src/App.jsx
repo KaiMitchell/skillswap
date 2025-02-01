@@ -83,14 +83,14 @@ function App() {
         return newObj;
       });
     };
-  }, []);
+  }, [user]);
 
   //update the ui as requests data changes
   useEffect(() => {
     if(user) {
-      (async() => fetchProfiles());
+      fetchProfiles();
     };
-  }, [requests]);
+  }, [requests, user]);
 
   //filter profile result using filters
   useEffect(() => {
@@ -365,6 +365,7 @@ function App() {
           displayProfile={displayProfile}
           isHideHeader={isHideHeader}
           isLandingPage={isLandingPage}
+          setUser={setUser}
         />
         {user && isSettings && <SettingsModal 
           isSettings={isSettings} 
