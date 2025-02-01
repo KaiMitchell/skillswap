@@ -14,7 +14,6 @@ import LandingPage from './Pages/LandingPage.jsx';
 const apiUrl = import.meta.env.VITE_API_URL;
 const authUrl = import.meta.env.VITE_AUTH_URL;
 
-const user = localStorage.getItem('user');
 const accessToken = sessionStorage.getItem('access token');
 
 function App() {
@@ -37,6 +36,7 @@ function App() {
   const [isHideHeader, setIsHideHeader] = useState(false);
   const [isLandingPage, setIsLandingPage] = useState(false);
   const [isSent, setIsSent] = useState(false);
+  const [user, setUser] = useState(localStorage.getItem('user') || '');
   // const [remount, setRemount] = useState(0);
   const [requests, setRequests] = useState({
     sent: [],
@@ -66,17 +66,15 @@ function App() {
   // useEffect(() => {console.log('logging landing page: ', isLandingPage)}, [isLandingPage]);
 
   //only execute this code if a user is signed in.
-  if(user) {
-    console.log('isUser: ', user);
-    
-    //fetch requests and matches on initial render, logout and signin
-    useEffect(() => {
+  //fetch requests and matches on initial render, logout and signin
+  useEffect(() => {
+    if(user) {
+      setIsLoading(true);
+      setIsHideHeader(false);
       fetchRequests();
       fetchMatches();
       //Only set is Loading on initial render
-      setIsLoading(true);
       fetchSkills();
-      setIsHideHeader(false);
       setMainFilter(prev => {
         const newObj = {};
         for(const key in prev) {
@@ -84,13 +82,19 @@ function App() {
         };
         return newObj;
       });
-    }, []);
-  
-    //update the ui as requests data changes
-    useEffect(() => (async() => fetchProfiles()), [requests]);
-  
-    //filter profile result using filters
-    useEffect(() => {
+    };
+  }, []);
+
+  //update the ui as requests data changes
+  useEffect(() => {
+    if(user) {
+      (async() => fetchProfiles());
+    };
+  }, [requests]);
+
+  //filter profile result using filters
+  useEffect(() => {
+    if(user) {
       if(whichFilter.headerFilter) {
   
         //clear main sec filters to prevent conflicts
@@ -108,10 +112,12 @@ function App() {
       } else if(!whichFilter.mainFilter) {
         fetchProfiles();
       };
-    }, [whichFilter]);
-  
-    //apply appropriate filter types to search results
-    useEffect(() => {
+    };
+  }, [whichFilter]);
+
+  //apply appropriate filter types to search results
+  useEffect(() => {
+    if(user) {
       //apply filters like 'gender', 'gender preference', or 'meet up preference'
       // if(mainFilter.preferredGender || mainFilter.yourGender || mainFilter.meetUp) {
       //   filterLearnProfiles();
@@ -127,8 +133,8 @@ function App() {
       if(mainFilter.toLearnCategory || mainFilter.toLearn) {
         filterLearnProfiles();
       };
-    }, [mainFilter]);
-  }
+    };
+  }, [mainFilter]);
 
   // fetch all unfilterred profiles
   async function fetchProfiles() {
@@ -265,7 +271,7 @@ function App() {
   };
 
   //fetch accepted matches
-  async function fetchMatches(param) {
+  async function fetchMatches() {
     const response = await fetch(`${apiUrl}/api/matches?user=${user}`);
     const data = await response.json();
     if(response.status === 200) {
@@ -273,7 +279,6 @@ function App() {
       for(const obj of data.matches) {
         usernames.push(obj.username);
       };
-      console.log(usernames);
       setMatches(usernames);
     };
   };
@@ -316,20 +321,15 @@ function App() {
         user: localStorage.getItem('user')
       })
     });
-
     if(response.status === 404) {
       //check response body values
       console.log('selectedUser: ', selectedUser + ', currentUser: ', user);
       return;
     };
-
     if(response.status === 403 || response.status === 401) {
       signOut();
       return;
     };
-
-    //trigger rerender to update UI
-    setParam(param);
     setIsDisplayedProfile(false);
   };
 
@@ -432,6 +432,7 @@ function App() {
             //pass username to check if not null. If it is then redirect to home page.
             setIsHideHeader={setIsHideHeader}
             setIsLandingPage={setIsLandingPage}
+            setUser={setUser}
           />
         }
         />
