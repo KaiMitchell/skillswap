@@ -72,7 +72,7 @@ function SignUp({
         //set username and access token
         localStorage.setItem('user', data.username);
         sessionStorage.setItem('access token', data.accessToken);
-        setUser(localStorage.getItem('user'));
+        setUser(data.username);
         setIsLoading(false);
         //navigate to initial skill pick page
         navigate('/pick-skills');

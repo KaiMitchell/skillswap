@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import MappedProfile from './MappedProfile';
 import Loading from '../../../commonComponents/Loading.jsx';
 
@@ -15,7 +14,6 @@ function CardPanel({
     isDisabled,
     reMount,
 }) {
-
     let mappedLearnProfiles =
         <MappedProfile
             isToLearn={true}

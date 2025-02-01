@@ -405,6 +405,7 @@ function App() {
             setNewUserData={setNewUserData} 
             newUserData={newUserData} 
             setIsLandingPage={setIsLandingPage}
+            setUser={setUser}
           />
         } 
         />
