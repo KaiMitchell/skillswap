@@ -41,7 +41,6 @@ function Main({
                 teachProfiles={teachProfiles} 
             />
             <CardPanel 
-                user={user}
                 requests={requests} 
                 fetchRequests={fetchRequests}
                 filter={filter} 
@@ -56,7 +55,6 @@ function Main({
                 reMount={reMount}
                 learnProfiles={learnProfiles} 
                 teachProfiles={teachProfiles} 
-                param={param}
             />
         </main>
     );

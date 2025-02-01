@@ -59,8 +59,6 @@ function App() {
     confirmPassword: ''
   });
 
-  useEffect(() => {console.log('logging user: ', user)}, [user]);
-
   //only execute this code if a user is signed in.
   //fetch requests and matches on initial render, logout and signin
   useEffect(() => {

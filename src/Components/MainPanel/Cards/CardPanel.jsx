@@ -1,6 +1,5 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import MappedProfile from './MappedProfile';
-import Button from '../../../commonComponents/Button.jsx';
 import Loading from '../../../commonComponents/Loading.jsx';
 
 function CardPanel({ 
@@ -8,7 +7,6 @@ function CardPanel({
     fetchRequests,
     learnProfiles, 
     teachProfiles, 
-    user,
     whichFilter,
     isToLearnProfiles,
     isLoading,
@@ -16,14 +14,7 @@ function CardPanel({
     setIsDisabled,
     isDisabled,
     reMount,
-    param,
 }) {
-
-    useEffect(() => {
-        if(user) {
-            fetchRequests();
-        };
-    }, [param]);
 
     let mappedLearnProfiles =
         <MappedProfile

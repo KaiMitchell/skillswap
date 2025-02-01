@@ -18,7 +18,6 @@ function ProfileDropDownSidePopOut({
     
     //remove a pending match request you sent
     async function removeMatchRequests(selectedUser) {
-        console.log('renderring at PopOut remove match req');
         setIsDisabled(true);
         setIsHandleRequestFeedback(selectedUser);
         const username = localStorage.getItem('user');
@@ -37,7 +36,6 @@ function ProfileDropDownSidePopOut({
 
     //accept a match request sent to user
     async function acceptMatchRequest(selectedUser) {
-        console.log('renderring at PopOut accept match req');
         setIsDisabled(true);
         setIsHandleRequestFeedback(selectedUser);
         const username = localStorage.getItem('user');
@@ -59,7 +57,6 @@ function ProfileDropDownSidePopOut({
     };
 
     async function removeAllMatchRequests() {
-        console.log('renderrng at popout remove all req');
         setIsDisabled(true);
         await fetch(`${authUrl}/api/remove-all-match-requests?username=${localStorage.getItem('user')}`, {
             method: 'DELETE',

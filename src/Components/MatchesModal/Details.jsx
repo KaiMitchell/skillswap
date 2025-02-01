@@ -10,7 +10,6 @@ import { Facebook, LinkedIn, Twitter } from "../../commonComponents/SVGs";
 function Details({
     displayedProfile,
     isHovered,
-    setIsHovered,
     unMatch,
     fetchRequests,
     setIsDisplayedProfile,
@@ -99,7 +98,6 @@ function Details({
                             setIsDisplayedProfile={setIsDisplayedProfile}
                             displayedProfile={displayedProfile}
                             isHovered={isHovered} 
-                            setIsHovered={setIsHovered}
                             isMatched={isMatched}
                             fetchRequests={fetchRequests}
                             isSent={isSent}

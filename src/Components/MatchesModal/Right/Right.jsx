@@ -1,13 +1,10 @@
-import { useEffect, useState } from 'react';
 import Button from '../../../commonComponents/Button';
-import MapData from '../../../features/methods/MapData';
 import HorizontalListItems from '../../../commonComponents/HorizontalListItems';
 
 const apiUrl = import.meta.env.VITE_API_URL;
 
 function Right({ 
     isHovered,
-    setIsHovered,
     displayedProfile,
     fetchRequests,
     setIsDisplayedProfile,
@@ -61,7 +58,6 @@ function Right({
     //remove a pending match request you sent
     async function removeMatchRequests() {
         const username = localStorage.getItem('user');
-
         const response = await fetch(`${apiUrl}/api/handle-match-request`, {
             method: 'POST',
             headers: { 
@@ -74,16 +70,13 @@ function Right({
                 isRequested: false 
             })
         });
-
         setIsDisplayedProfile(false);
         fetchRequests(displayedProfile?.username);
     };
 
     //accept a match request sent to user
     async function acceptMatchRequest() {
-
         const username = localStorage.getItem('user');
-
         const response = await fetch(`${apiUrl}/api/accept-match-request`, {
             method: 'POST',
             headers: { 
@@ -95,11 +88,8 @@ function Right({
                 selectedUser: displayedProfile?.username, 
             })
         });
-
         const data = await response.json();
-
         console.log('accept request response data: ', data);
-
         setIsDisplayedProfile(false);
         fetchRequests(displayedProfile?.username);
     };
