@@ -142,9 +142,10 @@ function App() {
     setSkills(() => {
       let newArray = [];
       data?.data.map((obj) => {
-        obj.category = obj.category.replace(/([A-Z])/g, ' $1');
+        obj.category = obj.category.replace(/([A-Z])/g, ' $1').trim();
         newArray.push(obj);
       });
+      console.log(newArray);
       return newArray;
     });
   };
