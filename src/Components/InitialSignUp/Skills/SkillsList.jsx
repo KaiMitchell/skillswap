@@ -11,13 +11,10 @@ function SkillsList({
         <li>
             <Button 
                 handleOnClick={() => handleSkillAdd(skill)} 
-                styles={`py-2.5 w-full
-                    ${selectedSkills.includes(skill) ? 'bg-green-500' : ''} 
-                    ${selectedSkills.includes(skill) ? 'hover:bg-green-500' : 'hover:bg-stone-950'} 
-                    ${selectedSkills.includes(skill) ? 'bg-green-600' : ''} 
-                    ${selectedSkills.includes(skill) ? 'text-stone-900' : 'text-stone-300'} 
-                    ${selectedOpposite.includes(skill) && 'line-through bg-stone-950'}
-                    cursor-pointer`
+                styles={`py-2.5 w-full font-normal
+                    ${selectedSkills.includes(skill) ? 'bg-black/10 text-stone-800' : 'text-black'} 
+                    ${selectedOpposite.includes(skill) && 'line-through hover:font-normal'}
+                    cursor-pointer hover:font-bold`
                 }
                 isDisabled={selectedOpposite.includes(skill)}
                 text={skill}

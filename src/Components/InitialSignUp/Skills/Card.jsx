@@ -18,12 +18,12 @@ function Card({
 
     return(
         <div
-            className={`relative flex group justify-center items-center p-2.5 text-xs ${isCategorySelected ? 'bg-stone-900' : 'bg-stone-950'} hover:bg-stone-900 text-stone-300 hover:text-stone-400`}
+            className={`relative flex group justify-center items-center p-2.5 text-xs ${isCategorySelected ? 'bg-stone-900 text-white' : 'bg-stone-950'} hover:font-bold hover:bg-white text-stone-300 hover:text-black`}
             // disabled={isOppositeSelected}
             onClick={() => setIsShowSkills(true)}
             onMouseLeave={() => setIsShowSkills(false)}
         >
-            <div className={`${isShowSkills ? 'block' : 'hidden'} w-full absolute top-full z-20`}>
+            <div className={`${isShowSkills ? 'block' : 'hidden'} w-full absolute top-full z-20 bg-white`}>
                 <InitialUl 
                     isPickMatches={isPickMatches} 
                     obj={obj} 

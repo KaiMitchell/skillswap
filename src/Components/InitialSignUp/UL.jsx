@@ -10,7 +10,7 @@ function UL({
     selectedOpposite,
 }) {
     return(
-        <ul className={`hidden group-hover:block w-full h-48 border-t ${isSelected ? 'bg-green-500' : ''} text-xs bg-stone-900 shadow-inner overflow-y-auto no-scrollbar`}>
+        <ul className={`hidden group-hover:block w-full h-48 border-t text-xs shadow-inner overflow-y-auto no-scrollbar`}>
             {isPickMatches ?
                 //Displayed skills for potential match
                 obj.skills?.map((skill, index) => <li key={index}>{skill}</li>)
