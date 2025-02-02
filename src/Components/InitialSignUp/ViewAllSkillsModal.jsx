@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import Button from "../../commonComponents/Button";
 import SelectedSkillsContainer from "./SelectedSkillsContainer";
 
@@ -5,7 +6,21 @@ const ViewAllSkills = ({
     selectedSkills,
     setIsShowSelectedSkills,
     submitSkills,
+    setSelectedSkills,
+    setInitialSkillsPickRemount,
 }) => {
+    const [remount, setRemount] = useState(0);
+
+    function removeSkill(prop, skillName) {
+        setSelectedSkills(prev => {
+            const newObj = prev;
+            let arr = prev[prop].filter(skill => skill !== skillName);
+            newObj[prop] = arr;
+            return newObj
+        });
+        setRemount(prev => prev + 1);
+        setInitialSkillsPickRemount(prev => prev + 1);
+    };
 
     const mappedToLearnSkills = selectedSkills?.toLearn.map(skill => {
         return(
@@ -14,7 +29,7 @@ const ViewAllSkills = ({
                 className='flex justify-between'
             >
                 <p>{skill}</p>
-                <button>
+                <button onClick={() => removeSkill('toLearn', skill)}>  
                     delete
                 </button>
             </div>
@@ -25,11 +40,13 @@ const ViewAllSkills = ({
         return(
             <div 
                 key={skill}
-                className='flex justify-between'
+                className='flex justify-between hover:bg-white/40'
             >
                 <p>{skill}</p>
-                <button>
-                    delete
+                <button
+                    onClick={() => removeSkill('toTeach', skill)}
+                >
+                    Remove
                 </button>
             </div>
         );

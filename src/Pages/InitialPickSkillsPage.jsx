@@ -5,6 +5,7 @@ import Button from '../commonComponents/Button';
 import ViewAllSkills from '../Components/InitialSignUp/ViewAllSkillsModal';
 
 function InitialPickSkillsPage({ username, setCurrentPage, skills }) {
+    const [initialSkillsPickRemount, setInitialSkillsPickRemount] = useState(0);
     const [selectedSkills, setSelectedSkills] = useState({
         toTeach: [],
         toLearn: []
@@ -15,6 +16,8 @@ function InitialPickSkillsPage({ username, setCurrentPage, skills }) {
     useEffect(() => {
         setCurrentPage('initial skills pick');
     }, []);
+
+    useEffect(() => {console.log('rerendering with selectedSkills: ', selectedSkills)}, [selectedSkills]);
 
     const navigate = new useNavigate();
     
@@ -72,15 +75,17 @@ function InitialPickSkillsPage({ username, setCurrentPage, skills }) {
                 {isShowSelectedSkills && 
                     <ViewAllSkills 
                         selectedSkills={selectedSkills}
+                        setInitialSkillsPickRemount={setInitialSkillsPickRemount}
                         setIsShowSelectedSkills={setIsShowSelectedSkills}
                         submitSkills={submitSkills}
+                        setSelectedSkills={setSelectedSkills}
                     />
                 }
                 <h1 className='text-3xl font-bold'>Let's get you started</h1>
                     <Container 
                         skills={skills} 
                         isPickMatches={false} 
-                        handleSkillAdd={handleLearnSkillAdd} 
+                        handleSkillAdd={handleLearnSkillAdd}                         
                         selectedSkills={selectedSkills.toLearn} 
                         selectedOpposite={selectedSkills.toTeach}
                         contentHeader='Pick the skills you would like to learn' 
@@ -88,7 +93,7 @@ function InitialPickSkillsPage({ username, setCurrentPage, skills }) {
                     <Container 
                         skills={skills} 
                         isPickMatches={false} 
-                        handleSkillAdd={handleTeachSkillAdd} 
+                        handleSkillAdd={handleTeachSkillAdd}                         
                         selectedSkills={selectedSkills.toTeach} 
                         selectedOpposite={selectedSkills.toLearn}
                         contentHeader='Pick the skills you would like to teach' 
