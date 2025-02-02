@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Button from "../../commonComponents/Button";
 import SelectedSkillsContainer from "./SelectedSkillsContainer";
 

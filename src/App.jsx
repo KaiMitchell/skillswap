@@ -138,7 +138,15 @@ function App() {
   async function fetchSkills() {
     const response = await fetch(`${apiUrl}/api/fetch-skills`);
     const data = await response.json();
-    setSkills(data.data);
+    //remove the camelCase format from category names
+    setSkills(() => {
+      let newArray = [];
+      data?.data.map((obj) => {
+        obj.category = obj.category.replace(/([A-Z])/g, ' $1');
+        newArray.push(obj);
+      });
+      return newArray;
+    });
   };
 
   //fetch profiles that want to learn the skills filtered by the main drop down options
