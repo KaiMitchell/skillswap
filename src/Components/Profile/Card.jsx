@@ -3,7 +3,6 @@ import CardLayout from "./CardLayout";
 
 function Card({ 
     isRequested, 
-    reMount, 
     fetchRequests, 
     requests, 
     skills, 
@@ -39,10 +38,7 @@ function Card({
                 isRequested: isRequested 
             })          
         });
-        
         setIsDisabled(false);
-        //send a unique value for state update to re render the page
-        reMount(JSON.stringify(isRequested + profileData?.username));
     };
 
     return(

@@ -29,12 +29,11 @@ function App() {
   const [displayedProfileType, setDisplayedProfileType] = useState('');
   const [matches, setMatches] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [isSignInPrompt, setIsSignInPrompt] = useState(false);
   const [isLandingPage, setIsLandingPage] = useState(false);
   const [isSent, setIsSent] = useState(false);
   const [user, setUser] = useState(localStorage.getItem('user') || '');
   const [currentPage, setCurrentPage] = useState('');
-  // const [remount, setRemount] = useState(0);
+  const [remount, setRemount] = useState(0);
   const [requests, setRequests] = useState({
     sent: [],
     recieved: []
@@ -145,7 +144,6 @@ function App() {
         obj.category = obj.category.replace(/([A-Z])/g, ' $1').trim();
         newArray.push(obj);
       });
-      console.log(newArray);
       return newArray;
     });
   };
@@ -241,7 +239,6 @@ function App() {
 
   //fetch sent match requests   
   async function fetchRequests() {
-    console.log('being called');
     setIsLoading(true);
     let sent = [];
     let recieved = [];
@@ -341,7 +338,6 @@ function App() {
   //IF NOT ONLY SHOW WHAT IS NOT PRIVATE
   return(
     <BrowserRouter>
-        {isSignInPrompt && <SignInPrompt setIsSignInPrompt={setIsSignInPrompt} />}
         <Header 
           setWhichFilter={setWhichFilter} 
           skills={skills} 
@@ -389,7 +385,6 @@ function App() {
               setWhichFilter={setWhichFilter} 
               user={user || ''}
               isLoading={isLoading}
-              setIsSignInPrompt={setIsSignInPrompt}
             />
           :
             <LandingPage 

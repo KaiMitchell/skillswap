@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import MappedProfile from './MappedProfile';
 import Loading from '../../../commonComponents/Loading.jsx';
 
@@ -12,7 +13,6 @@ function CardPanel({
     setIsSignInPrompt,
     setIsDisabled,
     isDisabled,
-    reMount,
 }) {
     let mappedLearnProfiles =
         <MappedProfile
@@ -21,7 +21,6 @@ function CardPanel({
             requests={requests} 
             profiles={learnProfiles} 
             whichfilter={whichFilter} 
-            reMount={reMount}
             isToLearnProfiles={isToLearnProfiles}
             setIsSignInPrompt={setIsSignInPrompt}
             setIsDisabled={setIsDisabled}
@@ -34,7 +33,6 @@ function CardPanel({
             requests={requests} 
             profiles={teachProfiles} 
             whichfilter={whichFilter} 
-            reMount={reMount}
             isToLearnProfiles={isToLearnProfiles}
             setIsSignInPrompt={setIsSignInPrompt}
             setIsDisabled={setIsDisabled}

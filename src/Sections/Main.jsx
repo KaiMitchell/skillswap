@@ -15,6 +15,7 @@ function Main({
     setWhichFilter,
     setIsSignInPrompt,
     isLoading,
+    remount
 }) {   
     const [isToLearnProfiles, setIsToLearnProfiles] = useState(false);
     const [isDisabled, setIsDisabled] = useState(false);
@@ -47,6 +48,7 @@ function Main({
                 isDisabled={isDisabled}
                 learnProfiles={learnProfiles} 
                 teachProfiles={teachProfiles} 
+                remount={remount}
             />
         </main>
     );

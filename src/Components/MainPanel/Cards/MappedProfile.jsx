@@ -6,7 +6,6 @@ function MappedProfiles({
     requests,
     fetchRequests,
     mappedProfiles,
-    reMount,
     isToLearn,
     setIsSignInPrompt,
     isToLearnProfiles,
@@ -50,7 +49,6 @@ function MappedProfiles({
                 isrequested={isRequested}
                 requests={requests} 
                 skills={skills}
-                reMount={reMount}
                 isToLearnProfiles={isToLearnProfiles}
                 setIsSignInPrompt={setIsSignInPrompt}
                 setIsDisabled={setIsDisabled}

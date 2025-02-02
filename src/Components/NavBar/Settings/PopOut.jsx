@@ -1,5 +1,5 @@
 import PopOutOptions from "./PopOutOptions";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const apiUrl = import.meta.env.VITE_API_URL;
 const authUrl = import.meta.env.VITE_AUTH_URL;
@@ -30,7 +30,7 @@ function ProfileDropDownSidePopOut({
             body: JSON.stringify({  currentUser: username, selectedUser: selectedUser, isRequested: false })
         });
         fetchData();
-        setIsHandleRequestFeedback(selectedUser);
+        setIsHandleRequestFeedback('');
         setIsDisabled(false);
     };
 
