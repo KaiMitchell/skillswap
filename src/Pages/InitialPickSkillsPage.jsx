@@ -11,14 +11,12 @@ function InitialPickSkillsPage({ username, setCurrentPage, skills }) {
         toLearn: []
     });
     const [isShowSelectedSkills, setIsShowSelectedSkills] = useState(false);
-
+    
     //set let the header component know it is on the initial skills pick page to change it's color
     useEffect(() => {
         setCurrentPage('initial skills pick');
     }, []);
-
-    useEffect(() => {console.log('rerendering with selectedSkills: ', selectedSkills)}, [selectedSkills]);
-
+    
     const navigate = new useNavigate();
     
     async function submitSkills() {
