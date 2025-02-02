@@ -81,7 +81,7 @@ function App() {
 
   //update the ui as requests data changes
   useEffect(() => {
-    if(user) {
+    if(user && !currentPage) {
       if(whichFilter.headerFilter) {
         //clear main sec filters to prevent conflicts
         setMainFilter(prev => {
@@ -102,7 +102,7 @@ function App() {
         fetchProfiles();
       };
     };
-  }, [requests, whichFilter]);
+  }, [requests, whichFilter, currentPage]);
 
   //apply appropriate filter types to search results
   useEffect(() => {

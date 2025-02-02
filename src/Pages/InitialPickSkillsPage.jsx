@@ -2,12 +2,14 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Container from '../Components/InitialSignUp/Container';
 import Button from '../commonComponents/Button';
+import ViewAllSkills from '../Components/InitialSignUp/ViewAllSkillsModal';
 
 function InitialPickSkillsPage({ username, setCurrentPage, skills }) {
     const [selectedSkills, setSelectedSkills] = useState({
         toTeach: [],
         toLearn: []
     });
+    const [isShowSelectedSkills, setIsShowSelectedSkills] = useState(false);
 
     //set let the header component know it is on the initial skills pick page to change it's color
     useEffect(() => {
@@ -58,9 +60,22 @@ function InitialPickSkillsPage({ username, setCurrentPage, skills }) {
             };
         });
     };
+
+    function handleSkip() {
+        navigate('/');
+        setCurrentPage('');
+    };
+
     return(
         <div className='mt-10 sm:p-5 bg-slate-100'>
             <main className='flex flex-col gap-5'>
+                {isShowSelectedSkills && 
+                    <ViewAllSkills 
+                        selectedSkills={selectedSkills}
+                        setIsShowSelectedSkills={setIsShowSelectedSkills}
+                        submitSkills={submitSkills}
+                    />
+                }
                 <h1 className='text-3xl font-bold'>Let's get you started</h1>
                     <Container 
                         skills={skills} 
@@ -78,15 +93,20 @@ function InitialPickSkillsPage({ username, setCurrentPage, skills }) {
                         selectedOpposite={selectedSkills.toLearn}
                         contentHeader='Pick the skills you would like to teach' 
                     />
-                <div className='self-end flex gap-2.5 w-2/3'>
+                <div className='self-end flex gap-2.5 w-full'>
                     <Button 
-                        styles='w-1/2 p-2.5 border bg-stone-950 text-white hover:bg-stone-900'
+                        styles='w-1/3 p-2.5 border bg-stone-950 text-white hover:bg-stone-900'
                         text='Skip'
-                        handleOnClick={() => {navigate('/'), setCurrentPage('')}}
+                        handleOnClick={handleSkip}
                     />
                     <Button 
-                        handleOnClick={() => submitSkills()}
-                        styles='w-1/2 p-2.5 border bg-stone-950 text-white hover:bg-stone-900'
+                        styles='w-1/3 p-2.5 border bg-stone-950 text-white hover:bg-stone-900'
+                        text='View Selected Skills'
+                        handleOnClick={() => setIsShowSelectedSkills(true)}
+                    />
+                    <Button 
+                        handleOnClick={submitSkills}
+                        styles='w-1/3 p-2.5 border bg-stone-950 text-white hover:bg-stone-900'
                         text='Submit'
                     />
                 </div>

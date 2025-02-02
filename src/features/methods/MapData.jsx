@@ -4,11 +4,12 @@ function MapData({
     render,
     componentProps = {},
     styles,
+    isInitialSkillPick
 }) {
 
     return(
         data?.map((el, index) => {
-            if(render) {
+            if(render && !isInitialSkillPick) {
                 //use when nested map methods are required
                 return render(el, index);
             } else if(Component) {

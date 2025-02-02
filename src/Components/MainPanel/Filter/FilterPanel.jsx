@@ -104,8 +104,11 @@ function FilterPanel({
                     text='filter'             
                 />
             </div>
-            <div className='relative flex flex-row-reverse justify-between p-2.5 gap-2.5 w-full'>
-                <h1 className='hidden text-5xl self-center text-right pb-2.5 font-bold underline sm:block'>Skill Swap</h1>
+            <div className='relative flex flex-row-reverse items-center justify-between p-2.5 gap-2.5 w-full'>
+                <div className='hidden grow text-3xl font-bold text-center text-white sm:block'>
+                    <h1>Swap Skills</h1>
+                    <h1>Grow Together</h1>
+                </div>
                 <MainFilterDropDownContainer 
                     whichFilter={whichFilter} 
                     headerFilter={headerFilter} 
