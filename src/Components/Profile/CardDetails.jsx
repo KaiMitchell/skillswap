@@ -63,8 +63,6 @@ function CardDetails({
         };
     };
 
-    console.log(profileData?.profile_picture);
-
     //toggle between displaying a users details or associated skills
     return(
         <div className='relative h-full w-full flex flex-col gap-1 lg:w-2/3'>
