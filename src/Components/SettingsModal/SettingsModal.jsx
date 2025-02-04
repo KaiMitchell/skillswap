@@ -79,7 +79,7 @@ function SettingsModal({ isSettings, setIsSettings }) {
         //ensure old image is not removed with no new image to replace it
         if(data.img) {
             console.log(data.img);
-            setImg(deployedImgUrl + data.img);
+            setImg(data.img);
         };
             
         //if response sends a valid username then store it in local storage
