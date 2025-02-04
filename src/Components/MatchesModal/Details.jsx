@@ -50,6 +50,7 @@ function Details({
                                 displayedProfile={displayedProfile}
                                 img={displayedProfile?.profile_picture ? imgPath : defaultProfileImg}
                                 isMatched={isMatched}
+                                unMatch={unMatch}
                             />
                             <BottomLeft 
                                 displayedProfile={displayedProfile} 

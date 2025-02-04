@@ -7,7 +7,8 @@ function LandingPage({
 }) {
     useEffect(() => {
         setIsLandingPage(true);
-    });
+        localStorage.removeItem('profile picture');
+    }, []);
     return(
         <main className='flex flex-col h-full w-screen'>
             <div 

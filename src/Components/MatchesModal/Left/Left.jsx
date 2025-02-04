@@ -1,7 +1,10 @@
+import Button from "../../../commonComponents/Button";
+
 function Left({ 
     displayedProfile, 
     img,
-    isMatched
+    isMatched,
+    unMatch,
 }) {
     return(
         <div className='flex flex-col h-max items-center'>
@@ -33,7 +36,7 @@ function Left({
                 </div>
                 {isMatched && 
                     <Button 
-                        handleOnClick={() => unMatch(param, selectedUser)}
+                        handleOnClick={() => unMatch(displayedProfile?.username)}
                         styles={`h-10 w-28 sm:h-8 sm:w-20 flex justify-center items-center rounded-lg text-white hover:font-semibold bg-gradient-to-r from-rose-400 via-rose-500 to-rose-600 cursor-pointer`}
                         text={'Unmatch'}
                     />

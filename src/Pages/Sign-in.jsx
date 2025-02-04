@@ -4,6 +4,8 @@ import handleClientSideValidation from '../jsFunctions/handleClientSideValidatio
 import Input from '../commonComponents/form/Input.jsx';
 import broke from '../assets/broke.jpg';  
 
+const deployedImgUrl = 'https://res.cloudinary.com/dmxg3taha/image/upload/';
+
 function SignIn({ 
     setUser, 
     setIsLandingPage,
@@ -69,7 +71,7 @@ function SignIn({
         if(response.status === 200) {
             localStorage.setItem("user", userDetails.username);
             setUser(() => userDetails.username);
-            localStorage.setItem('profile picture', import.meta.env.VITE_AUTH_URL + '/' + data.profile_picture);
+            localStorage.setItem('profile picture', deployedImgUrl + data.profile_picture);
             sessionStorage.setItem('access token', data.accessToken);
         };
         navigate('/');

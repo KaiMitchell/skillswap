@@ -10,6 +10,7 @@ import Main from './Sections/Main.jsx';
 import MatchesModal from './Components/MatchesModal/Modal.jsx';
 import SignInPrompt from './commonComponents/SignInPrompt.jsx';
 import LandingPage from './Pages/LandingPage.jsx';
+import { filterProps } from 'framer-motion';
 
 const apiUrl = import.meta.env.VITE_API_URL;
 const authUrl = import.meta.env.VITE_AUTH_URL;
@@ -76,11 +77,12 @@ function App() {
         return newObj;
       });
     };
-  }, []);
+  }, [user]);
 
   //update the ui as requests data changes
   useEffect(() => {
     if(user && !currentPage) {
+      console.log('running effect');
       if(whichFilter.headerFilter) {
         //clear main sec filters to prevent conflicts
         setMainFilter(prev => {
@@ -91,11 +93,6 @@ function App() {
           return newValue; 
         });
         headerFilterProfiles();
-        //only render profiles if main filter is not applied
-        fetchProfiles();
-      } else if(whichFilter.mainFilter) {
-        //only render profiles if main filter is applied
-        fetchProfiles();
       };
       if(!whichFilter.mainFilter && !whichFilter.headerFilter) {
         fetchProfiles();
@@ -105,7 +102,7 @@ function App() {
 
   //apply appropriate filter types to search results
   useEffect(() => {
-    if(user) {
+    if(whichFilter.mainFilter) {
       //apply filters like 'gender', 'gender preference', or 'meet up preference'
       // if(mainFilter.preferredGender || mainFilter.yourGender || mainFilter.meetUp) {
       //   filterLearnProfiles();
@@ -117,7 +114,7 @@ function App() {
         filterTeachProfiles();
       };
   
-      //apply filters to return profiles that teach skills that pass a filter
+      //apply filters to return profiles that want to learn skills that pass a filter
       if(mainFilter.toLearnCategory || mainFilter.toLearn) {
         filterLearnProfiles();
       };
@@ -297,7 +294,7 @@ function App() {
     };
   };
 
-  async function unMatch(param, selectedUser) {
+  async function unMatch(selectedUser) {
     const response = await fetch(`${authUrl}/api/unmatch`, {
       method: 'POST',
       headers: { 

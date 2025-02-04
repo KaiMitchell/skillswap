@@ -1,7 +1,12 @@
 import CardDetails from "./CardDetails";
+import { Cloudinary } from '@cloudinary/url-gen';
+import { AdvancedImage } from "@cloudinary/react";
+import { auto } from '@cloudinary/url-gen/actions/resize';
+import { autoGravity } from "@cloudinary/url-gen/qualifiers/gravity";
 
 const defaultProfileImg = 'https://static.vecteezy.com/system/resources/thumbnails/009/292/244/small/default-avatar-icon-of-social-media-user-vector.jpg';
 const imgURL = import.meta.env.VITE_AUTH_URL;
+const deployedImgUrl = 'https://res.cloudinary.com/dmxg3taha/image/upload/';
 
 function CardLayout({ 
     skills,
@@ -18,10 +23,11 @@ function CardLayout({
     setIsDisabled,
     isDisabled,
 }) {
-    //img url path to serve img file from my server
-    const imgPath = imgURL + '/' + profileData?.profile_picture;
-    const name = profileData?.username;
+    const cld = new Cloudinary({ cloud: { cloudName: 'dmxg3taha' }});
 
+    //img url path to serve img file from my server
+    const imgPath = deployedImgUrl + '/' + profileData?.profile_picture;
+    const name = profileData?.username;
     let displayedSkill;
     
     if(Array.isArray(skills) && skills.length > 0) {
