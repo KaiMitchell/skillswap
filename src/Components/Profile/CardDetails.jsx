@@ -12,7 +12,6 @@ function CardDetails({
     defaultProfileImg,
     profileData, 
     isToLearn,
-    imgPath,
     isSendingRequest,
     setIsSendingRequest,
     setIsSignInPrompt,
@@ -71,7 +70,7 @@ function CardDetails({
                 <div className='flex'>  
                     <img 
                         className='size-20 mt-2 ml-2 rounded-full shadow-sm shadow-black object-scale-down bg-white sm:block lg:hidden' 
-                        src={profileData?.profile_picture ? imgPath : defaultProfileImg} 
+                        src={profileData?.profile_picture ? profileData?.profile_picture : defaultProfileImg} 
                     />      
                     <div className='ml-2.5 mt-2.5 grow'>
                         <h1 className={`text-xl font-extrabold`}>{username}</h1>

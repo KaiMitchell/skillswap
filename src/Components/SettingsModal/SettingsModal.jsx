@@ -6,8 +6,6 @@ import MapData from '../../features/methods/MapData.jsx';
 import { Facebook, LinkedIn, Revert, Twitter } from '../../commonComponents/SVGs.jsx';
 import Loading from '../../commonComponents/Loading.jsx';
 
-const deployedImgUrl = 'https://res.cloudinary.com/dmxg3taha/image/upload/';
-
 function SettingsModal({ isSettings, setIsSettings }) {    
     const [isUpdating, setIsUpdating] = useState(false);
     //although username and profile pic are locally stored. 
@@ -43,6 +41,8 @@ function SettingsModal({ isSettings, setIsSettings }) {
     async function handleSubmit(e) {
         e.preventDefault();
 
+        setIsUpdating(true);
+
         const formData = new FormData();
 
         if(fileRef.current?.files.length > 0) {
@@ -74,8 +74,9 @@ function SettingsModal({ isSettings, setIsSettings }) {
 
         //ensure old image is not removed with no new image to replace it
         if(data.img) {
-            localStorage.setItem('profile picture', deployedImgUrl + data.img);
-            setImg(deployedImgUrl + data.img);
+            localStorage.setItem('profile picture', data.img);
+            console.log(data.img);
+            setImg(() => data.img);
         };
             
         //if response sends a valid username then store it in local storage
@@ -88,6 +89,7 @@ function SettingsModal({ isSettings, setIsSettings }) {
         setPlatformLink('');
         setNewUserVal('');
         setConflictMessage('');
+        setIsUpdating(false);
         fileRef.current.value = '';
     };
 
@@ -115,9 +117,9 @@ function SettingsModal({ isSettings, setIsSettings }) {
                     styles={`fixed -top-5 -right-10 z-20 p-2.5 backdrop-blur-sm bg-black/30 rounded-bl sm:absolute`}
                 />
                 <div className={`relative w-full min-h-full`}>
-                    {isUpdating && <Loading />}
+                    {isUpdating && <Loading feedBack='Updating' />}
                     <div className='w-full min-h-1/4 flex flex-col lg:flex-row gap-5 justify-between mb-5 text-center lg:text-left'>   
-                        <form className='flex flex-col gap-5 w-full lg:w-1/2'>
+                        <form className='flex flex-col gap-5 w-full lg:w-1/2'>  
                             <Input 
                                 label='Update profile picture'
                                 fileRef={fileRef}
@@ -179,8 +181,9 @@ function SettingsModal({ isSettings, setIsSettings }) {
                             />  
                             <Button 
                                 handleOnClick={handleSubmit}
+                                isDisabled={isUpdating}
                                 text={'Submit'}
-                                styles={`px-2.5 py-1 w-full self-center border border-black rounded cursor-pointer sm:w-1/3`}
+                                styles={`${isUpdating && 'bg-black/10'} px-2.5 py-1 w-full self-center border border-black rounded hover:bg-black/10 sm:w-1/3`}
                             />
                         </form>
                         {/* image */}

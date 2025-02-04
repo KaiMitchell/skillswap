@@ -23,10 +23,6 @@ function CardLayout({
     setIsDisabled,
     isDisabled,
 }) {
-    const cld = new Cloudinary({ cloud: { cloudName: 'dmxg3taha' }});
-
-    //img url path to serve img file from my server
-    const imgPath = deployedImgUrl + '/' + profileData?.profile_picture;
     const name = profileData?.username;
     let displayedSkill;
     
@@ -41,7 +37,7 @@ function CardLayout({
             <div className='relative w-full flex h-full'>
                 <img 
                     className='hidden object-scale-down w-1/3 h-full sm:size-1/4 lg:block lg:w-1/3 lg:h-full' 
-                    src={profileData?.profile_picture ? imgPath : defaultProfileImg} 
+                    src={profileData?.profile_picture ? profileData?.profile_picture : defaultProfileImg} 
                 />
                 <CardDetails 
                     username={name}
@@ -54,7 +50,7 @@ function CardLayout({
                     sendMatchRequest={sendMatchRequest}
                     isRequested={isRequested}
                     fetchRequests={fetchRequests}
-                    imgPath={imgPath}
+                    imgPath={profileData?.profile_picture}
                     isSendingRequest={isSendingRequest}
                     setIsSendingRequest={setIsSendingRequest}
                     setIsSignInPrompt={setIsSignInPrompt}

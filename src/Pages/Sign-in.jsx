@@ -71,7 +71,7 @@ function SignIn({
         if(response.status === 200) {
             localStorage.setItem("user", userDetails.username);
             setUser(() => userDetails.username);
-            localStorage.setItem('profile picture', deployedImgUrl + data.profile_picture);
+            localStorage.setItem('profile picture', data.profile_picture);
             sessionStorage.setItem('access token', data.accessToken);
         };
         navigate('/');
