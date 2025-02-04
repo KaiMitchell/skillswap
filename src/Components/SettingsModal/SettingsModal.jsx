@@ -35,13 +35,9 @@ function SettingsModal({ isSettings, setIsSettings }) {
 
     //close settings modal when clicked outside of it
     useEffect(() => {
-        console.log(localStorage.getItem('profile picture'));
-        localStorage.removeItem('profile picture');
         document.addEventListener('mousedown', closeModal);
         return () => document.removeEventListener('mousedown', closeModal);
     }, []);
-
-    console.log(import.meta.VITE_AUTH_URL);
 
     //submit updated profile pic, description or username
     async function handleSubmit(e) {
@@ -78,8 +74,8 @@ function SettingsModal({ isSettings, setIsSettings }) {
 
         //ensure old image is not removed with no new image to replace it
         if(data.img) {
-            console.log(data.img);
-            setImg(data.img);
+            localStorage.setItem('profile picture', deployedImgUrl + data.img);
+            setImg(deployedImgUrl + data.img);
         };
             
         //if response sends a valid username then store it in local storage
