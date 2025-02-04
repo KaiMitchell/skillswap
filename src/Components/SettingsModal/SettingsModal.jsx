@@ -6,6 +6,8 @@ import MapData from '../../features/methods/MapData.jsx';
 import { Facebook, LinkedIn, Revert, Twitter } from '../../commonComponents/SVGs.jsx';
 import Loading from '../../commonComponents/Loading.jsx';
 
+const deployedImgUrl = 'https://res.cloudinary.com/dmxg3taha/image/upload/';
+
 function SettingsModal({ isSettings, setIsSettings }) {    
     const [isUpdating, setIsUpdating] = useState(false);
     //although username and profile pic are locally stored. 
@@ -33,6 +35,8 @@ function SettingsModal({ isSettings, setIsSettings }) {
 
     //close settings modal when clicked outside of it
     useEffect(() => {
+        console.log(localStorage.getItem('profile picture'));
+        localStorage.removeItem('profile picture');
         document.addEventListener('mousedown', closeModal);
         return () => document.removeEventListener('mousedown', closeModal);
     }, []);
@@ -41,7 +45,6 @@ function SettingsModal({ isSettings, setIsSettings }) {
 
     //submit updated profile pic, description or username
     async function handleSubmit(e) {
-
         e.preventDefault();
 
         const formData = new FormData();
@@ -75,8 +78,8 @@ function SettingsModal({ isSettings, setIsSettings }) {
 
         //ensure old image is not removed with no new image to replace it
         if(data.img) {
-            setImg(data.img);
-            localStorage.setItem('profile picture', data.img);
+            console.log(data.img);
+            setImg(deployedImgUrl + data.img);
         };
             
         //if response sends a valid username then store it in local storage
