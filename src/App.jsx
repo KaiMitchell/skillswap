@@ -66,7 +66,10 @@ function App() {
     fetchSkills();
     if(user) {
       setIsLoading(true);
-      fetchRequests();
+      //only fetch requests o initial render
+      if(remount < 1) {
+        fetchRequests();
+      };
       fetchMatches();
       //Only set is Loading on initial render
       setMainFilter(prev => {
@@ -78,6 +81,14 @@ function App() {
       });
     };
   }, [user]);
+
+  useEffect(() => {
+    //fetch requests each time a request is sent
+    if(user && remount >= 1) {
+      console.log('fetching requests on remount in remount effect: ', remount);
+      fetchRequests();
+    };
+  }, [remount])
 
   //update the ui as requests data changes
   useEffect(() => {
@@ -382,6 +393,7 @@ function App() {
               setWhichFilter={setWhichFilter} 
               user={user || ''}
               isLoading={isLoading}
+              setRemount={setRemount}
             />
           :
             <LandingPage 

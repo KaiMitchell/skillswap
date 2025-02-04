@@ -11,6 +11,7 @@ function MappedProfiles({
     isToLearnProfiles,
     setIsDisabled,
     isDisabled,
+    setRemount,
 }) {
     mappedProfiles = profiles?.map((obj) => {
         //render skills based on whether user is filtering from nav or main options
@@ -53,6 +54,7 @@ function MappedProfiles({
                 setIsSignInPrompt={setIsSignInPrompt}
                 setIsDisabled={setIsDisabled}
                 isDisabled={isDisabled}
+                setRemount={setRemount}
             />
         );
     });

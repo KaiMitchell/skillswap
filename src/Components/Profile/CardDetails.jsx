@@ -49,15 +49,15 @@ function CardDetails({
     };
 
     function handleClick() {
-        if(localStorage.getItem('user')) {
+        if(localStorage.getItem('user')) {  
             //user feedback
             setIsSendingRequest(true);
             //Passed the match request function inside of the state because I can't figure out how to update the state immediately.
             //Don't know if this is okay.
             const newState = !requested;
             setRequested(newState);
-            sendMatchRequest(newState);
-            fetchRequests(requested);       
+            sendMatchRequest(newState); 
+            fetchRequests(requested);           
         } else {
             setIsSignInPrompt(true);
         };

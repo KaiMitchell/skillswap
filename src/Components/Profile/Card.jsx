@@ -11,6 +11,7 @@ function Card({
     setIsSignInPrompt,
     setIsDisabled,
     isDisabled,
+    setRemount,
 }) {
     const [isSendingRequest, setIsSendingRequest] = useState(false);
     
@@ -38,6 +39,7 @@ function Card({
                 isRequested: isRequested 
             })          
         });
+        setRemount(prev => prev + 1);
         setIsDisabled(false);
     };
 

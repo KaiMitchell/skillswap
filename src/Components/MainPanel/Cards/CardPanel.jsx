@@ -13,6 +13,7 @@ function CardPanel({
     setIsSignInPrompt,
     setIsDisabled,
     isDisabled,
+    setRemount,
 }) {
     let mappedLearnProfiles =
         <MappedProfile
@@ -25,6 +26,7 @@ function CardPanel({
             setIsSignInPrompt={setIsSignInPrompt}
             setIsDisabled={setIsDisabled}
             isDisabled={isDisabled}
+            setRemount={setRemount}
         />
 
     let mappedTeachProfiles = 
@@ -37,6 +39,7 @@ function CardPanel({
             setIsSignInPrompt={setIsSignInPrompt}
             setIsDisabled={setIsDisabled}
             isDisabled={isDisabled}
+            setRemount={setRemount}
         />
 
     return(
