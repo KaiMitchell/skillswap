@@ -30,7 +30,7 @@ function Header({
     if(isInitialSkillsPickPage) {
         bgColor = 'bg-gradient-to-r from-orange-200 via-orange-300 to-orange-400';
     } else {
-        bgColor = '';
+        bgColor = 'bg-black/10';
     };
 
     return(

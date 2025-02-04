@@ -106,7 +106,7 @@ function SettingsModal({ isSettings, setIsSettings }) {
     return(
         <div 
             ref={node} 
-            className={`fixed m-auto z-20 top-0 bottom-0 left-0 right-0 size-full px-5 py-5 rounded bg-stone-100 shadow-xl shadow-black sm:size-10/12 sm:px-10 overflow-y-scroll no-scrollbar`}
+            className={`fixed m-auto z-20 top-0 bottom-0 left-0 right-0 size-full px-5 py-5 bg-stone-100 shadow-xl shadow-black sm:size-10/12 sm:px-10 overflow-y-scroll no-scrollbar sm:rounded`}
         >
             <div className={`h-full w-full relative`}>
                 <Button 
@@ -114,7 +114,7 @@ function SettingsModal({ isSettings, setIsSettings }) {
                     handleOnClick={() => setIsSettings(false)}
                     handleOnMouseOver={() => setIsHovered(true)}
                     handleOnMouseLeave={() => setIsHovered(false)}
-                    styles={`fixed -top-5 -right-10 z-20 p-2.5 backdrop-blur-sm bg-black/30 rounded-bl sm:absolute`}
+                    styles={`fixed top-0 right-0 z-20 p-2.5 text-white backdrop-blur-sm bg-black/30 sm:rounded-bl sm:absolute sm:-top-5 sm:-right-10`}
                 />
                 <div className={`relative w-full min-h-full`}>
                     {isUpdating && <Loading feedBack='Updating' />}
