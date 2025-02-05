@@ -14,7 +14,6 @@ function Main({
     whichFilter, 
     setWhichFilter,
     setIsSignInPrompt,
-    isLoading,
     setRemount
 }) {   
     const [isToLearnProfiles, setIsToLearnProfiles] = useState(false);
@@ -41,7 +40,6 @@ function Main({
                 whichFilter={whichFilter}
                 headerFilter={headerFilter}
                 isToLearnProfiles={isToLearnProfiles}
-                isLoading={isLoading}
                 setIsSignInPrompt={setIsSignInPrompt}
                 setIsDisabled={setIsDisabled}
                 setIsToLearnProfiles={setIsToLearnProfiles}

@@ -9,6 +9,7 @@ const deployedImgUrl = 'https://res.cloudinary.com/dmxg3taha/image/upload/';
 function SignIn({ 
     setUser, 
     setIsLandingPage,
+    setIsLoading,
 }) {
     const [errors, setErrors] = useState({});
     const [userDetails, setUserDetails] = useState({
@@ -37,6 +38,7 @@ function SignIn({
 
     async function signIn(e) {
         e.preventDefault();
+        setIsLoading(true);
         //trim each input value
         for(const key in userDetails) {
             if(key === 'username') {

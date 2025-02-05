@@ -9,7 +9,6 @@ function CardPanel({
     teachProfiles, 
     whichFilter,
     isToLearnProfiles,
-    isLoading,
     setIsSignInPrompt,
     setIsDisabled,
     isDisabled,
@@ -44,7 +43,6 @@ function CardPanel({
 
     return(
         <section id='profile-cards' className='flex flex-col gap-2.5 min-h-screen h-full grow w-full'>
-            {isLoading && <Loading feedBack={'Loading'} />}
             <div className='relative grid grid-cols-1 sm:grid-cols-2 gap-2.5 max-w-full'>
                 {isToLearnProfiles ? mappedLearnProfiles : mappedTeachProfiles}   
             </div>

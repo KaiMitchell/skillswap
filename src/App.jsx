@@ -10,6 +10,7 @@ import Main from './Sections/Main.jsx';
 import MatchesModal from './Components/MatchesModal/Modal.jsx';
 import SignInPrompt from './commonComponents/SignInPrompt.jsx';
 import LandingPage from './Pages/LandingPage.jsx';
+import Loading from './commonComponents/Loading.jsx';
 import { filterProps } from 'framer-motion';
 
 const apiUrl = import.meta.env.VITE_API_URL;
@@ -93,7 +94,6 @@ function App() {
   //update the ui as requests data changes
   useEffect(() => {
     if(user && !currentPage) {
-      console.log('running effect');
       if(whichFilter.headerFilter) {
         //clear main sec filters to prevent conflicts
         setMainFilter(prev => {
@@ -346,6 +346,7 @@ function App() {
   //IF NOT ONLY SHOW WHAT IS NOT PRIVATE
   return(
     <BrowserRouter>
+      {isLoading && <Loading feedBack={'Loading'} />}
         <Header 
           setWhichFilter={setWhichFilter} 
           skills={skills} 
@@ -392,7 +393,6 @@ function App() {
               whichFilter={whichFilter} 
               setWhichFilter={setWhichFilter} 
               user={user || ''}
-              isLoading={isLoading}
               setRemount={setRemount}
             />
           :
@@ -430,6 +430,7 @@ function App() {
           <SignIn               
             setIsLandingPage={setIsLandingPage}
             setUser={setUser}
+            setIsLoading={setIsLoading}
           />
         }
         />
