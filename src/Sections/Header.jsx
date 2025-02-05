@@ -20,6 +20,7 @@ function Header({
     displayProfile,
     currentPage,
     setCurrentPage,
+    setRemount,
 }) {
     const [isNavDropdown, setIsNavDropdown] = useState(false);
 
@@ -79,6 +80,7 @@ function Header({
                                 displayProfile={displayProfile}
                                 isNavDropdown={isNavDropdown}
                                 setIsNavDropdown={setIsNavDropdown}
+                                setRemount={setRemount}
                             />
                         }
                     </div>

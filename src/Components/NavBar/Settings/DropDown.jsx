@@ -12,6 +12,7 @@ function    DropDown({
     displayProfile,
     isNavDropDown,
     setIsNavDropdown,
+    setRemount,
 }) {  
     return(
         <div className={`${isShown ? 'sm:block' : 'sm:hidden'} absolute h-screen top-0 w-full text-xl bg-white border-t shadow-black sm:top-full sm:right-0 sm:shadow-xl sm:w-max sm:h-fit`}>
@@ -38,6 +39,7 @@ function    DropDown({
                 text="Match Requests" 
                 fetchData={fetchRequests}
                 displayProfile={displayProfile} 
+                setRemount={setRemount}
                 data={requests} 
             />
             <Option 

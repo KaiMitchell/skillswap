@@ -13,6 +13,7 @@ function Option({
     setIsShown,
     displayProfile,
     isNavDropDown,
+    setRemount,
 }) { 
     const [mobileDropdown, setMobileDropdown] = useState(null);
     let clickHandler = () => {
@@ -78,6 +79,7 @@ function Option({
                             skills={skills}
                             displayProfile={displayProfile}
                             mobileDropDown={mobileDropdown}
+                            setRemount={setRemount}
                         />
                     }
                 </div>

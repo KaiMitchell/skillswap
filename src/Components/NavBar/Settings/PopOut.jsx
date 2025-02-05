@@ -8,7 +8,8 @@ function ProfileDropDownSidePopOut({
     displayProfile,
     data, 
     fetchData, 
-    text,                       
+    text,                  
+    setRemount,     
 }) {
     const [isHandleRequestFeedback, setIsHandleRequestFeedback] = useState('');
     const [isDisabled, setIsDisabled] = useState(false);
@@ -50,10 +51,11 @@ function ProfileDropDownSidePopOut({
                 selectedUser: selectedUser, 
             })
         });
-        fetchData(selectedUser);
+        fetchData();
         //user feedback to let them know there request is being processed
-        setIsHandleRequestFeedback(selectedUser);
+        setIsHandleRequestFeedback('');
         setIsDisabled(false);
+        setRemount(prev => prev + 1);
     };
 
     async function removeAllMatchRequests() {

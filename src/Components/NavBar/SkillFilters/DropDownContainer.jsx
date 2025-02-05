@@ -13,6 +13,7 @@ function DropDownContainer({
     displayProfile,
     isNavDropDown,
     setIsNavDropdown,
+    setRemount,
 }) {
     const [isShown, setIsShown] = useState();
     return(
@@ -38,6 +39,7 @@ function DropDownContainer({
                 displayProfile={displayProfile}
                 isNavDropDown={isNavDropDown}
                 setIsNavDropdown={setIsNavDropdown}
+                setRemount={setRemount}
             />
         </div>
     );

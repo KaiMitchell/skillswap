@@ -86,8 +86,8 @@ function App() {
   useEffect(() => {
     //fetch requests each time a request is sent
     if(user && remount >= 1) {
-      console.log('fetching requests on remount in remount effect: ', remount);
       fetchRequests();
+      fetchMatches();
     };
   }, [remount])
 
@@ -363,6 +363,7 @@ function App() {
           setUser={setUser}
           currentPage={currentPage}
           setCurrentPage={setCurrentPage}
+          setRemount={setRemount}
         />
         {user && isSettings && <SettingsModal 
           isSettings={isSettings} 
