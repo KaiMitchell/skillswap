@@ -7,10 +7,10 @@ function Left({
     unMatch,
 }) {
     return(
-        <div className='flex flex-col h-max items-center'>
+        <div className='flex flex-col h-max items-center sm:justify-between sm:h-full sm:items-start'>
             <img 
                 src={img}
-                className='size-48 bg-black rounded-full flex justify-center items-center text-white sm:self-start' 
+                className='size-48 bg-black rounded-full flex justify-center items-center text-white sm:size-28 sm:self-start' 
             />
             <div>
                 <p className="text-xl text-stone-900 font-bold">{displayedProfile?.username}</p>
@@ -21,19 +21,13 @@ function Left({
                 }
             </div>
             <div className='flex flex-col justify-between items-center h-full sm:items-start sm:gap-0'>
+                {isMatched && displayedProfile?.email && 
+                    <p className={`font-medium`}>{displayedProfile?.email}</p>
+                }
                 <p>member since: {displayedProfile?.created_at}</p>
                 {isMatched && displayedProfile?.phone_number && 
                     <p></p>
                 }
-                {isMatched && displayedProfile?.email && 
-                    <p>{displayedProfile?.email}</p>
-                }
-                <div className='h-1/2 text-center sm:hidden'>
-                    <h3 className='text-xl font-bold underline'>About</h3>
-                    <p>
-                        {displayedProfile?.description || 'No Description'}
-                    </p>
-                </div>
                 {isMatched && 
                     <Button 
                         handleOnClick={() => unMatch(displayedProfile?.username)}
@@ -41,12 +35,6 @@ function Left({
                         text={'Unmatch'}
                     />
                 }
-                <div className='hidden text-left w-full sm:block'>
-                        <h3 className='text-xl font-bold underline'>About</h3>
-                        <p>
-                            {displayedProfile?.description || 'No Description'}
-                        </p>
-                </div>
             </div>
         </div>
     );

@@ -42,20 +42,15 @@ function Details({
                 styles={`fixed top-0 right-0 z-20 p-2.5 backdrop-blur-sm bg-black/30 rounded-bl sm:hidden`}
             />
             <div className='w-full min-h-full flex flex-col lg:flex-row gap-5 justify-between mb-5 text-center lg:text-left'>   
-                {/* image */}
                 <div className='flex flex-col justify-center w-full h-full'>
                     <div className="w-full h-full flex flex-col justify-between items-center sm:items-start sm:flex-row">
-                        <div className="relative h-full flex flex-col gap-5 justify-between items-center text-left">
+                        <div className="relative h-full flex flex-col justify-between items-center text-left sm:items-start sm:justify-between sm:w-1/2">
+                            {/* image */}
                             <Left 
                                 displayedProfile={displayedProfile}
                                 img={displayedProfile?.profile_picture ? imgPath : defaultProfileImg}
                                 isMatched={isMatched}
                                 unMatch={unMatch}
-                            />
-                            <BottomLeft 
-                                displayedProfile={displayedProfile} 
-                                unMatch={unMatch} 
-                                isMatched={isMatched}
                             />
                             {isPlatformLinks && 
                                 <div className='absolute top-0 right-full flex flex-col sm:top-auto sm:right-auto sm:flex-row sm:mt-2.5'>

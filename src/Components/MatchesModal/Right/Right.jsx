@@ -95,9 +95,9 @@ function Right({
     };
 
     return(
-        <div className="relative w-full sm:h-full h-1/2 flex flex-col gap-5 mt-2.5 sm:justify-between sm:w-1/2 sm:mt-0">
-            <div className='flex flex-col gap-5 items-center sm:h-full w-full sm:items-end'>
-                <div className='flex flex-col gap-2.5'>      
+        <div className="relative w-full h-1/2 flex flex-col gap-5 mt-2.5 sm:justify-between sm:w-1/2 sm:mt-0 sm:h-full">
+            <div className='w-full flex flex-col gap-5 items-center sm:h-full sm:justify-end'>
+                <div className='flex flex-col gap-2.5 sm:max-w-full'>      
                     <div className='flex flex-col items-center gap-2.5'>
                         <p>Skills to offer</p>
                         <HorizontalListItems isMatchesModal={true} data={displayedProfile?.skills_to_teach} />
