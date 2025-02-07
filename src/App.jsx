@@ -66,7 +66,6 @@ function App() {
   useEffect(() => {
     fetchSkills();
     if(user) {
-      setIsLoading(true);
       //only fetch requests o initial render
       if(remount < 1) {
         fetchRequests();
@@ -134,6 +133,7 @@ function App() {
 
   // fetch all unfilterred profiles
   async function fetchProfiles() {
+    setIsLoading(true);
     const response = await fetch(`${apiUrl}/api?username=${user}`);
     const data = await response.json();
     setLearnProfiles(data.data.learnProfiles);
@@ -158,6 +158,7 @@ function App() {
 
   //fetch profiles that want to learn the skills filtered by the main drop down options
   async function filterLearnProfiles() {
+    setIsLoading(true);
     const queryValues = {};
 
     //only apply properties from main filter to the query
@@ -182,11 +183,12 @@ function App() {
 
       if(!data.profiles) {
         setLearnProfiles();
-        console.log(data);
+        setIsLoading(false);
         return;
       };
 
       setLearnProfiles(data.profiles);
+      setIsLoading(false);
     }catch(err) {
       console.error(err);
     };
@@ -194,9 +196,8 @@ function App() {
 
  //fetch profiles that want to teach the skills filtered by the main drop down options
   async function filterTeachProfiles() {
-
+    setIsLoading(true);
     const queryValues = {};
-
     for(const prop in mainFilter) {
 
         if (mainFilter[prop]) {
@@ -208,22 +209,17 @@ function App() {
           };
         };  
     };
-
     const searchParams = new URLSearchParams(queryValues);
-
     try{
       const response = await fetch(`${apiUrl}/api/main-filter-teach-profiles?${searchParams}`);
       const data = await response.json();
-
       if(!data.profiles) {
         setTeachProfiles();
-        console.log(data);
+        setIsLoading(false);
         return;
       };
-      
-      console.log('teach data: ', data.profiles);
-
-      setTeachProfiles(data.profiles);  
+      setTeachProfiles(data.profiles); 
+      setIsLoading(false); 
     }catch(err) {
       console.error(err);
     };
@@ -232,6 +228,7 @@ function App() {
   //fetch profiles that want to learn and teach the skills selected from the nav bar options
   async function headerFilterProfiles() {
     try {
+      setIsLoading(true);
       const response = await fetch(`${apiUrl}/api/fetch-quick-filtered-profiles`, {
         method: 'POST',
         headers: { "Content-Type": "application/json" },
@@ -240,6 +237,7 @@ function App() {
       const data = await response.json();
       setTeachProfiles(data.teachProfiles);
       setLearnProfiles(data.learnProfiles);
+      setIsLoading(false);
     } catch(err) {
       console.error(err.stack);
     };
@@ -284,7 +282,6 @@ function App() {
     setIsDisplayedProfile(true);
     setIsSent(isSent);
     setDisplayedProfileType(type);
-
     try {
       const response = await fetch(`${authUrl}/api/profile?selectedUser=${selectedUser}`, {
         headers: { 'authorization': `Bearer ${accessToken}` }
