@@ -16,7 +16,7 @@ function FilterPanel({
 }) {
     const [isMobileFilter, setIsMobileFilter] = useState(false);
     //state to dynaically render text indicating the currently applied filter
-    // const [filterType, setFilterType] = useState({learn: '', teach: ''});
+    //const [filterType, setFilterType] = useState({learn: '', teach: ''});
 
     useEffect(() => {
         let toLearnFilterHeader;
@@ -93,11 +93,7 @@ function FilterPanel({
 
     return(
         <div className={`w-full relative flex flex-col self-end pt-[60px] bg-gradient-to-r from-orange-200 via-orange-300 to-orange-400`}>
-            <div className='flex justify-between'>
-                <Button 
-                    text='What is SkillSwap?'
-                    styles={`px-2.5 py-2 w-fit rounded-br text-xs bg-white/30 sm:rounded-none hover:bg-white/60`}
-                />
+            <div className='flex justify-end'>
                 <Button 
                     styles={`${isMobileFilter ? 'bg-white' : 'bg-white/30'} flex justify-center text-xl w-20 py-2 rounded-bl hover:bg-white/60 sm:hidden`}
                     handleOnClick={() => setIsMobileFilter(!isMobileFilter)}  
