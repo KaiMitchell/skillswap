@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import handleClientSideValidation from '../jsFunctions/handleClientSideValidation.js';
 import Input from '../commonComponents/form/Input.jsx';
 import broke from '../assets/broke.jpg';  
+import Loading from '../commonComponents/Loading.jsx';
 
 const deployedImgUrl = 'https://res.cloudinary.com/dmxg3taha/image/upload/';
 
@@ -10,6 +11,7 @@ function SignIn({
     setUser, 
     setIsLandingPage,
     setIsLoading,
+    isLoading,
 }) {
     const [errors, setErrors] = useState({});
     const [userDetails, setUserDetails] = useState({
@@ -95,6 +97,7 @@ function SignIn({
             }}
             className='h-screen flex justify-center items-center'
         >
+            {isLoading && <Loading feedBack={'Signing In'} />}
             <form className='flex flex-col gap-5 w-fit p-5 rounded bg-white/10 backdrop-blur-sm'>
                 <h1 className='text-xl font-bold'>Sign in</h1>
                 <Input 

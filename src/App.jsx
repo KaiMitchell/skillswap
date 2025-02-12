@@ -428,6 +428,7 @@ function App() {
             setIsLandingPage={setIsLandingPage}
             setUser={setUser}
             setIsLoading={setIsLoading}
+            isLoading={isLoading}
           />
         }
         />
