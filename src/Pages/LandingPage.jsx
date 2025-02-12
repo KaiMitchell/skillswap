@@ -3,11 +3,11 @@ import broke from '../assets/broke.jpg';
 
 function LandingPage({
     setIsLandingPage,
-    isLandingPage,
 }) {
     useEffect(() => {
         setIsLandingPage(true);
         localStorage.removeItem('profile picture');
+        sessionStorage.removeItem('access token');
     }, []);
     return(
         <main className='flex flex-col h-full w-screen'>
@@ -16,7 +16,8 @@ function LandingPage({
                     backgroundImage: `url(${broke})`,
                     backgroundSize: 'cover',
                 }}
-                className={`flex flex-col justify-center min-h-48 px-5 text-white sm:h-full`}>
+                className={`flex flex-col justify-center min-h-48 px-5 text-white sm:h-full`}
+            >
                 {/* About */}
                 <div className='hidden sm:block'>
                     <h1 className="text-6xl">Trade your skills</h1>

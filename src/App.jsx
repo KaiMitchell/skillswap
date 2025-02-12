@@ -16,7 +16,7 @@ import { filterProps } from 'framer-motion';
 const apiUrl = import.meta.env.VITE_API_URL;
 const authUrl = import.meta.env.VITE_AUTH_URL;
 
-const accessToken = sessionStorage.getItem('access token');
+let accessToken = '';
 
 function App() {
   const [headerFilter, setHeaderFilter] = useState({category: '', skill: ''});
@@ -31,6 +31,7 @@ function App() {
   const [displayedProfileType, setDisplayedProfileType] = useState('');
   const [matches, setMatches] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [isFetchingSkills, setIsFetchingSkills] = useState(false);
   const [isLandingPage, setIsLandingPage] = useState(false);
   const [isSent, setIsSent] = useState(false);
   const [user, setUser] = useState(localStorage.getItem('user') || '');
@@ -64,6 +65,8 @@ function App() {
   //only execute this code if a user is signed in.
   //fetch requests and matches on initial render, logout and signin
   useEffect(() => {
+    accessToken = sessionStorage.getItem('access token');
+    console.log(accessToken);
     fetchSkills();
     if(user) {
       //only fetch requests o initial render
@@ -129,7 +132,7 @@ function App() {
         filterLearnProfiles();
       };
     };
-  }, [mainFilter]);
+  }, [mainFilter, learnProfiles]);
 
   // fetch all unfilterred profiles
   async function fetchProfiles() {
@@ -143,6 +146,9 @@ function App() {
   
   //fetch skills for skill/category selections
   async function fetchSkills() {
+    if(!isLoading) {
+      setIsFetchingSkills(true);
+    };
     const response = await fetch(`${apiUrl}/api/fetch-skills`);
     const data = await response.json();
     //remove the camelCase format from category names
@@ -154,13 +160,13 @@ function App() {
       });
       return newArray;
     });
+    setIsFetchingSkills(false);
   };
 
   //fetch profiles that want to learn the skills filtered by the main drop down options
   async function filterLearnProfiles() {
     setIsLoading(true);
     const queryValues = {};
-
     //only apply properties from main filter to the query
     //value object if the value is not null
     for(const prop in mainFilter) {
@@ -173,20 +179,16 @@ function App() {
           };
         }; 
     };
-
     //generate query parameters
     const searchParams = new URLSearchParams(queryValues);
-
     try{
       const response = await fetch(`${apiUrl}/api/main-filter-learn-profiles?${searchParams}`);
       const data = await response.json();
-
       if(!data.profiles) {
         setLearnProfiles();
         setIsLoading(false);
         return;
       };
-
       setLearnProfiles(data.profiles);
       setIsLoading(false);
     }catch(err) {
@@ -327,13 +329,10 @@ function App() {
   };
 
   async function signOut() {
-    console.log('signing out');
-
     await fetch(`${authUrl}/api/signout`, {
       method: 'POST',
       headers: { "Content-Type": "application/json" }
     });
-
     localStorage.removeItem('user');
     sessionStorage.removeItem('access token');
     setUser();
@@ -343,7 +342,7 @@ function App() {
   //IF NOT ONLY SHOW WHAT IS NOT PRIVATE
   return(
     <BrowserRouter>
-      {isLoading && <Loading feedBack={'Loading'} />}
+      {isLoading || isFetchingSkills && <Loading feedBack={'Loading'} />}
         <Header 
           setWhichFilter={setWhichFilter} 
           skills={skills} 
@@ -404,7 +403,7 @@ function App() {
           <InitialPickSkillsPage 
             skills={skills} 
             username={newUserData.username}  
-            setCurrentPage={setCurrentPage}             
+            setCurrentPage={setCurrentPage} 
           />
         } 
         />
